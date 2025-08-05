@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Idade Gestacional</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: none;
+            display: none;
+        }
+        input[type="date"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding-right: 1.5rem;
+            cursor: pointer;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #2563eb;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora de Idade Gestacional</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Calcule a idade do seu bebê e a provável data do parto de forma simples e precisa.
+            </p>
+        </header>
+
+        <!-- Seção de Calculadora por DUM -->
+        <div class="bg-blue-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-blue-200">
+            <h2 class="section-title text-2xl font-bold text-blue-900 mb-4">Calcular pela Data da Última Menstruação (DUM)</h2>
+            <p class="text-gray-700 mb-6">Insira a data do primeiro dia da sua última menstruação. Este método é mais preciso para ciclos regulares.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                <div class="flex flex-col">
+                    <label for="dum-date" class="text-sm font-medium text-gray-700 mb-1">Data da Última Menstruação (DUM)</label>
+                    <input type="date" id="dum-date" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                </div>
+                <button id="calculate-dum" class="w-full sm:mt-5 p-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">
+                    Calcular DUM
+                </button>
+            </div>
+            <div id="result-dum" class="mt-8 p-4 bg-blue-100 rounded-xl hidden">
+                <!-- Resultados serão exibidos aqui -->
+            </div>
+        </div>
+
+        <!-- Seção de Calculadora por Ultrassom -->
+        <div class="bg-green-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-green-200">
+            <h2 class="section-title text-2xl font-bold text-green-900 mb-4">Calcular por Ultrassonografia</h2>
+            <p class="text-gray-700 mb-6">Insira a idade gestacional e a data do ultrassom. Este método é geralmente considerado mais preciso.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Idade Gestacional no Ultrassom</label>
+                    <div class="flex space-x-2">
+                        <input type="number" id="ultrasound-weeks" min="0" class="w-1/2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200" placeholder="Semanas">
+                        <input type="number" id="ultrasound-days" min="0" max="6" class="w-1/2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200" placeholder="Dias">
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <label for="ultrasound-date" class="text-sm font-medium text-gray-700 mb-1">Data do Ultrassom</label>
+                    <input type="date" id="ultrasound-date" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200">
+                </div>
+                <button id="calculate-ultrasound" class="w-full md:mt-5 p-3 font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-300 shadow-md">
+                    Calcular Ultrassom
+                </button>
+            </div>
+            <div id="result-ultrasound" class="mt-8 p-4 bg-green-100 rounded-xl hidden">
+                <!-- Resultados serão exibidos aqui -->
+            </div>
+        </div>
+
+        <!-- Nova Seção de Recursos Gemini API -->
+        <div class="bg-purple-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-purple-200">
+            <h2 class="section-title text-2xl font-bold text-purple-900 mb-4">Recursos Gemini ✨</h2>
+            <p class="text-gray-700 mb-6">Explore funcionalidades extras para a sua gestação, usando inteligência artificial.</p>
+            
+            <!-- Gerador de Dicas da Semana -->
+            <div class="flex flex-col mb-6">
+                <button id="generate-tips" class="w-full p-3 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300 shadow-md flex items-center justify-center space-x-2 disabled:opacity-50" disabled>
+                    <span>✨ Gerar Dicas para a Semana</span>
+                    <span id="tips-loading" class="hidden">
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </span>
+                </button>
+                <div id="tips-result" class="mt-4 p-4 bg-purple-100 rounded-xl hidden"></div>
+            </div>
+
+            <!-- Gerador de Nomes de Bebê -->
+            <div>
+                <label for="name-theme" class="text-sm font-medium text-gray-700 mb-1">Gerar Nomes de Bebê (Tema Opcional)</label>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="text" id="name-theme" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition duration-200" placeholder="Ex: Nomes clássicos, de flores, etc.">
+                    <button id="generate-names" class="w-full sm:w-auto p-3 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300 shadow-md flex-shrink-0 flex items-center justify-center space-x-2 disabled:opacity-50">
+                        <span>✨ Gerar Nomes</span>
+                        <span id="names-loading" class="hidden">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+                <div id="names-result" class="mt-4 p-4 bg-purple-100 rounded-xl hidden"></div>
+            </div>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins informativos e não substitui uma consulta médica. Acompanhamento pré-natal com um profissional de saúde é fundamental para a sua saúde e a do seu bebê.</p>
+            <p>&copy; 2024 Calculadora Gestacional. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let lastCalculatedWeeks = null;
+
+            // Função para exibir resultados
+            function displayResult(containerId, gestationalAge, dueDate) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">Seu Resultado</h3>
+                    <p class="text-gray-800"><span class="font-semibold">Idade Gestacional:</span> ${gestationalAge.weeks} semanas e ${gestationalAge.days} dias</p>
+                    <p class="text-gray-800"><span class="font-semibold">Data Provável do Parto (DPP):</span> ${dueDate}</p>
+                `;
+                container.classList.remove('hidden');
+                
+                // Habilita o botão de dicas da semana após o cálculo
+                const tipsButton = document.getElementById('generate-tips');
+                tipsButton.disabled = false;
+                lastCalculatedWeeks = gestationalAge.weeks;
+            }
+
+            // Função para exibir mensagens de erro
+            function displayError(containerId, message) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = `<p class="text-red-700 font-semibold">${message}</p>`;
+                container.classList.remove('hidden');
+            }
+
+            // Lógica para a calculadora DUM
+            document.getElementById('calculate-dum').addEventListener('click', () => {
+                const dumDateInput = document.getElementById('dum-date').value;
+                const resultContainer = document.getElementById('result-dum');
+                resultContainer.classList.add('hidden');
+
+                if (!dumDateInput) {
+                    displayError('result-dum', 'Por favor, insira a Data da Última Menstruação.');
+                    return;
+                }
+
+                const dum = new Date(dumDateInput);
+                const today = new Date();
+                
+                today.setHours(0, 0, 0, 0);
+                dum.setHours(0, 0, 0, 0);
+
+                const diffTime = today.getTime() - dum.getTime();
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays < 0) {
+                    displayError('result-dum', 'A DUM não pode ser uma data futura.');
+                    return;
+                }
+
+                const weeks = Math.floor(diffDays / 7);
+                const days = diffDays % 7;
+
+                const dpp = new Date(dum.getTime() + 280 * 24 * 60 * 60 * 1000);
+                const dppFormatted = dpp.toLocaleDateString('pt-BR');
+                
+                displayResult('result-dum', { weeks, days }, dppFormatted);
+            });
+
+            // Lógica para a calculadora por Ultrassom
+            document.getElementById('calculate-ultrasound').addEventListener('click', () => {
+                const ultrasoundWeeks = parseInt(document.getElementById('ultrasound-weeks').value);
+                const ultrasoundDays = parseInt(document.getElementById('ultrasound-days').value);
+                const ultrasoundDateInput = document.getElementById('ultrasound-date').value;
+                const resultContainer = document.getElementById('result-ultrasound');
+                resultContainer.classList.add('hidden');
+
+                if (isNaN(ultrasoundWeeks) || isNaN(ultrasoundDays) || !ultrasoundDateInput) {
+                    displayError('result-ultrasound', 'Por favor, preencha todos os campos do ultrassom.');
+                    return;
+                }
+                
+                if (ultrasoundDays > 6) {
+                    displayError('result-ultrasound', 'O número de dias não pode ser maior que 6.');
+                    return;
+                }
+
+                const ultrasoundDate = new Date(ultrasoundDateInput);
+                const today = new Date();
+                
+                today.setHours(0, 0, 0, 0);
+                ultrasoundDate.setHours(0, 0, 0, 0);
+
+                if (ultrasoundDate > today) {
+                    displayError('result-ultrasound', 'A data do ultrassom não pode ser uma data futura.');
+                    return;
+                }
+
+                const totalUltrasoundDays = (ultrasoundWeeks * 7) + ultrasoundDays;
+                const conceptionDate = new Date(ultrasoundDate.getTime() - totalUltrasoundDays * 24 * 60 * 60 * 1000);
+                const diffTime = today.getTime() - conceptionDate.getTime();
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                const currentWeeks = Math.floor(diffDays / 7);
+                const currentDays = diffDays % 7;
+                const dpp = new Date(conceptionDate.getTime() + 266 * 24 * 60 * 60 * 1000);
+                const dppFormatted = dpp.toLocaleDateString('pt-BR');
+
+                displayResult('result-ultrasound', { weeks: currentWeeks, days: currentDays }, dppFormatted);
+            });
+
+            // --- Gemini API Call Functions ---
+
+            // Função para gerar dicas da semana
+            document.getElementById('generate-tips').addEventListener('click', async () => {
+                const tipsResult = document.getElementById('tips-result');
+                const loadingIndicator = document.getElementById('tips-loading');
+                const button = document.getElementById('generate-tips');
+
+                if (lastCalculatedWeeks === null) {
+                    displayError('tips-result', 'Por favor, calcule a idade gestacional primeiro.');
+                    return;
+                }
+                
+                tipsResult.classList.remove('hidden');
+                tipsResult.innerHTML = '';
+                loadingIndicator.classList.remove('hidden');
+                button.disabled = true;
+
+                const prompt = `Gere 3 dicas concisas e informativas, em português, sobre o que esperar na semana ${lastCalculatedWeeks} da gravidez. Inclua informações sobre o desenvolvimento do bebê, mudanças no corpo da mãe e conselhos práticos. Formate a resposta como uma lista numerada.`;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        tipsResult.innerHTML = `<h4 class="font-bold mb-2">Dicas para a Semana ${lastCalculatedWeeks}:</h4><p>${text.replace(/\n/g, '<br>')}</p>`;
+                    } else {
+                        throw new Error("Resposta da API em formato inesperado.");
+                    }
+                } catch (error) {
+                    tipsResult.innerHTML = `<p class="text-red-700">Erro ao gerar as dicas. Por favor, tente novamente mais tarde.</p>`;
+                    console.error("Erro na chamada da Gemini API:", error);
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                    button.disabled = false;
+                }
+            });
+
+            // Função para gerar nomes de bebê
+            document.getElementById('generate-names').addEventListener('click', async () => {
+                const nameTheme = document.getElementById('name-theme').value;
+                const namesResult = document.getElementById('names-result');
+                const loadingIndicator = document.getElementById('names-loading');
+                const button = document.getElementById('generate-names');
+
+                namesResult.classList.remove('hidden');
+                namesResult.innerHTML = '';
+                loadingIndicator.classList.remove('hidden');
+                button.disabled = true;
+
+                const prompt = `Gere 5 nomes de bebê, sendo 3 femininos e 3 masculinos, em português. Se o tema "${nameTheme}" for fornecido, use-o para a inspiração. Caso contrário, use temas populares. Formate a resposta como uma lista simples, separada por gênero.`;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        namesResult.innerHTML = `<h4 class="font-bold mb-2">Sugestões de Nomes:</h4><p>${text.replace(/\n/g, '<br>')}</p>`;
+                    } else {
+                        throw new Error("Resposta da API em formato inesperado.");
+                    }
+                } catch (error) {
+                    namesResult.innerHTML = `<p class="text-red-700">Erro ao gerar os nomes. Por favor, tente novamente mais tarde.</p>`;
+                    console.error("Erro na chamada da Gemini API:", error);
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                    button.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
