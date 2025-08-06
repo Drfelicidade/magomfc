@@ -212,6 +212,14 @@
                     return;
                 }
 
+                // **NOVA VERIFICAÇÃO: Chave de API ausente**
+                const apiKey = "AIzaSyAKbLkchjms9V9PC4geBR9Um9FS-XFm6kw"; // ATENÇÃO: SUBSTITUA ESTE PLACEHOLDER PELA SUA CHAVE REAL!
+                if (!apiKey || apiKey === "SUA_CHAVE_DE_API_AQUI") {
+                    displayError("Erro: A chave da API não foi configurada. Por favor, edite o arquivo 'leitor-exames.html' e substitua 'SUA_CHAVE_DE_API_AQUI' pela sua chave real do Google Cloud.", resultContainer);
+                    console.error("Erro de configuração: Chave da API ausente ou inválida.");
+                    return; // Interrompe a execução se a chave não estiver configurada
+                }
+
                 // UI de carregamento
                 analyzeButton.disabled = true;
                 analyzeText.textContent = 'Analisando...';
@@ -240,9 +248,7 @@
                             }
                         ],
                     };
-                    // ATENÇÃO: VOCÊ DEVE SUBSTITUIR 'SUA_CHAVE_DE_API_AQUI' PELA SUA CHAVE DE API REAL DO GOOGLE CLOUD.
-                    // ESTE É UM PLACEHOLDER. SE VOCÊ NÃO SUBSTITUIR, A API NÃO FUNCIONARÁ.
-                    const apiKey = "AIzaSyAKbLkchjms9V9PC4geBR9Um9FS-XFm6kw"; 
+                    
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                     
                     const response = await fetch(apiUrl, {
@@ -300,4 +306,3 @@
     </script>
 </body>
 </html>
-
