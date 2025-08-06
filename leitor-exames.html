@@ -114,71 +114,88 @@
                 mimeType: null
             };
 
-            // Função para converter o arquivo para base64
+            // Função para converter o arquivo para base64 (retorna apenas a parte base64, sem o prefixo)
             const fileToBase64 = (file) => {
                 return new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.readAsDataURL(file);
-                    reader.onload = () => resolve(reader.result);
+                    reader.onload = () => {
+                        if (reader.result) {
+                            resolve(reader.result.split(',')[1]);
+                        } else {
+                            reject(new Error("Falha ao ler o arquivo como Base64."));
+                        }
+                    };
                     reader.onerror = (error) => reject(error);
                 });
             };
 
-            // Função para renderizar PDF para Canvas e obter base64
+            // Função para renderizar PDF para Canvas e obter base64 (retorna apenas a parte base64, sem o prefixo)
             const renderPdfToCanvas = async (file) => {
                 const url = URL.createObjectURL(file);
-                const loadingTask = pdfjsLib.getDocument(url);
-                const pdf = await loadingTask.promise;
-                const page = await pdf.getPage(1); // Processa apenas a primeira página
+                try {
+                    const loadingTask = pdfjsLib.getDocument(url);
+                    const pdf = await loadingTask.promise;
+                    const page = await pdf.getPage(1); // Processa apenas a primeira página
 
-                const viewport = page.getViewport({ scale: 1.5 }); // Aumenta a escala para melhor qualidade
-                const context = pdfPreviewCanvas.getContext('2d');
-                pdfPreviewCanvas.height = viewport.height;
-                pdfPreviewCanvas.width = viewport.width;
+                    const viewport = page.getViewport({ scale: 1.5 }); // Aumenta a escala para melhor qualidade
+                    const context = pdfPreviewCanvas.getContext('2d');
+                    pdfPreviewCanvas.height = viewport.height;
+                    pdfPreviewCanvas.width = viewport.width;
 
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: viewport,
-                };
-                await page.render(renderContext).promise;
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport,
+                    };
+                    await page.render(renderContext).promise;
 
-                return pdfPreviewCanvas.toDataURL('image/png').split(',')[1]; // Retorna base64 sem o prefixo
+                    const base64Data = pdfPreviewCanvas.toDataURL('image/png').split(',')[1];
+                    if (!base64Data) {
+                        throw new Error("Falha ao converter a página do PDF para imagem Base64.");
+                    }
+                    return base64Data;
+                } finally {
+                    URL.revokeObjectURL(url); // Libera o URL do objeto após o uso
+                }
             };
 
             // Evento para pré-visualizar a imagem/PDF e habilitar o botão
             imageInput.addEventListener('change', async (event) => {
                 const file = event.target.files[0];
                 if (file) {
+                    // Reset UI e estado
                     previewContainer.classList.remove('hidden');
                     analyzeButton.disabled = false;
                     resultContainer.classList.add('hidden');
                     transcriptionResult.innerHTML = '';
+                    imagePreview.classList.add('hidden'); // Esconde ambos inicialmente
+                    pdfPreviewCanvas.classList.add('hidden'); // Esconde ambos inicialmente
 
-                    if (file.type.startsWith('image/')) {
-                        imagePreview.src = URL.createObjectURL(file);
-                        imagePreview.classList.remove('hidden');
-                        pdfPreviewCanvas.classList.add('hidden');
-                        fileData.base64 = await fileToBase64(file).then(dataUrl => dataUrl.split(',')[1]);
-                        fileData.mimeType = file.type;
-                    } else if (file.type === 'application/pdf') {
-                        imagePreview.classList.add('hidden');
-                        pdfPreviewCanvas.classList.remove('hidden');
-                        try {
+                    try {
+                        if (file.type.startsWith('image/')) {
+                            imagePreview.src = URL.createObjectURL(file);
+                            imagePreview.classList.remove('hidden');
+                            fileData.base64 = await fileToBase64(file);
+                            fileData.mimeType = file.type;
+                        } else if (file.type === 'application/pdf') {
+                            pdfPreviewCanvas.classList.remove('hidden');
                             fileData.base64 = await renderPdfToCanvas(file);
                             fileData.mimeType = 'image/png'; // O PDF será enviado como PNG
-                        } catch (error) {
-                            displayError("Erro ao carregar o PDF. Certifique-se de que é um arquivo PDF válido.", resultContainer);
+                        } else {
+                            displayError("Formato de arquivo não suportado. Por favor, selecione uma imagem ou PDF.", resultContainer);
                             analyzeButton.disabled = true;
-                            console.error("Erro ao renderizar PDF:", error);
+                            previewContainer.classList.add('hidden');
                             return;
                         }
-                    } else {
-                        displayError("Formato de arquivo não suportado. Por favor, selecione uma imagem ou PDF.", resultContainer);
+                    } catch (error) {
+                        displayError(`Erro ao carregar o arquivo: ${error.message}. Por favor, tente outro arquivo.`, resultContainer);
                         analyzeButton.disabled = true;
                         previewContainer.classList.add('hidden');
+                        console.error("Erro no processamento do arquivo:", error);
                         return;
                     }
                 } else {
+                    // Se nenhum arquivo for selecionado, reseta tudo
                     previewContainer.classList.add('hidden');
                     imagePreview.classList.add('hidden');
                     pdfPreviewCanvas.classList.add('hidden');
@@ -241,12 +258,16 @@
                         result.candidates[0].content && result.candidates[0].content.parts &&
                         result.candidates[0].content.parts.length > 0) {
                         const text = result.candidates[0].content.parts[0].text;
-                        transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap">${text}</pre>`;
+                        if (text) { // Verifica se o texto retornado não está vazio
+                            transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap">${text}</pre>`;
+                        } else {
+                            throw new Error("A IA não conseguiu transcrever o texto da imagem/PDF. Tente novamente com um arquivo mais claro.");
+                        }
                     } else {
-                        throw new Error("Resposta da API em formato inesperado.");
+                        throw new Error("A resposta da IA está em um formato inesperado ou vazia.");
                     }
                 } catch (error) {
-                    transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">Erro ao transcrever o exame. Por favor, tente novamente.</p>`;
+                    transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">Erro ao transcrever o exame: ${error.message}.</p>`;
                     console.error("Erro na chamada da Gemini API:", error);
                 } finally {
                     // UI de carregamento completa
