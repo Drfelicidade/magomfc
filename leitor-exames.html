@@ -240,7 +240,7 @@
                             }
                         ],
                     };
-                    const apiKey = "";
+                    const apiKey = ""; // API Key will be provided by the Canvas runtime
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                     
                     const response = await fetch(apiUrl, {
@@ -250,32 +250,37 @@
                     });
                     
                     if (!response.ok) {
-                        throw new Error(`API error: ${response.status} ${response.statusText}`);
+                        // Tenta ler a resposta de erro da API se disponível
+                        const errorData = await response.json().catch(() => ({}));
+                        console.error("Erro na resposta da API:", response.status, response.statusText, errorData);
+                        throw new Error(`API error: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
                     }
                     
                     const result = await response.json();
+                    console.log("Resposta completa da API:", result); // Log da resposta completa para depuração
+
                     if (result.candidates && result.candidates.length > 0 &&
                         result.candidates[0].content && result.candidates[0].content.parts &&
                         result.candidates[0].content.parts.length > 0) {
                         const text = result.candidates[0].content.parts[0].text;
-                        if (text) { // Verifica se o texto retornado não está vazio
+                        if (text && text.trim().length > 0) { // Verifica se o texto retornado não está vazio ou apenas espaços
                             transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap">${text}</pre>`;
                         } else {
-                            throw new Error("A IA não conseguiu transcrever o texto da imagem/PDF. Tente novamente com um arquivo mais claro.");
+                            throw new Error("A inteligência artificial não conseguiu transcrever o texto da imagem/PDF. Tente novamente com um arquivo mais claro ou com melhor qualidade.");
                         }
                     } else {
-                        throw new Error("A resposta da IA está em um formato inesperado ou vazia.");
+                        throw new Error("A resposta da inteligência artificial está em um formato inesperado ou vazia. Isso pode indicar que o conteúdo não pôde ser processado.");
                     }
                 } catch (error) {
                     let errorMessage = "Erro desconhecido ao transcrever o exame. Por favor, tente novamente.";
                     if (error.message.includes("API error")) {
-                        errorMessage = `Erro na comunicação com a API: ${error.message}. Verifique sua conexão ou tente mais tarde.`;
+                        errorMessage = `Erro na comunicação com a API: ${error.message}. Verifique sua conexão com a internet ou tente novamente mais tarde.`;
                     } else if (error.message.includes("não conseguiu transcrever") || error.message.includes("formato inesperado")) {
                         errorMessage = `A inteligência artificial não conseguiu processar o arquivo. Certifique-se de que a imagem ou PDF está clara e legível. Erro: ${error.message}`;
                     } else if (error.message) {
                         errorMessage = `Erro ao transcrever o exame: ${error.message}.`;
                     }
-                    transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">${errorMessage}</p>`;
+                    transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">${errorMessage}<br>Para mais detalhes, verifique o console do seu navegador (F12).</p>`;
                     console.error("Erro na chamada da Gemini API:", error);
                 } finally {
                     // UI de carregamento completa
