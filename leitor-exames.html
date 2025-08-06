@@ -267,7 +267,15 @@
                         throw new Error("A resposta da IA está em um formato inesperado ou vazia.");
                     }
                 } catch (error) {
-                    transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">Erro ao transcrever o exame: ${error.message}.</p>`;
+                    let errorMessage = "Erro desconhecido ao transcrever o exame. Por favor, tente novamente.";
+                    if (error.message.includes("API error")) {
+                        errorMessage = `Erro na comunicação com a API: ${error.message}. Verifique sua conexão ou tente mais tarde.`;
+                    } else if (error.message.includes("não conseguiu transcrever") || error.message.includes("formato inesperado")) {
+                        errorMessage = `A inteligência artificial não conseguiu processar o arquivo. Certifique-se de que a imagem ou PDF está clara e legível. Erro: ${error.message}`;
+                    } else if (error.message) {
+                        errorMessage = `Erro ao transcrever o exame: ${error.message}.`;
+                    }
+                    transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">${errorMessage}</p>`;
                     console.error("Erro na chamada da Gemini API:", error);
                 } finally {
                     // UI de carregamento completa
