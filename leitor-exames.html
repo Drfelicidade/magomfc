@@ -240,7 +240,8 @@
                             }
                         ],
                     };
-                    const apiKey = ""; // API Key will be provided by the Canvas runtime
+                    // ATENÇÃO: SUBSTITUA 'SUA_CHAVE_DE_API_AQUI' PELA SUA CHAVE DE API REAL DO GOOGLE CLOUD
+                    const apiKey = "AIzaSyAKbLkchjms9V9PC4geBR9Um9FS-XFm6kw"; 
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                     
                     const response = await fetch(apiUrl, {
@@ -274,7 +275,7 @@
                 } catch (error) {
                     let errorMessage = "Erro desconhecido ao transcrever o exame. Por favor, tente novamente.";
                     if (error.message.includes("API error")) {
-                        errorMessage = `Erro na comunicação com a API: ${error.message}. Verifique sua conexão com a internet ou tente novamente mais tarde.`;
+                        errorMessage = `Erro na comunicação com a API: ${error.message}. Verifique sua conexão com a internet ou se a chave de API está correta e com as permissões adequadas.`;
                     } else if (error.message.includes("não conseguiu transcrever") || error.message.includes("formato inesperado")) {
                         errorMessage = `A inteligência artificial não conseguiu processar o arquivo. Certifique-se de que a imagem ou PDF está clara e legível. Erro: ${error.message}`;
                     } else if (error.message) {
