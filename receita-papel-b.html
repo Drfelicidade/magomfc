@@ -280,8 +280,8 @@
                 const prescriptionDate = prescriptionDateInput.value;
                 const instructions = instructionsInput.value;
 
-                // Validação básica
-                if (!drugName || !drugDosage || !drugQuantityNum || !patientName || !patientAddress || !prescriptionDate || !!instructions) { // instructions can be empty
+                // Validação corrigida: remove !!instructions, pois é opcional
+                if (!drugName || !drugDosage || !drugQuantityNum || !patientName || !patientAddress || !prescriptionDate) {
                     alert('Por favor, preencha todos os campos obrigatórios da receita antes de imprimir.');
                     return;
                 }
