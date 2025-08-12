@@ -28,68 +28,99 @@
             background-color: #ef4444; /* Cor vermelha para diferenciar */
             border-radius: 9999px;
         }
-        /* Estilos para impressão */
+
+        /* Estilos para a área de visualização e impressão */
+        .printable-page {
+            width: 21cm; /* Largura A4 */
+            height: 29.7cm; /* Altura A4 */
+            margin: 1cm auto; /* Centraliza a página e adiciona margem visual */
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #ccc; /* Borda para visualização da página */
+        }
+
+        .prescription-via {
+            width: 10.5cm; /* Metade da largura A4 */
+            height: 29.7cm; /* Altura A4 */
+            position: absolute;
+            top: 0;
+            box-sizing: border-box;
+            /* Remova bordas ou backgrounds se o papel especial já tiver o design */
+            /* border: 1px solid #eee; */
+        }
+
+        .prescription-via.left {
+            left: 0;
+        }
+
+        .prescription-via.right {
+            left: 10.5cm; /* Início da segunda via */
+        }
+
+        /* Posicionamento dos elementos de texto dentro de cada via */
+        /* Ajuste estes valores (em cm) para alinhar com o seu papel especial */
+        .print-field {
+            position: absolute;
+            font-size: 12pt;
+            line-height: 1.2;
+            white-space: pre-wrap; /* Mantém quebras de linha e espaços */
+            max-width: 9.5cm; /* Limita a largura do texto para não vazar */
+            overflow: hidden; /* Esconde texto que vazar */
+            /* --- Bordas temporárias para depuração --- */
+            /* border: 1px dashed green; */
+        }
+
+        /* Posicionamentos específicos para cada campo - Via 1 (esquerda) */
+        #print-drug-name-1 { top: 1.5cm; left: 1.5cm; font-size: 14pt; font-weight: bold; }
+        #print-drug-dosage-1 { top: 2.5cm; left: 1.5cm; }
+        #print-drug-quantity-num-1 { top: 3.5cm; left: 1.5cm; width: 1.5cm; } /* Largura para o número */
+        #print-drug-quantity-ext-1 { top: 3.5cm; left: 3.0cm; max-width: 7cm; } /* Ajuste left e max-width */
+        #print-patient-name-1 { top: 5.5cm; left: 1.5cm; }
+        #print-patient-address-1 { top: 6.5cm; left: 1.5cm; font-size: 10pt; }
+        #print-instructions-1 { top: 7.5cm; left: 1.5cm; max-width: 9cm; }
+        #print-city-date-1 { top: 10.0cm; left: 1.5cm; font-size: 10pt; text-align: left; max-width: 9cm;} /* Ajuste left e text-align */
+        #print-signature-line-1 { position: absolute; top: 12.5cm; left: 1.5cm; width: 7cm; border-bottom: 1px solid black; }
+        #print-signature-text-1 { position: absolute; top: 13cm; left: 1.5cm; font-size: 9pt; text-align: center; width: 7cm; }
+
+
+        /* Posicionamentos específicos para cada campo - Via 2 (direita) */
+        /* Os valores de 'left' são relativos ao início da segunda via (10.5cm de offset) */
+        #print-drug-name-2 { top: 1.5cm; left: 1.5cm; font-size: 14pt; font-weight: bold; }
+        #print-drug-dosage-2 { top: 2.5cm; left: 1.5cm; }
+        #print-drug-quantity-num-2 { top: 3.5cm; left: 1.5cm; width: 1.5cm; }
+        #print-drug-quantity-ext-2 { top: 3.5cm; left: 3.0cm; max-width: 7cm; }
+        #print-patient-name-2 { top: 5.5cm; left: 1.5cm; }
+        #print-patient-address-2 { top: 6.5cm; left: 1.5cm; font-size: 10pt; }
+        #print-instructions-2 { top: 7.5cm; left: 1.5cm; max-width: 9cm; }
+        #print-city-date-2 { top: 10.0cm; left: 1.5cm; font-size: 10pt; text-align: left; max-width: 9cm;}
+        #print-signature-line-2 { position: absolute; top: 12.5cm; left: 1.5cm; width: 7cm; border-bottom: 1px solid black; }
+        #print-signature-text-2 { position: absolute; top: 13cm; left: 1.5cm; font-size: 9pt; text-align: center; width: 7cm; }
+
+
+        /* Estilos para impressão real (oculta elementos de UI) */
         @media print {
-            /* Esconde tudo que não é a área de impressão */
             body > *:not(#printable-area) {
                 display: none !important;
-                visibility: hidden !important; /* Garante que esteja oculto */
             }
-
             #printable-area {
-                display: block !important; /* Torna a área de impressão um bloco visível */
-                visibility: visible !important; /* Garante visibilidade */
-                position: absolute; /* Posição absoluta para cobrir a página */
-                left: 0;
+                position: absolute; /* Usar absolute para impressão */
                 top: 0;
-                width: 21cm; /* Largura padrão A4 */
-                height: 29.7cm; /* Altura padrão A4 */
+                left: 0;
                 margin: 0;
                 padding: 0;
-                overflow: hidden; /* Evita barras de rolagem na impressão */
-                /* --- Borda temporária para depuração --- */
-                border: 1px solid blue !important; 
+                box-shadow: none; /* Remove sombra na impressão */
+                border: none; /* Remove borda de depuração na impressão */
             }
-            .prescription-via {
-                display: block !important; /* Torna a via visível */
-                visibility: visible !important; /* Garante visibilidade */
-                float: left; /* Posiciona lado a lado */
-                width: 10.3cm; /* Largura de cada via (aprox. metade de A4 - margem) */
-                height: 29.7cm; /* Ocupa a altura total da página */
-                box-sizing: border-box;
-                position: relative; /* Para posicionamento absoluto dos elementos internos */
-                overflow: hidden; /* Garante que o conteúdo não vaze */
-                /* --- Borda temporária para depuração --- */
-                border: 1px solid red !important;
-                /* Ajuste o margin-left/right para o espaçamento entre as vias se necessário */
-                /* margin-left: 0.2cm; */
-                /* margin-right: 0.2cm; */
+            .print-field {
+                /* Remova as bordas de depuração na impressão final */
+                border: none !important;
             }
-
-            /* Posicionamento dos elementos de texto dentro de cada via */
-            /* Os valores de 'top' e 'left' são em 'cm' para maior precisão em impressão.
-               Eles podem precisar de pequenos ajustes para o seu papel/impressora. */
-
-            /* Via 1 (lado esquerdo do papel) */
-            #print-drug-name-1 { position: absolute; top: 1.5cm; left: 1.5cm; font-size: 14pt; font-weight: bold; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-drug-dosage-1 { position: absolute; top: 2.5cm; left: 1.5cm; font-size: 12pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-drug-quantity-num-1 { position: absolute; top: 3.5cm; left: 1.5cm; font-size: 12pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-drug-quantity-ext-1 { position: absolute; top: 3.5cm; left: 3cm; font-size: 12pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; } /* Ajustar 'left' para alinhar com o número */
-            #print-patient-name-1 { position: absolute; top: 5.5cm; left: 1.5cm; font-size: 12pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-patient-address-1 { position: absolute; top: 6.5cm; left: 1.5cm; font-size: 10pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-instructions-1 { position: absolute; top: 7.5cm; left: 1.5cm; font-size: 12pt; width: 8.5cm; line-height: 1.3; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green;} /* Adicionado largura e line-height */
-            #print-city-date-1 { position: absolute; top: 10cm; left: 1.5cm; font-size: 10pt; text-align: left; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green;}
-            
-            /* Via 2 (lado direito do papel) - Offset para a segunda metade da página */
-            /* Os valores de 'left' aqui são relativos ao início da sua própria .prescription-via */
-            #print-drug-name-2 { position: absolute; top: 1.5cm; left: 1.5cm; font-size: 14pt; font-weight: bold; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-drug-dosage-2 { position: absolute; top: 2.5cm; left: 1.5cm; font-size: 12pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-drug-quantity-num-2 { position: absolute; top: 3.5cm; left: 1.5cm; font-size: 12pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-drug-quantity-ext-2 { position: absolute; top: 3.5cm; left: 3cm; font-size: 12pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-patient-name-2 { position: absolute; top: 5.5cm; left: 1.5cm; font-size: 12pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-patient-address-2 { position: absolute; top: 6.5cm; left: 1.5cm; font-size: 10pt; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green; }
-            #print-instructions-2 { position: absolute; top: 7.5cm; left: 1.5cm; font-size: 12pt; width: 8.5cm; line-height: 1.3; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green;}
-            #print-city-date-2 { position: absolute; top: 10cm; left: 1.5cm; font-size: 10pt; text-align: left; display: block !important; visibility: visible !important; /* --- Borda temporária --- */ border: 1px solid green;}
+            /* Opcional: ajustar margens da página na impressão se necessário */
+            @page {
+                margin: 0; /* Remove margens padrão da impressora */
+            }
         }
     </style>
 </head>
@@ -161,33 +192,29 @@
         </div>
 
         <!-- Área de Impressão (oculta por padrão) -->
-        <div id="printable-area" class="hidden">
+        <div id="printable-area" class="hidden printable-page">
             <!-- Via 1 -->
-            <div class="prescription-via">
-                <!-- Os textos "RECEITUÁRIO DE CONTROLE ESPECIAL" e "TIPO B" são assumidos como pré-impressos no papel -->
-                <span id="print-drug-name-1"></span>
-                <span id="print-drug-dosage-1"></span>
-                <span id="print-drug-quantity-num-1"></span>
-                <span id="print-drug-quantity-ext-1"></span>
-                <span id="print-patient-name-1"></span>
-                <span id="print-patient-address-1"></span>
-                <span id="print-instructions-1"></span>
-                <span id="print-city-date-1"></span>
-                <!-- A linha de assinatura será pré-impressa no papel -->
+            <div class="prescription-via left">
+                <span id="print-drug-name-1" class="print-field"></span>
+                <span id="print-drug-dosage-1" class="print-field"></span>
+                <span id="print-drug-quantity-num-1" class="print-field"></span>
+                <span id="print-drug-quantity-ext-1" class="print-field"></span>
+                <span id="print-patient-name-1" class="print-field"></span>
+                <span id="print-patient-address-1" class="print-field"></span>
+                <span id="print-instructions-1" class="print-field"></span>
+                <span id="print-city-date-1" class="print-field"></span>
             </div>
 
             <!-- Via 2 -->
-            <div class="prescription-via">
-                <!-- Os textos "RECEITUÁRIO DE CONTROLE ESPECIAL" e "TIPO B" são assumidos como pré-impressos no papel -->
-                <span id="print-drug-name-2"></span>
-                <span id="print-drug-dosage-2"></span>
-                <span id="print-drug-quantity-num-2"></span>
-                <span id="print-drug-quantity-ext-2"></span>
-                <span id="print-patient-name-2"></span>
-                <span id="print-patient-address-2"></span>
-                <span id="print-instructions-2"></span>
-                <span id="print-city-date-2"></span>
-                <!-- A linha de assinatura será pré-impressa no papel -->
+            <div class="prescription-via right">
+                <span id="print-drug-name-2" class="print-field"></span>
+                <span id="print-drug-dosage-2" class="print-field"></span>
+                <span id="print-drug-quantity-num-2" class="print-field"></span>
+                <span id="print-drug-quantity-ext-2" class="print-field"></span>
+                <span id="print-patient-name-2" class="print-field"></span>
+                <span id="print-patient-address-2" class="print-field"></span>
+                <span id="print-instructions-2" class="print-field"></span>
+                <span id="print-city-date-2" class="print-field"></span>
             </div>
         </div>
         
@@ -285,7 +312,6 @@
                 const cityDate = `Blumenau, ${formattedDate}`; // Assumindo Blumenau como a cidade
 
                 // Preenche as duas vias
-                // Note que os IDs dos spans de impressão devem ser os mesmos do HTML
                 document.getElementById('print-drug-name-1').textContent = drugName;
                 document.getElementById('print-drug-dosage-1').textContent = drugDosage;
                 document.getElementById('print-drug-quantity-num-1').textContent = drugQuantityNum;
@@ -304,7 +330,7 @@
                 document.getElementById('print-instructions-2').textContent = instructions;
                 document.getElementById('print-city-date-2').textContent = cityDate;
 
-                // Exibe a área de impressão e dispara a impressão
+                // Exibe a área de impressão
                 printableArea.classList.remove('hidden');
                 
                 // Adiciona um pequeno atraso para garantir que o DOM seja renderizado antes de imprimir
