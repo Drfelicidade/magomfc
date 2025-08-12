@@ -30,34 +30,32 @@
         }
         /* Estilos para impressão */
         @media print {
-            body * {
-                visibility: hidden; /* Esconde tudo por padrão */
+            /* Esconde todos os elementos do corpo por padrão, exceto a área de impressão */
+            body > *:not(#printable-area) {
+                display: none !important;
             }
+
             #printable-area {
-                visibility: visible; /* Torna a área de impressão visível */
+                display: flex !important; /* Garante que a área de impressão seja um flex container */
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
                 height: 100%; /* Ocupa a altura total da página */
                 margin: 0;
-                padding: 0; /* Remove padding/margin padrão para controle total */
-                display: flex; /* Para as duas vias lado a lado */
+                padding: 0;
                 flex-wrap: nowrap; /* Garante que as vias fiquem na mesma linha */
                 justify-content: space-between; /* Espaça as vias */
                 align-items: flex-start; /* Alinha ao topo */
                 overflow: hidden; /* Evita barras de rolagem na impressão */
             }
             .prescription-via {
-                visibility: visible;
+                display: block !important; /* Torna a via visível */
                 width: 49%; /* Quase metade da largura para duas vias, ajuste conforme necessário */
                 height: 100%; /* Ocupa a altura da área de impressão */
                 box-sizing: border-box;
                 position: relative; /* Para posicionamento absoluto dos elementos internos */
                 overflow: hidden; /* Garante que o conteúdo não vaze */
-                /* Remova bordas e backgrounds, pois o papel especial já terá o design */
-                /* border: 1px solid black; */
-                /* background-color: white; */
             }
 
             /* Posicionamento dos elementos de texto dentro de cada via */
@@ -65,36 +63,24 @@
                Eles podem precisar de pequenos ajustes para o seu papel/impressora. */
 
             /* Via 1 (lado esquerdo do papel) */
-            #print-drug-name-1 { position: absolute; top: 1.5cm; left: 1.5cm; font-size: 14pt; font-weight: bold; }
-            #print-drug-dosage-1 { position: absolute; top: 2.5cm; left: 1.5cm; font-size: 12pt; }
-            #print-drug-quantity-num-1 { position: absolute; top: 3.5cm; left: 1.5cm; font-size: 12pt; }
-            #print-drug-quantity-ext-1 { position: absolute; top: 3.5cm; left: 3cm; font-size: 12pt; } /* Ajustar 'left' para alinhar com o número */
-            #print-patient-name-1 { position: absolute; top: 5.5cm; left: 1.5cm; font-size: 12pt; }
-            #print-patient-address-1 { position: absolute; top: 6.5cm; left: 1.5cm; font-size: 10pt; }
-            #print-instructions-1 { position: absolute; top: 7.5cm; left: 1.5cm; font-size: 12pt; width: 80%; line-height: 1.3;} /* Adicionado largura e line-height */
-            #print-city-date-1 { position: absolute; top: 10cm; right: 1.5cm; font-size: 10pt; text-align: right;}
-            /* A linha de assinatura será pré-impressa no papel especial */
-            /* O texto "Assinatura do Médico" pode ser omitido se já estiver no papel */
-            .signature-text { position: absolute; bottom: 2cm; left: 50%; transform: translateX(-50%); font-size: 10pt; }
-
-
+            #print-drug-name-1 { position: absolute; top: 1.5cm; left: 1.5cm; font-size: 14pt; font-weight: bold; display: block; }
+            #print-drug-dosage-1 { position: absolute; top: 2.5cm; left: 1.5cm; font-size: 12pt; display: block; }
+            #print-drug-quantity-num-1 { position: absolute; top: 3.5cm; left: 1.5cm; font-size: 12pt; display: block; }
+            #print-drug-quantity-ext-1 { position: absolute; top: 3.5cm; left: 3cm; font-size: 12pt; display: block; } /* Ajustar 'left' para alinhar com o número */
+            #print-patient-name-1 { position: absolute; top: 5.5cm; left: 1.5cm; font-size: 12pt; display: block; }
+            #print-patient-address-1 { position: absolute; top: 6.5cm; left: 1.5cm; font-size: 10pt; display: block; }
+            #print-instructions-1 { position: absolute; top: 7.5cm; left: 1.5cm; font-size: 12pt; width: 80%; line-height: 1.3; display: block;} /* Adicionado largura e line-height */
+            #print-city-date-1 { position: absolute; top: 10cm; right: 1.5cm; font-size: 10pt; text-align: right; display: block;}
+            
             /* Via 2 (lado direito do papel) - Offset para a segunda metade da página */
-            #print-drug-name-2 { position: absolute; top: 1.5cm; left: 51.5%; font-size: 14pt; font-weight: bold; }
-            #print-drug-dosage-2 { position: absolute; top: 2.5cm; left: 51.5%; font-size: 12pt; }
-            #print-drug-quantity-num-2 { position: absolute; top: 3.5cm; left: 51.5%; font-size: 12pt; }
-            #print-drug-quantity-ext-2 { position: absolute; top: 3.5cm; left: 53%; font-size: 12pt; } /* Ajustar 'left' para alinhar com o número */
-            #print-patient-name-2 { position: absolute; top: 5.5cm; left: 51.5%; font-size: 12pt; }
-            #print-patient-address-2 { position: absolute; top: 6.5cm; left: 51.5%; font-size: 10pt; }
-            #print-instructions-2 { position: absolute; top: 7.5cm; left: 51.5%; font-size: 12pt; width: 80%; line-height: 1.3;}
-            #print-city-date-2 { position: absolute; top: 10cm; right: 1.5cm; font-size: 10pt; text-align: right;}
-            /* A linha de assinatura será pré-impressa no papel especial */
-            /* .signature-text { position: absolute; bottom: 2cm; left: 50%; transform: translateX(-50%); font-size: 10pt; } */
-
-
-            /* Esconde todos os elementos de formulário e UI na impressão */
-            input, textarea, button, label, .container > header, .container > .text-center, .container > footer, .bg-red-50 {
-                display: none !important;
-            }
+            #print-drug-name-2 { position: absolute; top: 1.5cm; left: 51.5%; font-size: 14pt; font-weight: bold; display: block; }
+            #print-drug-dosage-2 { position: absolute; top: 2.5cm; left: 51.5%; font-size: 12pt; display: block; }
+            #print-drug-quantity-num-2 { position: absolute; top: 3.5cm; left: 51.5%; font-size: 12pt; display: block; }
+            #print-drug-quantity-ext-2 { position: absolute; top: 3.5cm; left: 53%; font-size: 12pt; display: block; } /* Ajustar 'left' para alinhar com o número */
+            #print-patient-name-2 { position: absolute; top: 5.5cm; left: 51.5%; font-size: 12pt; display: block; }
+            #print-patient-address-2 { position: absolute; top: 6.5cm; left: 51.5%; font-size: 10pt; display: block; }
+            #print-instructions-2 { position: absolute; top: 7.5cm; left: 51.5%; font-size: 12pt; width: 80%; line-height: 1.3; display: block;}
+            #print-city-date-2 { position: absolute; top: 10cm; right: 1.5cm; font-size: 10pt; text-align: right; display: block;}
         }
     </style>
 </head>
@@ -179,7 +165,6 @@
                 <span id="print-instructions-1"></span>
                 <span id="print-city-date-1"></span>
                 <!-- A linha de assinatura será pré-impressa no papel -->
-                <!-- <span class="signature-text">Assinatura do Médico</span> -->
             </div>
 
             <!-- Via 2 -->
@@ -194,7 +179,6 @@
                 <span id="print-instructions-2"></span>
                 <span id="print-city-date-2"></span>
                 <!-- A linha de assinatura será pré-impressa no papel -->
-                <!-- <span class="signature-text">Assinatura do Médico</span> -->
             </div>
         </div>
         
@@ -231,7 +215,6 @@
                 let extenso = '';
 
                 if (s.length > 3) {
-                    // Lida com milhares, milhões, etc. (simplificado para este contexto)
                     return n + ' (quantidade muito grande para extenso automático)';
                 }
 
@@ -293,20 +276,24 @@
                 const cityDate = `Blumenau, ${formattedDate}`; // Assumindo Blumenau como a cidade
 
                 // Preenche as duas vias
-                const fields = [
-                    'print-drug-name', 'print-drug-dosage', 'print-drug-quantity-num',
-                    'print-drug-quantity-ext', 'print-patient-name', 'print-patient-address',
-                    'print-instructions', 'print-city-date'
-                ];
-                const values = [
-                    drugName, drugDosage, drugQuantityNum, drugQuantityExt,
-                    patientName, patientAddress, instructions, cityDate
-                ];
+                // Note que os IDs dos spans de impressão devem ser os mesmos do HTML
+                document.getElementById('print-drug-name-1').textContent = drugName;
+                document.getElementById('print-drug-dosage-1').textContent = drugDosage;
+                document.getElementById('print-drug-quantity-num-1').textContent = drugQuantityNum;
+                document.getElementById('print-drug-quantity-ext-1').textContent = drugQuantityExt;
+                document.getElementById('print-patient-name-1').textContent = patientName;
+                document.getElementById('print-patient-address-1').textContent = patientAddress;
+                document.getElementById('print-instructions-1').textContent = instructions;
+                document.getElementById('print-city-date-1').textContent = cityDate;
 
-                for (let i = 0; i < fields.length; i++) {
-                    document.getElementById(fields[i] + '-1').textContent = values[i];
-                    document.getElementById(fields[i] + '-2').textContent = values[i];
-                }
+                document.getElementById('print-drug-name-2').textContent = drugName;
+                document.getElementById('print-drug-dosage-2').textContent = drugDosage;
+                document.getElementById('print-drug-quantity-num-2').textContent = drugQuantityNum;
+                document.getElementById('print-drug-quantity-ext-2').textContent = drugQuantityExt;
+                document.getElementById('print-patient-name-2').textContent = patientName;
+                document.getElementById('print-patient-address-2').textContent = patientAddress;
+                document.getElementById('print-instructions-2').textContent = instructions;
+                document.getElementById('print-city-date-2').textContent = cityDate;
 
                 // Exibe a área de impressão e dispara a impressão
                 printableArea.classList.remove('hidden');
