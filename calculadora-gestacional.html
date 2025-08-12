@@ -120,6 +120,9 @@
             <div id="result-ccn" class="mt-8 p-4 bg-purple-100 rounded-xl hidden">
                 <!-- Resultados CCN serão exibidos aqui -->
             </div>
+            <p class="text-gray-600 text-sm mt-4">
+                <strong class="font-semibold">Nota:</strong> Pequenas divergências nos resultados podem ocorrer entre diferentes calculadoras devido a variações nas equações de regressão e métodos de arredondamento utilizados.
+            </p>
         </div>
         
         <footer class="text-center text-gray-500 text-sm mt-10">
@@ -216,7 +219,7 @@
                 const diffTime = today.getTime() - conceptionDate.getTime();
                 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
                 const currentWeeks = Math.floor(diffDays / 7);
-                const currentDays = diffDays % 7;
+                const currentDays = diffDays % 7; // Usando % 7 para dias restantes
                 const dpp = new Date(conceptionDate.getTime() + 266 * 24 * 60 * 60 * 1000);
                 const dppFormatted = dpp.toLocaleDateString('pt-BR');
 
@@ -258,8 +261,8 @@
                 const currentTotalDays = totalDaysAtUltrasound + daysSinceUltrasound;
                 
                 const currentWeeks = Math.floor(currentTotalDays / 7);
-                const currentDays = Math.round(currentTotalDays % 7); // Arredonda os dias restantes
-
+                const currentDays = Math.floor(currentTotalDays % 7); // Usando Math.floor para dias restantes, para consistência
+                
                 // Calcular DPP: Data de Concepção = Data do Ultrassom - Idade Gestacional no Ultrassom
                 // DPP = Data de Concepção + 266 dias (duração média da gestação a partir da concepção)
                 const conceptionDate = new Date(ccnUltrasoundDate.getTime() - totalDaysAtUltrasound * 24 * 60 * 60 * 1000);
