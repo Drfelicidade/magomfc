@@ -33,49 +33,67 @@
             body * {
                 visibility: hidden; /* Esconde tudo por padrão */
             }
-            #printable-area, #printable-area * {
-                visibility: visible; /* Torna a área de impressão visível */
-            }
             #printable-area {
+                visibility: visible; /* Torna a área de impressão visível */
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 100%; /* Ocupa a largura total da página */
-                padding: 1cm; /* Margens para a impressão */
-                box-sizing: border-box;
+                width: 100%;
+                height: 100%; /* Ocupa a altura total da página */
+                margin: 0;
+                padding: 0; /* Remove padding/margin padrão para controle total */
                 display: flex; /* Para as duas vias lado a lado */
-                flex-wrap: wrap; /* Permite quebrar em linhas se não couber */
-                justify-content: space-around; /* Espaça as vias */
+                flex-wrap: nowrap; /* Garante que as vias fiquem na mesma linha */
+                justify-content: space-between; /* Espaça as vias */
+                align-items: flex-start; /* Alinha ao topo */
+                overflow: hidden; /* Evita barras de rolagem na impressão */
             }
             .prescription-via {
-                width: 48%; /* Quase metade da largura para duas vias */
-                border: 1px solid black; /* Borda da receita */
-                padding: 10px;
-                margin-bottom: 20px; /* Espaço entre as receitas se quebrar linha */
+                visibility: visible;
+                width: 49%; /* Quase metade da largura para duas vias, ajuste conforme necessário */
+                height: 100%; /* Ocupa a altura da área de impressão */
                 box-sizing: border-box;
-                page-break-inside: avoid; /* Evita quebrar a via no meio */
+                position: relative; /* Para posicionamento absoluto dos elementos internos */
+                overflow: hidden; /* Garante que o conteúdo não vaze */
+                /* Remova bordas e backgrounds, pois o papel especial já terá o design */
+                /* border: 1px solid black; */
+                /* background-color: white; */
             }
-            .prescription-header, .prescription-footer {
-                text-align: center;
-                font-size: 0.8em;
-            }
-            .prescription-content {
-                font-size: 0.9em;
-                line-height: 1.4;
-            }
-            .prescription-content p {
-                margin-bottom: 0.5em;
-            }
-            .prescription-content strong {
-                font-weight: bold;
-            }
-            .via-label {
-                font-size: 0.7em;
-                text-align: right;
-                margin-top: 5px;
-            }
-            input, textarea, button {
-                display: none !important; /* Esconde inputs e botões na impressão */
+
+            /* Posicionamento dos elementos de texto dentro de cada via */
+            /* Os valores de 'top' e 'left' são em 'cm' para maior precisão em impressão.
+               Eles podem precisar de pequenos ajustes para o seu papel/impressora. */
+
+            /* Via 1 (lado esquerdo do papel) */
+            #print-drug-name-1 { position: absolute; top: 1.5cm; left: 1.5cm; font-size: 14pt; font-weight: bold; }
+            #print-drug-dosage-1 { position: absolute; top: 2.5cm; left: 1.5cm; font-size: 12pt; }
+            #print-drug-quantity-num-1 { position: absolute; top: 3.5cm; left: 1.5cm; font-size: 12pt; }
+            #print-drug-quantity-ext-1 { position: absolute; top: 3.5cm; left: 3cm; font-size: 12pt; } /* Ajustar 'left' para alinhar com o número */
+            #print-patient-name-1 { position: absolute; top: 5.5cm; left: 1.5cm; font-size: 12pt; }
+            #print-patient-address-1 { position: absolute; top: 6.5cm; left: 1.5cm; font-size: 10pt; }
+            #print-instructions-1 { position: absolute; top: 7.5cm; left: 1.5cm; font-size: 12pt; width: 80%; line-height: 1.3;} /* Adicionado largura e line-height */
+            #print-city-date-1 { position: absolute; top: 10cm; right: 1.5cm; font-size: 10pt; text-align: right;}
+            /* A linha de assinatura será pré-impressa no papel especial */
+            /* O texto "Assinatura do Médico" pode ser omitido se já estiver no papel */
+            .signature-text { position: absolute; bottom: 2cm; left: 50%; transform: translateX(-50%); font-size: 10pt; }
+
+
+            /* Via 2 (lado direito do papel) - Offset para a segunda metade da página */
+            #print-drug-name-2 { position: absolute; top: 1.5cm; left: 51.5%; font-size: 14pt; font-weight: bold; }
+            #print-drug-dosage-2 { position: absolute; top: 2.5cm; left: 51.5%; font-size: 12pt; }
+            #print-drug-quantity-num-2 { position: absolute; top: 3.5cm; left: 51.5%; font-size: 12pt; }
+            #print-drug-quantity-ext-2 { position: absolute; top: 3.5cm; left: 53%; font-size: 12pt; } /* Ajustar 'left' para alinhar com o número */
+            #print-patient-name-2 { position: absolute; top: 5.5cm; left: 51.5%; font-size: 12pt; }
+            #print-patient-address-2 { position: absolute; top: 6.5cm; left: 51.5%; font-size: 10pt; }
+            #print-instructions-2 { position: absolute; top: 7.5cm; left: 51.5%; font-size: 12pt; width: 80%; line-height: 1.3;}
+            #print-city-date-2 { position: absolute; top: 10cm; right: 1.5cm; font-size: 10pt; text-align: right;}
+            /* A linha de assinatura será pré-impressa no papel especial */
+            /* .signature-text { position: absolute; bottom: 2cm; left: 50%; transform: translateX(-50%); font-size: 10pt; } */
+
+
+            /* Esconde todos os elementos de formulário e UI na impressão */
+            input, textarea, button, label, .container > header, .container > .text-center, .container > footer, .bg-red-50 {
+                display: none !important;
             }
         }
     </style>
@@ -130,11 +148,6 @@
                     <label for="patient-address" class="text-sm font-medium text-gray-700 mb-1">Endereço do Paciente:</label>
                     <input type="text" id="patient-address" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: Rua Armindo José Leite, 33">
                 </div>
-                <!-- Nome do Médico -->
-                <div class="flex flex-col">
-                    <label for="doctor-name" class="text-sm font-medium text-gray-700 mb-1">Nome do Médico:</label>
-                    <input type="text" id="doctor-name" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: Dra. Izabel Barbosa">
-                </div>
                 <!-- Data da Prescrição -->
                 <div class="flex flex-col">
                     <label for="prescription-date" class="text-sm font-medium text-gray-700 mb-1">Data da Prescrição:</label>
@@ -156,44 +169,32 @@
         <div id="printable-area" class="hidden">
             <!-- Via 1 -->
             <div class="prescription-via">
-                <div class="prescription-header">
-                    <p>RECEITUÁRIO DE CONTROLE ESPECIAL</p>
-                    <p><strong>TIPO B</strong></p>
-                </div>
-                <div class="prescription-content mt-4">
-                    <p><strong>Medicamento:</strong> <span id="print-drug-name-1"></span></p>
-                    <p><strong>Dosagem:</strong> <span id="print-drug-dosage-1"></span></p>
-                    <p><strong>Quantidade:</strong> <span id="print-drug-quantity-num-1"></span> (<span id="print-drug-quantity-ext-1"></span>)</p>
-                    <p><strong>Paciente:</strong> <span id="print-patient-name-1"></span></p>
-                    <p><strong>Endereço:</strong> <span id="print-patient-address-1"></span></p>
-                    <p><strong>Uso:</strong> <span id="print-instructions-1"></span></p>
-                    <p class="mt-4 text-right"><span id="print-city-date-1"></span></p>
-                    <p class="mt-4"><strong>Médico:</strong> <span id="print-doctor-name-1"></span></p>
-                    <p class="mt-2 text-center">_________________________________________</p>
-                    <p class="text-center">Assinatura do Médico</p>
-                </div>
-                <div class="via-label">1ª Via</div>
+                <!-- Os textos "RECEITUÁRIO DE CONTROLE ESPECIAL" e "TIPO B" são assumidos como pré-impressos no papel -->
+                <span id="print-drug-name-1"></span>
+                <span id="print-drug-dosage-1"></span>
+                <span id="print-drug-quantity-num-1"></span>
+                <span id="print-drug-quantity-ext-1"></span>
+                <span id="print-patient-name-1"></span>
+                <span id="print-patient-address-1"></span>
+                <span id="print-instructions-1"></span>
+                <span id="print-city-date-1"></span>
+                <!-- A linha de assinatura será pré-impressa no papel -->
+                <!-- <span class="signature-text">Assinatura do Médico</span> -->
             </div>
 
             <!-- Via 2 -->
-            <div class="prescription-via ml-4">
-                <div class="prescription-header">
-                    <p>RECEITUÁRIO DE CONTROLE ESPECIAL</p>
-                    <p><strong>TIPO B</strong></p>
-                </div>
-                <div class="prescription-content mt-4">
-                    <p><strong>Medicamento:</strong> <span id="print-drug-name-2"></span></p>
-                    <p><strong>Dosagem:</strong> <span id="print-drug-dosage-2"></span></p>
-                    <p><strong>Quantidade:</strong> <span id="print-drug-quantity-num-2"></span> (<span id="print-drug-quantity-ext-2"></span>)</p>
-                    <p><strong>Paciente:</strong> <span id="print-patient-name-2"></span></p>
-                    <p><strong>Endereço:</strong> <span id="print-patient-address-2"></span></p>
-                    <p><strong>Uso:</strong> <span id="print-instructions-2"></span></p>
-                    <p class="mt-4 text-right"><span id="print-city-date-2"></span></p>
-                    <p class="mt-4"><strong>Médico:</strong> <span id="print-doctor-name-2"></span></p>
-                    <p class="mt-2 text-center">_________________________________________</p>
-                    <p class="text-center">Assinatura do Médico</p>
-                </div>
-                <div class="via-label">2ª Via</div>
+            <div class="prescription-via">
+                <!-- Os textos "RECEITUÁRIO DE CONTROLE ESPECIAL" e "TIPO B" são assumidos como pré-impressos no papel -->
+                <span id="print-drug-name-2"></span>
+                <span id="print-drug-dosage-2"></span>
+                <span id="print-drug-quantity-num-2"></span>
+                <span id="print-drug-quantity-ext-2"></span>
+                <span id="print-patient-name-2"></span>
+                <span id="print-patient-address-2"></span>
+                <span id="print-instructions-2"></span>
+                <span id="print-city-date-2"></span>
+                <!-- A linha de assinatura será pré-impressa no papel -->
+                <!-- <span class="signature-text">Assinatura do Médico</span> -->
             </div>
         </div>
         
@@ -211,7 +212,6 @@
             const drugQuantityExtInput = document.getElementById('drug-quantity-ext');
             const patientNameInput = document.getElementById('patient-name');
             const patientAddressInput = document.getElementById('patient-address');
-            const doctorNameInput = document.getElementById('doctor-name');
             const prescriptionDateInput = document.getElementById('prescription-date');
             const instructionsInput = document.getElementById('instructions');
             const printButton = document.getElementById('print-prescription');
@@ -277,13 +277,12 @@
                 const drugQuantityExt = drugQuantityExtInput.value;
                 const patientName = patientNameInput.value;
                 const patientAddress = patientAddressInput.value;
-                const doctorName = doctorNameInput.value;
                 const prescriptionDate = prescriptionDateInput.value;
                 const instructions = instructionsInput.value;
 
                 // Validação básica
-                if (!drugName || !drugDosage || !drugQuantityNum || !patientName || !patientAddress || !doctorName || !prescriptionDate || !instructions) {
-                    alert('Por favor, preencha todos os campos da receita antes de imprimir.');
+                if (!drugName || !drugDosage || !drugQuantityNum || !patientName || !patientAddress || !prescriptionDate || !!instructions) { // instructions can be empty
+                    alert('Por favor, preencha todos os campos obrigatórios da receita antes de imprimir.');
                     return;
                 }
 
@@ -297,11 +296,11 @@
                 const fields = [
                     'print-drug-name', 'print-drug-dosage', 'print-drug-quantity-num',
                     'print-drug-quantity-ext', 'print-patient-name', 'print-patient-address',
-                    'print-instructions', 'print-doctor-name', 'print-city-date'
+                    'print-instructions', 'print-city-date'
                 ];
                 const values = [
                     drugName, drugDosage, drugQuantityNum, drugQuantityExt,
-                    patientName, patientAddress, instructions, doctorName, cityDate
+                    patientName, patientAddress, instructions, cityDate
                 ];
 
                 for (let i = 0; i < fields.length; i++) {
@@ -313,7 +312,7 @@
                 printableArea.classList.remove('hidden');
                 window.print();
                 // Opcional: Esconde a área de impressão novamente após a impressão
-                // printableArea.classList.add('hidden');
+                printableArea.classList.add('hidden');
             });
         });
     </script>
