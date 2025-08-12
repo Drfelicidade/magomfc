@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressão de Receitas Tipo B</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #ef4444; /* Cor vermelha para diferenciar */
+            border-radius: 9999px;
+        }
+        /* Estilos para impressão */
+        @media print {
+            body * {
+                visibility: hidden; /* Esconde tudo por padrão */
+            }
+            #printable-area, #printable-area * {
+                visibility: visible; /* Torna a área de impressão visível */
+            }
+            #printable-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%; /* Ocupa a largura total da página */
+                padding: 1cm; /* Margens para a impressão */
+                box-sizing: border-box;
+                display: flex; /* Para as duas vias lado a lado */
+                flex-wrap: wrap; /* Permite quebrar em linhas se não couber */
+                justify-content: space-around; /* Espaça as vias */
+            }
+            .prescription-via {
+                width: 48%; /* Quase metade da largura para duas vias */
+                border: 1px solid black; /* Borda da receita */
+                padding: 10px;
+                margin-bottom: 20px; /* Espaço entre as receitas se quebrar linha */
+                box-sizing: border-box;
+                page-break-inside: avoid; /* Evita quebrar a via no meio */
+            }
+            .prescription-header, .prescription-footer {
+                text-align: center;
+                font-size: 0.8em;
+            }
+            .prescription-content {
+                font-size: 0.9em;
+                line-height: 1.4;
+            }
+            .prescription-content p {
+                margin-bottom: 0.5em;
+            }
+            .prescription-content strong {
+                font-weight: bold;
+            }
+            .via-label {
+                font-size: 0.7em;
+                text-align: right;
+                margin-top: 5px;
+            }
+            input, textarea, button {
+                display: none !important; /* Esconde inputs e botões na impressão */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Impressão de Receitas Tipo B</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Preencha os dados para gerar e imprimir a receita em papel especial.
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Formulário de Preenchimento da Receita -->
+        <div class="bg-red-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-red-200">
+            <h2 class="section-title text-2xl font-bold text-red-900 mb-4">Dados da Receita</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Medicamento -->
+                <div class="flex flex-col">
+                    <label for="drug-name" class="text-sm font-medium text-gray-700 mb-1">Nome do Medicamento:</label>
+                    <input type="text" id="drug-name" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: Clonazepam">
+                </div>
+                <!-- Dosagem -->
+                <div class="flex flex-col">
+                    <label for="drug-dosage" class="text-sm font-medium text-gray-700 mb-1">Dosagem:</label>
+                    <input type="text" id="drug-dosage" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: 2 mg">
+                </div>
+                <!-- Quantidade Numérica -->
+                <div class="flex flex-col">
+                    <label for="drug-quantity-num" class="text-sm font-medium text-gray-700 mb-1">Quantidade (Numérica):</label>
+                    <input type="number" id="drug-quantity-num" min="1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: 60">
+                </div>
+                <!-- Quantidade por Extenso (gerada automaticamente) -->
+                <div class="flex flex-col">
+                    <label for="drug-quantity-ext" class="text-sm font-medium text-gray-700 mb-1">Quantidade (por extenso):</label>
+                    <input type="text" id="drug-quantity-ext" class="p-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed" readonly placeholder="Será preenchido automaticamente">
+                </div>
+                <!-- Nome do Paciente -->
+                <div class="flex flex-col">
+                    <label for="patient-name" class="text-sm font-medium text-gray-700 mb-1">Nome do Paciente:</label>
+                    <input type="text" id="patient-name" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: Rafael Alves">
+                </div>
+                <!-- Endereço do Paciente -->
+                <div class="flex flex-col">
+                    <label for="patient-address" class="text-sm font-medium text-gray-700 mb-1">Endereço do Paciente:</label>
+                    <input type="text" id="patient-address" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: Rua Armindo José Leite, 33">
+                </div>
+                <!-- Nome do Médico -->
+                <div class="flex flex-col">
+                    <label for="doctor-name" class="text-sm font-medium text-gray-700 mb-1">Nome do Médico:</label>
+                    <input type="text" id="doctor-name" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: Dra. Izabel Barbosa">
+                </div>
+                <!-- Data da Prescrição -->
+                <div class="flex flex-col">
+                    <label for="prescription-date" class="text-sm font-medium text-gray-700 mb-1">Data da Prescrição:</label>
+                    <input type="date" id="prescription-date" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200">
+                </div>
+                <!-- Instruções de Uso -->
+                <div class="flex flex-col md:col-span-2">
+                    <label for="instructions" class="text-sm font-medium text-gray-700 mb-1">Instruções de Uso:</label>
+                    <textarea id="instructions" rows="3" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: 02 comprimidos à noite"></textarea>
+                </div>
+            </div>
+
+            <button id="print-prescription" class="w-full mt-8 p-3 font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition duration-300 shadow-md">
+                Imprimir Receita
+            </button>
+        </div>
+
+        <!-- Área de Impressão (oculta por padrão) -->
+        <div id="printable-area" class="hidden">
+            <!-- Via 1 -->
+            <div class="prescription-via">
+                <div class="prescription-header">
+                    <p>RECEITUÁRIO DE CONTROLE ESPECIAL</p>
+                    <p><strong>TIPO B</strong></p>
+                </div>
+                <div class="prescription-content mt-4">
+                    <p><strong>Medicamento:</strong> <span id="print-drug-name-1"></span></p>
+                    <p><strong>Dosagem:</strong> <span id="print-drug-dosage-1"></span></p>
+                    <p><strong>Quantidade:</strong> <span id="print-drug-quantity-num-1"></span> (<span id="print-drug-quantity-ext-1"></span>)</p>
+                    <p><strong>Paciente:</strong> <span id="print-patient-name-1"></span></p>
+                    <p><strong>Endereço:</strong> <span id="print-patient-address-1"></span></p>
+                    <p><strong>Uso:</strong> <span id="print-instructions-1"></span></p>
+                    <p class="mt-4 text-right"><span id="print-city-date-1"></span></p>
+                    <p class="mt-4"><strong>Médico:</strong> <span id="print-doctor-name-1"></span></p>
+                    <p class="mt-2 text-center">_________________________________________</p>
+                    <p class="text-center">Assinatura do Médico</p>
+                </div>
+                <div class="via-label">1ª Via</div>
+            </div>
+
+            <!-- Via 2 -->
+            <div class="prescription-via ml-4">
+                <div class="prescription-header">
+                    <p>RECEITUÁRIO DE CONTROLE ESPECIAL</p>
+                    <p><strong>TIPO B</strong></p>
+                </div>
+                <div class="prescription-content mt-4">
+                    <p><strong>Medicamento:</strong> <span id="print-drug-name-2"></span></p>
+                    <p><strong>Dosagem:</strong> <span id="print-drug-dosage-2"></span></p>
+                    <p><strong>Quantidade:</strong> <span id="print-drug-quantity-num-2"></span> (<span id="print-drug-quantity-ext-2"></span>)</p>
+                    <p><strong>Paciente:</strong> <span id="print-patient-name-2"></span></p>
+                    <p><strong>Endereço:</strong> <span id="print-patient-address-2"></span></p>
+                    <p><strong>Uso:</strong> <span id="print-instructions-2"></span></p>
+                    <p class="mt-4 text-right"><span id="print-city-date-2"></span></p>
+                    <p class="mt-4"><strong>Médico:</strong> <span id="print-doctor-name-2"></span></p>
+                    <p class="mt-2 text-center">_________________________________________</p>
+                    <p class="text-center">Assinatura do Médico</p>
+                </div>
+                <div class="via-label">2ª Via</div>
+            </div>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins de auxílio. A responsabilidade pela prescrição e sua conformidade com a legislação vigente é exclusiva do profissional médico.</p>
+            <p>&copy; 2024 Ferramentas Médicas. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const drugNameInput = document.getElementById('drug-name');
+            const drugDosageInput = document.getElementById('drug-dosage');
+            const drugQuantityNumInput = document.getElementById('drug-quantity-num');
+            const drugQuantityExtInput = document.getElementById('drug-quantity-ext');
+            const patientNameInput = document.getElementById('patient-name');
+            const patientAddressInput = document.getElementById('patient-address');
+            const doctorNameInput = document.getElementById('doctor-name');
+            const prescriptionDateInput = document.getElementById('prescription-date');
+            const instructionsInput = document.getElementById('instructions');
+            const printButton = document.getElementById('print-prescription');
+            const printableArea = document.getElementById('printable-area');
+
+            // Função para converter número para extenso em português
+            function numeroPorExtenso(n) {
+                const unidades = ['', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove'];
+                const dezenas = ['', '', 'vinte', 'trinta', 'quarenta', 'cinquenta', 'sessenta', 'setenta', 'oitenta', 'noventa'];
+                const especiais = ['dez', 'onze', 'doze', 'treze', 'quatorze', 'quinze', 'dezesseis', 'dezessete', 'dezoito', 'dezenove'];
+                const centenas = ['', 'cento', 'duzentos', 'trezentos', 'quatrocentos', 'quinhentos', 'seiscentos', 'setecentos', 'oitocentos', 'novecentos'];
+
+                if (n === 0) return 'zero';
+                if (n < 0) return 'menos ' + numeroPorExtenso(Math.abs(n));
+
+                let s = n.toString();
+                let extenso = '';
+
+                if (s.length > 3) {
+                    // Lida com milhares, milhões, etc. (simplificado para este contexto)
+                    return n + ' (quantidade muito grande para extenso automático)';
+                }
+
+                let num = parseInt(s);
+
+                if (num < 10) {
+                    extenso = unidades[num];
+                } else if (num < 20) {
+                    extenso = especiais[num - 10];
+                } else if (num < 100) {
+                    let dezena = Math.floor(num / 10);
+                    let unidade = num % 10;
+                    extenso = dezenas[dezena];
+                    if (unidade > 0) {
+                        extenso += ' e ' + unidades[unidade];
+                    }
+                } else if (num < 1000) {
+                    let centena = Math.floor(num / 100);
+                    let resto = num % 100;
+                    extenso = centenas[centena];
+                    if (resto > 0) {
+                        extenso += ' e ' + numeroPorExtenso(resto);
+                    }
+                }
+                return extenso;
+            }
+
+            // Atualiza a quantidade por extenso ao digitar a quantidade numérica
+            drugQuantityNumInput.addEventListener('input', () => {
+                const num = parseInt(drugQuantityNumInput.value);
+                if (!isNaN(num) && num > 0) {
+                    drugQuantityExtInput.value = numeroPorExtenso(num) + ' ' + (num === 1 ? 'comprimido' : 'comprimidos');
+                } else {
+                    drugQuantityExtInput.value = '';
+                }
+            });
+
+            printButton.addEventListener('click', () => {
+                // Preenche os dados na área de impressão
+                const drugName = drugNameInput.value;
+                const drugDosage = drugDosageInput.value;
+                const drugQuantityNum = drugQuantityNumInput.value;
+                const drugQuantityExt = drugQuantityExtInput.value;
+                const patientName = patientNameInput.value;
+                const patientAddress = patientAddressInput.value;
+                const doctorName = doctorNameInput.value;
+                const prescriptionDate = prescriptionDateInput.value;
+                const instructions = instructionsInput.value;
+
+                // Validação básica
+                if (!drugName || !drugDosage || !drugQuantityNum || !patientName || !patientAddress || !doctorName || !prescriptionDate || !instructions) {
+                    alert('Por favor, preencha todos os campos da receita antes de imprimir.');
+                    return;
+                }
+
+                // Formata a data para exibição (ex: "23 de Julho de 2025")
+                const dateObj = new Date(prescriptionDate + 'T12:00:00'); // Adiciona T12:00:00 para evitar problemas de fuso horário
+                const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                const formattedDate = dateObj.toLocaleDateString('pt-BR', options);
+                const cityDate = `Blumenau, ${formattedDate}`; // Assumindo Blumenau como a cidade
+
+                // Preenche as duas vias
+                const fields = [
+                    'print-drug-name', 'print-drug-dosage', 'print-drug-quantity-num',
+                    'print-drug-quantity-ext', 'print-patient-name', 'print-patient-address',
+                    'print-instructions', 'print-doctor-name', 'print-city-date'
+                ];
+                const values = [
+                    drugName, drugDosage, drugQuantityNum, drugQuantityExt,
+                    patientName, patientAddress, instructions, doctorName, cityDate
+                ];
+
+                for (let i = 0; i < fields.length; i++) {
+                    document.getElementById(fields[i] + '-1').textContent = values[i];
+                    document.getElementById(fields[i] + '-2').textContent = values[i];
+                }
+
+                // Exibe a área de impressão e dispara a impressão
+                printableArea.classList.remove('hidden');
+                window.print();
+                // Opcional: Esconde a área de impressão novamente após a impressão
+                // printableArea.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
