@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Doses Pediátricas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #0d9488; /* Cor teal para diferenciar */
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora de Doses Pediátricas</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Calcule a dose de medicamentos comuns para crianças de forma rápida e segura.
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção da Calculadora de Doses -->
+        <div class="bg-teal-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-teal-200">
+            <h2 class="section-title text-2xl font-bold text-teal-900 mb-4">Calcular Dose</h2>
+            <p class="text-gray-700 mb-6">Insira o peso da criança e selecione o medicamento para calcular a dose.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Peso da Criança -->
+                <div class="flex flex-col">
+                    <label for="child-weight" class="text-sm font-medium text-gray-700 mb-1">Peso da Criança (kg):</label>
+                    <input type="number" id="child-weight" min="0.1" step="0.1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200" placeholder="Ex: 10.5">
+                </div>
+                <!-- Seleção do Medicamento -->
+                <div class="flex flex-col">
+                    <label for="medication-select" class="text-sm font-medium text-gray-700 mb-1">Medicamento:</label>
+                    <select id="medication-select" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200">
+                        <option value="">Selecione um medicamento</option>
+                    </select>
+                </div>
+                <!-- Informações do Medicamento (Dose por kg) -->
+                <div class="flex flex-col md:col-span-2">
+                    <p class="text-sm text-gray-600 mt-2" id="medication-info">
+                        <span class="font-semibold">Dose por kg:</span> N/A
+                    </p>
+                </div>
+                <!-- Seleção da Concentração -->
+                <div class="flex flex-col md:col-span-2">
+                    <label for="concentration-select" class="text-sm font-medium text-gray-700 mb-1">Concentração Disponível:</label>
+                    <select id="concentration-select" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200" disabled>
+                        <option value="">Selecione a concentração</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="calculate-dose" class="w-full mt-8 p-3 font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition duration-300 shadow-md">
+                Calcular Dose
+            </button>
+
+            <div id="result-dose" class="mt-8 p-4 bg-teal-100 rounded-xl hidden">
+                <!-- Resultados serão exibidos aqui -->
+            </div>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins informativos e não substitui a avaliação e prescrição de um profissional de saúde. Sempre consulte um médico ou farmacêutico para orientações sobre medicamentos.</p>
+            <p>&copy; 2024 Calculadora de Doses Pediátricas. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Definição dos medicamentos e suas propriedades
+            const medications = {
+                "paracetamol": {
+                    name: "Paracetamol",
+                    dosePerKg: { min: 10, max: 15, unit: "mg/kg/dose" }, // Dose por administração
+                    concentrations: [
+                        { value: 200, unit: "mg/mL", display: "200 mg/mL (gotas)" },
+                        { value: 24, unit: "mg/mL", display: "24 mg/mL (suspensão)" }
+                    ],
+                    frequency: "a cada 6-8 horas" // Frequência de administração
+                },
+                "ibuprofeno": {
+                    name: "Ibuprofeno",
+                    dosePerKg: { min: 5, max: 10, unit: "mg/kg/dose" },
+                    concentrations: [
+                        { value: 50, unit: "mg/mL", display: "50 mg/mL (gotas)" },
+                        { value: 20, unit: "mg/mL", display: "100 mg/5mL (suspensão)" } // 100mg/5mL = 20mg/mL
+                    ],
+                    frequency: "a cada 6-8 horas"
+                },
+                "amoxicilina": {
+                    name: "Amoxicilina",
+                    dosePerKg: { min: 25, max: 50, unit: "mg/kg/dia" }, // Total diário
+                    concentrations: [
+                        { value: 50, unit: "mg/mL", display: "250 mg/5mL (suspensão)" }, // 250mg/5mL = 50mg/mL
+                        { value: 80, unit: "mg/mL", display: "400 mg/5mL (suspensão)" }  // 400mg/5mL = 80mg/mL
+                    ],
+                    dosesPerDay: 2, // Número de administrações por dia
+                    frequency: "a cada 12 horas"
+                },
+                "amoxicilina-clavulanato": {
+                    name: "Amoxicilina + Clavulanato",
+                    dosePerKg: { min: 25, max: 45, unit: "mg/kg/dia (base Amoxicilina)" }, // Total diário
+                    concentrations: [
+                        { value: 50, unit: "mg/mL", display: "250 mg/5mL (suspensão)" },
+                        { value: 80, unit: "mg/mL", display: "400 mg/5mL (suspensão)" }
+                    ],
+                    dosesPerDay: 2,
+                    frequency: "a cada 12 horas"
+                },
+                "azitromicina": {
+                    name: "Azitromicina",
+                    dosePerKg: { min: 10, max: 20, unit: "mg/kg/dia" }, // Total diário
+                    concentrations: [
+                        { value: 40, unit: "mg/mL", display: "200 mg/5mL (suspensão)" } // 200mg/5mL = 40mg/mL
+                    ],
+                    dosesPerDay: 1,
+                    frequency: "uma vez ao dia"
+                },
+                "cefalexina": {
+                    name: "Cefalexina",
+                    dosePerKg: { min: 25, max: 50, unit: "mg/kg/dia" }, // Total diário
+                    concentrations: [
+                        { value: 50, unit: "mg/mL", display: "250 mg/5mL (suspensão)" }
+                    ],
+                    dosesPerDay: 4, // a cada 6h
+                    frequency: "a cada 6 horas"
+                },
+                "sulfametoxazol-trimetoprima": {
+                    name: "Sulfametoxazol + Trimetoprima",
+                    dosePerKg: { min: 6, max: 12, unit: "mg/kg/dia (base Trimetoprima)" }, // Total diário
+                    concentrations: [
+                        { value: 8, unit: "mg/mL", display: "40 mg TMP/5mL (suspensão)" } // 40mg TMP/5mL = 8mg TMP/mL
+                    ],
+                    dosesPerDay: 2,
+                    frequency: "a cada 12 horas"
+                },
+                "dipirona": {
+                    name: "Dipirona (Oral)",
+                    dosePerKg: { min: 10, max: 25, unit: "mg/kg/dose" },
+                    concentrations: [
+                        { value: 500, unit: "mg/mL", display: "500 mg/mL (gotas)" }
+                    ],
+                    frequency: "a cada 6-8 horas"
+                },
+                "dipirona-injetavel": {
+                    name: "Dipirona (Injetável)",
+                    dosePerKg: { min: 10, max: 25, unit: "mg/kg/dose" },
+                    concentrations: [
+                        { value: 500, unit: "mg/mL", display: "500 mg/mL (ampola)" }
+                    ],
+                    frequency: "a cada 6-8 horas (IM/IV lento)"
+                },
+                "prednisolona": {
+                    name: "Prednisolona",
+                    dosePerKg: { min: 0.5, max: 2, unit: "mg/kg/dia" }, // Total diário, pode variar muito
+                    concentrations: [
+                        { value: 1, unit: "mg/mL", display: "1 mg/mL (solução)" },
+                        { value: 3, unit: "mg/mL", display: "3 mg/mL (solução)" }
+                    ],
+                    dosesPerDay: 1, // Pode ser 1 ou 2, depende da indicação. Usar 1 para cálculo simples.
+                    frequency: "uma vez ao dia ou dividido em 2 doses"
+                },
+                "loratadina": {
+                    name: "Loratadina",
+                    dosePerKg: { min: 0.2, max: 0.2, unit: "mg/kg/dia" }, // Dose fixa por kg/dia
+                    concentrations: [
+                        { value: 1, unit: "mg/mL", display: "1 mg/mL (xarope)" } // 10mg/10mL = 1mg/mL
+                    ],
+                    dosesPerDay: 1,
+                    frequency: "uma vez ao dia"
+                },
+                "dexclorfeniramina": {
+                    name: "Dexclorfeniramina",
+                    dosePerKg: { min: 0.15, max: 0.3, unit: "mg/kg/dia" },
+                    concentrations: [
+                        { value: 0.4, unit: "mg/mL", display: "0.4 mg/mL (xarope)" } // 2mg/5mL = 0.4mg/mL
+                    ],
+                    dosesPerDay: 3, // a cada 8h
+                    frequency: "a cada 8 horas"
+                },
+                "dimenidrinato-piridoxina": {
+                    name: "Dimenidrinato + Piridoxina",
+                    dosePerKg: { min: 1.25, max: 1.25, unit: "mg/kg/dose (base Dimenidrinato)", maxSingleDose: 50 }, // Max 50mg/dose de Dimenidrinato
+                    concentrations: [
+                        { value: 5, unit: "mg/mL", display: "25 mg Dimenidrinato / 5mL (solução oral)" } // 25mg/5mL = 5mg/mL
+                    ],
+                    frequency: "a cada 6-8 horas"
+                },
+                "guaco": {
+                    name: "Guaco (Xarope)",
+                    dosePerKg: { min: 0.2, max: 0.5, unit: "mL/kg/dose" }, // Dosing by mL/kg/dose for herbal syrups
+                    concentrations: [
+                        { value: 1, unit: "mL/mL", display: "Xarope (dose em mL)" } // Placeholder for concentration, as it's mL/kg/dose
+                    ],
+                    frequency: "a cada 8 horas",
+                    note: "Dose baseada em volume do xarope. Variações na concentração de cumarina (0,08 a 0,10 mg/mL) já consideradas na dose em mL/kg. Consulte a bula do produto."
+                },
+                "risperidona": {
+                    name: "Risperidona",
+                    dosePerKg: { min: 0.01, max: 0.06, unit: "mg/kg/dia" }, // Dose inicial baixa, titular
+                    concentrations: [
+                        { value: 1, unit: "mg/mL", display: "1 mg/mL (solução oral)" }
+                    ],
+                    dosesPerDay: 1, // Pode ser 1 ou 2, depende da indicação.
+                    frequency: "uma vez ao dia ou dividido em 2 doses"
+                },
+                "carbamazepina": {
+                    name: "Carbamazepina",
+                    dosePerKg: { min: 10, max: 20, unit: "mg/kg/dia (inicial)" }, // Dose inicial
+                    concentrations: [
+                        { value: 20, unit: "mg/mL", display: "20 mg/mL (suspensão)" } // 100mg/5mL = 20mg/mL
+                    ],
+                    dosesPerDay: 2, // Geralmente 2x ao dia
+                    frequency: "a cada 12 horas"
+                },
+                "lactulona": {
+                    name: "Lactulona (Lactulose)",
+                    dosePerKg: { min: 1, max: 3, unit: "mL/kg/dia" }, // Dose em mL/kg/dia
+                    concentrations: [
+                        { value: 667, unit: "mg/mL", display: "667 mg/mL (xarope)" } // Concentração padrão
+                    ],
+                    dosesPerDay: 1, // Pode ser 1 ou 2, depende da resposta
+                    frequency: "uma vez ao dia ou dividido em 2 doses"
+                },
+                "ondansetrona": {
+                    name: "Ondansetrona",
+                    dosePerKg: { min: 0.1, max: 0.15, unit: "mg/kg/dose", maxSingleDose: 4 }, // Max 4mg/dose
+                    concentrations: [
+                        { value: 0.8, unit: "mg/mL", display: "0.8 mg/mL (solução oral)" } // 4mg/5mL = 0.8mg/mL
+                    ],
+                    frequency: "a cada 8 horas (se necessário)"
+                }
+            };
+
+            const medicationSelect = document.getElementById('medication-select');
+            const concentrationSelect = document.getElementById('concentration-select');
+            const medicationInfo = document.getElementById('medication-info');
+            const childWeightInput = document.getElementById('child-weight');
+            const calculateDoseButton = document.getElementById('calculate-dose');
+            const resultDoseContainer = document.getElementById('result-dose');
+
+            // Popula o dropdown de medicamentos
+            for (const key in medications) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = medications[key].name;
+                medicationSelect.appendChild(option);
+            }
+
+            // Atualiza informações do medicamento e concentrações ao selecionar
+            medicationSelect.addEventListener('change', () => {
+                const selectedMedKey = medicationSelect.value;
+                const selectedMed = medications[selectedMedKey];
+
+                // Limpa e desabilita concentração se nenhum medicamento for selecionado
+                concentrationSelect.innerHTML = '<option value="">Selecione a concentração</option>';
+                concentrationSelect.disabled = true;
+                medicationInfo.innerHTML = '<span class="font-semibold">Dose por kg:</span> N/A';
+                resultDoseContainer.classList.add('hidden');
+
+                if (selectedMed) {
+                    // Atualiza informações de dose por kg
+                    let doseUnit = selectedMed.dosePerKg.unit;
+                    let doseRangeDisplay = `${selectedMed.dosePerKg.min} - ${selectedMed.dosePerKg.max}`;
+                    if (selectedMed.dosePerKg.min === selectedMed.dosePerKg.max) {
+                        doseRangeDisplay = `${selectedMed.dosePerKg.min}`;
+                    }
+
+                    medicationInfo.innerHTML = `
+                        <span class="font-semibold">Dose por kg:</span> ${doseRangeDisplay} ${doseUnit}
+                        ${selectedMed.dosePerKg.maxSingleDose ? ` (Máx. ${selectedMed.dosePerKg.maxSingleDose} mg/dose)` : ''}
+                    `;
+
+                    // Popula o dropdown de concentrações
+                    selectedMed.concentrations.forEach(conc => {
+                        const option = document.createElement('option');
+                        option.value = conc.value;
+                        option.textContent = conc.display;
+                        concentrationSelect.appendChild(option);
+                    });
+                    concentrationSelect.disabled = false;
+                }
+            });
+
+            // Lógica de cálculo da dose
+            calculateDoseButton.addEventListener('click', () => {
+                const weight = parseFloat(childWeightInput.value);
+                const selectedMedKey = medicationSelect.value;
+                const selectedConcentrationValue = parseFloat(concentrationSelect.value);
+
+                resultDoseContainer.classList.add('hidden');
+
+                // Validação
+                if (isNaN(weight) || weight <= 0) {
+                    displayResult(resultDoseContainer.id, 'Por favor, insira um peso válido para a criança.');
+                    return;
+                }
+                if (!selectedMedKey) {
+                    displayResult(resultDoseContainer.id, 'Por favor, selecione um medicamento.');
+                    return;
+                }
+                if (isNaN(selectedConcentrationValue) || selectedConcentrationValue <= 0) {
+                    displayResult(resultDoseContainer.id, 'Por favor, selecione uma concentração válida.');
+                    return;
+                }
+
+                const selectedMed = medications[selectedMedKey];
+                let dosePerKgMin = selectedMed.dosePerKg.min;
+                let dosePerKgMax = selectedMed.dosePerKg.max;
+                let doseUnitDisplay = selectedMed.dosePerKg.unit; // Para exibir a unidade original
+                let finalDoseInstructions = selectedMed.frequency;
+
+                let doseMgMin, doseMgMax, doseMlMin, doseMlMax;
+
+                // Tratamento especial para Guaco, onde a dose por kg já é em mL/kg/dose
+                if (selectedMedKey === "guaco") {
+                    doseMlMin = weight * dosePerKgMin;
+                    doseMlMax = weight * dosePerKgMax;
+                    
+                    resultDoseContainer.innerHTML = `
+                        <h3 class="font-bold text-lg mb-2">Resultado do Cálculo</h3>
+                        <p class="text-gray-800"><span class="font-semibold">Dose por administração:</span> ${doseMlMin.toFixed(2)} mL a ${doseMlMax.toFixed(2)} mL</p>
+                        <p class="text-gray-800"><span class="font-semibold">Frequência:</span> ${finalDoseInstructions}</p>
+                        <p class="text-gray-600 text-sm mt-2">
+                            (Dose calculada com base em ${selectedMed.dosePerKg.min}-${selectedMed.dosePerKg.max} ${selectedMed.dosePerKg.unit})
+                            ${selectedMed.note ? `<br><strong>Nota:</strong> ${selectedMed.note}` : ''}
+                        </p>
+                    `;
+                    resultDoseContainer.classList.remove('hidden');
+                    return; // Sai da função para Guaco
+                }
+
+                // Ajusta a dose por kg se for dose diária total para obter a dose única em mg/kg
+                if (selectedMed.dosesPerDay && selectedMed.dosePerKg.unit.includes("/dia")) {
+                    dosePerKgMin = dosePerKgMin / selectedMed.dosesPerDay;
+                    dosePerKgMax = dosePerKgMax / selectedMed.dosesPerDay;
+                }
+
+                // Cálculo da dose em mg
+                doseMgMin = weight * dosePerKgMin;
+                doseMgMax = weight * dosePerKgMax;
+
+                // Aplica o limite máximo de dose única se definido
+                if (selectedMed.dosePerKg.maxSingleDose) {
+                    doseMgMin = Math.min(doseMgMin, selectedMed.dosePerKg.maxSingleDose);
+                    doseMgMax = Math.min(doseMgMax, selectedMed.dosePerKg.maxSingleDose);
+                }
+
+                // Cálculo da dose em mL
+                doseMlMin = doseMgMin / selectedConcentrationValue;
+                doseMlMax = doseMgMax / selectedConcentrationValue;
+
+                // Exibe o resultado
+                resultDoseContainer.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">Resultado do Cálculo</h3>
+                    <p class="text-gray-800"><span class="font-semibold">Dose por administração:</span> ${doseMlMin.toFixed(2)} mL a ${doseMlMax.toFixed(2)} mL</p>
+                    <p class="text-gray-800"><span class="font-semibold">Frequência:</span> ${finalDoseInstructions}</p>
+                    <p class="text-gray-600 text-sm mt-2">
+                        (Dose calculada com base em ${selectedMed.dosePerKg.min}-${selectedMed.dosePerKg.max} ${doseUnitDisplay} e concentração de ${selectedConcentrationValue} ${selectedMed.concentrations.find(c => c.value === selectedConcentrationValue).unit})
+                        ${selectedMed.note ? `<br><strong>Nota:</strong> ${selectedMed.note}` : ''}
+                    </p>
+                `;
+                resultDoseContainer.classList.remove('hidden');
+            });
+
+            // Função auxiliar para exibir mensagens de resultado/erro
+            function displayResult(containerId, message) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = `<p class="text-red-700 font-semibold">${message}</p>`;
+                container.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
