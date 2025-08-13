@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Colesterol LDL</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #f97316; /* Cor laranja escura para diferenciar */
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora de Colesterol LDL</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Calcule o colesterol LDL (colesterol "ruim") usando a fórmula de Friedewald.
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção da Calculadora de LDL -->
+        <div class="bg-orange-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-orange-200">
+            <h2 class="section-title text-2xl font-bold text-orange-900 mb-4">Calcular LDL</h2>
+            <p class="text-gray-700 mb-6">Insira os valores dos seus exames de colesterol (em mg/dL).</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Colesterol Total -->
+                <div class="flex flex-col">
+                    <label for="total-cholesterol" class="text-sm font-medium text-gray-700 mb-1">Colesterol Total (mg/dL):</label>
+                    <input type="number" id="total-cholesterol" min="0" step="0.1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-200" placeholder="Ex: 200">
+                </div>
+                <!-- HDL Colesterol -->
+                <div class="flex flex-col">
+                    <label for="hdl-cholesterol" class="text-sm font-medium text-gray-700 mb-1">HDL Colesterol (mg/dL):</label>
+                    <input type="number" id="hdl-cholesterol" min="0" step="0.1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-200" placeholder="Ex: 50">
+                </div>
+                <!-- Triglicerídeos -->
+                <div class="flex flex-col">
+                    <label for="triglycerides" class="text-sm font-medium text-gray-700 mb-1">Triglicerídeos (mg/dL):</label>
+                    <input type="number" id="triglycerides" min="0" step="0.1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-200" placeholder="Ex: 150">
+                </div>
+            </div>
+
+            <button id="calculate-ldl" class="w-full mt-8 p-3 font-semibold text-white bg-orange-600 rounded-lg hover:bg-orange-700 transition duration-300 shadow-md">
+                Calcular LDL
+            </button>
+
+            <div id="result-ldl" class="mt-8 p-4 bg-orange-100 rounded-xl hidden">
+                <!-- Resultados serão exibidos aqui -->
+            </div>
+            <p class="text-gray-600 text-sm mt-4">
+                <strong class="font-semibold">Nota:</strong> O cálculo do LDL por esta fórmula (Friedewald) é válido apenas quando os Triglicerídeos estão abaixo de 400mg/dL. Valores acima podem exigir métodos de cálculo diferentes ou medição direta.
+            </p>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins informativos e não substitui a avaliação e interpretação de exames por um profissional de saúde. Sempre consulte um médico para discutir seus resultados.</p>
+            <p>&copy; 2024 Calculadora de Colesterol LDL. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const totalCholesterolInput = document.getElementById('total-cholesterol');
+            const hdlCholesterolInput = document.getElementById('hdl-cholesterol');
+            const triglyceridesInput = document.getElementById('triglycerides');
+            const calculateLdlButton = document.getElementById('calculate-ldl');
+            const resultLdlContainer = document.getElementById('result-ldl');
+
+            calculateLdlButton.addEventListener('click', () => {
+                const totalCholesterol = parseFloat(totalCholesterolInput.value);
+                const hdlCholesterol = parseFloat(hdlCholesterolInput.value);
+                const triglycerides = parseFloat(triglyceridesInput.value);
+
+                resultLdlContainer.classList.add('hidden');
+
+                // Validação de inputs
+                if (isNaN(totalCholesterol) || isNaN(hdlCholesterol) || isNaN(triglycerides) ||
+                    totalCholesterol < 0 || hdlCholesterol < 0 || triglycerides < 0) {
+                    displayResult('result-ldl', 'Por favor, insira valores numéricos válidos para todos os campos.');
+                    return;
+                }
+
+                // Validação da fórmula de Friedewald
+                if (triglycerides >= 400) {
+                    displayResult('result-ldl', 'A fórmula de Friedewald não é precisa para Triglicerídeos iguais ou acima de $400~mg/dL$. Consulte seu médico para uma avaliação mais precisa.');
+                    return;
+                }
+
+                // Cálculo do LDL usando a fórmula de Friedewald
+                const ldlCholesterol = totalCholesterol - hdlCholesterol - (triglycerides / 5);
+
+                // Exibe o resultado
+                resultLdlContainer.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">Seu Colesterol LDL Calculado:</h3>
+                    <p class="text-gray-800 text-2xl"><span class="font-semibold">${ldlCholesterol.toFixed(2)}</span> mg/dL</p>
+                    <p class="text-gray-600 text-sm mt-2">
+                        (Cálculo baseado na fórmula de Friedewald: Colesterol Total - HDL - (Triglicerídeos / 5))
+                    </p>
+                `;
+                resultLdlContainer.classList.remove('hidden');
+            });
+
+            // Função auxiliar para exibir mensagens de resultado/erro
+            function displayResult(containerId, message) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = `<p class="text-red-700 font-semibold">${message}</p>`;
+                container.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
