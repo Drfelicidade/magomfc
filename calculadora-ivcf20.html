@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora IVCF-20</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #9333ea; /* Cor roxa para diferenciar */
+            border-radius: 9999px;
+        }
+        .question-item {
+            background-color: #f3e8ff; /* bg-purple-50 */
+            border-left: 4px solid #a855f7; /* border-purple-500 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora IVCF-20</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Calcule o Índice de Vulnerabilidade Clínico-Funcional (IVCF-20) para idosos.
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção da Calculadora IVCF-20 -->
+        <div class="bg-purple-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-purple-200">
+            <h2 class="section-title text-2xl font-bold text-purple-900 mb-4">Questionário IVCF-20</h2>
+            <p class="text-gray-700 mb-6">Por favor, responda a todas as perguntas para calcular o escore. Pontuação máxima: 39 pontos.</p>
+            
+            <form id="ivcf20-form" class="space-y-4">
+                <!-- Seção 1: Idade -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">1. Idade:</p>
+                    <div class="flex flex-col space-y-2">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q1_idade" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">60 a 74 anos</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q1_idade" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">75 a 84 anos</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q1_idade" value="3" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">≥ 85 anos</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seção 2: Autopercepção da Saúde -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">2. Em geral, comparando com outras pessoas de sua idade, você diria que sua saúde é:</p>
+                    <div class="flex flex-col space-y-2">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q2_saude" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Excelente, muito boa ou boa</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q2_saude" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Regular ou ruim</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seção 3: Atividades de Vida Diária (AVD Instrumental) -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">3. Por causa de sua saúde ou condição física, você deixou de fazer compras?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q3_compras" value="4" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q3_compras" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não ou não faz compras por outros motivos que não a saúde</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">4. Por causa de sua saúde ou condição física, você deixou de controlar seu dinheiro, gastos ou pagar as contas de sua casa?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q4_dinheiro" value="4" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q4_dinheiro" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não ou não controla o dinheiro por outros motivos que não a saúde</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">5. Por causa de sua saúde ou condição física, você deixou de realizar pequenos trabalhos domésticos, como lavar louça, arrumar a casa ou fazer limpeza leve?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q5_domesticos" value="4" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q5_domesticos" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não ou não faz mais pequenos trabalhos domésticos por outros motivos que não a saúde</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seção 4: Atividades de Vida Diária (AVD Básica) -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">6. Você precisa de ajuda para tomar banho?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q6_banho" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q6_banho" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">7. Você precisa de ajuda para se vestir?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q7_vestir" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q7_vestir" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">8. Você precisa de ajuda para se alimentar?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q8_alimentar" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q8_alimentar" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">9. Você tem incontinência urinária ou fecal?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q9_continencia" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q9_continencia" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">10. Você precisa de ajuda para se levantar da cama ou cadeira?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q10_mobilidade_avd" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q10_mobilidade_avd" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seção 5: Cognição -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">11. Você tem tido problemas de memória, como esquecer datas, nomes ou onde guardou objetos?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q11_memoria" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q11_memoria" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">12. Você tem tido problemas de orientação, como perder-se em lugares conhecidos ou não saber o dia da semana?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q12_orientacao" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q12_orientacao" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">13. Você tem tido problemas de capacidade de decisão, como dificuldade em tomar decisões simples ou planejar atividades?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q13_decisao" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q13_decisao" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seção 6: Humor -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">14. Você se sente triste, deprimido ou sem esperança na maior parte do tempo?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q14_tristeza" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q14_tristeza" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">15. Você tem perdido o interesse ou o prazer em fazer coisas que antes gostava?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q15_desinteresse" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q15_desinteresse" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seção 7: Mobilidade -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">16. Você precisa de ajuda para caminhar (com ou sem bengala/andador)?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q16_caminhar" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q16_caminhar" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">17. Você precisa de ajuda para levantar de uma cadeira sem usar os braços?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q17_levantar" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q17_levantar" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">18. Você precisa de ajuda para subir um lance de escadas?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q18_escadas" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q18_escadas" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">19. Você teve duas ou mais quedas no último ano?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q19_quedas" value="2" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q19_quedas" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">20. Você tem medo de cair?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q20_medo_cair" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q20_medo_cair" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">21. Você tem dificuldade em abrir potes, levantar objetos ou apertar a mão de alguém (força de preensão)?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q21_forca" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q21_forca" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seção 8: Comunicação -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">22. Você tem dificuldade em ouvir conversas em grupo ou assistir TV?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q22_audicao" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q22_audicao" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">23. Você tem dificuldade em enxergar para ler ou assistir TV, mesmo usando óculos?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q23_visao" value="1" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q23_visao" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seção 9: Comorbidade Múltipla -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">24. Você tem alguma das três condições abaixo relacionadas?</p>
+                    <ul class="list-disc list-inside text-gray-600 mb-2">
+                        <li>Cinco ou mais doenças crônicas.</li>
+                        <li>Uso regular de cinco ou mais medicamentos diferentes, todo dia.</li>
+                        <li>Internação recente, nos últimos seis meses.</li>
+                    </ul>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q24_comorbidade" value="4" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Sim (se pelo menos uma das condições acima for verdadeira)</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q24_comorbidade" value="0" class="form-radio text-purple-600">
+                            <span class="ml-2 text-gray-700">Não (se nenhuma das condições acima for verdadeira)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full mt-8 p-3 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300 shadow-md">
+                    Calcular Escore IVCF-20
+                </button>
+            </form>
+
+            <div id="ivcf20-result" class="mt-8 p-4 bg-purple-100 rounded-xl hidden">
+                <!-- Resultados serão exibidos aqui -->
+            </div>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é um instrumento de triagem e não substitui a avaliação e o diagnóstico de um profissional de saúde qualificado. A interpretação do escore IVCF-20 deve ser feita por um médico ou especialista.</p>
+            <p>&copy; 2024 Calculadora IVCF-20. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ivcf20Form = document.getElementById('ivcf20-form');
+            const ivcf20ResultDiv = document.getElementById('ivcf20-result');
+
+            ivcf20Form.addEventListener('submit', (event) => {
+                event.preventDefault(); // Impede o envio padrão do formulário
+
+                let totalScore = 0;
+                let allAnswered = true;
+
+                // Coleta as pontuações de todas as perguntas
+                const questions = [
+                    'q1_idade', 'q2_saude', 'q3_compras', 'q4_dinheiro', 'q5_domesticos',
+                    'q6_banho', 'q7_vestir', 'q8_alimentar', 'q9_continencia', 'q10_mobilidade_avd',
+                    'q11_memoria', 'q12_orientacao', 'q13_decisao', 'q14_tristeza', 'q15_desinteresse',
+                    'q16_caminhar', 'q17_levantar', 'q18_escadas', 'q19_quedas', 'q20_medo_cair',
+                    'q21_forca', 'q22_audicao', 'q23_visao', 'q24_comorbidade'
+                ];
+
+                questions.forEach(name => {
+                    const selectedOption = document.querySelector(`input[name="${name}"]:checked`);
+                    if (!selectedOption) {
+                        allAnswered = false;
+                    } else {
+                        totalScore += parseInt(selectedOption.value);
+                    }
+                });
+
+                if (!allAnswered) {
+                    ivcf20ResultDiv.classList.remove('hidden');
+                    ivcf20ResultDiv.innerHTML = `<p class="text-red-700 font-semibold">Por favor, responda a todas as perguntas para calcular o escore.</p>`;
+                    return;
+                }
+
+                // Interpretação do escore (critérios de corte validados para o Brasil)
+                let interpretation = "";
+                let riskColor = "";
+
+                if (totalScore >= 15) {
+                    interpretation = "Alto Risco de vulnerabilidade clínico-funcional (Idoso Frágil).";
+                    riskColor = "text-red-600";
+                } else if (totalScore >= 7 && totalScore <= 14) {
+                    interpretation = "Moderado Risco de vulnerabilidade clínico-funcional (Idoso em Risco de Fragilização).";
+                    riskColor = "text-orange-600";
+                } else { // 0 a 6 pontos
+                    interpretation = "Baixo Risco de vulnerabilidade clínico-funcional (Idoso Robusto).";
+                    riskColor = "text-green-600";
+                }
+
+                // Exibe o resultado
+                ivcf20ResultDiv.classList.remove('hidden');
+                ivcf20ResultDiv.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">Resultado do Escore IVCF-20</h3>
+                    <p class="text-gray-800"><span class="font-semibold">Pontuação Total:</span> ${totalScore} / 39 pontos</p>
+                    <p class="text-gray-800 mt-2"><span class="font-semibold">Interpretação:</span> <span class="font-bold ${riskColor}">${interpretation}</span></p>
+                    <p class="text-gray-700 mt-4">
+                        <span class="font-semibold">Critérios de Corte (Brasil):</span><br>
+                        0 a 6 pontos: Baixo Risco (Idoso Robusto)<br>
+                        7 a 14 pontos: Moderado Risco (Idoso em Risco de Fragilização)<br>
+                        ≥ 15 pontos: Alto Risco (Idoso Frágil)
+                    </p>
+                    <p class="text-gray-500 text-xs mt-4">
+                        Este é um instrumento de triagem e não um diagnóstico. A interpretação final e as condutas devem ser realizadas por um profissional de saúde qualificado.
+                    </p>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
