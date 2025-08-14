@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Mini-Mental</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #4f46e5; /* Cor índigo para diferenciar */
+            border-radius: 9999px;
+        }
+        .question-item {
+            background-color: #eef2ff; /* bg-indigo-50 */
+            border-left: 4px solid #6366f1; /* border-indigo-500 */
+        }
+        .score-input {
+            width: 60px; /* Largura fixa para o campo de pontuação */
+            text-align: center;
+        }
+        /* Estilo para a imagem do pentágono */
+        .pentagon-image {
+            display: block; /* Para centralizar */
+            margin: 10px auto; /* Centraliza e adiciona margem */
+            width: 240px; /* Tamanho ajustado para ser grande e visível */
+            height: auto; /* Mantém a proporção da imagem */
+            border: 1px solid #ccc; /* Borda para visualização */
+            border-radius: 5px;
+            box-sizing: border-box; /* Inclui padding e border no width/height */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora Mini-Mental</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Avaliação cognitiva rápida para auxiliar na triagem de declínio cognitivo.
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção da Calculadora Mini-Mental -->
+        <div class="bg-indigo-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-indigo-200">
+            <h2 class="section-title text-2xl font-bold text-indigo-900 mb-4">Mini-Exame do Estado Mental (MMSE)</h2>
+            <p class="text-gray-700 mb-6">Preencha a pontuação obtida em cada item. A pontuação máxima é 30 pontos.</p>
+            
+            <form id="mini-mental-form" class="space-y-4">
+                <!-- Orientação Temporal (5 pontos) -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">1. Orientação Temporal (Máx: 5 pontos)</p>
+                    <div class="space-y-2">
+                        <label class="block text-gray-700">Ano: <input type="number" name="q1_year" min="0" max="1" class="score-input p-1 border rounded"></label>
+                        <label class="block text-gray-700">Estação: <input type="number" name="q1_season" min="0" max="1" class="score-input p-1 border rounded"></label>
+                        <label class="block text-gray-700">Dia do Mês: <input type="number" name="q1_dayOfMonth" min="0" max="1" class="score-input p-1 border rounded"></label>
+                        <label class="block text-gray-700">Dia da Semana: <input type="number" name="q1_dayOfWeek" min="0" max="1" class="score-input p-1 border rounded"></label>
+                        <label class="block text-gray-700">Mês: <input type="number" name="q1_month" min="0" max="1" class="score-input p-1 border rounded"></label>
+                    </div>
+                </div>
+
+                <!-- Orientação Espacial (5 pontos) -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">2. Orientação Espacial (Máx: 5 pontos)</p>
+                    <div class="space-y-2">
+                        <label class="block text-gray-700">País: <input type="number" name="q2_country" min="0" max="1" class="score-input p-1 border rounded"></label>
+                        <label class="block text-gray-700">Estado: <input type="number" name="q2_state" min="0" max="1" class="score-input p-1 border rounded"></label>
+                        <label class="block text-gray-700">Cidade: <input type="number" name="q2_city" min="0" max="1" class="score-input p-1 border rounded"></label>
+                        <label class="block text-gray-700">Bairro: <input type="number" name="q2_neighborhood" min="0" max="1" class="score-input p-1 border rounded"></label>
+                        <label class="block text-gray-700">Local (clínica/hospital): <input type="number" name="q2_location" min="0" max="1" class="score-input p-1 border rounded"></label>
+                    </div>
+                </div>
+
+                <!-- Registro de 3 Palavras (3 pontos) -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">3. Registro de 3 Palavras (Máx: 3 pontos)</p>
+                    <p class="text-gray-600 text-sm mb-2">Peça para o paciente repetir 3 palavras (ex: 'Casa', 'Flor', 'Carro'). Conte quantas ele repetiu corretamente.</p>
+                    <label class="block text-gray-700">Pontos: <input type="number" name="q3_words" min="0" max="3" class="score-input p-1 border rounded"></label>
+                </div>
+
+                <!-- Atenção e Cálculo (5 pontos) -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">4. Atenção e Cálculo (Máx: 5 pontos)</p>
+                    <p class="text-gray-600 text-sm mb-2">Peça para o paciente subtrair 7 de 100, e continuar subtraindo 7 do resultado, por 5 vezes. Conte os acertos.</p>
+                    <label class="block text-gray-700">Pontos: <input type="number" name="q4_calculation" min="0" max="5" class="score-input p-1 border rounded"></label>
+                </div>
+
+                <!-- Evocação (3 pontos) -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">5. Evocação (Máx: 3 pontos)</p>
+                    <p class="text-gray-600 text-sm mb-2">Peça para o paciente recordar as 3 palavras do item 3. Conte quantas ele recordou corretamente.</p>
+                    <label class="block text-gray-700">Pontos: <input type="number" name="q5_recall" min="0" max="3" class="score-input p-1 border rounded"></label>
+                </div>
+
+                <!-- Linguagem (9 pontos) -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">6. Linguagem (Máx: 9 pontos)</p>
+                    <div class="space-y-2">
+                        <p class="font-medium text-gray-700">a) Nomear 2 objetos (ex: caneta, relógio):</p>
+                        <label class="block text-gray-700">Pontos: <input type="number" name="q6_naming" min="0" max="2" class="score-input p-1 border rounded"></label>
+                        
+                        <p class="font-medium text-gray-700">b) Repetir frase (ex: "Nem aqui, nem ali, nem lá"):</p>
+                        <label class="block text-gray-700">Pontos: <input type="number" name="q6_repetition" min="0" max="1" class="score-input p-1 border rounded"></label>
+
+                        <p class="font-medium text-gray-700">c) Comando de 3 estágios (ex: "Pegue o papel com a mão direita, dobre-o ao meio e coloque-o no chão"):</p>
+                        <label class="block text-gray-700">Pontos: <input type="number" name="q6_3stageCommand" min="0" max="3" class="score-input p-1 border rounded"></label>
+
+                        <p class="font-medium text-gray-700">d) Ler e executar (ex: "Feche os olhos"):</p>
+                        <label class="block text-gray-700">Pontos: <input type="number" name="q6_readExecute" min="0" max="1" class="score-input p-1 border rounded"></label>
+
+                        <p class="font-medium text-gray-700">e) Escrever uma frase (com sujeito e predicado):</p>
+                        <label class="block text-gray-700">Pontos: <input type="number" name="q6_writeSentence" min="0" max="1" class="score-input p-1 border rounded"></label>
+
+                        <p class="font-medium text-gray-700">f) Copiar desenho (dois pentágonos entrelaçados):</p>
+                        <!-- IMAGEM DO PENTÁGONO FORNECIDA PELO USUÁRIO -->
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQasNXGUxUnbHThu_07MljqibBTRjg91h0GSA&usqp=CAU " alt="Desenho de dois pentágonos entrelaçados para cópia" class="pentagon-image">
+                        <p class="text-gray-600 text-sm mt-2">
+                            
+                        </p>
+                        <label class="block text-gray-700">Pontos: <input type="number" name="q6_copyDrawing" min="0" max="1" class="score-input p-1 border rounded"></label>
+                    </div>
+                </div>
+
+                <!-- Nível de Escolaridade -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">7. Nível de Escolaridade do Paciente:</p>
+                    <div class="flex flex-col space-y-2">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="education" value="illiterate" class="form-radio text-indigo-600">
+                            <span class="ml-2 text-gray-700">Analfabeto</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="education" value="1-4years" class="form-radio text-indigo-600">
+                            <span class="ml-2 text-gray-700">1 a 4 anos de estudo</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="education" value=">4years" class="form-radio text-indigo-600">
+                            <span class="ml-2 text-gray-700">Mais de 4 anos de estudo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full mt-8 p-3 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md">
+                    Calcular Escore Mini-Mental
+                </button>
+            </form>
+
+            <div id="mini-mental-result" class="mt-8 p-4 bg-indigo-100 rounded-xl hidden">
+                <!-- Resultados serão exibidos aqui -->
+            </div>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é um instrumento de triagem e não substitui a avaliação e o diagnóstico de um profissional de saúde qualificado. A interpretação do escore MMSE deve ser feita por um médico ou especialista.</p>
+            <p>&copy; 2024 Calculadora Mini-Mental. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const miniMentalForm = document.getElementById('mini-mental-form');
+            const miniMentalResultDiv = document.getElementById('mini-mental-result');
+
+            miniMentalForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Impede o envio padrão do formulário
+
+                let totalScore = 0;
+                let allScoresEntered = true;
+                let educationLevel = document.querySelector('input[name="education"]:checked');
+
+                // Coleta as pontuações de Orientação Temporal
+                const q1Inputs = ['q1_year', 'q1_season', 'q1_dayOfMonth', 'q1_dayOfWeek', 'q1_month'];
+                q1Inputs.forEach(name => {
+                    const input = document.querySelector(`input[name="${name}"]`);
+                    const score = parseInt(input.value);
+                    if (isNaN(score) || score < 0 || score > 1) {
+                        allScoresEntered = false;
+                    } else {
+                        totalScore += score;
+                    }
+                });
+
+                // Coleta as pontuações de Orientação Espacial
+                const q2Inputs = ['q2_country', 'q2_state', 'q2_city', 'q2_neighborhood', 'q2_location'];
+                q2Inputs.forEach(name => {
+                    const input = document.querySelector(`input[name="${name}"]`);
+                    const score = parseInt(input.value);
+                    if (isNaN(score) || score < 0 || score > 1) {
+                        allScoresEntered = false;
+                    } else {
+                        totalScore += score;
+                    }
+                });
+
+                // Coleta as pontuações dos demais itens
+                const otherInputs = ['q3_words', 'q4_calculation', 'q5_recall', 'q6_naming', 'q6_repetition', 'q6_3stageCommand', 'q6_readExecute', 'q6_writeSentence', 'q6_copyDrawing'];
+                otherInputs.forEach(name => {
+                    const input = document.querySelector(`input[name="${name}"]`);
+                    let maxScore;
+                    switch (name) {
+                        case 'q3_words': maxScore = 3; break;
+                        case 'q4_calculation': maxScore = 5; break;
+                        case 'q5_recall': maxScore = 3; break;
+                        case 'q6_naming': maxScore = 2; break;
+                        case 'q6_3stageCommand': maxScore = 3; break;
+                        default: maxScore = 1; break; // q6_repetition, q6_readExecute, q6_writeSentence, q6_copyDrawing
+                    }
+                    const score = parseInt(input.value);
+                    if (isNaN(score) || score < 0 || score > maxScore) {
+                        allScoresEntered = false;
+                    } else {
+                        totalScore += score;
+                    }
+                });
+
+                if (!allScoresEntered) {
+                    miniMentalResultDiv.classList.remove('hidden');
+                    miniMentalResultDiv.innerHTML = `<p class="text-red-700 font-semibold">Por favor, preencha todas as pontuações corretamente (0 ou 1 para a maioria, ou a pontuação máxima indicada).</p>`;
+                    return;
+                }
+
+                if (!educationLevel) {
+                    miniMentalResultDiv.classList.remove('hidden');
+                    miniMentalResultDiv.innerHTML = `<p class="text-red-700 font-semibold">Por favor, selecione o nível de escolaridade do paciente.</p>`;
+                    return;
+                }
+                educationLevel = educationLevel.value;
+
+                // Interpretação do escore (critérios de corte validados para o Brasil)
+                let interpretation = "";
+                let riskColor = "";
+
+                if (educationLevel === "illiterate") { // Analfabeto
+                    if (totalScore < 13) {
+                        interpretation = "Suspeita de declínio cognitivo.";
+                        riskColor = "text-red-600";
+                    } else {
+                        interpretation = "Normal para o nível de escolaridade.";
+                        riskColor = "text-green-600";
+                    }
+                } else if (educationLevel === "1-4years") { // 1 a 4 anos de estudo
+                    if (totalScore < 18) {
+                        interpretation = "Suspeita de declínio cognitivo.";
+                        riskColor = "text-red-600";
+                    } else {
+                        interpretation = "Normal para o nível de escolaridade.";
+                        riskColor = "text-green-600";
+                    }
+                } else if (educationLevel === ">4years") { // Mais de 4 anos de estudo
+                    if (totalScore < 26) {
+                        interpretation = "Suspeita de declínio cognitivo.";
+                        riskColor = "text-red-600";
+                    } else {
+                        interpretation = "Normal para o nível de escolaridade.";
+                        riskColor = "text-green-600";
+                    }
+                }
+
+                // Exibe o resultado
+                miniMentalResultDiv.classList.remove('hidden');
+                miniMentalResultDiv.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">Resultado do Mini-Exame do Estado Mental</h3>
+                    <p class="text-gray-800"><span class="font-semibold">Pontuação Total:</span> ${totalScore} / 30 pontos</p>
+                    <p class="text-gray-800 mt-2"><span class="font-semibold">Interpretação:</span> <span class="font-bold ${riskColor}">${interpretation}</span></p>
+                    <p class="text-gray-700 mt-4">
+                        <span class="font-semibold">Critérios de Corte (Brasil):</span><br>
+                        Analfabetos: < 13 pontos (suspeita)<br>
+                        1-4 anos de estudo: < 18 pontos (suspeita)<br>
+                        > 4 anos de estudo: < 26 pontos (suspeita)
+                    </p>
+                    <p class="text-gray-500 text-xs mt-4">
+                        Este é um instrumento de triagem e não um diagnóstico. A interpretação final e as condutas devem ser realizadas por um profissional de saúde qualificado.
+                    </p>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
