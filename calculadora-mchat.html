@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora M-CHAT-R/F</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #dc2626; /* Cor vermelha escura para diferenciar */
+            border-radius: 9999px;
+        }
+        .question-item {
+            background-color: #fef2f2; /* bg-red-50 */
+            border-left: 4px solid #ef4444; /* border-red-500 */
+        }
+        .critical-item {
+            background-color: #fff7ed; /* bg-orange-50 */
+            border-left: 4px solid #f97316; /* border-orange-500 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora M-CHAT-R/F</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Triagem para Transtorno do Espectro Autista (TEA) em crianças de 16 a 30 meses.
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção da Calculadora M-CHAT -->
+        <div class="bg-red-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-red-200">
+            <h2 class="section-title text-2xl font-bold text-red-900 mb-4">Questionário M-CHAT-R/F</h2>
+            <p class="text-gray-700 mb-6">Por favor, responda "Sim" ou "Não" para cada pergunta. As perguntas com fundo laranja são itens críticos.</p>
+            
+            <form id="mchat-form" class="space-y-4">
+                <!-- Pergunta 1 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">1. Se você tenta chamar a atenção de seu filho, ele responde ao nome dele?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q1" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q1" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 2 (Crítica) -->
+                <div class="question-item critical-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">2. Se você aponta para um brinquedo do outro lado da sala, seu filho olha para ele? <span class="text-xs text-orange-700">(Crítico)</span></p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q2" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q2" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 3 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">3. Seu filho já brincou de "faz de conta" ou de imitar, como fazer de conta que está bebendo em uma xícara vazia ou alimentando um ursinho?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q3" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q3" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 4 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">4. Seu filho gosta de subir em coisas?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q4" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q4" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 5 (Crítica) -->
+                <div class="question-item critical-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">5. Seu filho já usou o dedo indicador para pedir algo? <span class="text-xs text-orange-700">(Crítico)</span></p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q5" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q5" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 6 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">6. Seu filho já acenou "tchau" ou "olá"?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q6" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q6" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 7 (Crítica) -->
+                <div class="question-item critical-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">7. Seu filho já usou o dedo indicador para mostrar algo interessante para você? <span class="text-xs text-orange-700">(Crítico)</span></p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q7" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q7" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 8 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">8. Seu filho olha para você nos olhos por mais de um ou dois segundos?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q8" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q8" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 9 (Crítica) -->
+                <div class="question-item critical-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">9. Seu filho já trouxe objetos para você para lhe mostrar algo? <span class="text-xs text-orange-700">(Crítico)</span></p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q9" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q9" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 10 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">10. Seu filho responde quando você sorri para ele ou faz caretas?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q10" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q10" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 11 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">11. Seu filho faz sons para chamar sua atenção?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q11" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q11" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 12 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">12. Seu filho estende os braços para você para ser pego?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q12" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q12" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 13 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">13. Seu filho anda?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q13" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q13" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 14 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">14. Seu filho olha para algo que você está apontando?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q14" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q14" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 15 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">15. Seu filho já tentou chamar sua atenção para algo que ele está fazendo?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q15" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q15" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 16 (Crítica) -->
+                <div class="question-item critical-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">16. Se você vira a cabeça para olhar para algo, seu filho olha para ver o que você está olhando? <span class="text-xs text-orange-700">(Crítico)</span></p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q16" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q16" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 17 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">17. Seu filho se importa quando você o deixa sozinho?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q17" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q17" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 18 (Crítica) -->
+                <div class="question-item critical-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">18. Seu filho tenta imitar o que você faz? <span class="text-xs text-orange-700">(Crítico)</span></p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q18" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q18" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 19 -->
+                <div class="question-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">19. Seu filho já fez sons ou gestos diferentes para indicar coisas diferentes?</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q19" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q19" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pergunta 20 (Crítica) -->
+                <div class="question-item critical-item p-4 rounded-lg shadow-sm">
+                    <p class="font-semibold text-gray-800 mb-2">20. Se você diz "faça de conta que está dormindo" ou "faça de conta que está comendo" (com um boneco ou ursinho), seu filho faz de conta? <span class="text-xs text-orange-700">(Crítico)</span></p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q20" value="yes" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Sim</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="q20" value="no" class="form-radio text-red-600">
+                            <span class="ml-2 text-gray-700">Não</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full mt-8 p-3 font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition duration-300 shadow-md">
+                    Calcular Escore M-CHAT
+                </button>
+            </form>
+
+            <div id="mchat-result" class="mt-8 p-4 bg-red-100 rounded-xl hidden">
+                <!-- Resultados serão exibidos aqui -->
+            </div>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é um instrumento de triagem e não substitui a avaliação e o diagnóstico de um profissional de saúde qualificado. A interpretação do escore M-CHAT-R/F deve ser feita por um médico ou especialista.</p>
+            <p>&copy; 2024 Calculadora M-CHAT-R/F. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mchatForm = document.getElementById('mchat-form');
+            const mchatResultDiv = document.getElementById('mchat-result');
+
+            const criticalQuestions = [2, 5, 7, 9, 16, 18, 20]; // Números das perguntas críticas
+
+            mchatForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Impede o envio padrão do formulário
+
+                let totalScore = 0;
+                let failedCriticalItems = 0;
+                let allAnswered = true;
+
+                // Coleta as respostas e calcula a pontuação
+                for (let i = 1; i <= 20; i++) {
+                    const questionName = `q${i}`;
+                    const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+
+                    if (!selectedOption) {
+                        allAnswered = false;
+                        break; // Sai do loop se alguma pergunta não for respondida
+                    }
+
+                    const isCritical = criticalQuestions.includes(i);
+                    const answer = selectedOption.value;
+
+                    // Lógica de pontuação M-CHAT-R/F
+                    // Pontua 1 se a resposta "falhar" no item (indicar risco)
+                    if (isCritical) {
+                        if (answer === "no") { // Resposta "Não" em item crítico = falha
+                            totalScore++;
+                            failedCriticalItems++;
+                        }
+                    } else {
+                        if (answer === "no") { // Resposta "Não" em item não crítico = falha
+                            totalScore++;
+                        }
+                    }
+                }
+
+                if (!allAnswered) {
+                    mchatResultDiv.classList.remove('hidden');
+                    mchatResultDiv.innerHTML = `<p class="text-red-700 font-semibold">Por favor, responda a todas as perguntas para calcular o escore.</p>`;
+                    return;
+                }
+
+                // Interpretação do risco
+                let riskCategory = "";
+                let recommendation = "";
+
+                if (totalScore >= 8) {
+                    riskCategory = "Alto Risco";
+                    recommendation = "Recomenda-se encaminhamento imediato para avaliação diagnóstica de TEA e intervenção precoce.";
+                } else if (totalScore >= 3 && totalScore <= 7) {
+                    riskCategory = "Médio Risco";
+                    recommendation = "Recomenda-se a aplicação da Entrevista de Follow-up (M-CHAT-R/F Parte II). Se o escore de falha na Entrevista for 2 ou mais, encaminhar para avaliação diagnóstica e intervenção precoce. Se o escore for 0-1, monitorar a criança e repetir o M-CHAT-R/F aos 24 e/ou 30 meses.";
+                } else { // totalScore 0-2
+                    riskCategory = "Baixo Risco";
+                    recommendation = "Monitorar a criança e repetir o M-CHAT-R/F em consultas de rotina (ex: aos 24 e/ou 30 meses) ou se houver preocupações adicionais.";
+                }
+
+                // Ajuste de risco baseado em itens críticos (mais rigoroso)
+                if (failedCriticalItems >= 2) {
+                    riskCategory = "Alto Risco";
+                    recommendation = "Recomenda-se encaminhamento imediato para avaliação diagnóstica de TEA e intervenção precoce, independentemente do escore total.";
+                } else if (failedCriticalItems === 1 && totalScore <= 2) { // Se falhou 1 crítico e o total seria baixo
+                    riskCategory = "Médio Risco";
+                    recommendation = "Recomenda-se a aplicação da Entrevista de Follow-up (M-CHAT-R/F Parte II). Se o escore de falha na Entrevista for 2 ou mais, encaminhar para avaliação diagnóstica e intervenção precoce. Se o escore for 0-1, monitorar a criança e repetir o M-CHAT-R/F aos 24 e/ou 30 meses.";
+                }
+
+
+                // Exibe o resultado
+                mchatResultDiv.classList.remove('hidden');
+                mchatResultDiv.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">Resultado do Escore M-CHAT-R/F</h3>
+                    <p class="text-gray-800"><span class="font-semibold">Pontuação Total:</span> ${totalScore} pontos</p>
+                    <p class="text-gray-800"><span class="font-semibold">Itens Críticos Falhos:</span> ${failedCriticalItems}</p>
+                    <p class="text-gray-800 mt-2"><span class="font-semibold">Categoria de Risco:</span> <span class="font-bold ${riskCategory === 'Alto Risco' ? 'text-red-600' : riskCategory === 'Médio Risco' ? 'text-orange-600' : 'text-green-600'}">${riskCategory}</span></p>
+                    <p class="text-gray-700 mt-4"><span class="font-semibold">Recomendação:</span> ${recommendation}</p>
+                    <p class="text-gray-500 text-xs mt-4">
+                        Este é um instrumento de triagem e não um diagnóstico. A interpretação final e as condutas devem ser realizadas por um profissional de saúde qualificado.
+                    </p>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
