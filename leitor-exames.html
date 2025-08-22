@@ -3,105 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leitor de Exames</title>
+    <title>Leitor de Exames Sincronizado</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- PDF.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- QR Code Generator CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
         .container { max-width: 900px; }
-        .section-title { position: relative; padding-bottom: 0.5rem; }
-        .section-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 3px; background-color: #f59e0b; border-radius: 9999px; }
-        canvas { max-width: 100%; height: auto; border-radius: 0.5rem; display: block; margin-left: auto; margin-right: auto; }
+        #qrcode canvas { width: 256px !important; height: 256px !important; margin: auto; }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
     <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
         <header class="text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Leitor de Exames</h1>
-            <p class="text-gray-600 text-lg md:text-xl">
-                Transcreva os resultados de um exame médico a partir de uma foto ou PDF usando o Gemini.
-            </p>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Leitor de Exames Sincronizado</h1>
+            <p id="subtitle" class="text-gray-600 text-lg md:text-xl"></p>
         </header>
 
-        <div class="text-center mb-8">
-            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
-                &larr; Voltar ao Menu Principal
-            </a>
+        <!-- MODO DESKTOP: Geração de QR Code -->
+        <div id="desktop-mode" class="text-center">
+            <p class="text-gray-700 mb-6">Clique no botão abaixo para gerar um QR Code. Em seguida, leia o código com a câmara do seu telemóvel para enviar os exames.</p>
+            <button id="start-session-btn" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
+                Iniciar Sessão de Captura
+            </button>
+            <div id="qr-container" class="hidden mt-8 p-6 bg-gray-50 rounded-lg">
+                <p class="text-gray-800 font-semibold mb-2">Leia este QR Code com o seu telemóvel:</p>
+                <div id="qrcode" class="flex justify-center"></div>
+                <p class="text-gray-600 mt-4">ID da Sessão: <strong id="session-id-display"></strong></p>
+                <p class="text-gray-500 italic mt-2">A aguardar o envio do exame...</p>
+            </div>
         </div>
 
-        <div class="bg-amber-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-amber-200">
-            <h2 class="section-title text-2xl font-bold text-amber-900 mb-4">Analisar Imagem ou PDF de Exame</h2>
-            <p class="text-gray-700 mb-6">Faça o upload de um arquivo. Se for um PDF com várias páginas, todas serão analisadas.</p>
-            
-            <div class="flex flex-col space-y-4">
-                <input type="file" id="exam-image-input" accept="image/*, application/pdf" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-                
-                <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-gray-300 rounded-lg hidden">
-                    <img id="exam-image-preview" src="#" alt="Pré-visualização do Exame" class="max-w-full h-auto rounded-lg mx-auto hidden">
-                    <canvas id="exam-pdf-preview" class="hidden"></canvas>
-                    <div id="pdf-pagination-controls" class="hidden flex items-center justify-center space-x-4 mt-4">
-                        <button id="pdf-prev-page" class="px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300">
-                            &larr; Anterior
-                        </button>
-                        <span id="pdf-page-info" class="text-gray-800 font-medium"></span>
-                        <button id="pdf-next-page" class="px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300">
-                            Próxima &rarr;
-                        </button>
+        <!-- MODO TELEMÓVEL: Captura de Exame -->
+        <div id="mobile-mode" class="hidden">
+             <div class="bg-amber-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-amber-200">
+                <p class="text-gray-700 mb-6">Faça o upload de uma imagem ou PDF do seu exame. Se for um PDF com várias páginas, todas serão analisadas.</p>
+                <div class="flex flex-col space-y-4">
+                    <input type="file" id="exam-image-input" accept="image/*, application/pdf" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                    <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-gray-300 rounded-lg hidden">
+                        <img id="exam-image-preview" src="#" alt="Pré-visualização do Exame" class="max-w-full h-auto rounded-lg mx-auto hidden">
+                        <canvas id="exam-pdf-preview" class="hidden"></canvas>
+                        <div id="pdf-pagination-controls" class="hidden flex items-center justify-center space-x-4 mt-4">
+                            <button id="pdf-prev-page">&larr; Anterior</button>
+                            <span id="pdf-page-info"></span>
+                            <button id="pdf-next-page">Próxima &rarr;</button>
+                        </div>
                     </div>
+                    <button id="analyze-exam-button" class="w-full p-3 font-semibold text-white bg-amber-600 rounded-lg hover:bg-amber-700" disabled>
+                        <span id="analyze-text">Analisar e Enviar para o Desktop</span>
+                    </button>
                 </div>
-
-                <button id="analyze-exam-button" class="w-full p-3 font-semibold text-white bg-amber-600 rounded-lg hover:bg-amber-700 transition duration-300 shadow-md flex items-center justify-center space-x-2 disabled:opacity-50" disabled>
-                    <span id="analyze-text">Transcrever Exame</span>
-                    <span id="loading-spinner" class="hidden">
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </span>
-                </button>
-            </div>
-            
-            <div id="result-container" class="mt-8 p-4 bg-amber-100 rounded-xl hidden">
-                <h3 class="font-bold text-lg mb-2">Resultado da Transcrição:</h3>
-                <!-- NOVO: Elemento para mostrar o progresso -->
-                <p id="progress-text" class="text-gray-600 italic mb-2"></p>
-                <div id="transcription-result" class="prose max-w-none"></div>
             </div>
         </div>
-        
-        <footer class="text-center text-gray-500 text-sm mt-10">
-            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins informativos e não substitui uma consulta médica.</p>
-            <p>&copy; 2024 Leitor de Exames. Todos os direitos reservados.</p>
-        </footer>
+
+        <!-- ÁREA DE RESULTADOS (usada por ambos os modos) -->
+        <div id="result-container" class="mt-8 p-4 bg-green-100 rounded-xl hidden">
+            <h3 class="font-bold text-lg mb-2 text-green-900">Resultado da Transcrição Recebido!</h3>
+            <p id="progress-text" class="text-gray-600 italic mb-2"></p>
+            <div id="transcription-result" class="prose max-w-none whitespace-pre-wrap"></div>
+        </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
     <script>
+        // *******************************************************************
+        // COLE AQUI O SEU OBJETO firebaseConfig QUE OBTEVE NO FIREBASE
+        // *******************************************************************
+        const firebaseConfig = {
+  apiKey: "AIzaSyCBdmvJJgGaZjacG-ro5XsAqUQPxkZ24oo",
+  authDomain: "leitor-de-exames-sync.firebaseapp.com",
+  projectId: "leitor-de-exames-sync",
+  storageBucket: "leitor-de-exames-sync.firebasestorage.app",
+  messagingSenderId: "495677306399",
+  appId: "1:495677306399:web:1aa9f970091a57846b072a",
+  measurementId: "G-9HDX2K2ZZS"
+};
+        // *******************************************************************
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Referências aos Elementos do DOM ---
+            const subtitle = document.getElementById('subtitle');
+            const desktopModeDiv = document.getElementById('desktop-mode');
+            const mobileModeDiv = document.getElementById('mobile-mode');
+            const startSessionBtn = document.getElementById('start-session-btn');
+            const qrContainer = document.getElementById('qr-container');
+            const qrcodeDiv = document.getElementById('qrcode');
+            const sessionIdDisplay = document.getElementById('session-id-display');
+            const resultContainer = document.getElementById('result-container');
+            const transcriptionResult = document.getElementById('transcription-result');
+            const progressText = document.getElementById('progress-text');
+            
+            // --- Elementos do Modo Telemóvel ---
             const imageInput = document.getElementById('exam-image-input');
+            const analyzeButton = document.getElementById('analyze-exam-button');
             const previewContainer = document.getElementById('preview-container');
             const imagePreview = document.getElementById('exam-image-preview');
             const pdfPreviewCanvas = document.getElementById('exam-pdf-preview');
-            const analyzeButton = document.getElementById('analyze-exam-button');
-            const loadingSpinner = document.getElementById('loading-spinner');
-            const analyzeText = document.getElementById('analyze-text');
-            const resultContainer = document.getElementById('result-container');
-            const transcriptionResult = document.getElementById('transcription-result');
-            const progressText = document.getElementById('progress-text'); // NOVO
             const pdfPaginationControls = document.getElementById('pdf-pagination-controls');
             const prevPageButton = document.getElementById('pdf-prev-page');
             const nextPageButton = document.getElementById('pdf-next-page');
             const pageInfoSpan = document.getElementById('pdf-page-info');
 
-            let fileType = null; // 'image' ou 'pdf'
-            let currentFile = null;
-            let pdfDocument = null;
-            let currentPdfPage = 1;
-            let totalPdfPages = 0;
+            let fileType = null, currentFile = null, pdfDocument = null;
+            let currentPdfPage = 1, totalPdfPages = 0;
+            let unsubscribe; // Para parar de ouvir o Firestore
+
+            // --- Lógica Principal: Verificar o modo (Desktop ou Telemóvel) ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session');
+
+            if (sessionId) {
+                // MODO TELEMÓVEL
+                setupMobileMode(sessionId);
+            } else {
+                // MODO DESKTOP
+                setupDesktopMode();
+            }
+
+            // --- Funções do Modo Desktop ---
+            function setupDesktopMode() {
+                subtitle.textContent = "Conecte o seu telemóvel para capturar exames.";
+                desktopModeDiv.classList.remove('hidden');
+                startSessionBtn.addEventListener('click', generateSession);
+            }
+
+            function generateSession() {
+                const newSessionId = `EXM-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+                sessionIdDisplay.textContent = newSessionId;
+                
+                const url = `${window.location.href.split('?')[0]}?session=${newSessionId}`;
+                qrcodeDiv.innerHTML = ''; // Limpa QR code anterior
+                new QRCode(qrcodeDiv, {
+                    text: url,
+                    width: 256,
+                    height: 256,
+                });
+
+                qrContainer.classList.remove('hidden');
+                startSessionBtn.classList.add('hidden');
+                listenForResults(newSessionId);
+            }
+
+            function listenForResults(sessionId) {
+                if (unsubscribe) unsubscribe(); // Para de ouvir a sessão anterior
+                
+                unsubscribe = db.collection('sessions').doc(sessionId)
+                    .onSnapshot((doc) => {
+                        if (doc.exists) {
+                            const data = doc.data();
+                            if (data.status === 'completed' && data.result) {
+                                transcriptionResult.textContent = data.result;
+                                resultContainer.classList.remove('hidden');
+                                qrContainer.classList.add('hidden'); // Esconde o QR code
+                                unsubscribe(); // Para de ouvir
+                            } else if (data.status === 'processing') {
+                                resultContainer.classList.remove('hidden');
+                                transcriptionResult.textContent = 'A processar o exame...';
+                            }
+                        }
+                    });
+            }
+
+            // --- Funções do Modo Telemóvel ---
+            function setupMobileMode(sessionId) {
+                subtitle.textContent = `A enviar exame para a sessão: ${sessionId}`;
+                mobileModeDiv.classList.remove('hidden');
+                desktopModeDiv.classList.add('hidden');
+
+                imageInput.addEventListener('change', handleFileSelect);
+                analyzeButton.addEventListener('click', () => handleAnalysis(sessionId));
+            }
+
+            async function handleFileSelect(event) {
+                const file = event.target.files[0];
+                pdfPaginationControls.classList.add('hidden');
+                previewContainer.classList.add('hidden');
+                analyzeButton.disabled = true;
+                pdfDocument = null;
+                currentFile = null;
+
+                if (file) {
+                    currentFile = file;
+                    previewContainer.classList.remove('hidden');
+                    analyzeButton.disabled = false;
+                    imagePreview.classList.add('hidden');
+                    pdfPreviewCanvas.classList.add('hidden');
+
+                    if (file.type.startsWith('image/')) {
+                        fileType = 'image';
+                        imagePreview.src = URL.createObjectURL(file);
+                        imagePreview.classList.remove('hidden');
+                    } else if (file.type === 'application/pdf') {
+                        fileType = 'pdf';
+                        pdfPreviewCanvas.classList.remove('hidden');
+                        const typedarray = new Uint8Array(await file.arrayBuffer());
+                        pdfDocument = await pdfjsLib.getDocument(typedarray).promise;
+                        totalPdfPages = pdfDocument.numPages;
+                        await renderPdfPage(1);
+                    }
+                }
+            }
+            
+            async function handleAnalysis(sessionId) {
+                if (!currentFile) return;
+
+                analyzeButton.disabled = true;
+                analyzeButton.textContent = 'A processar...';
+                
+                let imageParts = [];
+                try {
+                    if (fileType === 'image') {
+                        const base64 = await fileToBase64(currentFile);
+                        imageParts.push({ mimeType: currentFile.type, data: base64 });
+                    } else if (fileType === 'pdf') {
+                        for (let i = 1; i <= totalPdfPages; i++) {
+                            const base64 = await renderPdfPage(i);
+                            imageParts.push({ mimeType: 'image/png', data: base64 });
+                        }
+                    }
+
+                    const prompt = `Você é um auxiliar de um médico e registra dados em português do Brasil. Analise as imagens a seguir, que são páginas sequenciais de um único documento de exame médico. Consolide os resultados de TODAS as páginas em um único texto. Crie uma lista contendo a data, o nome de cada exame e seu respectivo resultado. Formate esse resultado em uma lista com a data entre parênteses, seguida do primeiro resultado, e separando os itens pelo símbolo / em uma linha contínua. Escreva a data apenas uma vez no início. Omita as unidades de cada exame. Para o hemograma completo, anote apenas os resultados de hemoglobina, leucócitos e plaquetas. Para o exame parcial de urina, anote apenas os itens fora dos valores de referência. Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos, sempre nesta sequência. Liste primeiro os exames com resultados fora dos valores de referência. Em exames de imagem, descreva detalhadamente a conclusão.`;
+                    
+                    // A URL do seu backend no Render
+                    const response = await fetch('https://magomfc.onrender.com/analyze-exam', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt, imageParts, sessionId }) // Envia o sessionId
+                    });
+
+                    if (!response.ok) throw new Error('Falha ao enviar para o servidor.');
+                    
+                    alert('Exame enviado com sucesso! Verifique o resultado no seu desktop.');
+                    analyzeButton.textContent = 'Enviado!';
+
+                } catch (error) {
+                    alert(`Erro: ${error.message}`);
+                    analyzeButton.disabled = false;
+                    analyzeButton.textContent = 'Tentar Novamente';
+                }
+            }
 
             const fileToBase64 = (file) => new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -109,17 +263,6 @@
                 reader.onload = () => resolve(reader.result.split(',')[1]);
                 reader.onerror = (error) => reject(error);
             });
-            
-            const updatePaginationControls = () => {
-                if (totalPdfPages > 1) {
-                    pdfPaginationControls.classList.remove('hidden');
-                    pageInfoSpan.textContent = `Página ${currentPdfPage} de ${totalPdfPages}`;
-                    prevPageButton.disabled = (currentPdfPage === 1);
-                    nextPageButton.disabled = (currentPdfPage === totalPdfPages);
-                } else {
-                    pdfPaginationControls.classList.add('hidden');
-                }
-            };
 
             const renderPdfPage = async (pageNum) => {
                 if (!pdfDocument) return;
@@ -134,110 +277,18 @@
                 return pdfPreviewCanvas.toDataURL('image/png').split(',')[1];
             };
 
-            imageInput.addEventListener('change', async (event) => {
-                const file = event.target.files[0];
-                pdfPaginationControls.classList.add('hidden');
-                previewContainer.classList.add('hidden');
-                analyzeButton.disabled = true;
-                pdfDocument = null;
-                currentFile = null;
-
-                if (file) {
-                    currentFile = file;
-                    previewContainer.classList.remove('hidden');
-                    analyzeButton.disabled = false;
-                    resultContainer.classList.add('hidden');
-                    imagePreview.classList.add('hidden');
-                    pdfPreviewCanvas.classList.add('hidden');
-
-                    try {
-                        if (file.type.startsWith('image/')) {
-                            fileType = 'image';
-                            imagePreview.src = URL.createObjectURL(file);
-                            imagePreview.classList.remove('hidden');
-                        } else if (file.type === 'application/pdf') {
-                            fileType = 'pdf';
-                            pdfPreviewCanvas.classList.remove('hidden');
-                            const typedarray = new Uint8Array(await file.arrayBuffer());
-                            pdfDocument = await pdfjsLib.getDocument(typedarray).promise;
-                            totalPdfPages = pdfDocument.numPages;
-                            await renderPdfPage(1);
-                        } else {
-                            throw new Error("Formato de arquivo não suportado.");
-                        }
-                    } catch (error) {
-                        displayError(`Erro ao carregar o arquivo: ${error.message}`, resultContainer);
-                    }
+            const updatePaginationControls = () => {
+                if (totalPdfPages > 1) {
+                    pdfPaginationControls.classList.remove('hidden');
+                    pageInfoSpan.textContent = `Página ${currentPdfPage} de ${totalPdfPages}`;
+                    prevPageButton.disabled = (currentPdfPage === 1);
+                    nextPageButton.disabled = (currentPdfPage === totalPdfPages);
+                } else {
+                    pdfPaginationControls.classList.add('hidden');
                 }
-            });
-
+            };
             prevPageButton.addEventListener('click', () => renderPdfPage(currentPdfPage - 1));
             nextPageButton.addEventListener('click', () => renderPdfPage(currentPdfPage + 1));
-
-            analyzeButton.addEventListener('click', async () => {
-                if (!currentFile) {
-                    displayError("Nenhum arquivo selecionado.", resultContainer);
-                    return;
-                }
-
-                analyzeButton.disabled = true;
-                analyzeText.textContent = 'Analisando...';
-                loadingSpinner.classList.remove('hidden');
-                resultContainer.classList.remove('hidden');
-                transcriptionResult.innerHTML = '';
-                progressText.textContent = 'Preparando para análise...';
-
-                let imageParts = [];
-
-                try {
-                    if (fileType === 'image') {
-                        const base64 = await fileToBase64(currentFile);
-                        imageParts.push({ mimeType: currentFile.type, data: base64 });
-                    } else if (fileType === 'pdf') {
-                        // NOVO: Loop para processar todas as páginas
-                        for (let i = 1; i <= totalPdfPages; i++) {
-                            progressText.textContent = `Processando página ${i} de ${totalPdfPages}...`;
-                            const base64 = await renderPdfPage(i);
-                            imageParts.push({ mimeType: 'image/png', data: base64 });
-                        }
-                    }
-
-                    progressText.textContent = 'Enviando para a inteligência artificial...';
-                    
-                    const prompt = `Você é um auxiliar de um médico e registra dados em português do Brasil. Analise as imagens a seguir, que são páginas sequenciais de um único documento de exame médico. Consolide os resultados de TODAS as páginas em um único texto. Crie uma lista contendo a data, o nome de cada exame e seu respectivo resultado. Formate esse resultado em uma lista com a data entre parênteses, seguida do primeiro resultado, e separando os itens pelo símbolo / em uma linha contínua. Escreva a data apenas uma vez no início. Omita as unidades de cada exame. Para o hemograma completo, anote apenas os resultados de hemoglobina, leucócitos e plaquetas. Para o exame parcial de urina, anote apenas os itens fora dos valores de referência. Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos, sempre nesta sequência. Liste primeiro os exames com resultados fora dos valores de referência. Em exames de imagem, descreva detalhadamente a conclusão.`;
-
-                    const response = await fetch('https://magomfc.onrender.com/analyze-exam', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt: prompt, imageParts: imageParts }) // Envia um array de imagens
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json().catch(() => ({}));
-                        throw new Error(errorData.error || `Erro do servidor: ${response.statusText}`);
-                    }
-                    
-                    const result = await response.json();
-                    if (result.text && result.text.trim().length > 0) {
-                        transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap">${result.text}</pre>`;
-                    } else {
-                        throw new Error("A IA não retornou um resultado válido.");
-                    }
-
-                } catch (error) {
-                    transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">Erro ao transcrever: ${error.message}</p>`;
-                } finally {
-                    progressText.textContent = '';
-                    analyzeButton.disabled = false;
-                    analyzeText.textContent = 'Transcrever Exame';
-                    loadingSpinner.classList.add('hidden');
-                }
-            });
-            
-            function displayError(message, container) {
-                container.innerHTML = `<p class="text-red-700 font-semibold">${message}</p>`;
-                container.classList.remove('hidden');
-            }
         });
     </script>
 </body>
