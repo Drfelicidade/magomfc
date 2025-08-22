@@ -1,0 +1,5 @@
+# Arquivo de variáveis de ambiente - NUNCA ENVIAR!
+.env
+
+# Pasta de dependências do Node.js - não precisa enviar, é instalada depois
+node_modules/
