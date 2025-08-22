@@ -28,54 +28,51 @@
             <p id="subtitle" class="text-gray-600 text-lg md:text-xl">Capture ou envie os seus exames para transcrição.</p>
         </header>
 
-        <!-- NOVO: MODO DE SELEÇÃO INICIAL -->
+        <!-- NOVO: Botão Voltar para o Menu Principal -->
+        <div id="back-button-container" class="text-center hidden">
+            <button id="back-to-selection" class="text-blue-600 hover:underline">&larr; Voltar ao menu de seleção</button>
+        </div>
+
+        <!-- MODO DE SELEÇÃO INICIAL -->
         <div id="selection-mode" class="text-center p-4">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Como deseja continuar?</h2>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
                 <button id="select-local-btn" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition w-full md:w-auto">
-                    Analisar Arquivos do Computador
+                    Analisar Ficheiros do Computador
                 </button>
                 <button id="select-sync-btn" class="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition w-full md:w-auto">
-                    Sincronizar com Celular
+                    Sincronizar com Telemóvel
                 </button>
             </div>
         </div>
 
-        <!-- MODO DE ANÁLISE LOCAL (antigo modo desktop) -->
-        <div id="local-analysis-mode" class="hidden">
-            <!-- O conteúdo do uploader será partilhado e movido aqui via JS -->
-        </div>
+        <!-- MODO DE ANÁLISE LOCAL -->
+        <div id="local-analysis-mode" class="hidden"></div>
 
         <!-- MODO DE SINCRONIZAÇÃO (QR Code) -->
         <div id="sync-mode" class="hidden text-center">
             <div id="qr-container" class="mt-8 p-6 bg-gray-50 rounded-lg">
-                <p class="text-gray-800 font-semibold mb-2">Leia este QR Code com o seu celular:</p>
+                <p class="text-gray-800 font-semibold mb-2">Leia este QR Code com o seu telemóvel:</p>
                 <div id="qrcode" class="flex justify-center"></div>
                 <p class="text-gray-600 mt-4">ID da Sessão: <strong id="session-id-display"></strong></p>
-                <p class="text-gray-500 italic mt-2">Aguardando o envio do exame...</p>
+                <p class="text-gray-500 italic mt-2">A aguardar o envio do exame...</p>
             </div>
         </div>
 
-        <!-- MODO TELEMÓVEL (acionado por URL com ?session=...) -->
-        <div id="mobile-mode" class="hidden">
-            <!-- O conteúdo do uploader será partilhado e movido aqui via JS -->
-        </div>
+        <!-- MODO TELEMÓVEL -->
+        <div id="mobile-mode" class="hidden"></div>
 
-        <!-- TEMPLATE DO UPLOADER (partilhado entre modo local e telemóvel) -->
+        <!-- TEMPLATE DO UPLOADER -->
         <div id="uploader-template" class="hidden">
              <div class="bg-amber-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-amber-200">
-                <p class="text-gray-700 mb-6">Selecione uma ou mais imagens, ou um único arquivo PDF. Pode tirar várias fotos seguidas.</p>
+                <p class="text-gray-700 mb-6">Selecione uma ou mais imagens, ou um único ficheiro PDF. Pode tirar várias fotos seguidas.</p>
                 <div class="flex flex-col space-y-4">
                     <input type="file" id="exam-image-input" accept="image/*, application/pdf" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" multiple>
-                    <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-gray-300 rounded-lg min-h-[120px] hidden flex flex-wrap gap-4 justify-center">
-                        <!-- Miniaturas das imagens aparecerão aqui -->
-                    </div>
-                    <!-- ATUALIZADO: Container para os botões -->
+                    <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-gray-300 rounded-lg min-h-[120px] hidden flex flex-wrap gap-4 justify-center"></div>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <button id="analyze-exam-button" class="w-full p-3 font-semibold text-white bg-amber-600 rounded-lg hover:bg-amber-700" disabled>
                             <span id="analyze-text">Analisar</span>
                         </button>
-                        <!-- NOVO: Botão Limpar -->
                         <button id="clear-selection-button" class="w-full sm:w-auto p-3 font-semibold text-gray-700 bg-gray-300 rounded-lg hover:bg-gray-400 hidden">
                             Limpar
                         </button>
@@ -84,7 +81,7 @@
             </div>
         </div>
 
-        <!-- ÁREA DE RESULTADOS (usada por todos os modos) -->
+        <!-- ÁREA DE RESULTADOS -->
         <div id="result-container" class="mt-8 p-4 bg-green-100 rounded-xl hidden">
             <h3 class="font-bold text-lg mb-2 text-green-900">Resultado da Transcrição:</h3>
             <p id="progress-text" class="text-gray-600 italic mb-2"></p>
@@ -111,13 +108,14 @@
         const db = firebase.firestore();
 
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Referências aos Elementos do DOM ---
             const subtitle = document.getElementById('subtitle');
             const selectionModeDiv = document.getElementById('selection-mode');
             const localAnalysisModeDiv = document.getElementById('local-analysis-mode');
             const syncModeDiv = document.getElementById('sync-mode');
             const mobileModeDiv = document.getElementById('mobile-mode');
             const uploaderTemplate = document.getElementById('uploader-template');
+            const backButtonContainer = document.getElementById('back-button-container');
+            const backToSelectionBtn = document.getElementById('back-to-selection');
             
             const selectLocalBtn = document.getElementById('select-local-btn');
             const selectSyncBtn = document.getElementById('select-sync-btn');
@@ -133,7 +131,6 @@
             let currentFiles = [];
             let unsubscribe;
 
-            // --- Lógica Principal: Verificar o modo ---
             const urlParams = new URLSearchParams(window.location.search);
             const sessionId = urlParams.get('session');
 
@@ -143,15 +140,29 @@
                 setupSelectionMode();
             }
 
-            // --- Funções de Configuração dos Modos ---
-            function setupSelectionMode() {
+            function resetToSelectionMode() {
                 selectionModeDiv.classList.remove('hidden');
-                selectLocalBtn.addEventListener('click', () => setupLocalAnalysisMode());
-                selectSyncBtn.addEventListener('click', () => setupSyncMode());
+                localAnalysisModeDiv.classList.add('hidden');
+                syncModeDiv.classList.add('hidden');
+                mobileModeDiv.classList.add('hidden');
+                backButtonContainer.classList.add('hidden');
+                resultContainer.classList.add('hidden');
+                localAnalysisModeDiv.innerHTML = '';
+                mobileModeDiv.innerHTML = '';
+                subtitle.textContent = "Capture ou envie os seus exames para transcrição.";
+                if (unsubscribe) unsubscribe();
+            }
+            
+            backToSelectionBtn.addEventListener('click', resetToSelectionMode);
+
+            function setupSelectionMode() {
+                selectLocalBtn.addEventListener('click', setupLocalAnalysisMode);
+                selectSyncBtn.addEventListener('click', setupSyncMode);
             }
 
             function setupLocalAnalysisMode() {
                 selectionModeDiv.classList.add('hidden');
+                backButtonContainer.classList.remove('hidden');
                 subtitle.textContent = "Selecione os ficheiros do seu computador.";
                 const uploader = uploaderTemplate.firstElementChild.cloneNode(true);
                 localAnalysisModeDiv.appendChild(uploader);
@@ -162,6 +173,7 @@
 
             function setupSyncMode() {
                 selectionModeDiv.classList.add('hidden');
+                backButtonContainer.classList.remove('hidden');
                 subtitle.textContent = "Conecte o seu telemóvel para capturar exames.";
                 syncModeDiv.classList.remove('hidden');
                 generateSession();
@@ -188,7 +200,6 @@
                 clearSelectionButton.addEventListener('click', clearSelection);
             }
 
-            // --- Lógica de Sessão e Sincronização ---
             function generateSession() {
                 const newSessionId = `EXM-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
                 sessionIdDisplay.textContent = newSessionId;
@@ -205,31 +216,30 @@
                         const data = doc.data();
                         resultContainer.classList.remove('hidden');
                         if (data.status === 'completed' && data.result) {
-                            progressText.textContent = '';
+                            progressText.textContent = 'Resultado recebido com sucesso!';
                             transcriptionResult.textContent = data.result;
                             syncModeDiv.classList.add('hidden');
                             unsubscribe();
                         } else if (data.status === 'processing') {
                             progressText.textContent = 'O seu exame está a ser processado...';
                         } else if (data.status === 'error') {
-                            progressText.textContent = `Erro: ${data.error}`;
+                            progressText.textContent = `Erro no servidor: ${data.error}`;
+                            unsubscribe();
                         }
                     }
                 });
             }
 
-            // --- Lógica de Ficheiros e Análise ---
             function clearSelection() {
                 currentFiles = [];
                 previewContainer.innerHTML = '';
                 previewContainer.classList.add('hidden');
                 analyzeButton.disabled = true;
                 clearSelectionButton.classList.add('hidden');
-                imageInput.value = ''; // Limpa o input para permitir selecionar o mesmo ficheiro novamente
+                imageInput.value = '';
             }
 
             async function handleFileSelect(event) {
-                // ATUALIZADO: Adiciona novos ficheiros à lista existente
                 const newFiles = Array.from(event.target.files);
                 currentFiles.push(...newFiles);
 
@@ -242,7 +252,6 @@
                     return;
                 }
                 
-                // ATUALIZADO: Reconstrói a pré-visualização com todos os ficheiros
                 previewContainer.innerHTML = ''; 
                 for (const file of currentFiles) {
                     if (file.type.startsWith('image/')) {
@@ -255,7 +264,6 @@
                         thumb.className = 'thumbnail flex items-center justify-center bg-red-100 text-red-700';
                         thumb.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6z" clip-rule="evenodd" /></svg>`;
                         previewContainer.appendChild(thumb);
-                        // Desativa a seleção múltipla se um PDF for escolhido
                         if(currentFiles.length > 1) {
                             alert("Não é possível selecionar um PDF juntamente com outras imagens. A seleção será limpa.");
                             clearSelection();
@@ -299,7 +307,7 @@
                         }
                     }
 
-                    if (!sessionId) progressText.textContent = 'Enviando para a inteligência artificial...';
+                    if (!sessionId) progressText.textContent = 'A enviar para a inteligência artificial...';
 
                     const prompt = `Você é um auxiliar de um médico e registra dados em português do Brasil. Analise as imagens a seguir, que são páginas sequenciais de um único documento de exame médico. Consolide os resultados de TODAS as páginas em um único texto. Crie uma lista contendo a data, o nome de cada exame e seu respectivo resultado. Formate esse resultado em uma lista com a data entre parênteses, seguida do primeiro resultado, e separando os itens pelo símbolo / em uma linha contínua. Escreva a data apenas uma vez no início. Omita as unidades de cada exame. Para o hemograma completo, anote apenas os resultados de hemoglobina, leucócitos e plaquetas. Para o exame parcial de urina, anote apenas os itens fora dos valores de referência. Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos, sempre nesta sequência. Liste primeiro os exames com resultados fora dos valores de referência. Em exames de imagem, descreva detalhadamente a conclusão.`;
                     
