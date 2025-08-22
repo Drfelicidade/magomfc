@@ -6,7 +6,7 @@ const cors = require('cors');
 require('dotenv').config(); // Carrega as variáveis do arquivo .env
 
 const app = express();
-const port = 3000; // Porta em que o servidor irá rodar
+const port = process.env.PORT || 3000; // Usa a porta do Render ou 3000 localmente
 
 // Configurações do servidor
 app.use(cors()); // Permite requisições de outras origens (seu frontend)
@@ -25,28 +25,37 @@ app.post('/analyze-exam', async (req, res) => {
         return res.status(400).json({ error: 'Dados da imagem ou prompt ausentes.' });
     }
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${apiKey}`;
+    // CORREÇÃO APLICADA AQUI: Atualização para um modelo mais recente
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
     const payload = {
         contents: [{
             parts: [
                 { text: prompt },
-                { inline_data: inlineData }
+                { inlineData: inlineData }
             ]
         }]
     };
 
     try {
         const response = await axios.post(apiUrl, payload);
-        // Retorna apenas a parte relevante da resposta do Gemini para o frontend
-        const transcription = response.data.candidates[0].content.parts[0].text;
-        res.json({ text: transcription });
+        
+        // Verifica se a resposta tem o conteúdo esperado antes de enviar
+        if (response.data && response.data.candidates && response.data.candidates[0].content.parts[0].text) {
+            const transcription = response.data.candidates[0].content.parts[0].text;
+            res.json({ text: transcription });
+        } else {
+            // Se a resposta da API for bem-sucedida mas vazia, informa o usuário
+            res.status(500).json({ error: 'A API do Gemini retornou uma resposta vazia.' });
+        }
+
     } catch (error) {
+        // Log detalhado do erro no servidor para depuração
         console.error('Erro ao chamar a API do Gemini:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Falha ao comunicar com a API do Gemini.' });
     }
 });
 
 app.listen(port, () => {
-    console.log(`Servidor backend rodando em http://localhost:${port}`);
+    console.log(`Servidor backend rodando na porta ${port}`);
 });
