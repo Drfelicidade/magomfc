@@ -33,10 +33,10 @@
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Como deseja continuar?</h2>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
                 <button id="select-local-btn" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition w-full md:w-auto">
-                    Analisar Arquivos do Computador
+                    Analisar Ficheiros do Computador
                 </button>
                 <button id="select-sync-btn" class="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition w-full md:w-auto">
-                    Sincronizar com Celular
+                    Sincronizar com Telemóvel
                 </button>
             </div>
         </div>
@@ -49,10 +49,10 @@
         <!-- MODO DE SINCRONIZAÇÃO (QR Code) -->
         <div id="sync-mode" class="hidden text-center">
             <div id="qr-container" class="mt-8 p-6 bg-gray-50 rounded-lg">
-                <p class="text-gray-800 font-semibold mb-2">Leia este QR Code com o seu celular:</p>
+                <p class="text-gray-800 font-semibold mb-2">Leia este QR Code com o seu telemóvel:</p>
                 <div id="qrcode" class="flex justify-center"></div>
                 <p class="text-gray-600 mt-4">ID da Sessão: <strong id="session-id-display"></strong></p>
-                <p class="text-gray-500 italic mt-2">Aguardando o envio do exame...</p>
+                <p class="text-gray-500 italic mt-2">A aguardar o envio do exame...</p>
             </div>
         </div>
 
@@ -64,17 +64,22 @@
         <!-- TEMPLATE DO UPLOADER (partilhado entre modo local e telemóvel) -->
         <div id="uploader-template" class="hidden">
              <div class="bg-amber-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-amber-200">
-                <p class="text-gray-700 mb-6">Selecione uma ou mais imagens, ou um único arquivo PDF.</p>
+                <p class="text-gray-700 mb-6">Selecione uma ou mais imagens, ou um único ficheiro PDF. Pode tirar várias fotos seguidas.</p>
                 <div class="flex flex-col space-y-4">
-                    <!-- ATUALIZADO: 'multiple' permite selecionar vários ficheiros -->
                     <input type="file" id="exam-image-input" accept="image/*, application/pdf" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" multiple>
-                    <!-- ATUALIZADO: Pré-visualização para múltiplos ficheiros -->
                     <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-gray-300 rounded-lg min-h-[120px] hidden flex flex-wrap gap-4 justify-center">
                         <!-- Miniaturas das imagens aparecerão aqui -->
                     </div>
-                    <button id="analyze-exam-button" class="w-full p-3 font-semibold text-white bg-amber-600 rounded-lg hover:bg-amber-700" disabled>
-                        <span id="analyze-text">Analisar</span>
-                    </button>
+                    <!-- ATUALIZADO: Container para os botões -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="analyze-exam-button" class="w-full p-3 font-semibold text-white bg-amber-600 rounded-lg hover:bg-amber-700" disabled>
+                            <span id="analyze-text">Analisar</span>
+                        </button>
+                        <!-- NOVO: Botão Limpar -->
+                        <button id="clear-selection-button" class="w-full sm:w-auto p-3 font-semibold text-gray-700 bg-gray-300 rounded-lg hover:bg-gray-400 hidden">
+                            Limpar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -124,7 +129,7 @@
             const transcriptionResult = document.getElementById('transcription-result');
             const progressText = document.getElementById('progress-text');
             
-            let imageInput, analyzeButton, previewContainer;
+            let imageInput, analyzeButton, previewContainer, clearSelectionButton;
             let currentFiles = [];
             let unsubscribe;
 
@@ -152,7 +157,7 @@
                 localAnalysisModeDiv.appendChild(uploader);
                 localAnalysisModeDiv.classList.remove('hidden');
                 initializeUploaderElements();
-                analyzeButton.addEventListener('click', () => handleAnalysis(null)); // null sessionId para modo local
+                analyzeButton.addEventListener('click', () => handleAnalysis(null));
             }
 
             function setupSyncMode() {
@@ -169,7 +174,7 @@
                 mobileModeDiv.appendChild(uploader);
                 mobileModeDiv.classList.remove('hidden');
                 initializeUploaderElements();
-                analyzeButton.textContent = 'Analisar e Enviar para o Desktop';
+                analyzeButton.firstElementChild.textContent = 'Analisar e Enviar para o Desktop';
                 analyzeButton.addEventListener('click', () => handleAnalysis(sessionId));
             }
 
@@ -177,7 +182,10 @@
                 imageInput = document.getElementById('exam-image-input');
                 analyzeButton = document.getElementById('analyze-exam-button');
                 previewContainer = document.getElementById('preview-container');
+                clearSelectionButton = document.getElementById('clear-selection-button');
+                
                 imageInput.addEventListener('change', handleFileSelect);
+                clearSelectionButton.addEventListener('click', clearSelection);
             }
 
             // --- Lógica de Sessão e Sincronização ---
@@ -211,18 +219,31 @@
             }
 
             // --- Lógica de Ficheiros e Análise ---
+            function clearSelection() {
+                currentFiles = [];
+                previewContainer.innerHTML = '';
+                previewContainer.classList.add('hidden');
+                analyzeButton.disabled = true;
+                clearSelectionButton.classList.add('hidden');
+                imageInput.value = ''; // Limpa o input para permitir selecionar o mesmo ficheiro novamente
+            }
+
             async function handleFileSelect(event) {
-                currentFiles = Array.from(event.target.files);
-                previewContainer.innerHTML = ''; // Limpa pré-visualizações anteriores
+                // ATUALIZADO: Adiciona novos ficheiros à lista existente
+                const newFiles = Array.from(event.target.files);
+                currentFiles.push(...newFiles);
+
                 if (currentFiles.length > 0) {
                     previewContainer.classList.remove('hidden');
                     analyzeButton.disabled = false;
+                    clearSelectionButton.classList.remove('hidden');
                 } else {
-                    previewContainer.classList.add('hidden');
-                    analyzeButton.disabled = true;
+                    clearSelection();
                     return;
                 }
-
+                
+                // ATUALIZADO: Reconstrói a pré-visualização com todos os ficheiros
+                previewContainer.innerHTML = ''; 
                 for (const file of currentFiles) {
                     if (file.type.startsWith('image/')) {
                         const thumb = document.createElement('img');
@@ -230,11 +251,16 @@
                         thumb.className = 'thumbnail';
                         previewContainer.appendChild(thumb);
                     } else if (file.type === 'application/pdf') {
-                        // Para PDFs, mostramos um ícone genérico
                         const thumb = document.createElement('div');
                         thumb.className = 'thumbnail flex items-center justify-center bg-red-100 text-red-700';
                         thumb.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6z" clip-rule="evenodd" /></svg>`;
                         previewContainer.appendChild(thumb);
+                        // Desativa a seleção múltipla se um PDF for escolhido
+                        if(currentFiles.length > 1) {
+                            alert("Não é possível selecionar um PDF juntamente com outras imagens. A seleção será limpa.");
+                            clearSelection();
+                            return;
+                        }
                     }
                 }
             }
@@ -243,8 +269,8 @@
                 if (currentFiles.length === 0) return;
 
                 analyzeButton.disabled = true;
-                analyzeButton.textContent = 'A processar...';
-                if (!sessionId) { // Modo local
+                analyzeButton.firstElementChild.textContent = 'A processar...';
+                if (!sessionId) {
                     resultContainer.classList.remove('hidden');
                     progressText.textContent = 'A preparar ficheiros...';
                 }
@@ -287,13 +313,13 @@
                     
                     if (sessionId) {
                         alert('Exame enviado com sucesso! Verifique o resultado no seu desktop.');
-                        analyzeButton.textContent = 'Enviado!';
+                        analyzeButton.firstElementChild.textContent = 'Enviado!';
                     } else {
                         const result = await response.json();
                         progressText.textContent = '';
                         transcriptionResult.textContent = result.text;
                         analyzeButton.disabled = false;
-                        analyzeButton.textContent = 'Analisar';
+                        analyzeButton.firstElementChild.textContent = 'Analisar';
                     }
 
                 } catch (error) {
@@ -303,7 +329,7 @@
                         progressText.textContent = `Erro: ${error.message}`;
                     }
                     analyzeButton.disabled = false;
-                    analyzeButton.textContent = 'Tentar Novamente';
+                    analyzeButton.firstElementChild.textContent = 'Tentar Novamente';
                 }
             }
 
