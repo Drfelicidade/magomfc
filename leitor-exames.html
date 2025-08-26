@@ -31,6 +31,13 @@
             <p id="subtitle" class="text-gray-600 text-lg md:text-xl">Autenticação necessária para continuar.</p>
         </header>
 
+        <!-- NOVO: Botão Voltar ao Menu Principal -->
+        <div class="text-center">
+            <a href="index.html" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
         <!-- Tela de Login -->
         <div id="login-screen" class="text-center p-8 max-w-md mx-auto">
             <h2 id="auth-title" class="text-2xl font-bold text-gray-800 mb-4">Bem-vindo!</h2>
@@ -103,6 +110,7 @@ const firebaseConfig = {
   appId: "1:495677306399:web:1aa9f970091a57846b072a",
   measurementId: "G-9HDX2K2ZZS"
 };
+
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const auth = firebase.auth();
@@ -145,14 +153,14 @@ const firebaseConfig = {
                     userProfileDiv.classList.remove('hidden');
                     appContent.classList.remove('hidden');
                     subtitle.textContent = "Capture ou envie seus exames para transcrição.";
-                    listenForLastExam(); // Começa a ouvir o último exame
+                    listenForLastExam();
                 } else {
                     currentUser = null;
                     loginScreen.classList.remove('hidden');
                     userProfileDiv.classList.add('hidden');
                     appContent.classList.add('hidden');
                     subtitle.textContent = "Autenticação necessária para continuar.";
-                    if (unsubscribe) unsubscribe(); // Para de ouvir quando o usuário sai
+                    if (unsubscribe) unsubscribe();
                 }
             });
 
@@ -339,7 +347,6 @@ const firebaseConfig = {
                     
                     const result = await response.json();
                     progressText.textContent = 'Análise concluída!';
-                    // O listener do Firestore irá atualizar a tela automaticamente com o novo resultado.
                     clearSelection();
 
                 } catch (error) {
@@ -360,4 +367,3 @@ const firebaseConfig = {
     </script>
 </body>
 </html>
-
