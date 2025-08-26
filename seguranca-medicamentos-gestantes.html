@@ -3,199 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Segurança de Medicamentos em Gestantes</title>
+    <title>Segurança de Medicamentos na Gestação</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-        }
-        .container {
-            max-width: 900px;
-        }
-        .section-title {
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background-color: #6d28d9; /* Cor violeta para diferenciar */
-            border-radius: 9999px;
-        }
-        .risk-category-A { background-color: #dcfce7; border-left: 4px solid #22c55e; } /* green-100, green-500 */
-        .risk-category-B { background-color: #eff6ff; border-left: 4px solid #3b82f6; } /* blue-100, blue-500 */
-        .risk-category-C { background-color: #fefce8; border-left: 4px solid #facc15; } /* yellow-100, yellow-500 */
-        .risk-category-D { background-color: #fef2f2; border-left: 4px solid #ef4444; } /* red-100, red-500 */
-        .risk-category-X { background-color: #fce7f3; border-left: 4px solid #ec4899; } /* pink-100, pink-500 */
-        .risk-category-unknown { background-color: #e2e8f0; border-left: 4px solid #94a3b8; } /* slate-200, slate-400 */
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
+        .container { max-width: 900px; }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
-    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
-        <header class="text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Segurança de Medicamentos em Gestantes</h1>
-            <p class="text-gray-600 text-lg md:text-xl">
-                Verifique a categoria de risco de medicamentos na gravidez (Classificação FDA).
-            </p>
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-6 relative">
+        
+        <div id="user-profile" class="absolute top-4 right-6 text-right hidden">
+            <p class="text-sm text-gray-700">Olá, <strong id="user-name"></strong></p>
+            <button id="logout-button" class="text-sm text-blue-600 hover:underline">Sair</button>
+        </div>
+
+        <header class="text-center pt-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Segurança de Medicamentos</h1>
+            <p id="subtitle" class="text-gray-600 text-lg md:text-xl">Consulte informações sobre o uso de medicamentos na gestação.</p>
         </header>
 
-        <!-- Botão Voltar ao Menu Principal -->
-        <div class="text-center mb-8">
-            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+        <div class="text-center">
+            <a href="index.html" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 transition duration-300">
                 &larr; Voltar ao Menu Principal
             </a>
         </div>
 
-        <!-- Seção de Verificação de Medicamentos -->
-        <div class="bg-violet-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-violet-200">
-            <h2 class="section-title text-2xl font-bold text-violet-900 mb-4">Consultar Medicamento</h2>
-            <p class="text-gray-700 mb-6">Digite o nome do medicamento para verificar sua categoria de risco na gravidez.</p>
-            
-            <div class="flex flex-col sm:flex-row gap-4">
-                <input type="text" id="medication-name-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition duration-200" placeholder="Ex: Paracetamol, Amoxicilina">
-                <button id="check-safety-button" class="w-full sm:w-auto p-3 font-semibold text-white bg-violet-600 rounded-lg hover:bg-violet-700 transition duration-300 shadow-md flex-shrink-0">
-                    Verificar Segurança
-                </button>
+        <!-- Conteúdo Principal da Aplicação -->
+        <div id="app-content">
+            <!-- PESQUISA -->
+            <div class="bg-rose-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-rose-200">
+                <div class="flex flex-col space-y-4">
+                    <label for="medication-input" class="text-lg font-semibold text-gray-800">Digite o nome do medicamento:</label>
+                    <input type="text" id="medication-input" placeholder="Ex: Paracetamol" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500">
+                    <button id="search-button" class="w-full p-3 font-semibold text-white bg-rose-600 rounded-lg hover:bg-rose-700 transition duration-300">
+                        Pesquisar
+                    </button>
+                </div>
             </div>
-            
-            <div id="safety-result" class="mt-8 p-4 rounded-xl hidden">
-                <!-- Resultados serão exibidos aqui -->
+
+            <!-- ÁREA DE RESULTADOS -->
+            <div id="result-container" class="mt-8 p-6 bg-gray-50 rounded-xl hidden">
+                <div id="loading-spinner" class="text-center hidden">
+                    <svg class="animate-spin mx-auto h-8 w-8 text-rose-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <p class="mt-2 text-gray-600">Pesquisando na base de dados...</p>
+                </div>
+                <div id="medication-result" class="prose max-w-none whitespace-pre-wrap"></div>
             </div>
         </div>
-        
-        <footer class="text-center text-gray-500 text-sm mt-10">
-            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins informativos e educacionais. As informações são baseadas nas categorias de risco da FDA, que podem ser atualizadas. **Não substitui a consulta e a orientação de um médico ou profissional de saúde qualificado.** A decisão sobre o uso de qualquer medicamento durante a gravidez deve ser sempre tomada em conjunto com o seu médico.</p>
-            <p>&copy; 2024 Segurança de Medicamentos em Gestantes. Todos os direitos reservados.</p>
-        </footer>
     </div>
 
+    <!-- Firebase SDKs (necessário para obter o token de autenticação) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
     <script>
+        // COLE AQUI O SEU OBJETO firebaseConfig
+        const firebaseConfig = {
+            apiKey: "AIza...",
+            authDomain: "seu-projeto.firebaseapp.com",
+            projectId: "seu-projeto",
+            storageBucket: "seu-projeto.appspot.com",
+            messagingSenderId: "...",
+            appId: "..."
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
         document.addEventListener('DOMContentLoaded', () => {
-            const medicationNameInput = document.getElementById('medication-name-input');
-            const checkSafetyButton = document.getElementById('check-safety-button');
-            const safetyResultDiv = document.getElementById('safety-result');
+            const searchButton = document.getElementById('search-button');
+            const medicationInput = document.getElementById('medication-input');
+            const resultContainer = document.getElementById('result-container');
+            const medicationResult = document.getElementById('medication-result');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const userProfileDiv = document.getElementById('user-profile');
+            const userNameSpan = document.getElementById('user-name');
+            const logoutButton = document.getElementById('logout-button');
 
-            // Hardcoded data for common medications (simplified for demonstration)
-            // In a real application, this data would come from a robust database/API
-            const medicationSafetyData = {
-                "paracetamol": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. Geralmente considerado seguro para uso ocasional."
-                },
-                "ibuprofeno": {
-                    category: "C (D no 3º trimestre)",
-                    description: "Categoria C: Estudos em animais mostraram efeitos adversos no feto, mas não há estudos adequados em humanos. Os benefícios potenciais podem justificar o risco. Categoria D no 3º trimestre devido ao risco de fechamento prematuro do ducto arterioso fetal."
-                },
-                "amoxicilina": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. Amplamente utilizada e geralmente considerada segura."
-                },
-                "amoxicilina + clavulanato": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. Geralmente considerada segura."
-                },
-                "azitromicina": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. Geralmente considerada segura."
-                },
-                "cefalexina": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. Geralmente considerada segura."
-                },
-                "sulfametoxazol + trimetoprima": {
-                    category: "C (D no final da gravidez)",
-                    description: "Categoria C: Estudos em animais mostraram efeitos adversos no feto, mas não há estudos adequados em humanos. Os benefícios potenciais podem justificar o risco. Categoria D no final da gravidez devido ao risco de icterícia nuclear no recém-nascido."
-                },
-                "dipirona": {
-                    category: "B (D no 1º e 3º trimestres)",
-                    description: "Categoria B no 2º trimestre. Categoria D no 1º e 3º trimestres devido ao risco de fechamento prematuro do ducto arterioso fetal e outros efeitos adversos."
-                },
-                "prednisolona": {
-                    category: "C",
-                    description: "Estudos em animais mostraram efeitos adversos no feto, mas não há estudos adequados em humanos. Os benefícios potenciais podem justificar o risco. O uso deve ser avaliado cuidadosamente pelo médico."
-                },
-                "loratadina": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. Geralmente considerada segura."
-                },
-                "dexclorfeniramina": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. Geralmente considerada segura."
-                },
-                "dimenidrinato + piridoxina": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. Geralmente considerado seguro."
-                },
-                "risperidona": {
-                    category: "C",
-                    description: "Estudos em animais mostraram efeitos adversos no feto, mas não há estudos adequados em humanos. Os benefícios potenciais podem justificar o risco. O uso deve ser avaliado cuidadosamente pelo médico."
-                },
-                "carbamazepina": {
-                    category: "D",
-                    description: "Há evidências positivas de risco fetal em humanos, mas os benefícios potenciais podem justificar o risco em situações de risco de vida ou doença grave para a mãe. Associada a defeitos de tubo neural."
-                },
-                "lactulona": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. Geralmente considerada segura."
-                },
-                "ondansetrona": {
-                    category: "B",
-                    description: "Estudos em animais não demonstraram risco fetal, e não há estudos adequados e bem controlados em mulheres grávidas. O uso deve ser avaliado pelo médico."
-                },
-                "guaco": { // Fitoterápico
-                    category: "C", // Categoria C para fitoterápicos sem estudos adequados
-                    description: "Não há estudos adequados e bem controlados em mulheres grávidas. O uso de fitoterápicos na gravidez deve ser sempre com orientação médica, pois muitos não possuem classificação formal de risco."
-                },
-                // Adicione mais medicamentos aqui
-            };
+            let currentUser = null;
 
-            checkSafetyButton.addEventListener('click', () => {
-                const medicationName = medicationNameInput.value.trim().toLowerCase();
-                safetyResultDiv.classList.add('hidden');
-                safetyResultDiv.className = 'mt-8 p-4 rounded-xl'; // Reset classes
-
-                if (!medicationName) {
-                    displayResult('safety-result', 'Por favor, digite o nome de um medicamento.', 'text-red-700');
-                    return;
-                }
-
-                const medInfo = medicationSafetyData[medicationName];
-
-                if (medInfo) {
-                    let categoryClass = '';
-                    switch (medInfo.category.charAt(0)) { // Pega a primeira letra da categoria
-                        case 'A': categoryClass = 'risk-category-A'; break;
-                        case 'B': categoryClass = 'risk-category-B'; break;
-                        case 'C': categoryClass = 'risk-category-C'; break;
-                        case 'D': categoryClass = 'risk-category-D'; break;
-                        case 'X': categoryClass = 'risk-category-X'; break;
-                        default: categoryClass = 'risk-category-unknown'; break;
-                    }
-
-                    safetyResultDiv.innerHTML = `
-                        <h3 class="font-bold text-lg mb-2">Classificação de Risco para ${medInfo.name || medicationName.charAt(0).toUpperCase() + medicationName.slice(1)}:</h3>
-                        <p class="text-gray-800 text-2xl mb-2"><span class="font-semibold">Categoria FDA:</span> <span class="font-bold">${medInfo.category}</span></p>
-                        <p class="text-gray-700">${medInfo.description}</p>
-                    `;
-                    safetyResultDiv.classList.add(categoryClass);
-                    safetyResultDiv.classList.remove('hidden');
+            // Verifica o estado de autenticação para obter o token
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    currentUser = user;
+                    const displayName = user.displayName || user.email.split('@')[0];
+                    userNameSpan.textContent = displayName.split(' ')[0];
+                    userProfileDiv.classList.remove('hidden');
                 } else {
-                    displayResult('safety-result', `Medicamento "${medicationName.charAt(0).toUpperCase() + medicationName.slice(1)}" não encontrado em nossa base de dados. Por favor, verifique a grafia ou consulte um profissional de saúde.`, 'text-gray-700');
-                    safetyResultDiv.classList.add('risk-category-unknown');
+                    // Se não estiver logado, redireciona para a página de login
+                    window.location.href = 'leitor-exames.html';
+                }
+            });
+            
+            logoutButton.addEventListener('click', () => auth.signOut());
+
+            searchButton.addEventListener('click', handleSearch);
+            medicationInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleSearch();
                 }
             });
 
-            // Função auxiliar para exibir mensagens de resultado/erro
-            function displayResult(containerId, message, textColorClass) {
-                const container = document.getElementById(containerId);
-                container.innerHTML = `<p class="${textColorClass || 'text-gray-700'} font-semibold">${message}</p>`;
-                container.classList.remove('hidden');
+            async function handleSearch() {
+                const medicationName = medicationInput.value.trim();
+                if (!medicationName) {
+                    alert("Por favor, digite o nome de um medicamento.");
+                    return;
+                }
+                if (!currentUser) {
+                    alert("Você precisa estar logado para fazer uma pesquisa.");
+                    return;
+                }
+
+                resultContainer.classList.remove('hidden');
+                loadingSpinner.classList.remove('hidden');
+                medicationResult.innerHTML = '';
+
+                try {
+                    const prompt = `
+                        Você é um assistente de informações farmacêuticas especializado em teratologia e segurança de medicamentos na gestação. Sua função é fornecer informações baseadas em evidências e classificações de risco padrão para profissionais de saúde.
+                        Para o medicamento "${medicationName}", forneça um resumo sobre sua segurança durante a gestação.
+
+                        A sua resposta DEVE seguir estritamente o seguinte formato:
+                        - **Nome do Medicamento:** ${medicationName}
+                        - **Classificação de Risco na Gestação (FDA):** [Categoria A, B, C, D ou X. Se não houver, escreva 'Não classificado pela FDA'.]
+                        - **Resumo de Segurança:** [Um parágrafo conciso explicando os riscos conhecidos, considerações por trimestre e informações sobre estudos em humanos ou animais. Seja direto e informativo.]
+                        - **Recomendações Gerais:** [Informações sobre a importância de avaliar o risco-benefício e a necessidade de acompanhamento médico.]
+
+                        REGRAS IMPORTANTES:
+                        1.  NÃO forneça conselhos médicos diretos. NÃO diga 'é seguro tomar' ou 'não tome'.
+                        2.  A sua resposta DEVE SEMPRE terminar com o seguinte aviso legal, sem exceções: 'AVISO: Esta informação é apenas para fins educacionais e não substitui a consulta com um profissional de saúde qualificado. Nunca inicie, pare ou altere qualquer medicação sem consultar o seu médico.'
+                        3.  Se você não encontrar informações conclusivas sobre "${medicationName}", responda apenas: 'Não foram encontradas informações conclusivas para este medicamento na minha base de dados. É essencial consultar um médico.'
+                    `;
+
+                    const idToken = await currentUser.getIdToken();
+                    const response = await fetch('https://magomfc.onrender.com/check-medication-safety', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${idToken}`
+                        },
+                        body: JSON.stringify({ prompt })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error((await response.json()).error || 'Falha na comunicação com o servidor.');
+                    }
+
+                    const result = await response.json();
+                    medicationResult.textContent = result.text;
+
+                } catch (error) {
+                    medicationResult.textContent = `Erro ao pesquisar: ${error.message}`;
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                }
             }
         });
     </script>
