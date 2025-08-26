@@ -60,14 +60,16 @@
 
     <script>
         // COLE AQUI O SEU OBJETO firebaseConfig
-        const firebaseConfig = {
-            apiKey: "AIza...",
-            authDomain: "seu-projeto.firebaseapp.com",
-            projectId: "seu-projeto",
-            storageBucket: "seu-projeto.appspot.com",
-            messagingSenderId: "...",
-            appId: "..."
-        };
+       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCBdmvJJgGaZjacG-ro5XsAqUQPxkZ24oo",
+  authDomain: "leitor-de-exames-sync.firebaseapp.com",
+  projectId: "leitor-de-exames-sync",
+  storageBucket: "leitor-de-exames-sync.firebasestorage.app",
+  messagingSenderId: "495677306399",
+  appId: "1:495677306399:web:1aa9f970091a57846b072a",
+  measurementId: "G-9HDX2K2ZZS"
+};
 
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -92,8 +94,10 @@
                     userNameSpan.textContent = displayName.split(' ')[0];
                     userProfileDiv.classList.remove('hidden');
                 } else {
-                    // Se não estiver logado, redireciona para a página de login
-                    window.location.href = 'leitor-exames.html';
+                    // CORREÇÃO APLICADA AQUI:
+                    // Redireciona para a página de login, mas informa qual era a página de destino.
+                    const destination = encodeURIComponent(window.location.pathname);
+                    window.location.href = `leitor-exames.html?redirect=${destination}`;
                 }
             });
             
