@@ -153,7 +153,18 @@ const firebaseConfig = {
                     userProfileDiv.classList.remove('hidden');
                     appContent.classList.remove('hidden');
                     subtitle.textContent = "Capture ou envie seus exames para transcrição.";
-                    listenForLastExam();
+
+                    // CORREÇÃO APLICADA AQUI:
+                    // Verifica se há um pedido de redirecionamento após o login.
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirectUrl = urlParams.get('redirect');
+                    if (redirectUrl) {
+                        // Limpa o parâmetro da URL e redireciona
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        window.location.href = redirectUrl;
+                    } else {
+                        listenForLastExam();
+                    }
                 } else {
                     currentUser = null;
                     loginScreen.classList.remove('hidden');
