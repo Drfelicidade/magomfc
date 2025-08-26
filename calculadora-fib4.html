@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora FIB-4</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #06b6d4; /* Cor ciano para diferenciar */
+            border-radius: 9999px;
+        }
+        .result-low { background-color: #dcfce7; border-left: 4px solid #22c55e; } /* green-100, green-500 */
+        .result-indeterminate { background-color: #fffbeb; border-left: 4px solid #f59e0b; } /* amber-100, amber-500 */
+        .result-high { background-color: #fef2f2; border-left: 4px solid #ef4444; } /* red-100, red-500 */
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora FIB-4</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Ferramenta para estimar o grau de fibrose hepática, auxiliando na triagem.
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção da Calculadora FIB-4 -->
+        <div class="bg-cyan-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-cyan-200">
+            <h2 class="section-title text-2xl font-bold text-cyan-900 mb-4">Calcular Escore FIB-4</h2>
+            <p class="text-gray-700 mb-6">Insira os dados dos exames laboratoriais do paciente para calcular o risco de fibrose hepática.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Idade -->
+                <div class="flex flex-col">
+                    <label for="fib4-age" class="text-sm font-medium text-gray-700 mb-1">Idade (anos):</label>
+                    <input type="number" id="fib4-age" min="18" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition duration-200" placeholder="Ex: 50">
+                </div>
+                <!-- AST (TGO) -->
+                <div class="flex flex-col">
+                    <label for="fib4-ast" class="text-sm font-medium text-gray-700 mb-1">AST (TGO) (U/L):</label>
+                    <input type="number" id="fib4-ast" min="0" step="1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition duration-200" placeholder="Ex: 45">
+                </div>
+                <!-- ALT (TGP) -->
+                <div class="flex flex-col">
+                    <label for="fib4-alt" class="text-sm font-medium text-gray-700 mb-1">ALT (TGP) (U/L):</label>
+                    <input type="number" id="fib4-alt" min="0" step="1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition duration-200" placeholder="Ex: 50">
+                </div>
+                <!-- Plaquetas -->
+                <div class="flex flex-col">
+                    <label for="fib4-platelets" class="text-sm font-medium text-gray-700 mb-1">Plaquetas (10^9/L):</label>
+                    <input type="number" id="fib4-platelets" min="1" step="1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition duration-200" placeholder="Ex: 250">
+                </div>
+            </div>
+
+            <button id="calculate-fib4" class="w-full mt-8 p-3 font-semibold text-white bg-cyan-600 rounded-lg hover:bg-cyan-700 transition duration-300 shadow-md">
+                Calcular Escore FIB-4
+            </button>
+
+            <div id="fib4-result" class="mt-8 p-4 rounded-xl hidden">
+                <!-- Resultados serão exibidos aqui -->
+            </div>
+            <p class="text-gray-600 text-sm mt-4">
+                <strong class="font-semibold">Atenção:</strong> O escore FIB-4 foi validado para pacientes com hepatite C ou B crônica e para esteatose hepática não alcoólica. Ele pode não ser preciso em pacientes com menos de 35 anos ou mais de 65 anos.
+            </p>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins informativos e educacionais. Não substitui a avaliação e o diagnóstico de um profissional de saúde qualificado. A interpretação do escore FIB-4 deve ser feita por um médico ou especialista.</p>
+            <p>&copy; 2024 Calculadora FIB-4. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ageInput = document.getElementById('fib4-age');
+            const astInput = document.getElementById('fib4-ast');
+            const altInput = document.getElementById('fib4-alt');
+            const plateletsInput = document.getElementById('fib4-platelets');
+            const calculateButton = document.getElementById('calculate-fib4');
+            const resultDiv = document.getElementById('fib4-result');
+
+            calculateButton.addEventListener('click', () => {
+                const age = parseInt(ageInput.value);
+                const ast = parseFloat(astInput.value);
+                const alt = parseFloat(altInput.value);
+                const platelets = parseFloat(plateletsInput.value);
+
+                resultDiv.classList.add('hidden');
+                resultDiv.className = 'mt-8 p-4 rounded-xl'; // Reset classes for styling
+
+                // Validação de inputs
+                if (isNaN(age) || age < 18 || isNaN(ast) || ast < 0 || isNaN(alt) || alt < 0 || isNaN(platelets) || platelets <= 0) {
+                    displayResult('fib4-result', 'Por favor, preencha todos os campos com valores válidos.', 'text-red-700');
+                    return;
+                }
+                
+                // Conversão de unidades para a fórmula (AST, ALT em U/L; Plaquetas em 10^9/L)
+                // A fórmula assume plaquetas em 10^3/uL, então vamos converter de 10^9/L para 10^3/uL (dividir por 10)
+                const plateletsAdjusted = platelets / 10;
+                
+                // Fórmula FIB-4: [Idade x AST] / [Plaquetas x sqrt(ALT)]
+                const fib4Score = (age * ast) / (plateletsAdjusted * Math.sqrt(alt));
+
+                let interpretation = "";
+                let resultClass = "";
+                
+                // Critérios de corte para o escore FIB-4
+                const cutoffLow = 1.45;
+                const cutoffHigh = 3.25;
+
+                if (fib4Score <= cutoffLow) {
+                    interpretation = "Baixo Risco de Fibrose Hepática";
+                    resultClass = "result-low";
+                } else if (fib4Score > cutoffLow && fib4Score <= cutoffHigh) {
+                    interpretation = "Risco Indeterminado de Fibrose Hepática";
+                    resultClass = "result-indeterminate";
+                } else { // fib4Score > cutoffHigh
+                    interpretation = "Alto Risco de Fibrose Hepática";
+                    resultClass = "result-high";
+                }
+
+                resultDiv.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">Escore FIB-4 Calculado:</h3>
+                    <p class="text-gray-800 text-2xl"><span class="font-semibold">${fib4Score.toFixed(2)}</span></p>
+                    <p class="text-gray-800 mt-2"><span class="font-semibold">Interpretação:</span> <span class="font-bold ${resultClass}">${interpretation}</span></p>
+                    <p class="text-gray-600 text-sm mt-4">
+                        (Pontos de corte: ≤ ${cutoffLow} = Baixo Risco, > ${cutoffLow} a ≤ ${cutoffHigh} = Risco Indeterminado, > ${cutoffHigh} = Alto Risco)
+                    </p>
+                `;
+                resultDiv.classList.add(resultClass);
+                resultDiv.classList.remove('hidden');
+            });
+
+            // Função auxiliar para exibir mensagens de resultado/erro
+            function displayResult(containerId, message, textColorClass) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = `<p class="${textColorClass || 'text-gray-700'} font-semibold">${message}</p>`;
+                container.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
