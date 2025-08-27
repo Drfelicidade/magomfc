@@ -335,13 +335,15 @@ const firebaseConfig = {
                         3.  **ILEGÍVEL:** Se um valor ou nome de exame não estiver claro ou legível, escreva 'ILEGÍVEL' no lugar do valor.
                         4.  **NÃO FAÇA RESUMOS:** Não forneça resumos, explicações ou conselhos médicos. Apenas extraia os dados.
                         5.  **FORMATAÇÃO:**
-                            - Primeiro, encontre e escreva a data do exame no formato: Data do Exame: DD/MM/AAAA
-                            - Depois, liste cada exame encontrado com seu valor e unidades, um por linha. Use o formato: Nome do Exame: [Valor] [Unidade]
+                            - Primeiro, encontre e escreva a data do exame no formato: (DD/MM/AAAA). Escreva a data apenas no início do registro dos exames de cada data.
+                            - Depois, começando na mesma linha da data, liste cada exame encontrado com seu valor e unidades, em sequencia em uma mesma linha, separando cada exame por uma /. Use o formato: Nome do Exame: [Valor] [Unidade]
                             - Exemplo: Hemoglobina: 14.5 g/dL
                         6.  **INSTRUÇÕES ESPECÍFICAS:**
                             - Para o Hemograma, extraia APENAS os valores de Hemoglobina, Leucócitos e Plaquetas.
+                            - Para o exame parcial de urina anote apenas os itens que estiverem fora dos valores de referencia citados no exame.
+                            - Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos dentro do espaço de duas /, listando os mesmos sempre nesta sequencia.
                             - Para exames de imagem (como ultrassom, tomografia), transcreva a seção 'CONCLUSÃO' ou 'IMPRESSÃO DIAGNÓSTICA' palavra por palavra.
-                        Consolide os resultados de todas as imagens em uma única resposta, seguindo a ordem em que aparecem.
+                        Consolide os resultados de todas as imagens em uma única resposta, liste primeiro os exames que estiverem com resultados fora dos valores de referência citados no exame.
                     `;
                     
                     const idToken = await currentUser.getIdToken();
@@ -378,3 +380,4 @@ const firebaseConfig = {
     </script>
 </body>
 </html>
+
