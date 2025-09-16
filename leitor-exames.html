@@ -329,8 +329,8 @@ const firebaseConfig = {
                     progressText.textContent = 'Enviando para a inteligência artificial...';
 
                     const prompt = `
-                        Você é um assistente de extração de dados médicos altamente preciso. Sua única tarefa é extrair texto EXATAMENTE como aparece nas imagens fornecidas, que são páginas de um exame. Siga estas regras rigorosamente:
-                        1.  **NÃO INVENTE NADA:** Não invente, infira, calcule ou adicione qualquer informação que não esteja visivelmente escrita no exame. A precisão é a prioridade máxima.
+                        Você é um assistente médico para realizar a leitura e transcrição de fotos de exames ou arquivos pdf, visando a extração de dados médicos com foco na precisão das informações lidas. Siga estas regras gerais:
+                        1.  **NÃO INVENTE NADA:** Não invente, infira, calcule ou adicione qualquer informação que não esteja visivelmente escrita no exame. A precisão é a prioridade máxima. Não escreva valores de referência como resultado de exame.
                         2.  **SEJA LITERAL:** Transcreva nomes de exames, valores e unidades exatamente como aparecem.
                         3.  **ILEGÍVEL:** Se um valor ou nome de exame não estiver claro ou legível, escreva 'ILEGÍVEL' no lugar do valor.
                         4.  **NÃO FAÇA RESUMOS:** Não forneça resumos, explicações ou conselhos médicos. Apenas extraia os dados.
@@ -340,7 +340,7 @@ const firebaseConfig = {
                             - Exemplo: Hemoglobina: 14.5 g/dL
                         6.  **INSTRUÇÕES ESPECÍFICAS:**
                             - Para o Hemograma, extraia APENAS os valores de Hemoglobina, Leucócitos e Plaquetas.
-                            - Para o exame parcial de urina anote apenas os itens que estiverem fora dos valores de referencia citados no exame.
+                            - Para o exame parcial de urina anote apenas os itens que apresentarem divergencia com os valores de referencia citados nofornecidos pelo exame.
                             - Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos dentro do espaço de duas /, listando os mesmos sempre nesta sequencia.
                             - Para exames de imagem (como ultrassom, tomografia), transcreva a seção 'CONCLUSÃO' ou 'IMPRESSÃO DIAGNÓSTICA' palavra por palavra.
                         Consolide os resultados de todas as imagens em uma única resposta, liste primeiro os exames que estiverem com resultados fora dos valores de referência citados no exame.
@@ -380,4 +380,5 @@ const firebaseConfig = {
     </script>
 </body>
 </html>
+
 
