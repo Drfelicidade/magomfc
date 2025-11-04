@@ -3,234 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Segurança de Medicamentos (Gestação e Lactação)</title>
+    <title>Segurança de Medicamentos na Gestação</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-        }
-        .container {
-            max-width: 900px;
-        }
-        .section-title {
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background-color: #a855f7; /* Cor roxa */
-            border-radius: 9999px;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
+        .container { max-width: 900px; }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
-    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
-        <header class="text-center">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-6 relative">
+        
+        <div id="user-profile" class="absolute top-4 right-6 text-right hidden">
+            <p class="text-sm text-gray-700">Olá, <strong id="user-name"></strong></p>
+            <button id="logout-button" class="text-sm text-blue-600 hover:underline">Sair</button>
+        </div>
+
+        <header class="text-center pt-8">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Segurança de Medicamentos</h1>
-            <p class="text-gray-600 text-lg md:text-xl">
-                Consulte rapidamente a categoria de risco e resumo de segurança para medicações na gestação e na lactação.
-            </p>
+            <p id="subtitle" class="text-gray-600 text-lg md:text-xl">Consulte informações sobre o uso de medicamentos na gestação.</p>
         </header>
 
-        <!-- Botão Voltar ao Menu Principal -->
-        <div class="text-center mb-8">
-            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+        <div class="text-center">
+            <a href="index.html" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 transition duration-300">
                 &larr; Voltar ao Menu Principal
             </a>
         </div>
 
-        <!-- Seção de Consulta -->
-        <div class="bg-violet-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-violet-200">
-            <h2 class="section-title text-2xl font-bold text-violet-900 mb-4">Consultar Medicamento</h2>
-            
-            <div class="flex flex-col space-y-4">
-                <label for="medication-name" class="text-sm font-medium text-gray-700">Nome do Medicamento:</label>
-                <input type="text" id="medication-name" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition duration-200" placeholder="Ex: AAS, Losartana, Paracetamol">
+        <!-- Conteúdo Principal da Aplicação -->
+        <div id="app-content">
+            <!-- PESQUISA -->
+            <div class="bg-rose-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-rose-200">
+                <div class="flex flex-col space-y-4">
+                    <label for="medication-input" class="text-lg font-semibold text-gray-800">Digite o nome do medicamento:</label>
+                    <input type="text" id="medication-input" placeholder="Ex: Paracetamol" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500">
+                    <button id="search-button" class="w-full p-3 font-semibold text-white bg-rose-600 rounded-lg hover:bg-rose-700 transition duration-300">
+                        Pesquisar
+                    </button>
+                </div>
             </div>
 
-            <button id="search-medication" class="w-full mt-6 p-3 font-semibold text-white bg-violet-600 rounded-lg hover:bg-violet-700 transition duration-300 shadow-md flex items-center justify-center">
-                <span id="button-text">Pesquisar Risco</span>
-                <svg id="loading-icon" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-            </button>
-        </div>
-
-        <!-- Área de Resultados -->
-        <div id="results-area" class="mt-8 p-6 bg-white rounded-2xl shadow-lg border border-gray-200 hidden">
-            <h3 class="text-xl font-bold text-violet-800 mb-4">Resultado da Consulta</h3>
-            <div id="result-content" class="text-gray-700 space-y-3">
-                <!-- Conteúdo do risco (Texto gerado) será inserido aqui -->
-            </div>
-            <div id="sources-list" class="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-500">
-                <!-- Fontes serão listadas aqui -->
+            <!-- ÁREA DE RESULTADOS -->
+            <div id="result-container" class="mt-8 p-6 bg-gray-50 rounded-xl hidden">
+                <div id="loading-spinner" class="text-center hidden">
+                    <svg class="animate-spin mx-auto h-8 w-8 text-rose-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <p class="mt-2 text-gray-600">Pesquisando na base de dados...</p>
+                </div>
+                <div id="medication-result" class="prose max-w-none whitespace-pre-wrap"></div>
             </div>
         </div>
-
-        <footer class="text-center text-gray-500 text-sm mt-10">
-            <p class="mb-2"><strong>Aviso Legal:</strong> A informação é gerada usando busca na web e IA e deve ser confirmada com fontes médicas oficiais. Esta ferramenta não substitui a consulta profissional.</p>
-            <p>&copy; 2024 Ferramentas Médicas. Todos os direitos reservados.</p>
-        </footer>
     </div>
 
+    <!-- Firebase SDKs (necessário para obter o token de autenticação) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
     <script>
-        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=";
-        const apiKey = "AIzaSyA0meA23e59qUHV24CdZALw5LYHFk4HNwU"; // Será preenchido pelo ambiente
-        
-        const medicationInput = document.getElementById('medication-name');
-        const searchButton = document.getElementById('search-medication');
-        const buttonText = document.getElementById('button-text');
-        const loadingIcon = document.getElementById('loading-icon');
-        const resultsArea = document.getElementById('results-area');
-        const resultContent = document.getElementById('result-content');
-        const sourcesList = document.getElementById('sources-list');
+        // COLE AQUI O SEU OBJETO firebaseConfig
+       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCBdmvJJgGaZjacG-ro5XsAqUQPxkZ24oo",
+  authDomain: "leitor-de-exames-sync.firebaseapp.com",
+  projectId: "leitor-de-exames-sync",
+  storageBucket: "leitor-de-exames-sync.firebasestorage.app",
+  messagingSenderId: "495677306399",
+  appId: "1:495677306399:web:1aa9f970091a57846b072a",
+  measurementId: "G-9HDX2K2ZZS"
+};
 
-        let isSearching = false;
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-        // Função de fetch com espera exponencial para maior resiliência
-        async function exponentialBackoffFetch(url, options, maxRetries = 5) {
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (response.status === 429) {
-                        // Rate limit: tenta novamente após um delay maior
-                        console.warn(`Tentativa ${i + 1}: Rate limit excedido. Tentando novamente...`);
-                    } else if (!response.ok) {
-                        // Outros erros HTTP, mas não rate limit. Tenta novamente.
-                        console.error(`Tentativa ${i + 1}: Erro HTTP ${response.status}. Tentando novamente...`);
-                    } else {
-                        // Sucesso
-                        return response;
-                    }
-                } catch (error) {
-                    console.error(`Tentativa ${i + 1}: Erro de rede/fetch:`, error);
-                }
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchButton = document.getElementById('search-button');
+            const medicationInput = document.getElementById('medication-input');
+            const resultContainer = document.getElementById('result-container');
+            const medicationResult = document.getElementById('medication-result');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const userProfileDiv = document.getElementById('user-profile');
+            const userNameSpan = document.getElementById('user-name');
+            const logoutButton = document.getElementById('logout-button');
 
-                if (i < maxRetries - 1) {
-                    // Calcula o tempo de espera (2^i * 1000 ms) + um jitter aleatório
-                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                }
-            }
-            throw new Error("Falha total na comunicação após várias tentativas.");
-        }
+            let currentUser = null;
 
-        // Função principal de busca
-        async function searchMedication(medicationName) {
-            if (isSearching || !medicationName.trim()) return;
-
-            isSearching = true;
-            resultsArea.classList.add('hidden');
-            resultContent.innerHTML = '';
-            sourcesList.innerHTML = '';
-
-            // 1. Mostrar estado de carregamento
-            searchButton.disabled = true;
-            buttonText.textContent = 'Pesquisando...';
-            loadingIcon.classList.remove('hidden');
-
-            // PROMPT ATUALIZADO PARA INCLUIR LACTAÇÃO
-            const systemPrompt = "Você é um especialista em saúde materno-fetal. Para a droga fornecida, encontre e forneça a categoria de risco na gravidez (FDA ou A/B/C/D/X, ou Briggs/ACOG) E a avaliação de segurança para lactação. Forneça um resumo conciso e detalhado em português (em duas seções claras: **Segurança na Gestação** e **Segurança na Lactação**) sobre o uso da droga. Use as informações de busca fornecidas para responder.";
-            const userQuery = `Segurança, categoria de risco na gravidez, e segurança na lactação (risco/benefício) para: ${medicationName}.`;
-
-
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                tools: [{ "google_search": {} }],
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                },
-            };
-
-            try {
-                const url = API_URL + apiKey;
-                const response = await exponentialBackoffFetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Resposta HTTP não OK: ${response.status}`);
-                }
-
-                const result = await response.json();
-                const candidate = result.candidates?.[0];
-
-                if (candidate && candidate.content?.parts?.[0]?.text) {
-                    const text = candidate.content.parts[0].text;
-                    
-                    // Converte Markdown básico em HTML (negrito e quebras de linha)
-                    const htmlText = text
-                        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-violet-700">$1</strong>') // Negrito com cor para destaque
-                        .replace(/\n\n/g, '<br><br>') // Parágrafos
-                        .replace(/\n/g, '<br>'); // Quebras de linha simples
-
-                    resultContent.innerHTML = htmlText;
-                    
-                    // 2. Extrair e exibir fontes
-                    let sources = [];
-                    const groundingMetadata = candidate.groundingMetadata;
-                    if (groundingMetadata && groundingMetadata.groundingAttributions) {
-                        sources = groundingMetadata.groundingAttributions
-                            .map(attribution => ({
-                                uri: attribution.web?.uri,
-                                title: attribution.web?.title,
-                            }))
-                            .filter(source => source.uri && source.title);
-                    }
-
-                    if (sources.length > 0) {
-                        const listHtml = sources.map((s, index) => 
-                            `<li class="hover:text-violet-600 transition duration-150 truncate"><a href="${s.uri}" target="_blank" rel="noopener noreferrer" title="${s.title}">${index + 1}. ${s.title}</a></li>`
-                        ).join('');
-                        sourcesList.innerHTML = `<p class="font-semibold mb-2">Fontes Consultadas:</p><ul class="list-none space-y-1">${listHtml}</ul>`;
-                    } else {
-                        sourcesList.innerHTML = '<p class="font-semibold">Nenhuma fonte específica encontrada.</p>';
-                    }
-                    
-                    resultsArea.classList.remove('hidden');
-
+            // Verifica o estado de autenticação para obter o token
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    currentUser = user;
+                    const displayName = user.displayName || user.email.split('@')[0];
+                    userNameSpan.textContent = displayName.split(' ')[0];
+                    userProfileDiv.classList.remove('hidden');
                 } else {
-                    displayError('Não foi possível gerar uma resposta. A estrutura da API pode ter mudado ou a resposta está vazia.');
+                    // CORREÇÃO APLICADA AQUI:
+                    // Redireciona para a página de login, mas informa qual era a página de destino.
+                    const destination = encodeURIComponent(window.location.pathname);
+                    window.location.href = `leitor-exames.html?redirect=${destination}`;
+                }
+            });
+            
+            logoutButton.addEventListener('click', () => auth.signOut());
+
+            searchButton.addEventListener('click', handleSearch);
+            medicationInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+
+            async function handleSearch() {
+                const medicationName = medicationInput.value.trim();
+                if (!medicationName) {
+                    alert("Por favor, digite o nome de um medicamento.");
+                    return;
+                }
+                if (!currentUser) {
+                    alert("Você precisa estar logado para fazer uma pesquisa.");
+                    return;
                 }
 
-            } catch (error) {
-                console.error("Erro total durante a busca:", error);
-                displayError('Erro ao pesquisar: Falha na comunicação. Por favor, tente novamente.');
-            } finally {
-                // 3. Restaurar estado do botão
-                isSearching = false;
-                searchButton.disabled = false;
-                buttonText.textContent = 'Pesquisar Risco';
-                loadingIcon.classList.add('hidden');
-            }
-        }
+                resultContainer.classList.remove('hidden');
+                loadingSpinner.classList.remove('hidden');
+                medicationResult.innerHTML = '';
 
-        // Função auxiliar para exibir mensagens de erro
-        function displayError(message) {
-            resultContent.innerHTML = `<p class="text-red-600 font-semibold">${message}</p>`;
-            sourcesList.innerHTML = '';
-            resultsArea.classList.remove('hidden');
-        }
+                try {
+                    const prompt = `
+                        Você é um assistente de informações farmacêuticas especializado em teratologia e segurança de medicamentos na gestação e lactação. Sua função é fornecer informações baseadas em evidências e classificações de risco padrão para profissionais de saúde.
+                        Para o medicamento "${medicationName}", forneça um resumo sobre sua segurança durante a gestação E a lactação.
 
-        // Event Listener para o botão
-        searchButton.addEventListener('click', () => {
-            searchMedication(medicationInput.value);
-        });
+                        A sua resposta DEVE seguir estritamente o seguinte formato:
+                        - **Nome do Medicamento:** ${medicationName}
+                        - **Classificação de Risco na Gestação (FDA):** [Categoria A, B, C, D ou X. Se não houver, escreva 'Não classificado pela FDA'.]
+                        - **Resumo de Segurança na Gestação:** [Um parágrafo conciso explicando os riscos conhecidos, considerações por trimestre e informações sobre estudos em humanos ou animais. Seja direto e informativo.]
+                        - **Segurança na Lactação:** [Um parágrafo conciso explicando a excreção do medicamento no leite materno, riscos potenciais para o lactente e recomendações gerais.]
+                        - **Recomendações Gerais:** [Informações sobre a importância de avaliar o risco-benefício e a necessidade de acompanhamento médico para ambas as situações.]
 
-        // Event Listener para a tecla Enter no input
-        medicationInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                searchMedication(medicationInput.value);
+                        REGRAS IMPORTANTES:
+                        1.  NÃO forneça conselhos médicos diretos. NÃO diga 'é seguro tomar' ou 'não tome'.
+                        2.  A sua resposta DEVE SEMPRE terminar com o seguinte aviso legal, sem exceções: 'AVISO: Esta informação é apenas para fins educacionais e não substitui a consulta com um profissional de saúde qualificado. Nunca inicie, pare ou altere qualquer medicação sem consultar o seu médico.'
+                        3.  Se você não encontrar informações conclusivas sobre "${medicationName}" para gestação ou lactação, indique isso claramente na seção correspondente.
+                    `;
+
+                    const idToken = await currentUser.getIdToken();
+                    const response = await fetch('https://magomfc.onrender.com/check-medication-safety', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${idToken}`
+                        },
+                        body: JSON.stringify({ prompt })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error((await response.json()).error || 'Falha na comunicação com o servidor.');
+                    }
+
+                    const result = await response.json();
+                    medicationResult.textContent = result.text;
+
+                } catch (error) {
+                    medicationResult.textContent = `Erro ao pesquisar: ${error.message}`;
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                }
             }
         });
     </script>
