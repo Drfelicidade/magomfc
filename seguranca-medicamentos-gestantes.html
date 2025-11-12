@@ -111,29 +111,68 @@ const firebaseConfig = {
 
             async function handleSearch() {
                 const medicationName = medicationInput.value.trim();
+
+                // MELHORIA: Substitui alert() por feedback na tela
                 if (!medicationName) {
-                    alert("Por favor, digite o nome de um medicamento.");
+                    resultContainer.classList.remove('hidden');
+                    loadingSpinner.classList.add('hidden');
+                    medicationResult.innerHTML = '<p class="text-red-600">Por favor, digite o nome de um medicamento.</p>';
                     return;
                 }
                 if (!currentUser) {
-                    alert("Você precisa estar logado para fazer uma pesquisa.");
+                    resultContainer.classList.remove('hidden');
+                    loadingSpinner.classList.add('hidden');
+                    medicationResult.innerHTML = '<p class="text-red-600">Você precisa estar logado para fazer uma pesquisa.</p>';
                     return;
                 }
 
                 resultContainer.classList.remove('hidden');
                 loadingSpinner.classList.remove('hidden');
-                medicationResult.innerHTML = '';
+                medicationResult.innerHTML = ''; // Limpa resultados anteriores
 
                 try {
+                    // --- INÍCIO DA CORREÇÃO ---
+
+                    // 1. Pegamos o token PRIMEIRO
+                    const idToken = await currentUser.getIdToken();
+
+                    // 2. A primeira chamada fetch duplicada foi REMOVIDA.
+                    // Esta é agora a ÚNICA chamada fetch.
+                    
                     const response = await fetch('https://magomfc.onrender.com/check-medication-safety', {
-    method: 'POST',
-    headers: { 
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${idToken}`
-    },
-    // Envie apenas o nome do medicamento
-    body: JSON.stringify({ medicationName: medicationName }) 
-});
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${idToken}`
+                        },
+                        // 3. O corpo (body) está CORRIGIDO para enviar medicationName
+                        body: JSON.stringify({ medicationName: medicationName }) 
+                    });
+
+                    // --- FIM DA CORREÇÃO ---
+
+                    if (!response.ok) {
+                        // Tenta ler a mensagem de erro do backend
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Falha na comunicação com o servidor.');
+                    }
+
+                    const result = await response.json();
+                    
+                    // MELHORIA: Formata o Markdown (negrito, quebra de linha) para HTML
+                    let formattedText = result.text;
+                    formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Converte **negrito**
+                    formattedText = formattedText.replace(/\n/g, '<br>'); // Converte quebras de linha
+                    
+                    medicationResult.innerHTML = formattedText; // Usamos .innerHTML para renderizar o HTML
+
+                } catch (error) {
+                    // MELHORIA: Exibe o erro na tela
+                    medicationResult.innerHTML = `<p class="text-red-600">Erro ao pesquisar: ${error.message}</p>`;
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                }
+            }
 
                     const idToken = await currentUser.getIdToken();
                     const response = await fetch('https://magomfc.onrender.com/check-medication-safety', {
