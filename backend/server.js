@@ -51,7 +51,7 @@ app.post('/analyze-exam', verifyFirebaseToken, async (req, res) => {
     }
 
     try {
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${apiKey}`;
         const parts = [{ text: prompt }];
         imageParts.forEach(part => {
             parts.push({ inlineData: { mimeType: part.mimeType, data: part.data } });
