@@ -88,7 +88,7 @@ app.post('/check-medication-safety', verifyFirebaseToken, async (req, res) => {
     }
 
     try {
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${apiKey}`;
         
         const payload = {
             contents: [{
