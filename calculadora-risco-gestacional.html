@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ferramentas Médicas</title>
+    <title>Calculadora de Risco Gestacional (MS/SC 2025)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -12,104 +12,434 @@
             background-color: #f0f4f8;
         }
         .container {
-            max-width: 900px;
+            max-width: 1000px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #2563eb; /* Cor azul para destaque */
+            border-radius: 9999px;
+        }
+        .risk-low { background-color: #dcfce7; border-left: 4px solid #10b981; } /* verde */
+        .risk-intermediate { background-color: #fffbeb; border-left: 4px solid #f59e0b; } /* amarelo */
+        .risk-high { background-color: #fee2e2; border-left: 4px solid #ef4444; } /* vermelho */
+        
+        .risk-category {
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
         }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
     <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
         <header class="text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Ferramentas Médicas</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Estratificação de Risco Gestacional</h1>
             <p class="text-gray-600 text-lg md:text-xl">
-                Escolha a ferramenta que você gostaria de usar.
+                Instrumento do Ministério da Saúde (SC - 2025).
             </p>
         </header>
 
-        <!-- Seção de Ferramentas -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção de Pontuação -->
+        <div class="bg-blue-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-blue-200">
+            <h2 class="section-title text-2xl font-bold text-blue-900 mb-6">Fatores de Risco e Pontuação</h2>
             
-            <!-- Card da Calculadora de Risco Gestacional (NOVO) -->
-            <a href="calculadora-risco-gestacional.html" class="block p-8 bg-blue-100 hover:bg-blue-200 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-blue-800 mb-2">Estratificação de Risco Gestacional</h2>
-                <p class="text-blue-700">Critérios MS/SC (2025) para Alto, Intermediário e Baixo Risco.</p>
-            </a>
+            <form id="risk-form" class="space-y-6">
 
-            <!-- Card da Calculadora de Gestação -->
-            <a href="calculadora-gestacional.html" class="block p-8 bg-blue-50 hover:bg-blue-100 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-blue-900 mb-2">Calculadora de Idade Gestacional</h2>
-                <p class="text-blue-700">Calcule a idade gestacional através da DUM, USG prévio ou CCN.</p>
-            </a>
+                <!-- TABELA A: CONDIÇÕES INDIVIDUAIS, SOCIOECONÔMICAS E FAMILIARES -->
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h3 class="text-xl font-bold text-gray-700 mb-4">1. Condições Individuais e Socioeconômicas (Tabela A)</h3>
+                    <div class="space-y-3">
+                        <!-- Campo Dinâmico IMC e Obesidade -->
+                        <div class="flex flex-col">
+                            <label for="imc-risk" class="text-sm font-medium text-gray-700 mb-1">IMC no Início da Gestação:</label>
+                            <select id="imc-risk" name="imc-risk" data-points="0" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="0">Normal (IMC 18 - 24.9) - 0 pts</option>
+                                <option value="18">Baixo peso (IMC < 18 Kg/m²) - 2 pts</option>
+                                <option value="1">Sobrepeso (IMC 25 - 29.9 Kg/m²) - 1 pt</option>
+                                <option value="4">Obesidade (IMC 30 - 39.9 Kg/m²) - 4 pts</option>
+                                <option value="10">Obesidade grau 3 (IMC > 39.9 Kg/m²) - 10 pts</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Demais Checkboxes da Tabela A -->
+                        <label class="block text-gray-700 font-semibold mt-4">Outros Fatores:</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="idade-menor-15" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="idade-menor-15" class="text-gray-600">Idade menor que 15 anos (2 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="idade-maior-40" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="idade-maior-40" class="text-gray-600">Idade maior que 40 anos (2 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="raca-negra" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="raca-negra" class="text-gray-600">Mulher de raça negra (2 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="baixa-escolaridade" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="baixa-escolaridade" class="text-gray-600">Baixa escolaridade (< 5 anos) (2 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="tabagista-ativa" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="tabagista-ativa" class="text-gray-600">Tabagista ativa (2 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="sofrer-violencia" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="sofrer-violencia" class="text-gray-600">Indícios de sofrer violência (2 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2 sm:col-span-2">
+                                <input type="checkbox" id="vulnerabilidade-social" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="vulnerabilidade-social" class="text-gray-600">Gestante imigrante, situação de rua ou em comunidades indígenas/quilombolas (2 pts)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Card para Baixar Modelo de Receita (Word) -->
-            <a href="template-download.html" class="block p-8 bg-emerald-50 hover:bg-emerald-100 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-emerald-900 mb-2">Impressão de Receita B</h2>
-                <p class="text-emerald-700">Modelo de impressão para receituário tipo B.</p>
-            </a>
+                <!-- TABELA B: HISTÓRIA REPRODUTIVA ANTERIOR -->
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h3 class="text-xl font-bold text-gray-700 mb-4">2. História Reprodutiva Anterior (Tabela B)</h3>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Fatores de 2 pontos -->
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="abortamento-repeticao" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="abortamento-repeticao" class="text-gray-600">Abortamento espontâneo de repetição (2 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="acretismo-placentario-ant" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="acretismo-placentario-ant" class="text-gray-600">Acretismo placentário anterior (2 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="rciu-anterior" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="rciu-anterior" class="text-gray-600">Restrição de crescimento fetal anterior (2 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="parto-pre-termo-apos-34" name="risco" value="2" data-points="2" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="parto-pre-termo-apos-34" class="text-gray-600">Parto pré-termo APÓS 34 semanas (2 pts)</label>
+                            </div>
+                            
+                            <!-- Fatores de 5 pontos -->
+                            <div class="flex items-center space-x-2 sm:col-span-2">
+                                <input type="checkbox" id="isoimunizacao-rh-ant" name="risco" value="5" data-points="5" class="rounded text-blue-600 focus:ring-blue-500">
+                                <label for="isoimunizacao-rh-ant" class="text-gray-600">Isoimunização Rh (Rh neg e Coombs ind. pos.) (5 pts)</label>
+                            </div>
 
-            <!-- Card para Calculadora de Doses Pediátricas -->
-            <a href="calculadora-pediatrica.html" class="block p-8 bg-teal-50 hover:bg-teal-100 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-teal-900 mb-2">Calculadora de Doses Pediátricas</h2>
-                <p class="text-teal-700">Calcule a dose de alguns dos medicamentos mais usados na APS.</p>
-            </a>
+                            <!-- Fatores de 10 pontos -->
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="parto-pre-termo-ate-34" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="parto-pre-termo-ate-34" class="text-gray-600">Parto pré-termo ATÉ 34 semanas (10 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="dheg-desfecho-ruim" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="dheg-desfecho-ruim" class="text-gray-600">DHEG prévia com desfecho obstétrico ruim (10 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="obito-fetal" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="obito-fetal" class="text-gray-600">Óbito fetal de causa não identificada (10 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="incompetencia-ic-ant" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="incompetencia-ic-ant" class="text-gray-600">Incompetência istmo cervical (10 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="psicose-puerperal" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="psicose-puerperal" class="text-gray-600">Psicose puerperal anterior (10 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="descolamento-placenta-ant" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="descolamento-placenta-ant" class="text-gray-600">Descolamento prematuro de placenta anterior (10 pts)</label>
+                            </div>
+                            <div class="flex items-center space-x-2 sm:col-span-2">
+                                <input type="checkbox" id="cardiomiopatia-periparto" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="cardiomiopatia-periparto" class="text-gray-600">Histórico de cardiomiopatia periparto (10 pts)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Card para Calculadora de Colesterol LDL -->
-            <a href="calculadora-ldl.html" class="block p-8 bg-orange-50 hover:bg-orange-100 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-orange-900 mb-2">Calculadora de Colesterol LDL</h2>
-                <p class="text-orange-700">Calcule o colesterol LDL.</p>
-            </a>
+                <!-- TABELAS C e D: 10 PONTOS (ALTO RISCO) -->
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h3 class="text-xl font-bold text-gray-700 mb-4">3. Alto Risco (Tabelas C e D - 10 Pontos)</h3>
+                    <p class="text-sm text-red-600 mb-4 font-medium">ATENÇÃO: Cada fator abaixo confere 10 pontos e, isoladamente, classifica a gestante como ALTO RISCO.</p>
+                    <div class="space-y-3">
+                        <label class="block text-gray-700 font-semibold">Selecione se presente na gestação atual (Tabela C) ou prévia (Tabela D):</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Tabela C: Intercorrências Clínicas/Obstétricas NA GESTAÇÃO ATUAL (10 pts) -->
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="dheg-atual" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="dheg-atual" class="text-gray-600">Doença Hipertensiva / Pré-eclâmpsia atual</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="dmg-insulinoterapia" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="dmg-insulinoterapia" class="text-gray-600">Diabetes Gestacional c/ insulinoterapia</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="infeccao-urinaria-repeticao" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="infeccao-urinaria-repeticao" class="text-gray-600">Infecção urinária de repetição (≥ 3) / Pielonefrite</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="calculo-renal" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="calculo-renal" class="text-gray-600">Cálculo renal c/ obstrução</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="rciu-atual" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="rciu-atual" class="text-gray-600">Restrição do crescimento fetal atual</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="macrossomia" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="macrossomia" class="text-gray-600">Feto > P90 ou macrossomia</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="polidramnio-oligodramnio" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="polidramnio-oligodramnio" class="text-gray-600">Poli/Oligodrâminio</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="incompetencia-ic-atual" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="incompetencia-ic-atual" class="text-gray-600">Suspeita de Incompetência IC (colo curto USG)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="placenta-previa" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="placenta-previa" class="text-gray-600">Placenta prévia (após 14 semanas)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="hepatopatias-atual" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="hepatopatias-atual" class="text-gray-600">Hepatopatias atuais</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="anemia-grave-refrataria" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="anemia-grave-refrataria" class="text-gray-600">Anemia grave (Hb<8) ou refratária</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="isoimunizacao-rh-atual" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="isoimunizacao-rh-atual" class="text-gray-600">Isoimunização Rh (atual)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="cancer-materno" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="cancer-materno" class="text-gray-600">Câncer materno com diagnóstico durante gestação</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="suspeita-cancer-mama" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="suspeita-cancer-mama" class="text-gray-600">Suspeita clínica de câncer de mama (BI-RADS 3+)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="lesao-alto-grau-colo" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="lesao-alto-grau-colo" class="text-gray-600">Lesão de alto grau em colo uterino (NIC 2 ou 3)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="malformacao-arritmia" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="malformacao-arritmia" class="text-gray-600">Suspeita de malformação ou arritmia fetal</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="gemelaridade" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="gemelaridade" class="text-gray-600">Gemelaridade</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="doencas-infecciosas-transmissao-fetal" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="doencas-infecciosas-transmissao-fetal" class="text-gray-600">Doenças infecciosas com potencial transmissão fetal</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="condiloma" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="condiloma" class="text-gray-600">Condiloma acuminado</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="uso-abusivo-drogas" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="uso-abusivo-drogas" class="text-gray-600">Dependência e/ou uso abusivo de drogas</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="hiperemese-refrataria" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="hiperemese-refrataria" class="text-gray-600">Hiperêmese gravídica refratária (> 5% perda peso)</label>
+                            </div>
+                            <!-- Tabela D: Condições Clínicas PRÉVIAS à Gestação (10 pts) -->
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="has-descompensada" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="has-descompensada" class="text-gray-600">HAS descompensada (Prévia)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="dm-descompensado" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="dm-descompensado" class="text-gray-600">DM 1 ou 2 descompensado (Prévia)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="tireoidopatias" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="tireoidopatias" class="text-gray-600">Tireoidopatias (Hipo/Hipertireoidismo)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="doencas-psiquiatricas-graves" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="doencas-psiquiatricas-graves" class="text-gray-600">Doenças Psiquiátricas graves</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="doencas-hematologicas" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="doencas-hematologicas" class="text-gray-600">Doenças hematológicas / Antecedentes tromboembólicos</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="cardiopatias" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="cardiopatias" class="text-gray-600">Cardiopatias c/ repercussão hemodinâmica</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="pneumopatias-graves" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="pneumopatias-graves" class="text-gray-600">Pneumopatias graves (DPOC, Asma, HP)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="doencas-autoimunes" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="doencas-autoimunes" class="text-gray-600">Doenças autoimunes (LES, SAF, etc.)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="medicamentos-teratogenicos" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="medicamentos-teratogenicos" class="text-gray-600">Uso de medicamentos teratogênicos</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="doenca-renal-cronica" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="doenca-renal-cronica" class="text-gray-600">Doença renal crônica (TFG < 60)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="hemopatias-anemia-grave" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="hemopatias-anemia-grave" class="text-gray-600">Hemopatias / Anemia grave (Prévia)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="hepatopatias-cronicas" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="hepatopatias-cronicas" class="text-gray-600">Hepatopatias crônicas</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="transplantes" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="transplantes" class="text-gray-600">Transplantes</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="cirurgia-bariatrica-recente" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="cirurgia-bariatrica-recente" class="text-gray-600">Cirurgia bariátrica recente (< 6 meses)</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="epilepsia" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="epilepsia" class="text-gray-600">Epilepsia</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="anormalidades-genitourinario" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="anormalidades-genitourinario" class="text-gray-600">Anormalidades do trato genitourinário</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="historico-conizacao" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="historico-conizacao" class="text-gray-600">Histórico de conização ou traquelectomia</label>
+                            </div>
+                            <div class="flex items-center space-x-2 sm:col-span-2">
+                                <input type="checkbox" id="hiv-ma-adesao" name="risco" value="10" data-points="10" class="rounded text-red-600 focus:ring-red-500">
+                                <label for="hiv-ma-adesao" class="text-gray-600">Infecção por HIV c/ má adesão ao tratamento e/ou CV detectável e/ou CD4 < 250</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="risk-result" class="mt-8 p-6 rounded-2xl shadow-lg border border-gray-300">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Resultado da Estratificação:</h3>
+                    <p id="total-score" class="text-3xl font-extrabold text-blue-700">Total de Pontos: 0</p>
+                    <div id="risk-category-display" class="risk-category text-gray-800">
+                        Selecione os fatores de risco para calcular a pontuação.
+                    </div>
+                    <div id="recommendation" class="mt-4 text-gray-700">
+                        <strong class="font-semibold">Recomendação:</strong>
+                        <p class="text-sm">Os estratos de risco são definidos por: Risco Habitual (até 4 pontos), Risco Intermediário (entre 5 e 9 pontos) e Alto Risco (10 pontos ou mais).</p>
+                    </div>
+                </div>
 
-            <!-- Card para Calculadora Mini-Mental -->
-            <a href="calculadora-mini-mental.html" class="block p-8 bg-indigo-50 hover:bg-indigo-100 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-indigo-900 mb-2">Calculadora Mini-Mental</h2>
-                <p class="text-indigo-700">Avaliação cognitiva rápida.</p>
-            </a>
-
-            <!-- Card para Calculadora IVCF-20 -->
-            <a href="calculadora-ivcf20.html" class="block p-8 bg-purple-50 hover:bg-purple-100 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-purple-900 mb-2">Calculadora IVCF-20</h2>
-                <p class="text-purple-700">Avaliação de vulnerabilidade clínico-funcional para idosos.</p>
-            </a>
-
-            <!-- Card para Segurança de Medicamentos em Gestantes e Lactantes -->
-            <a href="seguranca-medicamentos-gestantes.html" class="block p-8 bg-violet-50 hover:bg-violet-100 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-violet-900 mb-2">Segurança de Medicamentos (Gest/Lact)</h2>
-                <p class="text-violet-700">Verifique a categoria de risco na gravidez e lactação.</p>
-            </a>
-
-            <!-- Card para Calculadora PREVENT -->
-            <a href="calculadora-prevent.html" class="block p-8 bg-red-100 hover:bg-red-200 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-red-800 mb-2">Calculadora PREVENT (ASCVD)</h2>
-                <p class="text-red-700">Avalie o risco cardiovascular em 10 anos.</p>
-            </a>
-            
-            <!-- Card para Calculadora M-CHAT-R/F -->
-            <a href="calculadora-mchat.html" class="block p-8 bg-pink-50 hover:bg-pink-100 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-pink-900 mb-2">Calculadora M-CHAT-R/F</h2>
-                <p class="text-pink-700">Triagem para Transtorno do Espectro Autista (TEA).</p>
-            </a>
-
-            <!-- Card para Leitor de Exames -->
-            <a href="leitor-exames.html" class="block p-8 bg-amber-50 hover:bg-amber-100 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-amber-900 mb-2">Leitor de Exames</h2>
-                <p class="text-amber-700">Transcreva os resultados de exames médicos a partir de fotos ou PDF.</p>
-            </a>
-
-            <!-- Card para Calculadora de Função Renal Consolidada -->
-            <a href="calculadora-funcao-renal-consolidada.html" class="block p-8 bg-emerald-100 hover:bg-emerald-200 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-emerald-800 mb-2">Função Renal</h2>
-                <p class="text-emerald-700">Calcule o clearance de creatinina e TFG (Cockcroft-Gault, MDRD, CKD-EPI).</p>
-            </a>
-
-            <!-- Card para Calculadora FIB-4 -->
-            <a href="calculadora-fib4.html" class="block p-8 bg-cyan-100 hover:bg-cyan-200 rounded-2xl shadow-md transition duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-bold text-cyan-800 mb-2">Calculadora FIB-4</h2>
-                <p class="text-cyan-700">Estime o grau de fibrose hepática.</p>
-            </a>
+                <div class="text-center mt-6">
+                    <button type="reset" class="px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 transition duration-300">
+                        Reiniciar Calculadora
+                    </button>
+                </div>
+            </form>
         </div>
         
         <footer class="text-center text-gray-500 text-sm mt-10">
-            <p>&copy; 2024 Ferramentas Médicas. Todos os direitos reservados.</p>
+            <p class="mb-2"><strong>Fonte:</strong> Instrumento de Estratificação de Risco Gestacional, 3ª Edição, Julho 2025 (Secretaria de Estado da Saúde de SC).</p>
+            <p>Esta ferramenta é um auxílio e não substitui a avaliação clínica completa e contínua do profissional de saúde.</p>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('risk-form');
+            const imcSelect = document.getElementById('imc-risk');
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            const totalScoreDisplay = document.getElementById('total-score');
+            const riskCategoryDisplay = document.getElementById('risk-category-display');
+            const recommendationDiv = document.getElementById('recommendation');
+
+            function calculateRisk() {
+                let totalPoints = 0;
+
+                // 1. Pontuação do IMC (Select)
+                const imcPoints = parseInt(imcSelect.value);
+                totalPoints += imcPoints;
+
+                // 2. Pontuação dos Checkboxes
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const points = parseInt(checkbox.dataset.points);
+                        totalPoints += points;
+                    }
+                });
+
+                // 3. Exibir Pontuação Total
+                totalScoreDisplay.textContent = `Total de Pontos: ${totalPoints}`;
+
+                // 4. Determinar Categoria de Risco e Estilo
+                let riskCategory = "";
+                let riskClass = "";
+                let riskText = "";
+
+                if (totalPoints >= 10) {
+                    riskCategory = "ALTO RISCO";
+                    riskClass = "risk-high";
+                    riskText = "A gestante deve ter o pré-natal COMPARTILHADO entre a APS e o Ambulatório de Atenção Especializada (AAE/PNAR). Encaminhamento via SISREG é obrigatório. Foco: Estabilização clínica, vigilância e suporte direto à gestante.";
+                } else if (totalPoints >= 5) {
+                    riskCategory = "RISCO INTERMEDIÁRIO";
+                    riskClass = "risk-intermediate";
+                    riskText = "A gestante será acompanhada pela equipe da APS com suporte de teleconsultoria. Foco: Mitigação dos fatores de risco, prevenção de agravos e fortalecimento do apoio sócio-familiar.";
+                } else { // totalPoints <= 4
+                    riskCategory = "RISCO HABITUAL (BAIXO)";
+                    riskClass = "risk-low";
+                    riskText = "A gestante será acompanhada pela equipe da APS. Foco: Bem-estar, ações de promoção e prevenção de fatores de risco oportunistas e educação em saúde.";
+                }
+
+                // 5. Atualizar a interface
+                riskCategoryDisplay.textContent = riskCategory;
+                riskCategoryDisplay.className = `risk-category ${riskClass} text-gray-800 font-bold`;
+                
+                recommendationDiv.innerHTML = `
+                    <strong class="font-semibold text-gray-800">Recomendação do Protocolo:</strong>
+                    <p class="text-sm mt-1">${riskText}</p>
+                `;
+            }
+
+            // Adicionar listeners para re-calcular a cada mudança
+            imcSelect.addEventListener('change', calculateRisk);
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', calculateRisk);
+            });
+
+            // Adicionar listener para resetar (garantindo que o display volte ao 0)
+            form.addEventListener('reset', () => {
+                setTimeout(calculateRisk, 50); // Pequeno atraso para garantir que o reset seja processado antes do cálculo
+            });
+
+            // Inicializar o cálculo
+            calculateRisk();
+        });
+    </script>
 </body>
 </html>
