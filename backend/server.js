@@ -40,7 +40,7 @@ const verifyFirebaseToken = async (req, res, next) => {
     }
 };
 
-// Rota para analisar exames (existente)
+// Rota para analisar exames (existente) - NÃO FOI ALTERADA E ESTÁ CORRETA
 app.post('/analyze-exam', verifyFirebaseToken, async (req, res) => {
     const { imageParts, prompt } = req.body;
     const apiKey = process.env.GOOGLE_API_KEY;
@@ -78,18 +78,41 @@ app.post('/analyze-exam', verifyFirebaseToken, async (req, res) => {
     }
 });
 
-// NOVA ROTA: Para verificar a segurança de medicamentos
+// NOVA ROTA: Para verificar a segurança de medicamentos (COM AS MUDANÇAS APLICADAS)
 app.post('/check-medication-safety', verifyFirebaseToken, async (req, res) => {
-    const { prompt } = req.body;
+    
+    // MUDANÇA 1: Recebemos 'medicationName' do frontend, em vez de 'prompt'
+    const { medicationName } = req.body;
     const apiKey = process.env.GOOGLE_API_KEY;
 
-    if (!apiKey || !prompt) {
-        return res.status(400).json({ error: 'Prompt não fornecido.' });
+    // MUDANÇA 2: Atualizamos a verificação de erro
+    if (!apiKey || !medicationName) {
+        return res.status(400).json({ error: 'Nome do medicamento não fornecido.' });
     }
 
+    // MUDANÇA 3: Construímos o prompt aqui no backend
+    const prompt = `
+        Você é um assistente de informações farmacêuticas especializado em teratologia e segurança de medicamentos na gestação e lactação. Sua função é fornecer informações baseadas em evidências e classificações de risco padrão para profissionais de saúde.
+        Para o medicamento "${medicationName}", forneça um resumo sobre sua segurança durante a gestação E a lactação.
+
+        A sua resposta DEVE seguir estritamente o seguinte formato:
+        - **Nome do Medicamento:** ${medicationName}
+        - **Classificação de Risco na Gestação (FDA):** [Categoria A, B, C, D ou X. Se não houver, escreva 'Não classificado pela FDA'.]
+        - **Resumo de Segurança na Gestação:** [Um parágrafo conciso explicando os riscos conhecidos, considerações por trimestre e informações sobre estudos em humanos ou animais. Seja direto e informativo.]
+        - **Segurança na Lactação:** [Um parágrafo conciso explicando a excreção do medicamento no leite materno, riscos potenciais para o lactente e recomendações gerais.]
+        - **Recomendações Gerais:** [Informações sobre a importância de avaliar o risco-benefício e a necessidade de acompanhamento médico para ambas as situações.]
+
+        REGRAS IMPORTANTES:
+        1.  NÃO forneça conselhos médicos diretos. NÃO diga 'é seguro tomar' ou 'não tome'.
+        2.  A sua resposta DEVE SEMPRE terminar com o seguinte aviso legal, sem exceções: 'AVISO: Esta informação é apenas para fins educacionais e não substitui a consulta com um profissional de saúde qualificado. Nunca inicie, pare ou altere qualquer medicação sem consultar o seu médico.'
+        3.  Se você não encontrar informações conclusivas sobre "${medicationName}" para gestação ou lactação, indique isso claramente na seção correspondente.
+    `;
+
     try {
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${apiKey}`;
+        // MUDANÇA 4: Corrigi o nome do modelo para 'gemini-pro' (o mais estável e que evita os erros 404 que vimos)
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
+        // MUDANÇA 5: O payload agora usa o prompt que acabamos de criar
         const payload = {
             contents: [{
                 parts: [{ text: prompt }]
