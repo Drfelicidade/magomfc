@@ -174,30 +174,7 @@ const firebaseConfig = {
                 }
             }
 
-                    const idToken = await currentUser.getIdToken();
-                    const response = await fetch('https://magomfc.onrender.com/check-medication-safety', {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${idToken}`
-                        },
-                        body: JSON.stringify({ prompt })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error((await response.json()).error || 'Falha na comunicação com o servidor.');
-                    }
-
-                    const result = await response.json();
-                    medicationResult.textContent = result.text;
-
-                } catch (error) {
-                    medicationResult.textContent = `Erro ao pesquisar: ${error.message}`;
-                } finally {
-                    loadingSpinner.classList.add('hidden');
-                }
-            }
-        });
+              
     </script>
 </body>
 </html>
