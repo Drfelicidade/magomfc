@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora PREVENT</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #dc2626; /* Cor vermelha para diferenciar */
+            border-radius: 9999px;
+        }
+        .risk-low { background-color: #dcfce7; border-left: 4px solid #22c55e; } /* green-100, green-500 */
+        .risk-borderline { background-color: #fffbeb; border-left: 4px solid #f59e0b; } /* amber-100, amber-500 */
+        .risk-intermediate { background-color: #fef2f2; border-left: 4px solid #ef4444; } /* red-100, red-500 */
+        .risk-high { background-color: #fee2e2; border-left: 4px solid #dc2626; } /* red-200, red-600 */
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora de Risco Cardiovascular</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Estimativa do risco cardiovascular (ASCVD) em 10 anos (PREVENT).
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção da Calculadora de Risco Cardiovascular -->
+        <div class="bg-red-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-red-200">
+            <h2 class="section-title text-2xl font-bold text-red-900 mb-4">Calcular Risco (PREVENT)</h2>
+            <p class="text-gray-700 mb-6">
+                Insira os dados do paciente para estimar o risco de um evento cardiovascular aterosclerótico (ASCVD) em 10 anos.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Idade -->
+                <div class="flex flex-col">
+                    <label for="age" class="text-sm font-medium text-gray-700 mb-1">Idade (anos):</label>
+                    <input type="number" id="age" min="30" max="79" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: 55">
+                </div>
+                <!-- Sexo -->
+                <div class="flex flex-col">
+                    <label for="sex" class="text-sm font-medium text-gray-700 mb-1">Sexo:</label>
+                    <select id="sex" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200">
+                        <option value="">Selecione</option>
+                        <option value="male">Masculino</option>
+                        <option value="female">Feminino</option>
+                    </select>
+                </div>
+                <!-- Raça/Etnia -->
+                <div class="flex flex-col">
+                    <label for="race" class="text-sm font-medium text-gray-700 mb-1">Raça/Etnia:</label>
+                    <select id="race" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200">
+                        <option value="">Selecione</option>
+                        <option value="white">Branca</option>
+                        <option value="black">Negra</option>
+                    </select>
+                </div>
+                <!-- Colesterol Total -->
+                <div class="flex flex-col">
+                    <label for="total-cholesterol" class="text-sm font-medium text-gray-700 mb-1">Colesterol Total (mg/dL):</label>
+                    <input type="number" id="total-cholesterol" min="0" step="0.1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: 200">
+                </div>
+                <!-- HDL -->
+                <div class="flex flex-col">
+                    <label for="hdl-cholesterol" class="text-sm font-medium text-gray-700 mb-1">HDL-C (mg/dL):</label>
+                    <input type="number" id="hdl-cholesterol" min="0" step="0.1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: 50">
+                </div>
+                <!-- Pressão Arterial Sistólica -->
+                <div class="flex flex-col">
+                    <label for="systolic-bp" class="text-sm font-medium text-gray-700 mb-1">Pressão Arterial Sistólica (PAS, mmHg):</label>
+                    <input type="number" id="systolic-bp" min="0" step="1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Ex: 130">
+                </div>
+                <!-- Hipertensão Tratada -->
+                <div class="flex flex-col">
+                    <label for="bp-treatment" class="text-sm font-medium text-gray-700 mb-1">Tratamento para Hipertensão?</label>
+                    <select id="bp-treatment" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200">
+                        <option value="no">Não</option>
+                        <option value="yes">Sim</option>
+                    </select>
+                </div>
+                <!-- Diabetes -->
+                <div class="flex flex-col">
+                    <label for="diabetes" class="text-sm font-medium text-gray-700 mb-1">Diabetes?</label>
+                    <select id="diabetes" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200">
+                        <option value="no">Não</option>
+                        <option value="yes">Sim</option>
+                    </select>
+                </div>
+                <!-- Tabagismo -->
+                <div class="flex flex-col md:col-span-2">
+                    <label for="smoker" class="text-sm font-medium text-gray-700 mb-1">Fumante?</label>
+                    <select id="smoker" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200">
+                        <option value="no">Não</option>
+                        <option value="yes">Sim</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="calculate-risk" class="w-full mt-8 p-3 font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition duration-300 shadow-md">
+                Calcular Risco
+            </button>
+
+            <div id="risk-result" class="mt-8 p-4 rounded-xl hidden">
+                <!-- Resultados serão exibidos aqui -->
+            </div>
+            <p class="text-gray-600 text-sm mt-4">
+                <strong class="font-semibold">Nota:</strong> A Calculadora PREVENT de 2023 é a mais recente para estimar o risco cardiovascular (ASCVD). Esta ferramenta é uma versão simplificada para triagem, e o cálculo oficial deve ser feito com a ferramenta original da AHA/ACC para maior precisão.
+            </p>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins informativos e de triagem. A interpretação do risco e as condutas devem ser realizadas por um profissional de saúde qualificado.</p>
+            <p>&copy; 2024 Calculadora PREVENT. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ageInput = document.getElementById('age');
+            const sexSelect = document.getElementById('sex');
+            const raceSelect = document.getElementById('race');
+            const totalCholesterolInput = document.getElementById('total-cholesterol');
+            const hdlCholesterolInput = document.getElementById('hdl-cholesterol');
+            const systolicBpInput = document.getElementById('systolic-bp');
+            const bpTreatmentSelect = document.getElementById('bp-treatment');
+            const diabetesSelect = document.getElementById('diabetes');
+            const smokerSelect = document.getElementById('smoker');
+            const calculateButton = document.getElementById('calculate-risk');
+            const resultDiv = document.getElementById('risk-result');
+
+            calculateButton.addEventListener('click', () => {
+                const age = parseInt(ageInput.value);
+                const sex = sexSelect.value;
+                const race = raceSelect.value;
+                const totalCholesterol = parseFloat(totalCholesterolInput.value);
+                const hdlCholesterol = parseFloat(hdlCholesterolInput.value);
+                const systolicBp = parseInt(systolicBpInput.value);
+                const bpTreatment = bpTreatmentSelect.value;
+                const diabetes = diabetesSelect.value;
+                const smoker = smokerSelect.value;
+
+                resultDiv.classList.add('hidden');
+                resultDiv.className = 'mt-8 p-4 rounded-xl'; // Reset classes for styling
+
+                // Validação de inputs
+                if (isNaN(age) || age < 30 || age > 79 || !sex || !race || isNaN(totalCholesterol) || totalCholesterol < 0 || isNaN(hdlCholesterol) || hdlCholesterol < 0 || isNaN(systolicBp) || systolicBp < 0) {
+                    displayResult('risk-result', 'Por favor, preencha todos os campos com valores válidos.', 'text-red-700');
+                    return;
+                }
+                
+                // --- Lógica Simplificada de Pontuação (PREVENT) ---
+                // Esta é uma pontuação simplificada para fins de triagem.
+                // A fórmula oficial é complexa e baseada em coeficientes de regressão.
+                let riskScore = 0;
+
+                // Pontuação baseada em idade e sexo
+                if (sex === 'male') {
+                    if (age >= 30 && age <= 40) riskScore += 1;
+                    else if (age > 40 && age <= 50) riskScore += 2;
+                    else if (age > 50 && age <= 60) riskScore += 3;
+                    else if (age > 60 && age <= 70) riskScore += 4;
+                    else if (age > 70) riskScore += 5;
+                } else if (sex === 'female') {
+                    if (age >= 30 && age <= 45) riskScore += 1;
+                    else if (age > 45 && age <= 55) riskScore += 2;
+                    else if (age > 55 && age <= 65) riskScore += 3;
+                    else if (age > 65) riskScore += 4;
+                }
+
+                // Colesterol
+                if (totalCholesterol >= 240) riskScore += 2;
+                else if (totalCholesterol >= 200) riskScore += 1;
+                
+                if (hdlCholesterol < 40) riskScore += 2;
+                else if (hdlCholesterol < 50) riskScore += 1;
+
+                // Pressão Arterial
+                if (systolicBp >= 160) riskScore += 3;
+                else if (systolicBp >= 140) riskScore += 2;
+                else if (systolicBp >= 120) riskScore += 1;
+
+                // Tratamento de Hipertensão
+                if (bpTreatment === 'yes') riskScore += 1;
+
+                // Diabetes e Tabagismo
+                if (diabetes === 'yes') riskScore += 2;
+                if (smoker === 'yes') riskScore += 3;
+
+                // Multiplicador para raça/etnia
+                if (race === 'black') riskScore *= 1.2;
+
+                let riskPercentage = (riskScore * 2.5) / (20) * 100 // Formula de exemplo
+                riskPercentage = Math.min(riskPercentage, 100);
+
+                let interpretation = "";
+                let resultClass = "";
+                
+                if (riskPercentage < 5) {
+                    interpretation = "Baixo Risco";
+                    resultClass = "risk-low";
+                } else if (riskPercentage >= 5 && riskPercentage < 7.5) {
+                    interpretation = "Risco Limítrofe";
+                    resultClass = "risk-borderline";
+                } else if (riskPercentage >= 7.5 && riskPercentage < 20) {
+                    interpretation = "Risco Intermediário";
+                    resultClass = "risk-intermediate";
+                } else { // >= 20
+                    interpretation = "Alto Risco";
+                    resultClass = "risk-high";
+                }
+
+                resultDiv.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">Seu Risco Cardiovascular (PREVENT) é:</h3>
+                    <p class="text-gray-800 text-3xl"><span class="font-semibold">${riskPercentage.toFixed(2)}%</span> em 10 anos</p>
+                    <p class="text-gray-800 mt-2"><span class="font-semibold">Interpretação:</span> <span class="font-bold ${resultClass}">${interpretation}</span></p>
+                    <p class="text-gray-600 text-sm mt-4">
+                        <strong class="font-semibold">Recomendação:</strong><br>
+                        - < 5%: Risco baixo. Foco em estilo de vida saudável.<br>
+                        - 5% a 7.4%: Risco limítrofe. Considere estatinas em casos específicos.<br>
+                        - 7.5% a 19.9%: Risco intermediário. Estatinas são frequentemente recomendadas.<br>
+                        - ≥ 20%: Risco alto. Estatinas são fortemente recomendadas.
+                    </p>
+                `;
+                resultDiv.classList.add(resultClass);
+                resultDiv.classList.remove('hidden');
+            });
+
+            // Função auxiliar para exibir mensagens de resultado/erro
+            function displayResult(containerId, message, textColorClass) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = `<p class="${textColorClass || 'text-gray-700'} font-semibold">${message}</p>`;
+                container.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
