@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora FRAX Brasil 2.0</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #f97316; /* Cor laranja para diferenciar */
+            border-radius: 9999px;
+        }
+        .risk-low { background-color: #dcfce7; border-left: 4px solid #22c55e; } /* verde */
+        .risk-medium { background-color: #fffbeb; border-left: 4px solid #f59e0b; } /* amarelo */
+        .risk-high { background-color: #fee2e2; border-left: 4px solid #ef4444; } /* vermelho */
+
+        .risk-box {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora FRAX Brasil</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Estimação do risco de fratura osteoporótica em 10 anos (versão de triagem).
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção da Calculadora FRAX -->
+        <div class="bg-orange-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-orange-200">
+            <h2 class="section-title text-2xl font-bold text-orange-900 mb-6">Fatores de Risco</h2>
+            <p class="text-gray-700 mb-6">
+                Responda às perguntas abaixo. O cálculo do FRAX exige DMO e IMC, mas esta versão de triagem usa o IMC e fatores clínicos.
+            </p>
+            
+            <form id="frax-form" class="space-y-6">
+
+                <!-- Dados Básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="flex flex-col">
+                        <label for="age" class="text-sm font-medium text-gray-700 mb-1">Idade (40 a 90 anos):</label>
+                        <input type="number" id="age" min="40" max="90" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="Ex: 65">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="sex" class="text-sm font-medium text-gray-700 mb-1">Sexo:</label>
+                        <select id="sex" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                            <option value="female">Feminino</option>
+                            <option value="male">Masculino</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="imc" class="text-sm font-medium text-gray-700 mb-1">IMC (Kg/m²):</label>
+                        <input type="number" id="imc" min="15" max="50" step="0.1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="Ex: 25.0">
+                    </div>
+                </div>
+
+                <!-- Fatores de Risco Clínicos -->
+                <div class="space-y-4 pt-4 border-t border-orange-200">
+                    <label class="block text-gray-700 font-semibold mb-2">Fatores de Risco (Selecione Sim ou Não):</label>
+                    
+                    <!-- Fator 1: Fratura Prévia -->
+                    <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
+                        <label for="prior-fracture" class="text-gray-700">Fratura osteoporótica prévia?</label>
+                        <select id="prior-fracture" data-points="1.5" class="p-2 border border-gray-300 rounded-lg">
+                            <option value="no">Não</option>
+                            <option value="yes">Sim</option>
+                        </select>
+                    </div>
+
+                    <!-- Fator 2: Pais com Fratura de Quadril -->
+                    <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
+                        <label for="parent-fractured-hip" class="text-gray-700">Pais com fratura de quadril?</label>
+                        <select id="parent-fractured-hip" data-points="1.2" class="p-2 border border-gray-300 rounded-lg">
+                            <option value="no">Não</option>
+                            <option value="yes">Sim</option>
+                        </select>
+                    </div>
+
+                    <!-- Fator 3: Uso de Glicocorticoides -->
+                    <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
+                        <label for="glucocorticoids" class="text-gray-700">Uso atual de glicocorticoides?</label>
+                        <select id="glucocorticoids" data-points="1.4" class="p-2 border border-gray-300 rounded-lg">
+                            <option value="no">Não</option>
+                            <option value="yes">Sim</option>
+                        </select>
+                    </div>
+
+                    <!-- Fator 4: Artrite Reumatoide -->
+                    <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
+                        <label for="rheumatoid-arthritis" class="text-gray-700">Artrite Reumatoide?</label>
+                        <select id="rheumatoid-arthritis" data-points="1.3" class="p-2 border border-gray-300 rounded-lg">
+                            <option value="no">Não</option>
+                            <option value="yes">Sim</option>
+                        </select>
+                    </div>
+
+                    <!-- Fator 5: Tabagismo Atual -->
+                    <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
+                        <label for="smoking" class="text-gray-700">Fumante atual?</label>
+                        <select id="smoking" data-points="1.1" class="p-2 border border-gray-300 rounded-lg">
+                            <option value="no">Não</option>
+                            <option value="yes">Sim</option>
+                        </select>
+                    </div>
+
+                    <!-- Fator 6: Álcool ≥ 3 doses/dia -->
+                    <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
+                        <label for="alcohol" class="text-gray-700">Álcool ≥ 3 doses/dia?</label>
+                        <select id="alcohol" data-points="1.1" class="p-2 border border-gray-300 rounded-lg">
+                            <option value="no">Não</option>
+                            <option value="yes">Sim</option>
+                        </select>
+                    </div>
+
+                    <!-- Fator 7: Doença Secundária (Diabetes Tipo 1, Hipertireoidismo, etc.) -->
+                    <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
+                        <label for="secondary-osteoporosis" class="text-gray-700">Outras causas de Osteoporose Secundária?</label>
+                        <select id="secondary-osteoporosis" data-points="1.3" class="p-2 border border-gray-300 rounded-lg">
+                            <option value="no">Não</option>
+                            <option value="yes">Sim</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="button" id="calculate-frax" class="w-full mt-8 p-3 font-semibold text-white bg-orange-600 rounded-lg hover:bg-orange-700 transition duration-300 shadow-md">
+                    Calcular Risco FRAX
+                </button>
+
+            </form>
+
+            <!-- Resultado -->
+            <div id="risk-result" class="mt-8 p-6 rounded-2xl shadow-lg border border-gray-300 hidden">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Resultado Estimado (10 Anos)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="risk-box bg-orange-100 border-l-4 border-orange-500">
+                        <p class="text-sm font-medium text-orange-800">Risco de Fratura Maior Osteoporótica</p>
+                        <p id="major-fracture-risk" class="text-3xl font-extrabold text-orange-900 mt-1">--%</p>
+                    </div>
+                    <div class="risk-box bg-red-100 border-l-4 border-red-500">
+                        <p class="text-sm font-medium text-red-800">Risco de Fratura de Quadril</p>
+                        <p id="hip-fracture-risk" class="text-3xl font-extrabold text-red-900 mt-1">--%</p>
+                    </div>
+                </div>
+                <div id="risk-interpretation" class="mt-4 p-4 text-sm rounded-lg"></div>
+            </div>
+
+            <p class="text-gray-600 text-sm mt-6">
+                <strong class="font-semibold text-orange-700">Aviso:</strong> Este é um cálculo de triagem simplificado, baseado em fatores de risco. O FRAX oficial da ISCD utiliza coeficientes populacionais e, idealmente, a Densidade Mineral Óssea (DMO) do colo do fêmur. **Para diagnóstico e tratamento, utilize o cálculo oficial e a avaliação clínica.**
+            </p>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p>&copy; 2024 Calculadora FRAX. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('frax-form');
+            const calculateButton = document.getElementById('calculate-frax');
+            const ageInput = document.getElementById('age');
+            const sexSelect = document.getElementById('sex');
+            const imcInput = document.getElementById('imc');
+            const riskResultDiv = document.getElementById('risk-result');
+            const majorRiskDisplay = document.getElementById('major-fracture-risk');
+            const hipRiskDisplay = document.getElementById('hip-fracture-risk');
+            const interpretationDiv = document.getElementById('risk-interpretation');
+
+            calculateButton.addEventListener('click', calculateFrax);
+
+            function calculateFrax() {
+                const age = parseInt(ageInput.value);
+                const sex = sexSelect.value;
+                const imc = parseFloat(imcInput.value);
+                
+                // Validação mínima
+                if (isNaN(age) || age < 40 || age > 90 || isNaN(imc) || imc < 15 || imc > 50) {
+                    alert('Por favor, insira idade entre 40 e 90 anos e um valor de IMC válido.');
+                    riskResultDiv.classList.add('hidden');
+                    return;
+                }
+
+                // --- Lógica Simplificada de Pontuação FRAX ---
+                // Esta é uma simulação de risco e NÃO o algoritmo FRAX oficial.
+                let riskFactor = 1.0;
+                let baseRisk = 0; // Risco base ajustado pela idade e sexo
+
+                // Ajuste de Risco por Idade (Fatores Simplificados)
+                if (age >= 40 && age < 55) baseRisk = sex === 'female' ? 1.5 : 1.0;
+                else if (age >= 55 && age < 70) baseRisk = sex === 'female' ? 3.0 : 2.0;
+                else if (age >= 70 && age < 80) baseRisk = sex === 'female' ? 5.5 : 4.0;
+                else baseRisk = sex === 'female' ? 8.0 : 6.0;
+
+                // Ajuste de Risco por IMC (Abaixo de 18.5 aumenta risco)
+                if (imc < 18.5) riskFactor *= 1.4; // Aumenta risco para baixo peso
+
+                // Multiplicadores dos Fatores de Risco Clínicos (Data-points)
+                const riskFactors = form.querySelectorAll('select[data-points]');
+                riskFactors.forEach(select => {
+                    if (select.value === 'yes') {
+                        riskFactor *= parseFloat(select.dataset.points);
+                    }
+                });
+
+                // Cálculo Final Estimado
+                // A simulação usa o risco base e aplica o multiplicador de fatores.
+                let majorFractureRisk = baseRisk * riskFactor;
+                let hipFractureRisk = (baseRisk / 4) * riskFactor; // Hip é tipicamente ~1/4 do Major
+
+                // Limitar para um máximo plausível (ex: 35% e 15% para triagem)
+                majorFractureRisk = Math.min(majorFractureRisk, 35);
+                hipFractureRisk = Math.min(hipFractureRisk, 15);
+                
+                // Arredondamento
+                majorFractureRisk = Math.round(majorFractureRisk * 10) / 10;
+                hipFractureRisk = Math.round(hipFractureRisk * 10) / 10;
+                
+                // Classificação e Interpretação (Usando o limiar de intervenção do Brasil/IOF)
+                let interpretationText = '';
+                let interpretationClass = '';
+
+                // O Limiar de Intervenção Brasileiro (do Brasil 2.0) tipicamente considera:
+                // > 20% para Fratura Maior E/OU > 3% para Fratura de Quadril (em média, pode variar)
+                
+                if (majorFractureRisk >= 20 || hipFractureRisk >= 3) {
+                    interpretationClass = 'risk-high';
+                    interpretationText = `**Alto Risco!** O risco de fratura é elevado. A gestante deve ser encaminhada para avaliação médica e, provavelmente, Densidade Mineral Óssea (DMO) do colo do fêmur para confirmar a necessidade de tratamento farmacológico.`;
+                } else if (majorFractureRisk >= 10 || hipFractureRisk >= 1.5) {
+                    interpretationClass = 'risk-medium';
+                    interpretationText = `**Risco Intermediário.** O risco é moderado. Avaliação mais detalhada, incluindo DMO, é recomendada para melhor estratificação e decisão terapêutica.`;
+                } else {
+                    interpretationClass = 'risk-low';
+                    interpretationText = `**Baixo Risco.** O risco de fratura em 10 anos é baixo. Recomenda-se manter hábitos saudáveis, ingestão adequada de cálcio e vitamina D, e reavaliação periódica.`;
+                }
+
+                // Exibir Resultados
+                majorRiskDisplay.textContent = `${majorFractureRisk.toFixed(1)}%`;
+                hipRiskDisplay.textContent = `${hipFractureRisk.toFixed(1)}%`;
+                
+                interpretationDiv.innerHTML = interpretationText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                interpretationDiv.className = `p-4 text-gray-800 rounded-lg text-base ${interpretationClass}`;
+
+                riskResultDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
