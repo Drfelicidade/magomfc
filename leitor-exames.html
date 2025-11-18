@@ -301,7 +301,7 @@ const firebaseConfig = {
 
                 analyzeButton.disabled = true;
                 analyzeButton.textContent = 'Processando...';
-                progressText.textContent = 'Preparando arquivos...';
+                progressText.textContent = 'Otimizando imagens...';
                 
                 let imageParts = [];
                 try {
@@ -312,41 +312,36 @@ const firebaseConfig = {
                         } else if (file.type === 'application/pdf') {
                             const typedarray = new Uint8Array(await file.arrayBuffer());
                             const pdf = await pdfjsLib.getDocument(typedarray).promise;
-                            for (let i = 1; i <= pdf.numPages; i++) {
-                                progressText.textContent = `Processando página ${i} de ${pdf.numPages}...`;
+                            
+                            // OTIMIZAÇÃO: Limitar número de páginas para evitar timeout
+                            const maxPages = 10; 
+                            const pagesToProcess = Math.min(pdf.numPages, maxPages);
+
+                            for (let i = 1; i <= pagesToProcess; i++) {
+                                progressText.textContent = `Lendo página ${i} de ${pdf.numPages}...`;
                                 const page = await pdf.getPage(i);
-                                const viewport = page.getViewport({ scale: 1.5 });
+                                
+                                // OTIMIZAÇÃO: Reduzi a escala de 1.5 para 1.2 (mantém legibilidade, mas diminui peso)
+                                const viewport = page.getViewport({ scale: 1.2 });
                                 const canvas = document.createElement('canvas');
                                 const context = canvas.getContext('2d');
                                 canvas.height = viewport.height;
                                 canvas.width = viewport.width;
                                 await page.render({ canvasContext: context, viewport: viewport }).promise;
-                                const base64 = canvas.toDataURL('image/png').split(',')[1];
-                                imageParts.push({ mimeType: 'image/png', data: base64 });
+                                
+                                // Comprimir para JPEG qualidade 0.8 (muito mais leve que PNG)
+                                const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+                                imageParts.push({ mimeType: 'image/jpeg', data: base64 });
+                            }
+                            if (pdf.numPages > maxPages) {
+                                alert(`Atenção: Seu PDF tem ${pdf.numPages} páginas. Apenas as primeiras ${maxPages} foram processadas para evitar lentidão.`);
                             }
                         }
                     }
 
-                    progressText.textContent = 'Enviando para a inteligência artificial...';
+                    progressText.textContent = 'Inteligência Artificial analisando...';
 
-                    const prompt = `
-                        Você é um assistente médico para realizar a leitura e transcrição de fotos de exames ou arquivos pdf, visando a extração de dados médicos com foco na precisão das informações lidas. Siga estas regras gerais:
-                        1.  **NÃO INVENTE NADA:** Não invente, infira, calcule ou adicione qualquer informação que não esteja visivelmente escrita no exame. A precisão é a prioridade máxima. Não escreva valores de referência como resultado de exame.
-                        2.  **SEJA LITERAL:** Transcreva nomes de exames, valores e unidades exatamente como aparecem.
-                        3.  **ILEGÍVEL:** Se um valor ou nome de exame não estiver claro ou legível, escreva 'ILEGÍVEL' no lugar do valor.
-                        4.  **NÃO FAÇA RESUMOS:** Não forneça resumos, explicações ou conselhos médicos. Apenas extraia os dados.
-                        5.  **FORMATAÇÃO:**
-                            - Primeiro, encontre e escreva a data do exame no formato: (DD/MM/AAAA). Escreva a data apenas no início do registro dos exames de cada data.
-                            - Depois, começando na mesma linha da data, liste cada exame encontrado com seu valor e unidades, em sequencia em uma mesma linha, separando cada exame por uma /. Use o formato: Nome do Exame: [Valor] [Unidade]
-                            - Exemplo: Hemoglobina: 14.5 g/dL
-                        6.  **INSTRUÇÕES ESPECÍFICAS:**
-                            - Para o Hemograma, extraia APENAS os valores de Hemoglobina, Leucócitos e Plaquetas.
-                            - Para o exame parcial de urina (quando este estiver presente) anote apenas os itens que apresentarem divergencia com os valores de referencia citados nofornecidos pelo exame.
-                            - Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos dentro do espaço de duas /, listando os mesmos sempre nesta sequencia.
-                            - Para exames de imagem (como ultrassom, tomografia), transcreva a seção 'CONCLUSÃO' ou 'IMPRESSÃO DIAGNÓSTICA' palavra por palavra.
-                        Consolide os resultados de todas as imagens em uma única resposta, liste primeiro os exames que estiverem com resultados fora dos valores de referência citados no exame.
-                    `;
-                    
+                    // NÃO enviamos mais o 'prompt' daqui. O backend cuida disso.
                     const idToken = await currentUser.getIdToken();
                     const response = await fetch('https://magomfc.onrender.com/analyze-exam', {
                         method: 'POST',
@@ -354,17 +349,25 @@ const firebaseConfig = {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${idToken}`
                         },
-                        body: JSON.stringify({ prompt, imageParts })
+                        body: JSON.stringify({ imageParts }) // Enviamos apenas as imagens
                     });
 
-                    if (!response.ok) throw new Error((await response.json()).error || 'Falha na comunicação com o servidor.');
+                    if (!response.ok) {
+                         const errorData = await response.json();
+                         throw new Error(errorData.error || 'Falha na comunicação com o servidor.');
+                    }
                     
                     const result = await response.json();
+                    
+                    // Formatação simples para exibição
+                    transcriptionResult.innerHTML = result.text.replace(/\n/g, '<br>'); 
+                    
                     progressText.textContent = 'Análise concluída!';
                     clearSelection();
 
                 } catch (error) {
                     progressText.textContent = `Erro: ${error.message}`;
+                    transcriptionResult.textContent = "Houve uma falha. Tente enviar menos imagens ou verifique sua conexão.";
                 } finally {
                     analyzeButton.disabled = false;
                     analyzeButton.textContent = 'Analisar e Salvar';
@@ -381,6 +384,7 @@ const firebaseConfig = {
     </script>
 </body>
 </html>
+
 
 
 
