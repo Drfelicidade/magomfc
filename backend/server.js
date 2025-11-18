@@ -156,19 +156,47 @@ app.post('/check-medication-safety', verifyFirebaseToken, async (req, res) => {
                 parts: [{ text: prompt }]
             }]
         };
+// --- LÓGICA DE RETRY (TENTAR NOVAMENTE) ---
+    let attempts = 0;
+    const maxAttempts = 3; // Tenta até 3 vezes
 
-        const response = await axios.post(apiUrl, payload);
+    while (attempts < maxAttempts) {
+        try {
+            const response = await axios.post(apiUrl, payload);
+            
+            let transcription = 'Não foi possível extrair o texto.';
+            if (response.data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+                transcription = response.data.candidates[0].content.parts[0].text;
+            }
 
-        let safetyInfo = 'Não foi possível obter a informação.';
-        if (response.data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-            safetyInfo = response.data.candidates[0].content.parts[0].text;
+            await db.collection('users').doc(userId).collection('exams').add({
+                result: transcription,
+                timestamp: admin.firestore.FieldValue.serverTimestamp()
+            });
+            
+            // Se deu certo, retorna e sai da função (interrompe o loop)
+            return res.status(200).json({ success: true, text: transcription });
+
+        } catch (error) {
+            // Se o erro for 503 (Overloaded) ou 429 (Too Many Requests)
+            if (error.response && (error.response.status === 503 || error.response.status === 429)) {
+                attempts++;
+                console.log(`Tentativa ${attempts} falhou com erro ${error.response.status}. Tentando novamente em 2s...`);
+                
+                if (attempts >= maxAttempts) {
+                    // Se esgotou as tentativas, desiste e avisa o usuário
+                    return res.status(503).json({ error: 'O servidor de IA está sobrecarregado no momento. Tente novamente em alguns instantes.' });
+                }
+                
+                // Espera 2 segundos antes de tentar de novo (Backoff simples)
+                await delay(2000); 
+            } else {
+                // Se for qualquer outro erro (ex: 400, 403), não adianta tentar de novo.
+                console.error('Erro fatal na análise:', error.message);
+                const errorMessage = error.response?.data?.error?.message || 'Falha ao processar o exame.';
+                return res.status(500).json({ error: errorMessage });
+            }
         }
-
-        res.status(200).json({ success: true, text: safetyInfo });
-
-    } catch (error) {
-        console.error('Erro ao verificar segurança do medicamento:', error.response ? error.response.data : error.message);
-        res.status(500).json({ error: 'Falha ao pesquisar informação.' });
     }
 });
 
