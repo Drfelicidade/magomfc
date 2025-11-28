@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora da Escala PPS (Palliative Performance Scale)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #059669; /* Cor verde para cuidados paliativos */
+            border-radius: 9999px;
+        }
+        .pps-result {
+            font-size: 3rem;
+            font-weight: 800;
+        }
+        /* Estilos para as caixas de resultado */
+        .result-box-green { background-color: #d1fae5; border-left: 4px solid #10b981; }
+        .result-box-yellow { background-color: #fffbeb; border-left: 4px solid #f59e0b; }
+        .result-box-red { background-color: #fee2e2; border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Escala PPS (Palliative Performance Scale)</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Ferramenta de avaliação funcional e prognóstica em Cuidados Paliativos.
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção da Calculadora PPS -->
+        <div class="bg-emerald-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-emerald-200">
+            <h2 class="section-title text-2xl font-bold text-emerald-900 mb-6">Domínios de Avaliação</h2>
+            
+            <form id="pps-form" class="space-y-6">
+
+                <!-- DOMÍNIO 1: AMBULAÇÃO (Locomoção) -->
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">1. Ambulação (Locomoção)</h3>
+                    <select id="ambulacao" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="100">100% - Totalmente deambulante (Normal)</option>
+                        <option value="80">80% - Totalmente deambulante (Redução de atividade)</option>
+                        <option value="70">70% - Deambulante com ajuda ocasional ou limitada</option>
+                        <option value="60">60% - Deambulante, mas necessita de ajuda ou supervisão substancial</option>
+                        <option value="50">50% - Principalmente sentado/em cadeira, pouca capacidade de deambular</option>
+                        <option value="40">40% - Principalmente na cama, limitada capacidade de deambular</option>
+                        <option value="30">30% - Totalmente acamado</option>
+                        <option value="20">20% - Totalmente acamado</option>
+                        <option value="10">10% - Totalmente acamado</option>
+                        <option value="0">0% - Morte</option>
+                    </select>
+                </div>
+
+                <!-- DOMÍNIO 2: INGESTÃO (Alimentação) -->
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">2. Ingestão (Alimentação)</h3>
+                    <select id="ingestao" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="100">100% - Normal</option>
+                        <option value="80">80% - Normal</option>
+                        <option value="70">70% - Normal a reduzida</option>
+                        <option value="60">60% - Reduzida</option>
+                        <option value="50">50% - Reduzida/Mínima (Requer auxílio parcial)</option>
+                        <option value="40">40% - Mínima (Requer auxílio total)</option>
+                        <option value="30">30% - Mínima (Requer auxílio total)</option>
+                        <option value="20">20% - Mínima (Requer auxílio total)</option>
+                        <option value="10">10% - Mínima (Apenas hidratação por via oral ou NPO)</option>
+                        <option value="0">0% - Morte</option>
+                    </select>
+                </div>
+
+                <!-- DOMÍNIO 3: ATIVIDADE (Nível de Atividade) -->
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">3. Atividade e Evidência de Doença</h3>
+                    <select id="atividade" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="100">100% - Plena atividade, sem evidência de doença</option>
+                        <option value="80">80% - Plena atividade, com evidência de doença</option>
+                        <option value="70">70% - Redução de atividade/lazer</option>
+                        <option value="60">60% - Incapaz de realizar trabalho/hobbies</option>
+                        <option value="50">50% - Principalmente sentado/em cadeira. Grande esforço para qualquer atividade</option>
+                        <option value="40">40% - Incapaz de realizar a maior parte das atividades, repousa muito</option>
+                        <option value="30">30% - Incapaz de realizar a maior parte das atividades, repousa muito</option>
+                        <option value="20">20% - Incapaz de realizar a maior parte das atividades, repousa muito</option>
+                        <option value="10">10% - Incapaz de realizar a maior parte das atividades, repousa muito</option>
+                        <option value="0">0% - Morte</option>
+                    </select>
+                </div>
+
+                <!-- DOMÍNIO 4: AUTOCUIDADOS (Higiene, Vestir-se, etc.) -->
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">4. Autocuidados</h3>
+                    <select id="autocuidados" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="100">100% - Completo</option>
+                        <option value="80">80% - Completo</option>
+                        <option value="70">70% - Completo</option>
+                        <option value="60">60% - Necessita de assistência ocasional</option>
+                        <option value="50">50% - Necessita de assistência substancial ou total</option>
+                        <option value="40">40% - Necessita de assistência substancial ou total</option>
+                        <option value="30">30% - Totalmente dependente</option>
+                        <option value="20">20% - Totalmente dependente</option>
+                        <option value="10">10% - Totalmente dependente</option>
+                        <option value="0">0% - Morte</option>
+                    </select>
+                </div>
+
+                <!-- DOMÍNIO 5: NÍVEL DE CONSCIÊNCIA -->
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">5. Nível de Consciência</h3>
+                    <select id="consciencia" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <option value="100">100% - Pleno</option>
+                        <option value="80">80% - Pleno</option>
+                        <option value="70">70% - Pleno</option>
+                        <option value="60">60% - Pleno</option>
+                        <option value="50">50% - Pleno</option>
+                        <option value="40">40% - Pleno/Confusão ocasional</option>
+                        <option value="30">30% - Confusão/Sonolência</option>
+                        <option value="20">20% - Sonolência/Estupor</option>
+                        <option value="10">10% - Coma</option>
+                        <option value="0">0% - Morte</option>
+                    </select>
+                </div>
+
+                <!-- Espaço para o botão Calcular (a função está nos selects, mas o botão pode ser útil para reforço) -->
+                <button type="button" id="calculate-pps" class="w-full mt-8 p-3 font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition duration-300 shadow-md">
+                    Calcular PPS
+                </button>
+            </form>
+
+            <!-- Resultado -->
+            <div id="pps-result-box" class="mt-8 p-6 result-box-green shadow-lg border-emerald-300">
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Resultado PPS:</h3>
+                <div class="flex items-center justify-between">
+                    <p id="pps-score" class="pps-result text-emerald-800">100%</p>
+                    <p id="pps-status" class="text-xl font-semibold text-gray-700">Completamente Ativo</p>
+                </div>
+                <div id="pps-interpretation" class="mt-4 pt-4 border-t border-emerald-300 text-sm text-gray-700">
+                    <strong class="font-semibold">Interpretação:</strong> O paciente é capaz de realizar a atividade normal e o trabalho. Ausência de evidência de doença.
+                </div>
+            </div>
+
+            <p class="text-gray-600 text-sm mt-6">
+                <strong class="font-semibold text-emerald-700">Nota:</strong> O cálculo PPS é sempre o *maior* valor que preenche *todos* os critérios da coluna. O score final é o valor mais alto que satisfaz todas as condições. Esta calculadora assume que o valor mais baixo selecionado entre os domínios é o valor correto.
+            </p>
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p>&copy; 2024 Ferramentas Médicas. Escala PPS adaptada de Victoria Hospice, 1996.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const selects = document.querySelectorAll('#pps-form select');
+            const calculateButton = document.getElementById('calculate-pps');
+            const ppsScoreDisplay = document.getElementById('pps-score');
+            const ppsStatusDisplay = document.getElementById('pps-status');
+            const ppsInterpretationDiv = document.getElementById('pps-interpretation');
+            const ppsResultBox = document.getElementById('pps-result-box');
+
+            const ppsLevels = [
+                { score: 100, status: "Completamente Ativo", interp: "Atividade normal. Ausência de doença.", color: "green" },
+                { score: 90, status: "Completamente Ativo (Redução Leve)", interp: "Atividade normal. Evidência mínima de doença.", color: "green" },
+                { score: 80, status: "Ativo com Redução", interp: "Atividade normal com esforço. Alguma evidência de doença. Sintomas bem controlados.", color: "green" },
+                { score: 70, status: "Redução de Atividade/Lazer", interp: "Incapaz de realizar trabalho/hobbies. Necessita de ajuda ocasional no autocuidado.", color: "yellow" },
+                { score: 60, status: "Necessita de Ajuda Substantial", interp: "Redução de toda atividade. Necessita de ajuda substancial para autocuidados. Principalmente sentado ou em cadeira.", color: "yellow" },
+                { score: 50, status: "Principalmente Sentado/Cadeira", interp: "Incapaz de realizar a maior parte das atividades. Necessita de ajuda total para autocuidados.", color: "yellow" },
+                { score: 40, status: "Principalmente na Cama", interp: "Incapaz de realizar a maior parte das atividades. Necessita de ajuda total para autocuidados. Repousa muito.", color: "red" },
+                { score: 30, status: "Totalmente Acamado", interp: "Incapaz de realizar qualquer atividade. Totalmente dependente. Confusão ou sonolência.", color: "red" },
+                { score: 20, status: "Totalmente Acamado, Sintomas Graves", interp: "Incapaz de realizar qualquer atividade. Sonolência ou estupor. Ingestão mínima.", color: "red" },
+                { score: 10, status: "Terminal/Coma", interp: "Incapaz de realizar qualquer atividade. Coma. Apenas hidratação por via oral ou NPO.", color: "red" },
+                { score: 0, status: "Morte", interp: "Morte.", color: "red" },
+            ];
+            
+            // Função para buscar o score PPS baseado nos 5 domínios (o PPS é o valor mais baixo que atende a todos os critérios)
+            function calculatePPS() {
+                let minScore = 100;
+                let domains = ['ambulacao', 'ingestao', 'atividade', 'autocuidados', 'consciencia'];
+
+                domains.forEach(id => {
+                    const select = document.getElementById(id);
+                    const score = parseInt(select.value);
+                    if (score < minScore) {
+                        minScore = score;
+                    }
+                });
+
+                // Se o score mínimo não for um valor padrão (100, 90, 80...), arredondamos para o mais próximo inferior.
+                // A Escala PPS só usa scores múltiplos de 10.
+                let finalPPS = Math.floor(minScore / 10) * 10;
+                
+                // Encontra a interpretação correta para o score final
+                const level = ppsLevels.find(l => l.score === finalPPS);
+                
+                if (level) {
+                    ppsScoreDisplay.textContent = `${level.score}%`;
+                    ppsStatusDisplay.textContent = level.status;
+                    ppsInterpretationDiv.innerHTML = `<strong class="font-semibold">Interpretação:</strong> ${level.interp}`;
+
+                    // Atualiza cores e classes
+                    ppsResultBox.classList.remove('result-box-green', 'result-box-yellow', 'result-box-red');
+                    ppsScoreDisplay.classList.remove('text-emerald-800', 'text-yellow-800', 'text-red-800');
+
+                    if (level.color === 'green') {
+                        ppsResultBox.classList.add('result-box-green');
+                        ppsScoreDisplay.classList.add('text-emerald-800');
+                    } else if (level.color === 'yellow') {
+                        ppsResultBox.classList.add('result-box-yellow');
+                        ppsScoreDisplay.classList.add('text-yellow-800');
+                    } else { // red
+                        ppsResultBox.classList.add('result-box-red');
+                        ppsScoreDisplay.classList.add('text-red-800');
+                    }
+                }
+            }
+
+            // Recalcular sempre que um select muda
+            selects.forEach(select => {
+                select.addEventListener('change', calculatePPS);
+            });
+
+            // Recalcular ao clicar no botão (reforço)
+            calculateButton.addEventListener('click', calculatePPS);
+
+            // Inicializar o cálculo
+            calculatePPS();
+        });
+    </script>
+</body>
+</html>
