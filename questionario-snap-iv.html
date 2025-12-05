@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário SNAP-IV (Triagem TDAH)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #10b981; /* Cor verde para destaque */
+            border-radius: 9999px;
+        }
+        .question-header {
+            font-weight: 600;
+            color: #1f2937;
+            padding: 0.75rem 0;
+        }
+        .score-box {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+        }
+        .score-desatencao { background-color: #f0fdf4; border-left: 4px solid #10b981; }
+        .score-hiperatividade { background-color: #fefce8; border-left: 4px solid #facc15; }
+        .score-oposicao { background-color: #fee2e2; border-left: 4px solid #f87171; }
+        .cutoff-met { color: #10b981; font-weight: 700; }
+        .cutoff-not-met { color: #ef4444; font-weight: 700; }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Questionário SNAP-IV</h1>
+            <p class="text-gray-600 text-lg md:text-xl">
+                Triagem para Transtorno do Déficit de Atenção com Hiperatividade (TDAH).
+            </p>
+        </header>
+
+        <!-- Botão Voltar ao Menu Principal -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+                &larr; Voltar ao Menu Principal
+            </a>
+        </div>
+
+        <!-- Seção do Questionário -->
+        <div class="bg-green-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-green-200">
+            <h2 class="section-title text-2xl font-bold text-green-900 mb-6">Instruções</h2>
+            <p class="text-gray-700 mb-6">
+                Para cada item, selecione a frequência com que o comportamento ocorreu no período recente (últimos 6 meses).
+            </p>
+            
+            <!-- Tabela de Respostas -->
+            <div class="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-100">
+                <form id="snap-form" class="min-w-full divide-y divide-gray-200">
+                    <div class="flex bg-gray-50 text-xs uppercase text-gray-500 tracking-wider font-bold">
+                        <div class="w-1/2 p-3 text-left">Comportamento</div>
+                        <div class="w-1/2 flex justify-around items-center text-center">
+                            <span class="w-1/4">Nada</span>
+                            <span class="w-1/4">Só um Pouco</span>
+                            <span class="w-1/4">Bastante</span>
+                            <span class="w-1/4">Muito</span>
+                        </div>
+                    </div>
+                    
+                    <!-- DOMÍNIOS DO SNAP-IV -->
+                    <div id="questions-container" class="divide-y divide-gray-100">
+                        <!-- As perguntas serão injetadas aqui pelo JS -->
+                    </div>
+
+                    <div class="p-4 bg-gray-50 text-center">
+                        <p class="text-sm text-gray-600">Pontuações atualizadas automaticamente ao selecionar a resposta.</p>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Seção de Resultados -->
+            <div class="mt-8">
+                <h3 class="text-2xl font-bold text-green-800 mb-4">Resultados da Triagem</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    
+                    <!-- Score Desatenção -->
+                    <div class="score-box score-desatencao">
+                        <p class="text-sm font-medium text-gray-700">1. Desatenção (Q1-9)</p>
+                        <p id="score-desatencao" class="text-3xl font-extrabold text-green-800 mt-1">0/9</p>
+                        <p id="cutoff-desatencao" class="text-xs mt-1">
+                            Limiar (6+): <span class="cutoff-not-met">Não atingido</span>
+                        </p>
+                    </div>
+
+                    <!-- Score Hiperatividade/Impulsividade -->
+                    <div class="score-box score-hiperatividade">
+                        <p class="text-sm font-medium text-gray-700">2. Hiperatividade/Impulsividade (Q10-18)</p>
+                        <p id="score-hiperatividade" class="text-3xl font-extrabold text-yellow-800 mt-1">0/9</p>
+                        <p id="cutoff-hiperatividade" class="text-xs mt-1">
+                            Limiar (6+): <span class="cutoff-not-met">Não atingido</span>
+                        </p>
+                    </div>
+
+                    <!-- Score Oposição/Desafio -->
+                    <div class="score-box score-oposicao">
+                        <p class="text-sm font-medium text-gray-700">3. Oposição/Desafio (Q19-26)</p>
+                        <p id="score-oposicao" class="text-3xl font-extrabold text-red-800 mt-1">0/8</p>
+                        <p id="cutoff-oposicao" class="text-xs mt-1">
+                            Limiar (4+): <span class="cutoff-not-met">Não atingido</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div id="interpretation" class="mt-6 p-4 text-sm bg-gray-100 rounded-lg border border-gray-200 text-gray-700">
+                    <strong class="font-semibold text-gray-800">Interpretação da Triagem:</strong>
+                    <p class="mt-1">O SNAP-IV é uma escala de classificação e triagem. Resultados positivos (limiar atingido) em um ou mais domínios indicam a necessidade de uma avaliação clínica completa por um profissional especializado (neuropediatra, psiquiatra infantil ou psicólogo clínico).</p>
+                    <p class="mt-1 text-xs">Os limiares de corte (6+ para TDAH, 4+ para TOD) são baseados na versão DSM-IV, onde pontuação 'Bastante' (2) ou 'Muito' (3) conta como sintoma presente.</p>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer class="text-center text-gray-500 text-sm mt-10">
+            <p>&copy; 2024 Ferramentas Médicas. Questionário SNAP-IV.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+                // Desatenção (Q1-9) - Limiar 6+
+                { id: 1, text: "Não consegue prestar atenção a detalhes ou comete erros por descuido nos trabalhos escolares, no trabalho ou durante outras atividades." },
+                { id: 2, text: "Tem dificuldade em manter a atenção em tarefas ou atividades lúdicas." },
+                { id: 3, text: "Parece não escutar quando lhe dirigem a palavra." },
+                { id: 4, text: "Não segue instruções e não termina os trabalhos escolares, tarefas ou deveres." },
+                { id: 5, text: "Tem dificuldade em organizar tarefas e atividades." },
+                { id: 6, text: "Evita, não gosta ou reluta em se empenhar em tarefas que exijam esforço mental prolongado (como trabalhos escolares ou de casa)." },
+                { id: 7, text: "Perde coisas necessárias para tarefas ou atividades (ex: brinquedos, lápis, livros, cadernos, ferramentas)." },
+                { id: 8, text: "É facilmente distraído por estímulos externos." },
+                { id: 9, text: "É esquecido nas atividades cotidianas." },
+                
+                // Hiperatividade/Impulsividade (Q10-18) - Limiar 6+
+                { id: 10, text: "Agita as mãos ou os pés ou se remexe na cadeira." },
+                { id: 11, text: "Abandona sua cadeira em sala de aula ou em outras situações nas quais se espera que permaneça sentado." },
+                { id: 12, text: "Corre ou escala em demasia em situações nas quais isto é inapropriado." },
+                { id: 13, text: "Tem dificuldade em brincar ou se engajar em atividades de lazer calmamente." },
+                { id: 14, text: "Está 'a todo vapor' ou muitas vezes age como se estivesse 'ligado a um motor'." },
+                { id: 15, text: "Fala em demasia." },
+                { id: 16, text: "Responde as perguntas de forma incompleta ou antes que tenham sido formuladas." },
+                { id: 17, text: "Tem dificuldade em esperar sua vez." },
+                { id: 18, text: "Interrompe os outros ou se intromete (ex: em conversas ou jogos)." },
+                
+                // Oposição/Desafio (Q19-26) - Limiar 4+
+                { id: 19, text: "Perde facilmente a calma." },
+                { id: 20, text: "É frequentemente sensível ou facilmente incomodado pelos outros." },
+                { id: 21, text: "É frequentemente rancoroso ou vingativo." },
+                { id: 22, text: "Desafia ativamente ou se recusa a obedecer a pedidos ou regras." },
+                { id: 23, text: "Discute frequentemente com adultos." },
+                { id: 24, text: "Faz frequentemente 'birras'." },
+                { id: 25, text: "Culpa frequentemente os outros por seus próprios erros ou mau comportamento." },
+                { id: 26, text: "É frequentemente malicioso e irrita os outros deliberadamente." }
+            ];
+
+            const scoreMap = { 0: 'Nada', 1: 'Só um Pouco', 2: 'Bastante', 3: 'Muito' };
+            const container = document.getElementById('questions-container');
+
+            // Função para injetar as perguntas no HTML
+            function renderQuestions() {
+                container.innerHTML = questions.map(q => `
+                    <div class="flex items-center">
+                        <div class="w-1/2 p-3 question-header">${q.id}. ${q.text}</div>
+                        <div class="w-1/2 flex justify-around items-center text-center py-3">
+                            ${Object.keys(scoreMap).map(score => `
+                                <label class="w-1/4 cursor-pointer">
+                                    <input type="radio" 
+                                           name="q${q.id}" 
+                                           value="${score}" 
+                                           data-qtype="${q.id <= 9 ? 'desatencao' : (q.id <= 18 ? 'hiperatividade' : 'oposicao')}"
+                                           class="form-radio text-green-600 focus:ring-green-500" 
+                                           required
+                                           aria-label="${scoreMap[score]}">
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Adiciona listeners após a renderização
+                document.querySelectorAll('#snap-form input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', updateScores);
+                });
+                updateScores(); // Inicializa com 0/0
+            }
+
+            // Função para atualizar as pontuações e limiares
+            function updateScores() {
+                let desatencaoCount = 0;
+                let hiperatividadeCount = 0;
+                let oposicaoCount = 0;
+
+                // Percorre todas as respostas
+                questions.forEach(q => {
+                    const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                    
+                    if (selected) {
+                        const scoreValue = parseInt(selected.value);
+                        const qType = selected.dataset.qtype;
+                        
+                        // O score TDAH é baseado no DSM-IV: 
+                        // Pontua-se como sintoma presente (1 ponto) se a resposta for 'Bastante' (2) ou 'Muito' (3).
+                        const isSymptomPresent = (scoreValue >= 2); 
+
+                        if (isSymptomPresent) {
+                            if (qType === 'desatencao') desatencaoCount++;
+                            else if (qType === 'hiperatividade') hiperatividadeCount++;
+                            else if (qType === 'oposicao') oposicaoCount++;
+                        }
+                    }
+                });
+
+                // Atualiza o display de Desatenção
+                document.getElementById('score-desatencao').textContent = `${desatencaoCount}/9`;
+                const cutoffDesatencao = document.getElementById('cutoff-desatencao').querySelector('span');
+                if (desatencaoCount >= 6) {
+                    cutoffDesatencao.textContent = 'ATINGIDO';
+                    cutoffDesatencao.className = 'cutoff-met';
+                } else {
+                    cutoffDesatencao.textContent = 'Não atingido';
+                    cutoffDesatencao.className = 'cutoff-not-met';
+                }
+
+                // Atualiza o display de Hiperatividade/Impulsividade
+                document.getElementById('score-hiperatividade').textContent = `${hiperatividadeCount}/9`;
+                const cutoffHiperatividade = document.getElementById('cutoff-hiperatividade').querySelector('span');
+                if (hiperatividadeCount >= 6) {
+                    cutoffHiperatividade.textContent = 'ATINGIDO';
+                    cutoffHiperatividade.className = 'cutoff-met';
+                } else {
+                    cutoffHiperatividade.textContent = 'Não atingido';
+                    cutoffHiperatividade.className = 'cutoff-not-met';
+                }
+
+                // Atualiza o display de Oposição/Desafio
+                document.getElementById('score-oposicao').textContent = `${oposicaoCount}/8`;
+                const cutoffOposicao = document.getElementById('cutoff-oposicao').querySelector('span');
+                if (oposicaoCount >= 4) {
+                    cutoffOposicao.textContent = 'ATINGIDO';
+                    cutoffOposicao.className = 'cutoff-met';
+                } else {
+                    cutoffOposicao.textContent = 'Não atingido';
+                    cutoffOposicao.className = 'cutoff-not-met';
+                }
+            }
+
+            // Inicia a renderização
+            renderQuestions();
+        });
+    </script>
+</body>
+</html>
