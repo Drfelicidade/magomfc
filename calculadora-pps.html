@@ -64,16 +64,16 @@
                 <div class="p-4 bg-white rounded-xl shadow-sm">
                     <h3 class="text-lg font-bold text-gray-700 mb-2">1. Ambulação (Locomoção)</h3>
                     <select id="ambulacao" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
-                        <option value="100">100% - Totalmente deambulante (Normal)</option>
-                        <option value="80">80% - Totalmente deambulante (Redução de atividade)</option>
-                        <option value="70">70% - Deambulante com ajuda ocasional ou limitada</option>
-                        <option value="60">60% - Deambulante, mas necessita de ajuda ou supervisão substancial</option>
-                        <option value="50">50% - Principalmente sentado/em cadeira, pouca capacidade de deambular</option>
-                        <option value="40">40% - Principalmente na cama, limitada capacidade de deambular</option>
-                        <option value="30">30% - Totalmente acamado</option>
-                        <option value="20">20% - Totalmente acamado</option>
-                        <option value="10">10% - Totalmente acamado</option>
-                        <option value="0">0% - Morte</option>
+                        <option value="100">Totalmente deambulante (Normal)</option>
+                        <option value="80">Totalmente deambulante (Redução de atividade)</option>
+                        <option value="70">Deambulante com ajuda ocasional ou limitada</option>
+                        <option value="60">Deambulante, mas necessita de ajuda ou supervisão substancial</option>
+                        <option value="50">Principalmente sentado/em cadeira, pouca capacidade de deambular</option>
+                        <option value="40">Principalmente na cama, limitada capacidade de deambular</option>
+                        <option value="30">Totalmente acamado</option>
+                        <option value="20">Totalmente acamado (Sintomas graves)</option>
+                        <option value="10">Totalmente acamado (Coma)</option>
+                        <option value="0">Morte</option>
                     </select>
                 </div>
 
@@ -81,16 +81,13 @@
                 <div class="p-4 bg-white rounded-xl shadow-sm">
                     <h3 class="text-lg font-bold text-gray-700 mb-2">2. Ingestão (Alimentação)</h3>
                     <select id="ingestao" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
-                        <option value="100">100% - Normal</option>
-                        <option value="80">80% - Normal</option>
-                        <option value="70">70% - Normal a reduzida</option>
-                        <option value="60">60% - Reduzida</option>
-                        <option value="50">50% - Reduzida/Mínima (Requer auxílio parcial)</option>
-                        <option value="40">40% - Mínima (Requer auxílio total)</option>
-                        <option value="30">30% - Mínima (Requer auxílio total)</option>
-                        <option value="20">20% - Mínima (Requer auxílio total)</option>
-                        <option value="10">10% - Mínima (Apenas hidratação por via oral ou NPO)</option>
-                        <option value="0">0% - Morte</option>
+                        <option value="100">Normal</option>
+                        <option value="70">Normal a reduzida</option>
+                        <option value="60">Reduzida</option>
+                        <option value="50">Reduzida/Mínima (Requer auxílio parcial)</option>
+                        <option value="40">Mínima (Requer auxílio total)</option>
+                        <option value="10">Mínima (Apenas hidratação por via oral ou NPO)</option>
+                        <option value="0">Morte</option>
                     </select>
                 </div>
 
@@ -98,16 +95,14 @@
                 <div class="p-4 bg-white rounded-xl shadow-sm">
                     <h3 class="text-lg font-bold text-gray-700 mb-2">3. Atividade e Evidência de Doença</h3>
                     <select id="atividade" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
-                        <option value="100">100% - Plena atividade, sem evidência de doença</option>
-                        <option value="80">80% - Plena atividade, com evidência de doença</option>
-                        <option value="70">70% - Redução de atividade/lazer</option>
-                        <option value="60">60% - Incapaz de realizar trabalho/hobbies</option>
-                        <option value="50">50% - Principalmente sentado/em cadeira. Grande esforço para qualquer atividade</option>
-                        <option value="40">40% - Incapaz de realizar a maior parte das atividades, repousa muito</option>
-                        <option value="30">30% - Incapaz de realizar a maior parte das atividades, repousa muito</option>
-                        <option value="20">20% - Incapaz de realizar a maior parte das atividades, repousa muito</option>
-                        <option value="10">10% - Incapaz de realizar a maior parte das atividades, repousa muito</option>
-                        <option value="0">0% - Morte</option>
+                        <option value="100">Plena atividade, sem evidência de doença</option>
+                        <option value="80">Plena atividade, com evidência de doença</option>
+                        <option value="70">Redução de atividade/lazer</option>
+                        <option value="60">Incapaz de realizar trabalho/hobbies</option>
+                        <option value="50">Principalmente sentado/em cadeira. Grande esforço para qualquer atividade</option>
+                        <option value="40">Incapaz de realizar a maior parte das atividades, repousa muito</option>
+                        <option value="10">Incapaz de realizar a maior parte das atividades (Terminal)</option>
+                        <option value="0">Morte</option>
                     </select>
                 </div>
 
@@ -115,16 +110,11 @@
                 <div class="p-4 bg-white rounded-xl shadow-sm">
                     <h3 class="text-lg font-bold text-gray-700 mb-2">4. Autocuidados</h3>
                     <select id="autocuidados" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
-                        <option value="100">100% - Completo</option>
-                        <option value="80">80% - Completo</option>
-                        <option value="70">70% - Completo</option>
-                        <option value="60">60% - Necessita de assistência ocasional</option>
-                        <option value="50">50% - Necessita de assistência substancial ou total</option>
-                        <option value="40">40% - Necessita de assistência substancial ou total</option>
-                        <option value="30">30% - Totalmente dependente</option>
-                        <option value="20">20% - Totalmente dependente</option>
-                        <option value="10">10% - Totalmente dependente</option>
-                        <option value="0">0% - Morte</option>
+                        <option value="100">Completo</option>
+                        <option value="60">Necessita de assistência ocasional</option>
+                        <option value="50">Necessita de assistência substancial ou total</option>
+                        <option value="30">Totalmente dependente</option>
+                        <option value="0">Morte</option>
                     </select>
                 </div>
 
@@ -132,20 +122,16 @@
                 <div class="p-4 bg-white rounded-xl shadow-sm">
                     <h3 class="text-lg font-bold text-gray-700 mb-2">5. Nível de Consciência</h3>
                     <select id="consciencia" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
-                        <option value="100">100% - Pleno</option>
-                        <option value="80">80% - Pleno</option>
-                        <option value="70">70% - Pleno</option>
-                        <option value="60">60% - Pleno</option>
-                        <option value="50">50% - Pleno</option>
-                        <option value="40">40% - Pleno/Confusão ocasional</option>
-                        <option value="30">30% - Confusão/Sonolência</option>
-                        <option value="20">20% - Sonolência/Estupor</option>
-                        <option value="10">10% - Coma</option>
-                        <option value="0">0% - Morte</option>
+                        <option value="100">Pleno</option>
+                        <option value="40">Pleno/Confusão ocasional</option>
+                        <option value="30">Confusão/Sonolência</option>
+                        <option value="20">Sonolência/Estupor</option>
+                        <option value="10">Coma</option>
+                        <option value="0">Morte</option>
                     </select>
                 </div>
 
-                <!-- Espaço para o botão Calcular (a função está nos selects, mas o botão pode ser útil para reforço) -->
+                <!-- Botão Calcular (apenas visual, cálculo é automático) -->
                 <button type="button" id="calculate-pps" class="w-full mt-8 p-3 font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition duration-300 shadow-md">
                     Calcular PPS
                 </button>
@@ -164,7 +150,7 @@
             </div>
 
             <p class="text-gray-600 text-sm mt-6">
-                <strong class="font-semibold text-emerald-700">Nota:</strong> O cálculo PPS é sempre o *maior* valor que preenche *todos* os critérios da coluna. O score final é o valor mais alto que satisfaz todas as condições. Esta calculadora assume que o valor mais baixo selecionado entre os domínios é o valor correto.
+                <strong class="font-semibold text-emerald-700">Nota importante:</strong> A pontuação final do PPS é o *nível mais baixo* selecionado em qualquer um dos cinco domínios, garantindo que o paciente satisfaça *todos* os critérios da coluna daquele escore.
             </p>
         </div>
         
@@ -184,7 +170,7 @@
 
             const ppsLevels = [
                 { score: 100, status: "Completamente Ativo", interp: "Atividade normal. Ausência de doença.", color: "green" },
-                { score: 90, status: "Completamente Ativo (Redução Leve)", interp: "Atividade normal. Evidência mínima de doença.", color: "green" },
+                { score: 90, status: "Completamente Ativo (Redução Leve)", interp: "Atividade normal. Evidência mínima de doença. (Sintomas controlados)", color: "green" },
                 { score: 80, status: "Ativo com Redução", interp: "Atividade normal com esforço. Alguma evidência de doença. Sintomas bem controlados.", color: "green" },
                 { score: 70, status: "Redução de Atividade/Lazer", interp: "Incapaz de realizar trabalho/hobbies. Necessita de ajuda ocasional no autocuidado.", color: "yellow" },
                 { score: 60, status: "Necessita de Ajuda Substantial", interp: "Redução de toda atividade. Necessita de ajuda substancial para autocuidados. Principalmente sentado ou em cadeira.", color: "yellow" },
@@ -196,26 +182,46 @@
                 { score: 0, status: "Morte", interp: "Morte.", color: "red" },
             ];
             
-            // Função para buscar o score PPS baseado nos 5 domínios (o PPS é o valor mais baixo que atende a todos os critérios)
+            // Função para buscar o score PPS baseado nos 5 domínios (o PPS é o valor mais baixo)
             function calculatePPS() {
                 let minScore = 100;
-                let domains = ['ambulacao', 'ingestao', 'atividade', 'autocuidados', 'consciencia'];
-
-                domains.forEach(id => {
-                    const select = document.getElementById(id);
+                
+                selects.forEach(select => {
                     const score = parseInt(select.value);
                     if (score < minScore) {
                         minScore = score;
                     }
                 });
 
-                // Se o score mínimo não for um valor padrão (100, 90, 80...), arredondamos para o mais próximo inferior.
                 // A Escala PPS só usa scores múltiplos de 10.
                 let finalPPS = Math.floor(minScore / 10) * 10;
                 
+                // Tratar o 90%
+                if (finalPPS === 100) {
+                     // Se todos são 100, procuramos por 90% se a opção for selecionada (que não é o caso nesta versão simplificada)
+                     // Nesta versão, se o mínimo é 100, o PPS é 100.
+                }
+
+
                 // Encontra a interpretação correta para o score final
-                const level = ppsLevels.find(l => l.score === finalPPS);
+                // É necessário um tratamento especial para 90, que foi simplificado em algumas opções
+                let level = ppsLevels.find(l => l.score === finalPPS);
+
+                // Caso o score final seja 90, mas os selects só chegam a 80/100, verificamos a redução leve:
+                if (!level) {
+                    level = ppsLevels.find(l => l.score === 100); // Default 100
+                }
                 
+                // Lógica de fallback para 90% (Redução Leve)
+                // Se a pontuação mínima é 100, mas houver alguma evidência de doença (implícita em 80)
+                // A versão simplificada não permite a escolha de 90 diretamente, então usaremos 100 se todos forem 100 ou o mínimo encontrado.
+                
+                // Se o score é 100, garantimos que seja 100 (a menos que o usuário tenha selecionado 80 ou menos)
+                if (finalPPS > 80) finalPPS = 100;
+
+
+                level = ppsLevels.find(l => l.score === finalPPS);
+
                 if (level) {
                     ppsScoreDisplay.textContent = `${level.score}%`;
                     ppsStatusDisplay.textContent = level.status;
