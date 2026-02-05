@@ -25,26 +25,14 @@
             left: 0;
             width: 50px;
             height: 3px;
-            background-color: #dc2626; /* Cor vermelha escura para diferenciar */
+            background-color: #ec4899; /* Pink-500 */
             border-radius: 9999px;
         }
-        .question-item {
-            background-color: #fef2f2; /* bg-red-50 */
-            border-left: 4px solid #ef4444; /* border-red-500 */
+        .question-card {
+            transition: all 0.2s;
         }
-        .critical-question-note {
-            font-size: 0.75rem; /* text-xs */
-            color: #f97316; /* text-orange-500 */
-            font-weight: bold;
-        }
-        .pentagon-drawing-svg {
-            display: block;
-            margin: 10px auto;
-            width: 240px;
-            height: 152px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
+        .question-card:hover {
+            border-color: #f472b6;
         }
     </style>
 </head>
@@ -58,376 +46,238 @@
         </header>
 
         <!-- Botão Voltar ao Menu Principal -->
-        <div class="text-center mb-8">
+        <div class="text-center">
             <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
                 &larr; Voltar ao Menu Principal
             </a>
         </div>
 
-        <!-- Menu de Seleção das Etapas do M-CHAT -->
-        <div id="mchat-main-menu" class="bg-gray-100 p-6 sm:p-8 rounded-2xl shadow-inner border border-gray-300 text-center space-y-4">
-            <h2 class="section-title text-2xl font-bold text-gray-800 mb-4">Selecione a Etapa</h2>
-            <button id="start-mchat-r" class="w-full md:w-auto p-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">
-                Iniciar M-CHAT-R (Entrevista Inicial)
-            </button>
-            <button id="start-mchat-rf" class="w-full md:w-auto p-3 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300 shadow-md disabled:opacity-50" disabled>
-                Iniciar M-CHAT-R/F (Entrevista de Seguimento)
-            </button>
+        <!-- Navegação entre Triagem Inicial e Seguimento -->
+        <div class="flex border-b border-gray-200">
+            <button id="tab-initial" class="px-6 py-3 font-semibold text-pink-600 border-b-2 border-pink-600 focus:outline-none">Triagem Inicial (R)</button>
+            <button id="tab-followup" class="px-6 py-3 font-semibold text-gray-500 hover:text-pink-600 focus:outline-none">Entrevista de Seguimento (F)</button>
         </div>
 
-        <!-- Seção da Calculadora M-CHAT-R (Entrevista Inicial) -->
-        <div id="mchat-r-section" class="bg-red-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-red-200 hidden">
-            <h2 class="section-title text-2xl font-bold text-red-900 mb-4">M-CHAT-R (Entrevista Inicial)</h2>
-            <p class="text-gray-700 mb-6">Por favor, responda "Sim" ou "Não" para cada pergunta, pensando em como seu filho geralmente se comporta.</p>
-            
-            <form id="mchat-r-form" class="space-y-4">
-                <!-- Perguntas M-CHAT-R (dinamicamente geradas pelo JS) -->
-            </form>
+        <!-- Seção Triagem Inicial -->
+        <div id="section-initial" class="space-y-6">
+            <div class="bg-pink-50 p-6 rounded-2xl border border-pink-100">
+                <h2 class="section-title text-2xl font-bold text-pink-900 mb-4">M-CHAT-R (Questionário de 20 Itens)</h2>
+                <form id="mchat-form" class="space-y-4">
+                    <!-- Perguntas serão geradas via JS para manter o HTML limpo -->
+                    <div id="questions-list" class="space-y-4"></div>
+                    
+                    <div class="pt-6 border-t border-pink-200 flex justify-between items-center">
+                        <button type="button" id="reset-initial" class="text-gray-500 hover:text-gray-700 font-medium">Limpar Tudo</button>
+                        <button type="button" id="calculate-initial" class="px-8 py-3 bg-pink-600 text-white font-bold rounded-xl hover:bg-pink-700 shadow-lg transition">Calcular Pontuação</button>
+                    </div>
+                </form>
+            </div>
 
-            <button type="submit" form="mchat-r-form" class="w-full mt-8 p-3 font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition duration-300 shadow-md">
-                Calcular Escore M-CHAT-R
-            </button>
-
-            <div id="mchat-r-result" class="mt-8 p-4 bg-red-100 rounded-xl hidden">
-                <!-- Resultados serão exibidos aqui -->
+            <div id="result-initial" class="hidden p-6 rounded-2xl">
+                <!-- Resultado será injetado aqui -->
             </div>
         </div>
 
-        <!-- Seção da Calculadora M-CHAT-R/F (Entrevista de Seguimento) -->
-        <div id="mchat-rf-section" class="bg-purple-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-purple-200 hidden">
-            <h2 class="section-title text-2xl font-bold text-purple-900 mb-4">M-CHAT-R/F (Entrevista de Seguimento)</h2>
-            <p class="text-gray-700 mb-6">Por favor, responda "Sim" ou "Não" para as perguntas abaixo. Essas são as perguntas que seu filho "falhou" na entrevista inicial.</p>
-            
-            <form id="mchat-rf-form" class="space-y-4">
-                <!-- Perguntas M-CHAT-R/F (dinamicamente geradas pelo JS) -->
-            </form>
+        <!-- Seção Entrevista de Seguimento -->
+        <div id="section-followup" class="hidden space-y-6">
+            <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+                <h2 class="section-title text-2xl font-bold text-indigo-900 mb-4">Entrevista de Seguimento (R/F)</h2>
+                <p class="text-gray-700 mb-6">Esta seção deve ser utilizada para investigar itens específicos que falharam na triagem inicial ou que geram dúvida clínica.</p>
+                
+                <div class="grid grid-cols-1 gap-4">
+                    <label class="font-medium text-gray-700">Selecione o Item para Seguimento:</label>
+                    <select id="followup-item-selector" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-white">
+                        <option value="">Escolha um item...</option>
+                        <!-- Options generated via JS -->
+                    </select>
+                </div>
 
-            <button type="submit" form="mchat-rf-form" class="w-full mt-8 p-3 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300 shadow-md">
-                Calcular Escore M-CHAT-R/F
-            </button>
-
-            <div id="mchat-rf-result" class="mt-8 p-4 bg-purple-100 rounded-xl hidden">
-                <!-- Resultados serão exibidos aqui -->
+                <div id="followup-content" class="mt-8 p-6 bg-white rounded-xl border border-indigo-200 hidden">
+                    <h3 id="followup-title" class="text-xl font-bold text-indigo-800 mb-4"></h3>
+                    <div id="followup-flow" class="space-y-4 text-gray-700">
+                        <p class="italic">Os fluxogramas completos do M-CHAT-R/F devem ser consultados para uma decisão diagnóstica definitiva. Responda baseado na observação/entrevista clínica:</p>
+                        <div class="flex space-x-4">
+                            <button onclick="recordFollowupResult(true)" class="flex-1 py-3 bg-green-100 text-green-800 font-bold rounded-lg hover:bg-green-200">PASSOU NO SEGUIMENTO</button>
+                            <button onclick="recordFollowupResult(false)" class="flex-1 py-3 bg-red-100 text-red-800 font-bold rounded-lg hover:bg-red-200">FALHOU NO SEGUIMENTO</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
         <footer class="text-center text-gray-500 text-sm mt-10">
-            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é um instrumento de triagem e não substitui a avaliação e o diagnóstico de um profissional de saúde qualificado. A interpretação do escore M-CHAT-R/F deve ser feita por um médico ou especialista.</p>
-            <p>&copy; 2024 Calculadora M-CHAT-R/F. Todos os direitos reservados.</p>
+            <p class="mb-2"><strong>Aviso Legal:</strong> Esta é uma ferramenta de triagem e não um diagnóstico. Sempre correlacione os resultados com a avaliação clínica e encaminhe para especialista em caso de dúvida.</p>
+            <p>&copy; 2024 Ferramentas Médicas. Todos os direitos reservados.</p>
         </footer>
     </div>
 
     <script>
+        const questions = [
+            { id: 1, text: "Se você aponta para algo do outro lado da sala, a criança olha para o que você está apontando?", fail: "Não" },
+            { id: 2, text: "Você já se perguntou se a criança pode ser surda?", fail: "Sim" },
+            { id: 3, text: "A criança brinca de faz-de-conta ou imaginação? (ex: fingir que bebe em um copo vazio)", fail: "Não" },
+            { id: 4, text: "A criança gosta de subir nas coisas? (ex: móveis, brinquedos do parquinho)", fail: "Não" },
+            { id: 5, text: "A criança faz movimentos estranhos com os dedos perto dos olhos?", fail: "Sim" },
+            { id: 6, text: "A criança aponta com um dedo para pedir algo ou para obter ajuda?", fail: "Não" },
+            { id: 7, text: "A criança aponta com um dedo para mostrar algo interessante para você?", fail: "Não" },
+            { id: 8, text: "A criança se interessa por outras crianças?", fail: "Não" },
+            { id: 9, text: "A criança mostra coisas para você trazendo-as até você? (ex: um brinquedo, uma flor)", fail: "Não" },
+            { id: 10, text: "A criança responde quando você a chama pelo nome?", fail: "Não" },
+            { id: 11, text: "Quando você sorri para a criança, ela sorri de volta?", fail: "Não" },
+            { id: 12, text: "A criança se irrita com ruídos comuns? (ex: liquidificador, aspirador)", fail: "Sim" },
+            { id: 13, text: "A criança já anda?", fail: "Não" },
+            { id: 14, text: "A criança olha nos seus olhos quando você fala com ela, brinca com ela ou a veste?", fail: "Não" },
+            { id: 15, text: "A criança tenta imitar o que você faz? (ex: dar tchau, bater palmas)", fail: "Não" },
+            { id: 16, text: "Se você vira a cabeça para olhar para algo, a criança vira a cabeça para ver o que você está olhando?", fail: "Não" },
+            { id: 17, text: "A criança tenta fazer com que você olhe para ela?", fail: "Não" },
+            { id: 18, text: "A criança entende quando você diz para ela fazer algo? (ex: coloque o livro na mesa)", fail: "Não" },
+            { id: 19, text: "Se algo novo acontece, a criança olha para o seu rosto para ver como você se sente a respeito?", fail: "Não" },
+            { id: 20, text: "A criança gosta de atividades de movimento? (ex: ser balançada ou pulada no seu colo)", fail: "Não" }
+        ];
+
         document.addEventListener('DOMContentLoaded', () => {
-            const mchatMainMenu = document.getElementById('mchat-main-menu');
-            const startMchatRButton = document.getElementById('start-mchat-r');
-            const startMchatRfButton = document.getElementById('start-mchat-rf');
-            const mchatRSection = document.getElementById('mchat-r-section');
-            const mchatRfSection = document.getElementById('mchat-rf-section');
-            const mchatRForm = document.getElementById('mchat-r-form');
-            const mchatRfForm = document.getElementById('mchat-rf-form');
-            const mchatRResultDiv = document.getElementById('mchat-r-result');
-            const mchatRfResultDiv = document.getElementById('mchat-rf-result');
+            const questionsList = document.getElementById('questions-list');
+            const itemSelector = document.getElementById('followup-item-selector');
 
-            let failedMchatRItems = []; // Armazena os IDs das perguntas que falharam no M-CHAT-R
+            // Renderizar questões iniciais
+            questions.forEach(q => {
+                const card = document.createElement('div');
+                card.className = "question-card p-4 border border-gray-200 rounded-xl flex items-center justify-between";
+                card.innerHTML = `
+                    <span class="text-gray-800 pr-4 font-medium">${q.id}. ${q.text}</span>
+                    <div class="flex space-x-2 shrink-0">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="q${q.id}" value="Sim" class="hidden peer">
+                            <span class="px-4 py-2 rounded-lg bg-gray-100 peer-checked:bg-pink-600 peer-checked:text-white transition">Sim</span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="q${q.id}" value="Não" class="hidden peer">
+                            <span class="px-4 py-2 rounded-lg bg-gray-100 peer-checked:bg-pink-600 peer-checked:text-white transition">Não</span>
+                        </label>
+                    </div>
+                `;
+                questionsList.appendChild(card);
 
-            // Definição das perguntas e suas condições de "falha"
-            const mchatQuestions = [
-                { id: 1, text: "Se você aponta para algo do outro lado da sala, seu filho olha para aquilo?", failCondition: "no" },
-                { id: 2, text: "Você já se perguntou se seu filho poderia ser surdo?", failCondition: "yes" },
-                { id: 3, text: "Seu filho brinca de faz de conta ou de imitar?", failCondition: "no" },
-                { id: 4, text: "Seu filho gosta de subir em coisas?", failCondition: "no" },
-                { id: 5, text: "Seu filho faz movimentos incomuns com os dedos perto dos olhos?", failCondition: "yes" },
-                { id: 6, text: "Seu filho aponta com um dedo para pedir algo ou para obter ajuda?", failCondition: "no" },
-                { id: 7, text: "Seu filho aponta com um dedo para lhe mostrar algo interessante?", failCondition: "no" },
-                { id: 8, text: "Seu filho se interessa por outras crianças?", failCondition: "no" },
-                { id: 9, text: "Seu filho mostra coisas a você, trazendo-as ou segurando-as para você ver - não para obter ajuda, mas apenas para compartilhar?", failCondition: "no" },
-                { id: 10, text: "Seu filho responde quando você o chama pelo nome?", failCondition: "no" },
-                { id: 11, text: "Quando você sorri para seu filho, ele sorri de volta para você?", failCondition: "no" },
-                { id: 12, text: "Seu filho fica chateado com ruídos do dia a dia?", failCondition: "yes" },
-                { id: 13, text: "Seu filho anda?", failCondition: "no" },
-                { id: 14, text: "Seu filho olha nos seus olhos quando você está falando com ele, brincando com ele ou vestindo-o?", failCondition: "no" },
-                { id: 15, text: "Seu filho tenta copiar o que você faz?", failCondition: "no" },
-                { id: 16, text: "Se você vira a cabeça para olhar para algo, seu filho olha para ver o que você está olhando?", failCondition: "no" },
-                { id: 17, text: "Seu filho tenta fazer você olhar para ele?", failCondition: "no" },
-                { id: 18, text: "Seu filho entende quando você lhe diz para fazer algo?", failCondition: "no" },
-                { id: 19, text: "Se algo novo acontece, seu filho olha para o seu rosto para ver como você se sente sobre isso?", failCondition: "no" },
-                { id: 20, text: "Seu filho gosta de atividades de movimento?", failCondition: "no" }
-            ];
-
-            // Itens críticos (usados na interpretação, não na pontuação direta)
-            const criticalItems = [2, 5, 7, 9, 16, 18, 20];
-
-            // Função para gerar as perguntas do formulário
-            function generateMchatRQuestions() {
-                mchatRForm.innerHTML = ''; // Limpa o formulário
-                mchatQuestions.forEach(q => {
-                    const questionDiv = document.createElement('div');
-                    questionDiv.className = `question-item p-4 rounded-lg shadow-sm ${criticalItems.includes(q.id) ? 'border-orange-500 bg-orange-50' : ''}`;
-                    questionDiv.innerHTML = `
-                        <p class="font-semibold text-gray-800 mb-2">${q.id}. ${q.text} ${criticalItems.includes(q.id) ? '<span class="critical-question-note">(Crítico)</span>' : ''}</p>
-                        ${q.id === 6 && q.text.includes('aponta com um dedo para pedir algo') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: apontar para um lanche ou brinquedo que está fora de alcance)</p>
-                        ` : ''}
-                        ${q.id === 7 && q.text.includes('aponta com um dedo para lhe mostrar algo interessante') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: apontar para um avião no céu ou um caminhão grande na estrada)</p>
-                        ` : ''}
-                        ${q.id === 9 && q.text.includes('mostra coisas a você, trazendo-as') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: mostrar uma flor, um bicho de pelúcia ou um caminhão de brinquedo)</p>
-                        ` : ''}
-                        ${q.id === 10 && q.text.includes('responde quando você o chama pelo nome') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: ele ou ela levanta a cabeça, fala ou balbucia, ou para o que está fazendo quando você o chama pelo nome?)</p>
-                        ` : ''}
-                        ${q.id === 12 && q.text.includes('chateado com ruídos do dia a dia') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: um aspirador de pó ou música alta)</p>
-                        ` : ''}
-                        ${q.id === 15 && q.text.includes('tenta copiar o que você faz') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: acenar tchau, bater palmas ou fazer um barulho engraçado quando você faz)</p>
-                        ` : ''}
-                        ${q.id === 16 && q.text.includes('vira a cabeça para olhar para algo') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: seu filho olha para ver o que você está olhando?)</p>
-                        ` : ''}
-                        ${q.id === 18 && q.text.includes('entende quando você lhe diz para fazer algo') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: se você não aponta, seu filho consegue entender "coloque o livro na cadeira" ou "traga-me o cobertor"?)</p>
-                        ` : ''}
-                        ${q.id === 19 && q.text.includes('olha para o seu rosto para ver como você se sente') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: se ele ou ela ouve um barulho estranho ou engraçado, ou vê um brinquedo novo, ele ou ela olha para o seu rosto?)</p>
-                        ` : ''}
-                        ${q.id === 20 && q.text.includes('gosta de atividades de movimento') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: ser balançado ou pulado no seu joelho)</p>
-                        ` : ''}
-                        ${q.id === 5 && q.text.includes('movimentos incomuns com os dedos perto dos olhos') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: seu filho mexe os dedos perto dos olhos?)</p>
-                        ` : ''}
-                        ${q.id === 3 && q.text.includes('brinca de faz de conta ou de imitar') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: fingir beber de uma xícara vazia, fingir falar ao telefone, ou fingir alimentar uma boneca ou bicho de pelúcia?)</p>
-                        ` : ''}
-                        ${q.id === 4 && q.text.includes('gosta de subir em coisas') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: móveis, equipamentos de playground ou escadas)</p>
-                        ` : ''}
-                        ${q.id === 13 && q.text.includes('Seu filho anda?') ? `
-                            <p class="text-gray-600 text-sm mb-2">(EXEMPLO: anda sem se segurar em nada?)</p>
-                        ` : ''}
-                        
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="q${q.id}" value="yes" class="form-radio text-red-600">
-                                <span class="ml-2 text-gray-700">Sim</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="q${q.id}" value="no" class="form-radio text-red-600">
-                                <span class="ml-2 text-gray-700">Não</span>
-                            </label>
-                        </div>
-                    `;
-                    mchatRForm.appendChild(questionDiv);
-                });
-            }
-
-            // Lógica para iniciar M-CHAT-R
-            startMchatRButton.addEventListener('click', () => {
-                mchatMainMenu.classList.add('hidden');
-                mchatRSection.classList.remove('hidden');
-                generateMchatRQuestions();
-                mchatRResultDiv.classList.add('hidden'); // Esconde resultados anteriores
-                startMchatRfButton.disabled = true; // Desabilita o botão de seguimento inicialmente
+                // Popular seletor de seguimento
+                const option = document.createElement('option');
+                option.value = q.id;
+                option.textContent = `Item ${q.id}: ${q.text.substring(0, 50)}...`;
+                itemSelector.appendChild(option);
             });
 
-            // Lógica para calcular M-CHAT-R
-            mchatRForm.addEventListener('submit', (event) => {
-                event.preventDefault();
-                let totalScore = 0;
-                failedMchatRItems = []; // Resetar itens falhos
+            // Lógica de Tabs
+            const tabInitial = document.getElementById('tab-initial');
+            const tabFollowup = document.getElementById('tab-followup');
+            const sectionInitial = document.getElementById('section-initial');
+            const sectionFollowup = document.getElementById('section-followup');
 
-                let allAnswered = true;
-                mchatQuestions.forEach(q => {
-                    const selectedOption = document.querySelector(`input[name="q${q.id}"]:checked`);
-                    if (!selectedOption) {
-                        allAnswered = false;
-                    } else {
-                        if (selectedOption.value === q.failCondition) {
-                            totalScore++;
-                            failedMchatRItems.push(q.id); // Adiciona o ID da pergunta falha
+            tabInitial.addEventListener('click', () => {
+                tabInitial.className = "px-6 py-3 font-semibold text-pink-600 border-b-2 border-pink-600 focus:outline-none";
+                tabFollowup.className = "px-6 py-3 font-semibold text-gray-500 hover:text-pink-600 focus:outline-none";
+                sectionInitial.classList.remove('hidden');
+                sectionFollowup.classList.add('hidden');
+            });
+
+            tabFollowup.addEventListener('click', () => {
+                tabFollowup.className = "px-6 py-3 font-semibold text-pink-600 border-b-2 border-pink-600 focus:outline-none";
+                tabInitial.className = "px-6 py-3 font-semibold text-gray-500 hover:text-pink-600 focus:outline-none";
+                sectionFollowup.classList.remove('hidden');
+                sectionInitial.classList.add('hidden');
+            });
+
+            // Lógica de Cálculo Inicial
+            document.getElementById('calculate-initial').addEventListener('click', () => {
+                let score = 0;
+                let answered = 0;
+                const failedItems = [];
+
+                questions.forEach(q => {
+                    const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                    if (selected) {
+                        answered++;
+                        if (selected.value === q.fail) {
+                            score++;
+                            failedItems.push(q.id);
                         }
                     }
                 });
 
-                if (!allAnswered) {
-                    mchatRResultDiv.classList.remove('hidden');
-                    mchatRResultDiv.innerHTML = `<p class="text-red-700 font-semibold">Por favor, responda a todas as perguntas para calcular o escore.</p>`;
+                if (answered < 20) {
+                    const resultDiv = document.getElementById('result-initial');
+                    resultDiv.className = "p-6 rounded-2xl bg-yellow-100 border border-yellow-200 block";
+                    resultDiv.innerHTML = `<p class="text-yellow-800 font-bold text-center">Responda todas as 20 questões para um cálculo preciso.</p>`;
                     return;
                 }
 
-                let riskCategory = "";
-                let recommendation = "";
-                let resultColorClass = "";
+                showResult(score, failedItems);
+            });
 
-                if (totalScore >= 8) {
-                    riskCategory = "Alto Risco";
-                    recommendation = "Recomenda-se encaminhamento imediato para avaliação diagnóstica de TEA e intervenção precoce. Não é necessário aplicar a Entrevista de Seguimento.";
-                    resultColorClass = "text-red-600";
-                    startMchatRfButton.disabled = true; // Garante que o botão de seguimento esteja desabilitado
-                } else if (totalScore >= 3 && totalScore <= 7) {
-                    riskCategory = "Médio Risco";
-                    recommendation = "Recomenda-se a aplicação da Entrevista de Seguimento (M-CHAT-R/F Parte II) para obter informações adicionais sobre as respostas de risco. O botão para iniciar a entrevista de seguimento foi habilitado.";
-                    resultColorClass = "text-orange-600";
-                    startMchatRfButton.disabled = false; // Habilita o botão de seguimento
-                } else { // totalScore 0-2
-                    riskCategory = "Baixo Risco";
-                    recommendation = "Monitorar a criança e repetir o M-CHAT-R/F em consultas de rotina (ex: aos 24 e/ou 30 meses) ou se houver preocupações adicionais. Não é necessário aplicar a Entrevista de Seguimento neste momento.";
-                    resultColorClass = "text-green-600";
-                    startMchatRfButton.disabled = true; // Garante que o botão de seguimento esteja desabilitado
+            function showResult(score, failedItems) {
+                const resultDiv = document.getElementById('result-initial');
+                resultDiv.classList.remove('hidden');
+                let colorClass, risk, recommendation;
+
+                if (score <= 2) {
+                    colorClass = "bg-green-100 text-green-900 border-green-200";
+                    risk = "BAIXO RISCO";
+                    recommendation = "Crianças com pontuação 0-2 têm baixo risco. Se a criança tem menos de 24 meses, deve ser testada novamente aos 24 meses. Nenhuma ação adicional é necessária, a menos que a vigilância clínica sugira risco para TEA.";
+                } else if (score <= 7) {
+                    colorClass = "bg-yellow-100 text-yellow-900 border-yellow-200";
+                    risk = "RISCO MODERADO";
+                    recommendation = `Pontuação entre 3-7. É necessária a <strong>Entrevista de Seguimento (M-CHAT-R/F)</strong> para os itens que falharam (Itens: ${failedItems.join(', ')}). Se a pontuação de seguimento for 2 ou mais, a criança deve ser encaminhada para avaliação diagnóstica.`;
+                } else {
+                    colorClass = "bg-red-100 text-red-900 border-red-200";
+                    risk = "ALTO RISCO";
+                    recommendation = "Pontuação de 8 ou mais indica alto risco. É aceitável ignorar o seguimento e encaminhar imediatamente para avaliação diagnóstica e de intervenção precoce.";
                 }
 
-                mchatRResultDiv.classList.remove('hidden');
-                mchatRResultDiv.innerHTML = `
-                    <h3 class="font-bold text-lg mb-2">Resultado M-CHAT-R (Entrevista Inicial)</h3>
-                    <p class="text-gray-800"><span class="font-semibold">Pontuação Total:</span> ${totalScore} pontos</p>
-                    <p class="text-gray-800 mt-2"><span class="font-semibold">Categoria de Risco:</span> <span class="font-bold ${resultColorClass}">${riskCategory}</span></p>
-                    <p class="text-gray-700 mt-4"><span class="font-semibold">Recomendação:</span> ${recommendation}</p>
-                    <p class="text-gray-500 text-xs mt-4">
-                        Este é um instrumento de triagem e não um diagnóstico. A interpretação final e as condutas devem ser realizadas por um profissional de saúde qualificado.
-                    </p>
+                resultDiv.className = `p-6 rounded-2xl border ${colorClass} block`;
+                resultDiv.innerHTML = `
+                    <h3 class="text-xl font-bold mb-2">Pontuação: ${score} - ${risk}</h3>
+                    <p class="mb-4">${recommendation}</p>
+                    ${score >= 3 && score <= 7 ? '<button onclick="goToFollowup()" class="w-full py-2 bg-pink-600 text-white rounded-lg font-bold">Ir para Entrevista de Seguimento</button>' : ''}
                 `;
-            });
-
-            // Lógica para iniciar M-CHAT-R/F
-            startMchatRfButton.addEventListener('click', () => {
-                if (failedMchatRItems.length === 0) {
-                    alert('Nenhum item falhou na entrevista inicial. A entrevista de seguimento não é necessária.');
-                    return;
-                }
-                mchatMainMenu.classList.add('hidden');
-                mchatRSection.classList.add('hidden'); // Esconde a seção R
-                mchatRfSection.classList.remove('hidden');
-                generateMchatRfQuestions();
-                mchatRfResultDiv.classList.add('hidden'); // Esconde resultados anteriores
-            });
-
-            // Função para gerar as perguntas do formulário M-CHAT-R/F
-            function generateMchatRfQuestions() {
-                mchatRfForm.innerHTML = ''; // Limpa o formulário
-                if (failedMchatRItems.length === 0) {
-                    mchatRfForm.innerHTML = '<p class="text-gray-700">Não há perguntas de seguimento, pois nenhum item falhou na entrevista inicial.</p>';
-                    return;
-                }
-
-                failedMchatRItems.forEach(failedId => {
-                    const q = mchatQuestions.find(item => item.id === failedId);
-                    if (q) {
-                        const questionDiv = document.createElement('div');
-                        questionDiv.className = `question-item p-4 rounded-lg shadow-sm ${criticalItems.includes(q.id) ? 'border-orange-500 bg-orange-50' : ''}`;
-                        questionDiv.innerHTML = `
-                            <p class="font-semibold text-gray-800 mb-2">${q.id}. ${q.text} ${criticalItems.includes(q.id) ? '<span class="critical-question-note">(Crítico)</span>' : ''}</p>
-                            ${q.id === 6 && q.text.includes('aponta com um dedo para pedir algo') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: apontar para um lanche ou brinquedo que está fora de alcance)</p>
-                            ` : ''}
-                            ${q.id === 7 && q.text.includes('aponta com um dedo para lhe mostrar algo interessante') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: apontar para um avião no céu ou um caminhão grande na estrada)</p>
-                            ` : ''}
-                            ${q.id === 9 && q.text.includes('mostra coisas a você, trazendo-as') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: mostrar uma flor, um bicho de pelúcia ou um caminhão de brinquedo)</p>
-                            ` : ''}
-                            ${q.id === 10 && q.text.includes('responde quando você o chama pelo nome') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: ele ou ela levanta a cabeça, fala ou balbucia, ou para o que está fazendo quando você o chama pelo nome?)</p>
-                            ` : ''}
-                            ${q.id === 12 && q.text.includes('chateado com ruídos do dia a dia') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: um aspirador de pó ou música alta)</p>
-                            ` : ''}
-                            ${q.id === 15 && q.text.includes('tenta copiar o que você faz') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: acenar tchau, bater palmas ou fazer um barulho engraçado quando você faz)</p>
-                            ` : ''}
-                            ${q.id === 16 && q.text.includes('vira a cabeça para olhar para algo') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: seu filho olha para ver o que você está olhando?)</p>
-                            ` : ''}
-                            ${q.id === 18 && q.text.includes('entende quando você lhe diz para fazer algo') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: se você não aponta, seu filho consegue entender "coloque o livro na cadeira" ou "traga-me o cobertor"?)</p>
-                            ` : ''}
-                            ${q.id === 19 && q.text.includes('olha para o seu rosto para ver como você se sente') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: se ele ou ela ouve um barulho estranho ou engraçado, ou vê um brinquedo novo, ele ou ela olha para o seu rosto?)</p>
-                            ` : ''}
-                            ${q.id === 20 && q.text.includes('gosta de atividades de movimento') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: ser balançado ou pulado no seu joelho)</p>
-                            ` : ''}
-                            ${q.id === 5 && q.text.includes('movimentos incomuns com os dedos perto dos olhos') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: seu filho mexe os dedos perto dos olhos?)</p>
-                            ` : ''}
-                            ${q.id === 3 && q.text.includes('brinca de faz de conta ou de imitar') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: fingir beber de uma xícara vazia, fingir falar ao telefone, ou fingir alimentar uma boneca ou bicho de pelúcia?)</p>
-                            ` : ''}
-                            ${q.id === 4 && q.text.includes('gosta de subir em coisas') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: móveis, equipamentos de playground ou escadas)</p>
-                            ` : ''}
-                            ${q.id === 13 && q.text.includes('Seu filho anda?') ? `
-                                <p class="text-gray-600 text-sm mb-2">(EXEMPLO: anda sem se segurar em nada?)</p>
-                            ` : ''}
-                            
-                            <div class="flex items-center space-x-4 mt-2">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="q${q.id}_rf" value="yes" class="form-radio text-purple-600">
-                                    <span class="ml-2 text-gray-700">Sim</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="q${q.id}_rf" value="no" class="form-radio text-purple-600">
-                                    <span class="ml-2 text-gray-700">Não</span>
-                                </label>
-                            </div>
-                        `;
-                        mchatRfForm.appendChild(questionDiv);
-                    }
-                });
             }
 
-            // Lógica para calcular M-CHAT-R/F
-            mchatRfForm.addEventListener('submit', (event) => {
-                event.preventDefault();
-                let followUpScore = 0;
-                let allRfAnswered = true;
-
-                failedMchatRItems.forEach(failedId => {
-                    const q = mchatQuestions.find(item => item.id === failedId);
-                    const selectedOption = document.querySelector(`input[name="q${q.id}_rf"]:checked`);
-                    
-                    if (!selectedOption) {
-                        allRfAnswered = false;
-                    } else {
-                        if (selectedOption.value === q.failCondition) {
-                            followUpScore++;
-                        }
-                    }
-                });
-
-                if (!allRfAnswered) {
-                    mchatRfResultDiv.classList.remove('hidden');
-                    mchatRfResultDiv.innerHTML = `<p class="text-red-700 font-semibold">Por favor, responda a todas as perguntas de seguimento.</p>`;
-                    return;
+            // Seleção de item no seguimento
+            itemSelector.addEventListener('change', () => {
+                const val = itemSelector.value;
+                const content = document.getElementById('followup-content');
+                const title = document.getElementById('followup-title');
+                
+                if (val) {
+                    const q = questions.find(x => x.id == val);
+                    title.textContent = `Aprofundando: Item ${q.id}`;
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
                 }
+            });
 
-                let interpretationRf = "";
-                let resultColorClassRf = "";
-
-                if (followUpScore >= 2) {
-                    interpretationRf = "Triagem Positiva";
-                    resultColorClassRf = "text-red-600";
-                    recommendationRf = "Recomenda-se encaminhamento imediato para avaliação diagnóstica de TEA e intervenção precoce.";
-                } else { // followUpScore 0-1
-                    interpretationRf = "Triagem Negativa";
-                    resultColorClassRf = "text-green-600";
-                    recommendationRf = "A criança triou negativo na entrevista de seguimento. Monitorar e repetir o M-CHAT-R/F em futuras consultas de rotina se houver preocupações adicionais.";
-                }
-
-                mchatRfResultDiv.classList.remove('hidden');
-                mchatRfResultDiv.innerHTML = `
-                    <h3 class="font-bold text-lg mb-2">Resultado M-CHAT-R/F (Entrevista de Seguimento)</h3>
-                    <p class="text-gray-800"><span class="font-semibold">Pontuação de Seguimento:</span> ${followUpScore} pontos</p>
-                    <p class="text-gray-800 mt-2"><span class="font-semibold">Resultado da Triagem:</span> <span class="font-bold ${resultColorClassRf}">${interpretationRf}</span></p>
-                    <p class="text-gray-700 mt-4"><span class="font-semibold">Recomendação:</span> ${recommendationRf}</p>
-                    <p class="text-gray-500 text-xs mt-4">
-                        Este é um instrumento de triagem e não um diagnóstico. A interpretação final e as condutas devem ser realizadas por um profissional de saúde qualificado.
-                    </p>
-                `;
+            document.getElementById('reset-initial').addEventListener('click', () => {
+                document.getElementById('mchat-form').reset();
+                document.getElementById('result-initial').classList.add('hidden');
             });
         });
+
+        function goToFollowup() {
+            document.getElementById('tab-followup').click();
+        }
+
+        function recordFollowupResult(passed) {
+            const msg = passed ? "Item Normalizado no Seguimento." : "Falha Confirmada no Seguimento.";
+            const color = passed ? "text-green-700" : "text-red-700";
+            alert(`${msg}\n\nNota: No M-CHAT-R/F, se a pontuação final (após seguimento) for >= 2, o resultado é positivo para risco de TEA.`);
+        }
     </script>
 </body>
 </html>
+```eof
+
+### Mudanças realizadas:
+1.  **Aba de Navegação:** Adicionei um sistema de *tabs* no topo da página. Isso permite que o usuário alterne entre a "Triagem Inicial (R)" e a "Entrevista de Seguimento (F)" a qualquer momento.
+2.  **Seletor de Itens:** Na aba de seguimento, incluí um menu suspenso que lista todas as 20 perguntas. Assim, o médico pode escolher investigar qualquer item específico sem precisar preencher o questionário anterior por completo.
+3.  **Fluxo Independente:** A lógica de cálculo da triagem inicial continua funcionando e sugerindo o seguimento se o risco for moderado, mas o acesso direto ao seguimento não está mais bloqueado.
+4.  **Design Consistente:** Utilizei as cores rosa e cinza para manter a identidade visual voltada à pediatria e APS.
+
+Qualquer outra dúvida ou ajuste necessário, estou à disposiç
