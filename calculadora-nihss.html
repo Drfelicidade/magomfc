@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora NIHSS (Escala de AVC)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #e11d48; /* Rose-600 */
+            border-radius: 9999px;
+        }
+        .option-label {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-radio:checked + .option-label {
+            background-color: #e11d48;
+            color: white;
+            border-color: #e11d48;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+        
+        <!-- Cabeçalho -->
+        <div class="bg-rose-600 p-6 md:p-8 text-white text-center relative">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Escala NIHSS (AVC / AVE)</h1>
+            <p class="text-rose-100 text-sm md:text-base">Avaliação quantitativa de défice neurológico no Acidente Vascular Cerebral agudo</p>
+            <div class="mt-6">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-rose-700 hover:bg-rose-800 text-white text-sm font-medium rounded-full transition shadow-sm">
+                    &larr; Voltar ao Menu Principal
+                </a>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-8">
+            <div class="bg-rose-50/50 p-6 rounded-2xl border border-rose-100">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <div>
+                        <h2 class="section-title text-2xl font-bold text-rose-900 mb-2">Avaliação de 15 Itens</h2>
+                        <p class="text-gray-600 text-sm">Pontue o que o doente faz na realidade, não o que pensa que ele é capaz de fazer. Registe a primeira tentativa.</p>
+                    </div>
+                    <button type="button" id="reset-form" class="text-sm text-rose-600 hover:text-rose-800 font-bold underline whitespace-nowrap">Limpar Respostas</button>
+                </div>
+                
+                <form id="nihss-form" class="space-y-6">
+                    <div id="questions-list" class="space-y-6"></div>
+                    
+                    <div class="pt-8 flex justify-center border-t border-rose-200">
+                        <button type="button" id="calculate-btn" class="w-full md:w-auto px-10 py-4 bg-rose-600 text-white font-bold rounded-xl hover:bg-rose-700 shadow-lg transition transform hover:scale-105">
+                            Calcular Pontuação NIHSS
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Resultado -->
+            <div id="result-container" class="hidden mt-6 p-6 rounded-2xl shadow-sm animate-fade-in transition-all">
+                <!-- Conteúdo injetado via JS -->
+            </div>
+        </div>
+
+        <footer class="bg-gray-50 p-6 text-center border-t border-gray-100">
+            <p class="text-rose-800 font-bold text-sm mb-1 uppercase tracking-tighter italic">Suporte à Decisão Clínica em Emergência</p>
+            <p class="text-gray-500 text-xs leading-relaxed max-w-2xl mx-auto">
+                A Escala do NIHSS é utilizada para avaliar a gravidade do AVC e orientar a terapêutica (ex: trombólise). A avaliação deve ser efetuada o mais rapidamente possível.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Array de questões da Escala NIHSS
+        const questions = [
+            { 
+                id: "1a", title: "1a. Nível de Consciência", 
+                options: [
+                    { value: 0, text: "0 = Alerta, reativo." },
+                    { value: 1, text: "1 = Não alerta; desperta com estimulação verbal menor." },
+                    { value: 2, text: "2 = Não alerta; requer estimulação forte ou dolorosa." },
+                    { value: 3, text: "3 = Coma; responde apenas com reflexos motores ou sem resposta." }
+                ]
+            },
+            { 
+                id: "1b", title: "1b. Nível de Consciência: Perguntas", desc: "(Pergunte o mês atual e a sua idade)",
+                options: [
+                    { value: 0, text: "0 = Ambas as respostas corretas." },
+                    { value: 1, text: "1 = Uma resposta correta." },
+                    { value: 2, text: "2 = Nenhuma resposta correta (ou afasia severa)." }
+                ]
+            },
+            { 
+                id: "1c", title: "1c. Nível de Consciência: Comandos", desc: "(Pedir para abrir/fechar os olhos e apertar/soltar a mão)",
+                options: [
+                    { value: 0, text: "0 = Realiza ambos os comandos corretamente." },
+                    { value: 1, text: "1 = Realiza um comando corretamente." },
+                    { value: 2, text: "2 = Não realiza nenhum comando corretamente." }
+                ]
+            },
+            { 
+                id: "2", title: "2. Olhar Conjugado Horizontal", desc: "(Apenas movimentos oculares horizontais)",
+                options: [
+                    { value: 0, text: "0 = Normal." },
+                    { value: 1, text: "1 = Parésia do olhar parcial (desvio não forçado)." },
+                    { value: 2, text: "2 = Desvio forçado do olhar ou parésia total." }
+                ]
+            },
+            { 
+                id: "3", title: "3. Campos Visuais", desc: "(Teste por confrontação nos campos visuais)",
+                options: [
+                    { value: 0, text: "0 = Sem perda visual." },
+                    { value: 1, text: "1 = Hemianópsia parcial." },
+                    { value: 2, text: "2 = Hemianópsia completa." },
+                    { value: 3, text: "3 = Hemianópsia bilateral (cegueira, incluindo cortical)." }
+                ]
+            },
+            { 
+                id: "4", title: "4. Parésia Facial", desc: "(Pedir para mostrar os dentes, fechar os olhos com força, erguer sobrancelhas)",
+                options: [
+                    { value: 0, text: "0 = Movimento normal, simétrico." },
+                    { value: 1, text: "1 = Parésia minor (assimetria ao sorrir)." },
+                    { value: 2, text: "2 = Parésia parcial (paralisia da face inferior)." },
+                    { value: 3, text: "3 = Paralisia completa (face superior e inferior)." }
+                ]
+            },
+            { 
+                id: "5a", title: "5a. Função Motora: Braço Esquerdo", desc: "(Braço a 90º se sentado ou 45º se deitado, manter 10 segundos)",
+                options: [
+                    { value: 0, text: "0 = Mantém a posição por 10 segundos sem derivar." },
+                    { value: 1, text: "1 = Deriva (não cai completamente) antes dos 10 segundos." },
+                    { value: 2, text: "2 = Algum esforço contra a gravidade, mas cai antes de 10s." },
+                    { value: 3, text: "3 = Sem esforço contra a gravidade (cai imediatamente)." },
+                    { value: 4, text: "4 = Sem movimento." },
+                    { value: 0, text: "UN = Amputação ou fusão articular (pontua 0)." }
+                ]
+            },
+            { 
+                id: "5b", title: "5b. Função Motora: Braço Direito", desc: "(Braço a 90º se sentado ou 45º se deitado, manter 10 segundos)",
+                options: [
+                    { value: 0, text: "0 = Mantém a posição por 10 segundos sem derivar." },
+                    { value: 1, text: "1 = Deriva (não cai completamente) antes dos 10 segundos." },
+                    { value: 2, text: "2 = Algum esforço contra a gravidade, mas cai antes de 10s." },
+                    { value: 3, text: "3 = Sem esforço contra a gravidade (cai imediatamente)." },
+                    { value: 4, text: "4 = Sem movimento." },
+                    { value: 0, text: "UN = Amputação ou fusão articular (pontua 0)." }
+                ]
+            },
+            { 
+                id: "6a", title: "6a. Função Motora: Perna Esquerda", desc: "(Elevar perna a 30º se deitado, manter 5 segundos)",
+                options: [
+                    { value: 0, text: "0 = Mantém a posição por 5 segundos sem derivar." },
+                    { value: 1, text: "1 = Deriva (não bate na cama) antes de 5 segundos." },
+                    { value: 2, text: "2 = Algum esforço contra a gravidade, mas cai." },
+                    { value: 3, text: "3 = Sem esforço contra a gravidade." },
+                    { value: 4, text: "4 = Sem movimento." },
+                    { value: 0, text: "UN = Amputação ou fusão articular (pontua 0)." }
+                ]
+            },
+            { 
+                id: "6b", title: "6b. Função Motora: Perna Direita", desc: "(Elevar perna a 30º se deitado, manter 5 segundos)",
+                options: [
+                    { value: 0, text: "0 = Mantém a posição por 5 segundos sem derivar." },
+                    { value: 1, text: "1 = Deriva (não bate na cama) antes de 5 segundos." },
+                    { value: 2, text: "2 = Algum esforço contra a gravidade, mas cai." },
+                    { value: 3, text: "3 = Sem esforço contra a gravidade." },
+                    { value: 4, text: "4 = Sem movimento." },
+                    { value: 0, text: "UN = Amputação ou fusão articular (pontua 0)." }
+                ]
+            },
+            { 
+                id: "7", title: "7. Ataxia dos Membros", desc: "(Dedo-nariz e calcanhar-joelho bilateralmente)",
+                options: [
+                    { value: 0, text: "0 = Ausente." },
+                    { value: 1, text: "1 = Presente num membro." },
+                    { value: 2, text: "2 = Presente em dois membros." },
+                    { value: 0, text: "UN = Amputação / Doente paralisado (pontua 0)." }
+                ]
+            },
+            { 
+                id: "8", title: "8. Sensibilidade", desc: "(Reação a estímulo doloroso/picada de agulha)",
+                options: [
+                    { value: 0, text: "0 = Normal, sem perda de sensibilidade." },
+                    { value: 1, text: "1 = Perda leve a moderada (sente tocar, mas diferente num lado)." },
+                    { value: 2, text: "2 = Perda severa ou total (não sente ser tocado na face/corpo)." }
+                ]
+            },
+            { 
+                id: "9", title: "9. Linguagem / Afasia", desc: "(Descrever imagem, nomear objetos, ler frases)",
+                options: [
+                    { value: 0, text: "0 = Sem afasia (normal)." },
+                    { value: 1, text: "1 = Afasia leve a moderada (consegue comunicar-se com dificuldade)." },
+                    { value: 2, text: "2 = Afasia severa (comunicação fragmentada, examinador infere o contexto)." },
+                    { value: 3, text: "3 = Afasia global (sem discurso útil ou em coma)." }
+                ]
+            },
+            { 
+                id: "10", title: "10. Disartria", desc: "(Avaliar clareza do discurso ao ler palavras)",
+                options: [
+                    { value: 0, text: "0 = Normal." },
+                    { value: 1, text: "1 = Disartria leve a moderada (entende-se alguma coisa)." },
+                    { value: 2, text: "2 = Disartria severa (ininteligível ou doente mudo/entubado)." },
+                    { value: 0, text: "UN = Entubado ou barreira física (pontua 0)." }
+                ]
+            },
+            { 
+                id: "11", title: "11. Extinção e Inatenção / Negligência", desc: "(Integração de estímulos visuais, táteis ou espaciais)",
+                options: [
+                    { value: 0, text: "0 = Nenhuma anomalia (normal)." },
+                    { value: 1, text: "1 = Inatenção visual, tátil, auditiva ou espacial em 1 modalidade." },
+                    { value: 2, text: "2 = Inatenção severa (heminatenção profunda para mais de 1 modalidade)." }
+                ]
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const questionsList = document.getElementById('questions-list');
+            
+            // Renderizar Perguntas
+            questions.forEach(q => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 border border-gray-200 rounded-2xl shadow-sm";
+                
+                let optionsHtml = '';
+                q.options.forEach((opt, index) => {
+                    const uniqueId = `q_${q.id}_opt_${index}`;
+                    optionsHtml += `
+                        <label class="cursor-pointer block">
+                            <input type="radio" name="q_${q.id}" value="${opt.value}" class="hidden option-radio">
+                            <div class="option-label w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-700 font-medium bg-gray-50 hover:bg-rose-50">
+                                ${opt.text}
+                            </div>
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <h3 class="font-bold text-rose-800 text-lg">${q.title}</h3>
+                    ${q.desc ? `<p class="text-sm text-gray-500 mb-3">${q.desc}</p>` : `<div class="mb-3"></div>`}
+                    <div class="space-y-2">
+                        ${optionsHtml}
+                    </div>
+                `;
+                questionsList.appendChild(card);
+            });
+
+            // Lógica de Cálculo
+            document.getElementById('calculate-btn').addEventListener('click', () => {
+                let score = 0;
+                let answered = 0;
+                const totalQuestions = questions.length;
+
+                questions.forEach(q => {
+                    const selected = document.querySelector(`input[name="q_${q.id}"]:checked`);
+                    if (selected) {
+                        answered++;
+                        score += parseInt(selected.value, 10);
+                    }
+                });
+
+                const resultDiv = document.getElementById('result-container');
+
+                // Validação
+                if (answered < totalQuestions) {
+                    resultDiv.className = "mt-6 p-6 rounded-2xl bg-yellow-50 border-2 border-yellow-300 block animate-fade-in";
+                    resultDiv.innerHTML = `<div class="flex items-center gap-3"><span class="text-2xl">⚠️</span><p class="text-yellow-800 font-bold">Por favor, preencha todos os ${totalQuestions} parâmetros para um resultado preciso (Faltam ${totalQuestions - answered}).</p></div>`;
+                    
+                    // Rola para a mensagem de erro
+                    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    return;
+                }
+
+                showResult(score);
+            });
+
+            function showResult(score) {
+                const resultDiv = document.getElementById('result-container');
+                let colorClass, classification, recommendation;
+
+                if (score === 0) {
+                    colorClass = "bg-green-50 border-green-500 text-green-900";
+                    classification = "Sem sintomas de AVC (0)";
+                    recommendation = "Nenhum défice neurológico quantificável pela escala NIHSS.";
+                } else if (score >= 1 && score <= 4) {
+                    colorClass = "bg-yellow-50 border-yellow-500 text-yellow-900";
+                    classification = "AVC Ligeiro / Minor (1 - 4)";
+                    recommendation = "Défice neurológico ligeiro. A decisão de terapêutica trombolítica deve considerar se o défice é incapacitante para o doente.";
+                } else if (score >= 5 && score <= 15) {
+                    colorClass = "bg-orange-50 border-orange-500 text-orange-900";
+                    classification = "AVC Moderado (5 - 15)";
+                    recommendation = "Défice neurológico moderado. Terapêutica de reperfusão (trombólise/trombectomia) fortemente recomendada se não houver contraindicações.";
+                } else if (score >= 16 && score <= 20) {
+                    colorClass = "bg-red-50 border-red-500 text-red-900";
+                    classification = "AVC Moderado a Grave (16 - 20)";
+                    recommendation = "Défice neurológico moderado a severo. Elevada probabilidade de benefício com intervenção aguda.";
+                } else {
+                    colorClass = "bg-rose-900 border-rose-950 text-rose-100";
+                    classification = "AVC Grave (21 - 42)";
+                    recommendation = "Défice neurológico grave. Risco acrescido de complicações hemorrágicas após a reperfusão. Decisão clínica individualizada necessária.";
+                }
+
+                resultDiv.className = `mt-6 p-6 md:p-8 rounded-2xl border-2 ${colorClass} block animate-fade-in shadow-lg`;
+                resultDiv.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b ${score > 20 ? 'border-rose-100/30' : 'border-black/10'} pb-4 mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold uppercase tracking-widest opacity-80 mb-1">Classificação do Défice</h3>
+                            <h2 class="text-2xl md:text-3xl font-black">${classification}</h2>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-5xl font-black ${score > 20 ? 'bg-black/20' : 'bg-white/60'} px-6 py-2 rounded-xl shadow-sm">
+                                ${score}<span class="text-2xl ${score > 20 ? 'text-rose-200' : 'text-black/40'}">/42</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="${score > 20 ? 'bg-black/10' : 'bg-white/40'} p-4 rounded-xl">
+                        <p class="font-semibold text-lg mb-1">Considerações Clínicas:</p>
+                        <p class="text-base leading-relaxed opacity-90">${recommendation}</p>
+                    </div>
+                `;
+                
+                // Rolagem suave até o resultado
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+
+            document.getElementById('reset-form').addEventListener('click', () => {
+                document.getElementById('nihss-form').reset();
+                document.getElementById('result-container').classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</body>
+</html>
