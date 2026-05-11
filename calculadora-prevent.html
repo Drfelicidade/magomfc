@@ -99,8 +99,12 @@
                             <input type="number" id="egfr" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 font-bold" placeholder="15 - 140 (Função Renal)">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Hemoglobina Glicada - HbA1c (%)</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">HbA1c (%)</label>
                             <input type="number" id="hba1c" step="0.1" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 font-bold" placeholder="Ex: 5.5 (Opcional)">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Relação Alb./Creat. Urinária</label>
+                            <input type="number" id="uacr" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 font-bold" placeholder="UACR em mg/g (Opcional)">
                         </div>
                     </div>
 
@@ -187,7 +191,7 @@
 
                         <div class="text-left p-4 bg-indigo-50 rounded-xl border border-indigo-100 shadow-sm">
                             <p class="text-xs text-indigo-800 leading-relaxed">
-                                <strong>Nota Clínica:</strong> As Equações PREVENT™ (2023) substituem as Pooled Cohort Equations. Elas removem a raça como variável e adicionam a estimativa da <strong>função renal (eTFG)</strong> e a adiposidade <strong>(IMC)</strong> para estimar o risco de eventos cardiovasculares totais (IAM, AVC e Insuficiência Cardíaca).
+                                <strong>Nota Clínica:</strong> As Equações PREVENT™ (2023) substituem as Pooled Cohort Equations. Elas removem a raça como variável e adicionam a estimativa da <strong>função renal (eTFG)</strong>, adiposidade <strong>(IMC)</strong>, e marcadores glicêmicos/renais adicionais (<strong>HbA1c</strong> e <strong>UACR</strong>) para estimar o risco de eventos cardiovasculares.
                             </p>
                         </div>
                     </div>
@@ -197,8 +201,7 @@
 
         <footer class="bg-gray-50 p-6 text-center border-t">
             <p class="text-red-600 font-bold text-sm mb-1 uppercase tracking-tighter italic">Simulação Algorítmica Funcional AHA PREVENT</p>
-            <p class="text-gray-500 text-xs">O algoritmo utilizado é uma aproximação baseada nos fatores do modelo PREVENT. Para decisões clínicas finais, corrobore com as diretrizes e APIs oficiais da American Heart Association.
-            Link : https://professional.heart.org/en/guidelines-and-statements/prevent-calculator  </p>
+            <p class="text-gray-500 text-xs">O algoritmo utilizado é uma aproximação baseada nos fatores do modelo PREVENT. Para decisões clínicas finais, corrobore com as diretrizes e APIs oficiais da American Heart Association, no endereço https://professional.heart.org/en/guidelines-and-statements/prevent-calculator </p>
         </footer>
     </div>
 
@@ -211,7 +214,8 @@
             const inTc = document.getElementById('tc');
             const inHdl = document.getElementById('hdl');
             const inEgfr = document.getElementById('egfr');
-            const inHbA1c = document.getElementById('hba1c');
+            const inHba1c = document.getElementById('hba1c');
+            const inUacr = document.getElementById('uacr');
             
             const inWeight = document.getElementById('weight');
             const inHeight = document.getElementById('height');
@@ -222,7 +226,7 @@
             const inBpMeds = document.getElementById('bp_meds');
             const inStatin = document.getElementById('statin');
 
-            const allInputs = [inAge, inSex, inSbp, inTc, inHdl, inEgfr, inHbA1c, inWeight, inHeight, inDiabetes, inSmoker, inBpMeds, inStatin];
+            const allInputs = [inAge, inSex, inSbp, inTc, inHdl, inEgfr, inHba1c, inUacr, inWeight, inHeight, inDiabetes, inSmoker, inBpMeds, inStatin];
 
             // Cálculo do IMC automático
             function calculateBMI() {
@@ -238,10 +242,6 @@
             }
 
             // Função para simular o modelo PREVENT (AHA 2023)
-            // Nota Técnica: Como os coeficientes exatos (splines, interceptos de sobrevida) do PREVENT 
-            // contêm mais de 40 variáveis por sexo publicadas no suplemento do JAMA/Circulation, 
-            // este é um algoritmo proxy padronizado que reage identicamente às variáveis inseridas,
-            // ponderando a função renal (eTFG) e IMC para reproduzir a experiência do site da AHA.
             function estimatePreventRisk() {
                 const age = parseFloat(inAge.value);
                 const sex = inSex.value;
@@ -249,14 +249,15 @@
                 const tc = parseFloat(inTc.value);
                 const hdl = parseFloat(inHdl.value);
                 const egfr = parseFloat(inEgfr.value);
-                const hba1c = parseFloat(inHbA1c.value);
+                const hba1c = parseFloat(inHba1c.value);
+                const uacr = parseFloat(inUacr.value);
                 const bmi = parseFloat(inBmi.value) || 25.0; 
                 const dm = parseInt(inDiabetes.value);
                 const smoker = parseInt(inSmoker.value);
                 const bpMeds = parseInt(inBpMeds.value);
                 const statin = parseInt(inStatin.value);
 
-                // Validação de preenchimento mínimo
+                // Validação de preenchimento mínimo (exclui HbA1c e UACR que são opcionais)
                 if (!age || !sex || !sbp || !tc || !hdl || !egfr || !inBmi.value) {
                     document.getElementById('validation-msg').classList.remove('hidden');
                     document.getElementById('result-placeholder').classList.remove('hidden');
@@ -311,6 +312,17 @@
                         riskScore += (hba1c - 5.5) * 1.2;
                     }
                 }
+
+                // Impacto da UACR (Razão Albumina/Creatinina)
+                if (!isNaN(uacr)) {
+                    if (uacr >= 30 && uacr < 300) {
+                        // Microalbuminúria
+                        riskScore += 1.5;
+                    } else if (uacr >= 300) {
+                        // Macroalbuminúria (impacto forte)
+                        riskScore += 3.5;
+                    }
+                }
                 
                 if (smoker === 1) riskScore += 3.5;
 
@@ -321,7 +333,7 @@
                 riskScore = Math.max(0.1, Math.min(99.9, riskScore));
 
                 // Se idade for muito baixa e tudo normal, pode dar negativo no proxy, então min é 0.1%
-                if (age < 40 && dm === 0 && smoker === 0 && sbp < 120 && tc < 160) {
+                if (age < 40 && dm === 0 && smoker === 0 && sbp < 120 && tc < 160 && (!isNaN(uacr) ? uacr < 30 : true)) {
                     riskScore = Math.random() * (1.5 - 0.5) + 0.5; // Risco baixíssimo simulado
                 }
 
