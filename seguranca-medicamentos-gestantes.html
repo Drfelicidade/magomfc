@@ -35,7 +35,7 @@
         
         <!-- Cabeçalho -->
         <div class="bg-violet-600 p-6 md:p-8 text-white text-center relative">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">Medicamentos na Gestação</h1>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2 mt-4 md:mt-0">Medicamentos na Gestação</h1>
             <p class="text-violet-100 text-sm md:text-base">Consulta Online via IA de Categorias de Risco (FDA/Anvisa)</p>
             <div class="mt-6">
                 <a href="index.html" class="inline-flex items-center px-5 py-2 bg-violet-700 hover:bg-violet-800 text-white text-sm font-medium rounded-full transition shadow-sm">
@@ -78,7 +78,6 @@
             <div class="mt-8 border-t border-gray-200 pt-8">
                 <h3 class="font-bold text-lg text-gray-800 mb-4">Entendendo as Categorias de Risco</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    
                     <div class="p-4 rounded-xl border border-green-200 bg-green-50">
                         <div class="flex items-center gap-2 mb-2">
                             <span class="bg-green-600 text-white font-black w-8 h-8 rounded-lg flex items-center justify-center">A</span>
@@ -86,7 +85,6 @@
                         </div>
                         <p class="text-xs text-green-800">Estudos não demonstraram risco para o feto no primeiro trimestre.</p>
                     </div>
-
                     <div class="p-4 rounded-xl border border-blue-200 bg-blue-50">
                         <div class="flex items-center gap-2 mb-2">
                             <span class="bg-blue-500 text-white font-black w-8 h-8 rounded-lg flex items-center justify-center">B</span>
@@ -94,7 +92,6 @@
                         </div>
                         <p class="text-xs text-blue-800">Estudos em animais não indicaram risco fetal, sem estudos adequados em humanos.</p>
                     </div>
-
                     <div class="p-4 rounded-xl border border-yellow-200 bg-yellow-50">
                         <div class="flex items-center gap-2 mb-2">
                             <span class="bg-yellow-500 text-white font-black w-8 h-8 rounded-lg flex items-center justify-center">C</span>
@@ -102,7 +99,6 @@
                         </div>
                         <p class="text-xs text-yellow-800">Estudos em animais revelaram efeitos adversos. Usar apenas se o benefício justificar o risco.</p>
                     </div>
-
                     <div class="p-4 rounded-xl border border-orange-200 bg-orange-50">
                         <div class="flex items-center gap-2 mb-2">
                             <span class="bg-orange-500 text-white font-black w-8 h-8 rounded-lg flex items-center justify-center">D</span>
@@ -110,7 +106,6 @@
                         </div>
                         <p class="text-xs text-orange-800">Evidência de risco fetal humano, mas os benefícios podem ser aceitáveis em risco de vida.</p>
                     </div>
-
                     <div class="p-4 rounded-xl border border-red-200 bg-red-50">
                         <div class="flex items-center gap-2 mb-2">
                             <span class="bg-red-600 text-white font-black w-8 h-8 rounded-lg flex items-center justify-center">X</span>
@@ -118,14 +113,13 @@
                         </div>
                         <p class="text-xs text-red-800">Anomalias fetais demonstradas. Totalmente contraindicado na gestação.</p>
                     </div>
-
                 </div>
             </div>
 
         </div>
 
         <footer class="bg-gray-50 p-6 text-center border-t border-gray-100">
-            <p class="text-violet-800 font-bold text-sm mb-1 uppercase tracking-tighter italic">Busca Online via Inteligência Artificial</p>
+            <p class="text-violet-800 font-bold text-sm mb-1 uppercase tracking-tighter italic">Busca Segura (Serverless)</p>
             <p class="text-gray-500 text-xs leading-relaxed max-w-2xl mx-auto">
                 Aviso: Os dados gerados são provenientes de um modelo de linguagem baseado na classificação de risco clássica da FDA. Sempre consulte a bula oficial do fabricante ou protocolos institucionais em caso de dúvida clínica real.
             </p>
@@ -145,7 +139,9 @@
                 for (let i = 0; i <= maxRetries; i++) {
                     try {
                         const response = await fetch(url, options);
-                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
                         return await response.json();
                     } catch (error) {
                         if (i === maxRetries) throw error;
@@ -168,9 +164,8 @@
                     </div>
                 `;
 
-                // Configuração da API
-                const apiKey = ""; // A chave é injetada em tempo de execução
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                // ATENÇÃO: Agora chamamos a nossa função Netlify em vez da API do Google diretamente!
+                const apiUrl = `/.netlify/functions/gemini-proxy`;
 
                 const prompt = `Classifique o risco do medicamento/princípio ativo '${query}' durante a gestação segundo o padrão clássico do FDA (A, B, C, D ou X). 
 Se a consulta não for sobre um medicamento real, defina 'isValid' como false. Responda ESTRITAMENTE seguindo o schema JSON solicitado.`;
@@ -203,6 +198,11 @@ Se a consulta não for sobre um medicamento real, defina 'isValid' como false. R
                         body: JSON.stringify(payload)
                     });
 
+                    // Caso a função da Netlify retorne o erro de chave não configurada
+                    if (result.error) {
+                        throw new Error(result.error);
+                    }
+
                     const jsonText = result.candidates[0].content.parts[0].text;
                     const medData = JSON.parse(jsonText);
 
@@ -212,8 +212,8 @@ Se a consulta não for sobre um medicamento real, defina 'isValid' como false. R
                         renderResultCard(medData);
                     }
                 } catch (error) {
-                    console.error("Erro na busca via API", error);
-                    showError("Ocorreu um erro ao consultar os dados. Por favor, tente novamente.");
+                    console.error("Erro na busca via Netlify Function:", error);
+                    showError(`Ocorreu um erro ao comunicar com o servidor proxy. Por favor, verifique se a função Netlify está configurada corretamente. <br><br><small>Detalhes: ${error.message}</small>`);
                 } finally {
                     searchBtn.disabled = false;
                     searchInput.disabled = false;
@@ -257,8 +257,7 @@ Se a consulta não for sobre um medicamento real, defina 'isValid' como false. R
                 resultsContainer.innerHTML = `
                     <div class="p-6 rounded-2xl border border-red-200 bg-red-50 text-center animate-fade-in">
                         <span class="text-3xl mb-2 block">⚠️</span>
-                        <h3 class="font-bold text-red-800 mb-1">Busca Incompleta</h3>
-                        <p class="text-sm text-red-600">${message}</p>
+                        <p class="text-sm text-red-700 leading-relaxed">${message}</p>
                     </div>
                 `;
             }
