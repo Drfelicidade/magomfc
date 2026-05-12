@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora DPOC - Protocolo GOLD</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #0891b2; /* Cyan-600 */
+            border-radius: 9999px;
+        }
+        .option-label {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-radio:checked + .option-label {
+            background-color: #0891b2;
+            color: white;
+            border-color: #0891b2;
+            box-shadow: 0 4px 6px -1px rgba(8, 145, 178, 0.2);
+        }
+        .option-radio-exac:checked + .option-label-exac {
+            background-color: #0369a1; /* Cyan-700 */
+            color: white;
+            border-color: #0369a1;
+            box-shadow: 0 4px 6px -1px rgba(3, 105, 161, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+        
+        <!-- Cabeçalho -->
+        <div class="bg-cyan-600 p-6 md:p-8 text-white text-center relative">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Classificação DPOC (GOLD)</h1>
+            <p class="text-cyan-100 text-sm md:text-base">Avaliação mMRC, Risco de Exacerbação e Terapêutica Inicial</p>
+            <div class="mt-6">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-cyan-700 hover:bg-cyan-800 text-white text-sm font-medium rounded-full transition shadow-sm">
+                    &larr; Voltar ao Menu Principal
+                </a>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-8 space-y-8">
+            
+            <!-- Passo 1: Avaliação de Sintomas (mMRC) -->
+            <div class="bg-cyan-50/50 p-6 rounded-2xl border border-cyan-100 shadow-sm">
+                <h2 class="section-title text-xl font-bold text-cyan-900 mb-4">Passo 1: Escala de Dispneia (mMRC)</h2>
+                <p class="text-gray-600 text-sm mb-4">Qual das seguintes afirmações melhor descreve a falta de ar do doente?</p>
+                
+                <form id="step1-form" class="space-y-3">
+                    <label class="cursor-pointer block">
+                        <input type="radio" name="mmrc" value="0" class="hidden option-radio">
+                        <div class="option-label w-full px-5 py-3 border-2 border-gray-200 rounded-xl text-gray-700 font-medium bg-white hover:bg-cyan-50 flex items-center gap-4">
+                            <span class="bg-gray-100 text-gray-500 font-black rounded-lg w-10 h-10 flex items-center justify-center shrink-0">0</span>
+                            <span class="text-sm">Sinto falta de ar apenas ao realizar exercícios intensos.</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer block">
+                        <input type="radio" name="mmrc" value="1" class="hidden option-radio">
+                        <div class="option-label w-full px-5 py-3 border-2 border-gray-200 rounded-xl text-gray-700 font-medium bg-white hover:bg-cyan-50 flex items-center gap-4">
+                            <span class="bg-gray-100 text-gray-500 font-black rounded-lg w-10 h-10 flex items-center justify-center shrink-0">1</span>
+                            <span class="text-sm">Sinto falta de ar quando apresso o passo no plano ou subo uma ladeira leve.</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer block">
+                        <input type="radio" name="mmrc" value="2" class="hidden option-radio">
+                        <div class="option-label w-full px-5 py-3 border-2 border-gray-200 rounded-xl text-gray-700 font-medium bg-white hover:bg-cyan-50 flex items-center gap-4">
+                            <span class="bg-gray-100 text-gray-500 font-black rounded-lg w-10 h-10 flex items-center justify-center shrink-0">2</span>
+                            <span class="text-sm">Ando mais devagar do que pessoas da minha idade no plano devido à falta de ar, ou tenho de parar para respirar ao andar no meu próprio passo.</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer block">
+                        <input type="radio" name="mmrc" value="3" class="hidden option-radio">
+                        <div class="option-label w-full px-5 py-3 border-2 border-gray-200 rounded-xl text-gray-700 font-medium bg-white hover:bg-cyan-50 flex items-center gap-4">
+                            <span class="bg-gray-100 text-gray-500 font-black rounded-lg w-10 h-10 flex items-center justify-center shrink-0">3</span>
+                            <span class="text-sm">Paro para respirar após andar cerca de 100 metros ou após alguns minutos no plano.</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer block">
+                        <input type="radio" name="mmrc" value="4" class="hidden option-radio">
+                        <div class="option-label w-full px-5 py-3 border-2 border-gray-200 rounded-xl text-gray-700 font-medium bg-white hover:bg-cyan-50 flex items-center gap-4">
+                            <span class="bg-gray-100 text-gray-500 font-black rounded-lg w-10 h-10 flex items-center justify-center shrink-0">4</span>
+                            <span class="text-sm">Sinto muita falta de ar para sair de casa, ou sinto falta de ar ao vestir-me ou despir-me.</span>
+                        </div>
+                    </label>
+                </form>
+            </div>
+
+            <!-- Passo 2: Histórico de Exacerbações -->
+            <div class="bg-sky-50/50 p-6 rounded-2xl border border-sky-100 shadow-sm">
+                <h2 class="section-title text-xl font-bold text-cyan-900 mb-4">Passo 2: Histórico de Exacerbações</h2>
+                <p class="text-gray-600 text-sm mb-4">Quantas exacerbações da DPOC o doente teve nos <strong>últimos 12 meses</strong>?</p>
+                
+                <form id="step2-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="cursor-pointer block">
+                        <input type="radio" name="exac" value="low" class="hidden option-radio-exac">
+                        <div class="option-label-exac h-full px-5 py-4 border-2 border-gray-200 rounded-xl text-gray-700 font-medium bg-white hover:bg-sky-50 transition flex flex-col justify-center items-center text-center gap-2">
+                            <span class="text-2xl">🟢</span>
+                            <span class="font-bold">Baixo Risco</span>
+                            <span class="text-sm opacity-90">0 ou 1 exacerbação moderada<br>(sem necessidade de internamento)</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer block">
+                        <input type="radio" name="exac" value="high" class="hidden option-radio-exac">
+                        <div class="option-label-exac h-full px-5 py-4 border-2 border-gray-200 rounded-xl text-gray-700 font-medium bg-white hover:bg-sky-50 transition flex flex-col justify-center items-center text-center gap-2">
+                            <span class="text-2xl">🔴</span>
+                            <span class="font-bold">Alto Risco</span>
+                            <span class="text-sm opacity-90">≥ 2 exacerbações moderadas <strong>OU</strong><br>≥ 1 exacerbação com internamento</span>
+                        </div>
+                    </label>
+                </form>
+            </div>
+
+            <!-- Resultado -->
+            <div id="result-container" class="hidden p-6 rounded-2xl shadow-lg border-2 animate-fade-in transition-all">
+                <!-- Conteúdo injetado via JS -->
+            </div>
+            
+            <div id="pending-msg" class="text-center p-6 text-gray-400 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                <svg class="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                <p>Responda aos dois passos acima para calcular o Grupo GOLD e a Terapêutica Inicial.</p>
+            </div>
+        </div>
+
+        <footer class="bg-gray-50 p-6 text-center border-t border-gray-100">
+            <p class="text-cyan-800 font-bold text-sm mb-1 uppercase tracking-tighter italic">Relatório GOLD 2023 / 2024</p>
+            <p class="text-gray-500 text-xs leading-relaxed max-w-2xl mx-auto">
+                Esta calculadora baseia-se na ferramenta de avaliação "ABE" da iniciativa GOLD (Global Initiative for Chronic Obstructive Lung Disease). O tratamento de manutenção deve ser individualizado e ajustado clinicamente.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mmrcRadios = document.querySelectorAll('.option-radio');
+            const exacRadios = document.querySelectorAll('.option-radio-exac');
+            const resultDiv = document.getElementById('result-container');
+            const pendingMsg = document.getElementById('pending-msg');
+
+            function updateUI() {
+                const mmrcSelected = document.querySelector('input[name="mmrc"]:checked');
+                const exacSelected = document.querySelector('input[name="exac"]:checked');
+
+                // Estilo mMRC
+                document.querySelectorAll('.option-label span:first-child').forEach(span => {
+                    span.className = "bg-gray-100 text-gray-500 font-black rounded-lg w-10 h-10 flex items-center justify-center shrink-0";
+                });
+                if (mmrcSelected) {
+                    const checkedLabelSpan = document.querySelector('.option-radio:checked + .option-label span:first-child');
+                    checkedLabelSpan.className = "bg-white text-cyan-600 font-black rounded-lg w-10 h-10 flex items-center justify-center shrink-0 shadow-sm";
+                }
+
+                // Cálculo
+                if (mmrcSelected && exacSelected) {
+                    calculateGold(parseInt(mmrcSelected.value, 10), exacSelected.value);
+                }
+            }
+
+            mmrcRadios.forEach(radio => radio.addEventListener('change', updateUI));
+            exacRadios.forEach(radio => radio.addEventListener('change', updateUI));
+
+            function calculateGold(mmrc, exacRisk) {
+                pendingMsg.classList.add('hidden');
+                resultDiv.classList.remove('hidden');
+
+                let group = '';
+                let treatment = '';
+                let colorClass = '';
+                let symptomText = mmrc < 2 ? "Menos Sintomas (mMRC 0-1)" : "Mais Sintomas (mMRC ≥ 2)";
+
+                if (exacRisk === 'high') {
+                    // Grupo E (Alto Risco de Exacerbação, independentemente dos sintomas)
+                    group = 'E';
+                    colorClass = 'bg-red-50 border-red-500';
+                    treatment = `
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                            <li><strong>LABA + LAMA</strong> (broncodilatadores de longa ação em combinação).</li>
+                            <li><span class="text-red-600 font-medium">Considerar LABA + LAMA + ICS</span> (Corticosteroide Inalado) se os eosinófilos no sangue periférico forem <strong>≥ 300 cél/µL</strong>.</li>
+                        </ul>
+                    `;
+                } else {
+                    if (mmrc < 2) {
+                        // Grupo A (Menos Sintomas, Baixo Risco Exac.)
+                        group = 'A';
+                        colorClass = 'bg-green-50 border-green-500';
+                        treatment = `
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li><strong>Um Broncodilatador</strong>.</li>
+                                <li>Pode ser de curta (SABA/SAMA) ou longa ação (LABA/LAMA), dependendo da resposta e preferência do doente. Em geral, recomenda-se longa ação para terapêutica de manutenção.</li>
+                            </ul>
+                        `;
+                    } else {
+                        // Grupo B (Mais Sintomas, Baixo Risco Exac.)
+                        group = 'B';
+                        colorClass = 'bg-yellow-50 border-yellow-500';
+                        treatment = `
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li><strong>LABA + LAMA</strong>.</li>
+                                <li>A terapêutica combinada com dois broncodilatadores de longa ação demonstrou superioridade no alívio de sintomas face à monoterapia.</li>
+                            </ul>
+                        `;
+                    }
+                }
+
+                resultDiv.className = `mt-8 p-6 md:p-8 rounded-3xl border-2 ${colorClass} block animate-fade-in shadow-xl`;
+                resultDiv.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-6 border-b border-black/10 pb-6 mb-6">
+                        <div class="text-center md:text-left">
+                            <h3 class="text-sm font-bold uppercase tracking-widest opacity-80 mb-1">Classificação GOLD</h3>
+                            <div class="flex items-center justify-center md:justify-start gap-3">
+                                <span class="text-4xl md:text-5xl font-black text-gray-800">Grupo ${group}</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-white/60 px-4 py-2 rounded-xl shadow-sm text-center">
+                                <div class="text-[10px] uppercase font-bold text-gray-500">Sintomas</div>
+                                <div class="font-bold text-gray-800">mMRC ${mmrc}</div>
+                            </div>
+                            <div class="bg-white/60 px-4 py-2 rounded-xl shadow-sm text-center">
+                                <div class="text-[10px] uppercase font-bold text-gray-500">Exacerbações</div>
+                                <div class="font-bold text-gray-800">${exacRisk === 'high' ? '≥2 ou 1 Intern.' : '0-1'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/80 p-6 rounded-2xl shadow-sm">
+                        <h4 class="font-bold text-lg text-cyan-900 mb-4 flex items-center gap-2">
+                            <span>💊</span> Terapêutica Farmacológica Inicial Recomendada:
+                        </h4>
+                        <div class="text-sm md:text-base leading-relaxed">
+                            ${treatment}
+                        </div>
+                    </div>
+                `;
+
+                // Auto-scroll
+                if(window.innerWidth < 768) {
+                    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        });
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</body>
+</html>
