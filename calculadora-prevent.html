@@ -186,6 +186,15 @@
                             <div class="mt-6 pt-6 border-t border-gray-100">
                                 <h4 class="text-sm font-bold text-gray-700 mb-2">Recomendação da AHA/ACC:</h4>
                                 <p id="res-recommendation" class="text-sm text-gray-600 leading-relaxed"></p>
+                                
+                                <!-- Nova Secção de Meta de LDL -->
+                                <div class="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                                    <span class="text-xs font-bold text-blue-800 uppercase tracking-wider flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                        Meta de LDL-C Recomendada
+                                    </span>
+                                    <p id="res-ldl-target" class="text-lg font-black text-blue-900 mt-1"></p>
+                                </div>
                             </div>
                         </div>
 
@@ -201,7 +210,7 @@
 
         <footer class="bg-gray-50 p-6 text-center border-t">
             <p class="text-red-600 font-bold text-sm mb-1 uppercase tracking-tighter italic">Simulação Algorítmica Funcional AHA PREVENT</p>
-            <p class="text-gray-500 text-xs">O algoritmo utilizado é uma aproximação baseada nos fatores do modelo PREVENT. Para decisões clínicas finais, corrobore com as diretrizes e APIs oficiais da American Heart Association, <a href="https://professional.heart.org/en/guidelines-and-statements/prevent-calculator" target="_blank" rel="nofollow" title="Calculadora PREVENT AHA">clicando aqui.</a>  </p>
+            <p class="text-gray-500 text-xs">O algoritmo utilizado é uma aproximação baseada nos fatores do modelo PREVENT. Para decisões clínicas finais, corrobore com as diretrizes e APIs oficiais da American Heart Association , <a href="https://professional.heart.org/en/guidelines-and-statements/prevent-calculator" target="_blank" rel="nofollow" title="Calculadora PREVENT AHA">clicando aqui.</a> </p>
         </footer>
     </div>
 
@@ -347,6 +356,7 @@
                 const resRisk = document.getElementById('res-risk');
                 const resCat = document.getElementById('res-category');
                 const resRec = document.getElementById('res-recommendation');
+                const resLdl = document.getElementById('res-ldl-target');
                 const riskCard = document.getElementById('risk-card');
 
                 resRisk.textContent = `${risk.toFixed(1)}%`;
@@ -361,21 +371,35 @@
                     resCat.classList.add('bg-green-100', 'text-green-700');
                     riskCard.classList.add('border-green-400');
                     resRec.innerHTML = "Enfatizar estilo de vida saudável. Terapias medicamentosas profiláticas (como estatinas) geralmente <strong>não são indicadas</strong>, a menos que existam fatores de risco intensificadores específicos.";
+                    resLdl.innerHTML = "< 116 mg/dL <span class='text-sm font-normal text-blue-700'>(Foco em otimização do estilo de vida)</span>";
                 } else if (risk >= 5.0 && risk < 7.5) {
                     resCat.textContent = "Risco Limítrofe";
                     resCat.classList.add('bg-yellow-100', 'text-yellow-700');
                     riskCard.classList.add('border-yellow-400');
                     resRec.innerHTML = "Estilo de vida saudável é essencial. Se houver fatores intensificadores de risco presentes, pode ser razoável iniciar terapia com estatina de intensidade moderada após discussão risco-benefício.";
+                    resLdl.innerHTML = "< 100 mg/dL <span class='text-sm font-normal text-blue-700'>(Considerar estatina se intensificadores presentes)</span>";
                 } else if (risk >= 7.5 && risk < 20.0) {
                     resCat.textContent = "Risco Intermediário";
                     resCat.classList.add('bg-orange-100', 'text-orange-700');
                     riskCard.classList.add('border-orange-400');
                     resRec.innerHTML = "Discussão mútua necessária. Geralmente é favorecido o <strong>início de terapia com estatina de intensidade moderada</strong>. Se houver dúvida, considerar Escore de Cálcio Coronariano (CAC) para reclassificação.";
+                    resLdl.innerHTML = "Redução de 30% a 49% <span class='text-sm font-normal text-blue-700'>(Meta prática sugerida: < 100 mg/dL)</span>";
                 } else {
                     resCat.textContent = "Alto Risco";
                     resCat.classList.add('bg-red-100', 'text-red-700');
                     riskCard.classList.add('border-red-500');
                     resRec.innerHTML = "Indicação forte para <strong>início de terapia com estatina de alta intensidade</strong> para reduzir o risco de eventos cardiovasculares em 10 anos.";
+                    resLdl.innerHTML = "Redução ≥ 50% <span class='text-sm font-normal text-blue-700'>(Meta prática sugerida: < 70 mg/dL)</span>";
+                }
+
+                // Ajuste rigoroso para pacientes Diabéticos (Baseado nas Diretrizes Atuais)
+                const dm = parseInt(document.getElementById('diabetes').value);
+                if (dm === 1) {
+                    if (risk >= 20.0) {
+                        resLdl.innerHTML = "Redução ≥ 50% <span class='text-sm font-normal text-blue-700'>(Meta estrita: < 55 mg/dL devido ao DM + Alto Risco)</span>";
+                    } else if (risk >= 7.5) {
+                        resLdl.innerHTML = "Redução ≥ 50% <span class='text-sm font-normal text-blue-700'>(Meta estrita: < 70 mg/dL devido ao DM)</span>";
+                    }
                 }
             }
 
