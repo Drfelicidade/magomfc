@@ -1,5 +1,3 @@
-// netlify/functions/gemini-proxy.js
-
 exports.handler = async function(event, context) {
   // Apenas aceita pedidos POST
   if (event.httpMethod !== "POST") {
@@ -17,13 +15,11 @@ exports.handler = async function(event, context) {
   }
 
   try {
-    // Lê o payload enviado pelo site
     const payload = JSON.parse(event.body);
     
-    // URL oficial da API do Gemini (usando o modelo especificado)
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+    // CORREÇÃO: Usar o modelo público estável (gemini-1.5-flash)
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-    // Faz o pedido seguro ao Google
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -32,9 +28,18 @@ exports.handler = async function(event, context) {
 
     const data = await response.json();
 
-    // Retorna a resposta ao nosso site
+    // Se o Google der erro (como chave inválida ou erro na conta), 
+    // devolvemos o erro detalhado para o frontend em vez de um 404 cego.
+    if (!response.ok) {
+      return {
+        statusCode: 400,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: "Erro na API do Google", details: data })
+      };
+    }
+
     return {
-      statusCode: response.ok ? 200 : response.status,
+      statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     };
