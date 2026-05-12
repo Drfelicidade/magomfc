@@ -198,9 +198,10 @@ Se a consulta não for sobre um medicamento real, defina 'isValid' como false. R
                         body: JSON.stringify(payload)
                     });
 
-                    // Caso a função da Netlify retorne o erro de chave não configurada
+                    // Caso a função da Netlify ou o Google retornem um erro
                     if (result.error) {
-                        throw new Error(result.error);
+                        const googleErrorMsg = result.details && result.details.error ? result.details.error.message : "";
+                        throw new Error(`<strong>${result.error}</strong> ${googleErrorMsg}`);
                     }
 
                     const jsonText = result.candidates[0].content.parts[0].text;
