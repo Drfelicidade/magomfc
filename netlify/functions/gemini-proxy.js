@@ -4,7 +4,7 @@ exports.handler = async function(event, context) {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  // Vai buscar a chave configurada na Netlify e remove espaços em branco acidentais (causa do erro 400)
+  // Vai buscar a chave configurada na Netlify e limpa espaços vazios
   const apiKey = (process.env.GEMINI_API_KEY || "").trim();
 
   if (!apiKey) {
@@ -17,8 +17,8 @@ exports.handler = async function(event, context) {
   try {
     const payload = JSON.parse(event.body);
     
-    // Usar o modelo público estável (gemini-1.5-flash)
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // CORREÇÃO FINAL: Adicionado o sufixo "-latest" ao modelo
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -28,7 +28,7 @@ exports.handler = async function(event, context) {
 
     const data = await response.json();
 
-    // Se o Google der erro, devolvemos com status 200 (para o frontend conseguir ler o motivo exato)
+    // Se o Google der erro, devolvemos com status 200 para o site ler o motivo
     if (!response.ok) {
       return {
         statusCode: 200,
