@@ -4,12 +4,12 @@ exports.handler = async function(event, context) {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  // Vai buscar a chave configurada no painel da Netlify
-  const apiKey = process.env.GEMINI_API_KEY;
+  // Vai buscar a chave configurada na Netlify e remove espaços em branco acidentais (causa do erro 400)
+  const apiKey = (process.env.GEMINI_API_KEY || "").trim();
 
   if (!apiKey) {
     return { 
-      statusCode: 500, 
+      statusCode: 200, 
       body: JSON.stringify({ error: "Chave de API não configurada no servidor da Netlify." }) 
     };
   }
@@ -17,7 +17,7 @@ exports.handler = async function(event, context) {
   try {
     const payload = JSON.parse(event.body);
     
-    // CORREÇÃO: Usar o modelo público estável (gemini-1.5-flash)
+    // Usar o modelo público estável (gemini-1.5-flash)
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(apiUrl, {
@@ -28,13 +28,12 @@ exports.handler = async function(event, context) {
 
     const data = await response.json();
 
-    // Se o Google der erro (como chave inválida ou erro na conta), 
-    // devolvemos o erro detalhado para o frontend em vez de um 404 cego.
+    // Se o Google der erro, devolvemos com status 200 (para o frontend conseguir ler o motivo exato)
     if (!response.ok) {
       return {
-        statusCode: 400,
+        statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ error: "Erro na API do Google", details: data })
+        body: JSON.stringify({ error: "Erro na API do Google:", details: data })
       };
     }
 
@@ -46,7 +45,7 @@ exports.handler = async function(event, context) {
 
   } catch (error) {
     return { 
-      statusCode: 500, 
+      statusCode: 200, 
       body: JSON.stringify({ error: "Erro interno no servidor (Proxy)", details: error.message }) 
     };
   }
