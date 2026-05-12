@@ -18,7 +18,7 @@ exports.handler = async function(event, context) {
     const payload = JSON.parse(event.body);
     
     // CORREÇÃO FINAL: Adicionado o sufixo "-latest" ao modelo
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
 
     const response = await fetch(apiUrl, {
       method: 'POST',
