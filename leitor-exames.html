@@ -112,31 +112,33 @@
     <!-- ========================================== -->
     <!-- INTERFACE DO MOBILE (CELULAR)              -->
     <!-- ========================================== -->
-    <div id="mobile-ui" class="hidden container mx-auto max-w-md p-6 bg-white rounded-3xl shadow-2xl text-center flex flex-col justify-center items-center min-h-[70vh] border-4 border-amber-400">
+    <div id="mobile-ui" class="hidden container mx-auto max-w-md p-6 bg-white rounded-3xl shadow-2xl text-center flex flex-col justify-center items-center min-h-[70vh] border-4 border-amber-400 mt-4 md:mt-0">
         <div class="bg-amber-100 p-4 rounded-full mb-4">
             <svg class="w-12 h-12 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
         </div>
         <h1 class="text-3xl font-black text-gray-800 mb-2">Modo Móvel</h1>
-        <p id="mobile-status-text" class="text-gray-600 font-medium mb-8">Conectando ao computador de forma segura...</p>
+        <p id="mobile-status-text" class="text-gray-600 font-medium mb-8">Escolha uma opção para enviar o exame para o computador:</p>
 
-        <!-- NOVOS BOTÕES PARA IOS/ANDROID -->
-        <div id="mobile-upload-buttons" class="hidden w-full flex-col gap-4">
-            <!-- Botão Câmera (Usa atributo capture para forçar a câmera) -->
-            <label class="cursor-pointer bg-amber-600 hover:bg-amber-700 text-white font-bold py-5 px-8 rounded-full shadow-lg transform transition active:scale-95 flex items-center justify-center gap-3 text-xl w-full">
+        <!-- Botões visíveis e sobrepostos com input transparente para evitar bloqueios do iOS -->
+        <div id="mobile-upload-buttons" class="w-full flex flex-col gap-4">
+            <!-- Botão Câmera -->
+            <div class="relative bg-amber-600 hover:bg-amber-700 text-white font-bold py-5 px-8 rounded-2xl shadow-lg flex items-center justify-center gap-3 text-xl w-full overflow-hidden active:scale-95 transition transform">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg>
                 <span>Tirar Foto</span>
-                <input type="file" accept="image/*" capture="environment" id="mobile-camera-input" class="hidden">
-            </label>
+                <!-- Input invisível garantindo a interação nativa do SO -->
+                <input type="file" accept="image/*" capture="environment" id="mobile-camera-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+            </div>
             
-            <!-- Botão Galeria (Sem atributo capture para abrir o seletor nativo) -->
-            <label class="cursor-pointer bg-white text-amber-700 border-2 border-amber-600 hover:bg-amber-50 font-bold py-5 px-8 rounded-full shadow-lg transform transition active:scale-95 flex items-center justify-center gap-3 text-xl w-full">
+            <!-- Botão Galeria -->
+            <div class="relative bg-white text-amber-700 border-2 border-amber-600 hover:bg-amber-50 font-bold py-5 px-8 rounded-2xl shadow-lg flex items-center justify-center gap-3 text-xl w-full overflow-hidden active:scale-95 transition transform">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                <span>Galeria</span>
-                <input type="file" accept="image/*" id="mobile-gallery-input" class="hidden">
-            </label>
+                <span>Abrir Galeria</span>
+                <!-- Input invisível garantindo a interação nativa do SO -->
+                <input type="file" accept="image/*" id="mobile-gallery-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+            </div>
         </div>
         
-        <p class="text-xs text-gray-400 mt-8">A imagem será enviada diretamente para o seu computador sem passar por bancos de dados.</p>
+        <p class="text-xs text-gray-400 mt-8">A imagem será processada e enviada via conexão direta.</p>
     </div>
 
     <!-- ========================================== -->
@@ -179,29 +181,14 @@
 
             if (isMobile) {
                 // ==========================================
-                // LÓGICA DO CELULAR
+                // LÓGICA DO CELULAR (ABORDAGEM RESILIENTE)
                 // ==========================================
                 desktopUI.classList.add('hidden');
                 mobileUI.classList.remove('hidden');
 
-                // Inicializar Conexão WebRTC (Sem servidor)
+                // Não conectamos imediatamente para evitar que o iOS derrube a conexão
+                // enquanto o usuário está com a câmera aberta (backgrounding).
                 myPeer = new Peer();
-                let desktopConn = null;
-
-                myPeer.on('open', (id) => {
-                    // Conectar ao ID do Desktop
-                    desktopConn = myPeer.connect(targetPeerId);
-                    
-                    desktopConn.on('open', () => {
-                        mobileStatusText.innerHTML = "<span class='text-green-600'>✅ Conectado ao Computador!</span><br>Escolha uma opção abaixo.";
-                        mobileUploadButtons.classList.remove('hidden');
-                        mobileUploadButtons.classList.add('flex');
-                    });
-
-                    desktopConn.on('error', (err) => {
-                        mobileStatusText.innerHTML = "<span class='text-red-600'>🔴 Erro de conexão. Atualize a página do computador e leia o QR Code novamente.</span>";
-                    });
-                });
 
                 // Comprimir a imagem (crucial para enviar pelo ar sem travar)
                 const compressImageMobile = (file) => {
@@ -233,28 +220,54 @@
                     });
                 };
 
-                // Manipulador unificado quando o usuário escolhe a câmera ou galeria
+                // Função para conectar e enviar apenas APÓS tirar a foto
+                const connectAndSend = (base64Clean) => {
+                    mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>Conectando ao computador...</span>";
+                    
+                    const conn = myPeer.connect(targetPeerId, { reliable: true });
+                    
+                    const timeout = setTimeout(() => {
+                        mobileStatusText.innerHTML = "<span class='text-red-600 font-bold'>Falha de Conexão.</span><br><span class='text-sm'>Verifique se o computador ainda exibe o QR Code e tente novamente.</span>";
+                        document.getElementById('mobile-upload-buttons').classList.remove('hidden');
+                    }, 8000);
+
+                    conn.on('open', () => {
+                        clearTimeout(timeout);
+                        mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>Enviando imagem...</span>";
+                        conn.send({ type: 'image', data: base64Clean, mimeType: 'image/jpeg' });
+                        
+                        mobileStatusText.innerHTML = "<span class='text-green-600 font-bold'>✅ Sucesso!</span><br><span class='text-sm text-gray-700'>Imagem enviada. Olhe para a tela do computador.</span>";
+                        
+                        setTimeout(() => {
+                            mobileStatusText.innerHTML = "Escolha uma opção para enviar outro exame:";
+                            document.getElementById('mobile-upload-buttons').classList.remove('hidden');
+                        }, 3000);
+                    });
+
+                    conn.on('error', () => {
+                        clearTimeout(timeout);
+                        mobileStatusText.innerHTML = "<span class='text-red-600'>Erro na rede. Tente novamente.</span>";
+                        document.getElementById('mobile-upload-buttons').classList.remove('hidden');
+                    });
+                };
+
+                // Manipulador unificado
                 const handleMobileUpload = async (e) => {
                     const file = e.target.files[0];
                     if(!file) return;
 
-                    mobileUploadButtons.classList.remove('flex');
-                    mobileUploadButtons.classList.add('hidden');
-                    mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>A enviar para o computador...</span>";
+                    document.getElementById('mobile-upload-buttons').classList.add('hidden');
+                    mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>Processando a imagem...</span>";
 
-                    const base64Clean = await compressImageMobile(file);
-
-                    // Enviar payload para o desktop
-                    desktopConn.send({ type: 'image', data: base64Clean, mimeType: 'image/jpeg' });
+                    try {
+                        const base64Clean = await compressImageMobile(file);
+                        connectAndSend(base64Clean);
+                    } catch (error) {
+                        mobileStatusText.innerHTML = "<span class='text-red-600'>Erro ao processar imagem.</span>";
+                        document.getElementById('mobile-upload-buttons').classList.remove('hidden');
+                    }
                     
-                    mobileStatusText.innerHTML = "<span class='text-green-600 font-bold'>✅ Imagem enviada com sucesso!</span><br><span class='text-sm'>Pode olhar para a tela do computador.</span>";
-                    
-                    // Reseta e volta a mostrar os botões em 2 segundos
-                    setTimeout(() => {
-                        mobileUploadButtons.classList.remove('hidden');
-                        mobileUploadButtons.classList.add('flex');
-                        e.target.value = ''; // Permite reenviar o mesmo arquivo se o usuário errar
-                    }, 2000);
+                    e.target.value = ''; // Limpa o input para permitir nova foto/seleção
                 };
 
                 mobileCameraInput.addEventListener('change', handleMobileUpload);
@@ -315,7 +328,7 @@
 
                     // Quando o celular se conectar e enviar dados
                     myPeer.on('connection', (conn) => {
-                        qrStatus.innerHTML = "<span class='text-green-600'>Celular conectado! Pode tirar a foto.</span>";
+                        qrStatus.innerHTML = "<span class='text-green-600'>Celular conectado! Pode enviar a foto.</span>";
                         
                         conn.on('data', (payload) => {
                             if (payload.type === 'image') {
