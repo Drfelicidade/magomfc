@@ -6,19 +6,20 @@
     <title>Leitor de Exames</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- PDF.js CDN - para ler arquivos PDF no navegador -->
+    <!-- PDF.js - para ler arquivos PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- PeerJS - para comunicação Direta Celular <-> Computador -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <!-- QRCode.js - para gerar o QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <script>
-        // Configura o worker de PDF.js para carregar de um CDN
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
-        }
-        .container {
-            max-width: 900px;
         }
         .section-title {
             position: relative;
@@ -31,53 +32,53 @@
             left: 0;
             width: 50px;
             height: 3px;
-            background-color: #f59e0b; /* Cor laranja para diferenciar */
+            background-color: #f59e0b;
             border-radius: 9999px;
-        }
-        canvas {
-            max-width: 100%;
-            height: auto;
-            border-radius: 0.5rem; /* rounded-lg */
-            display: block; /* Para centralizar e evitar espaço extra */
-            margin-left: auto;
-            margin-right: auto;
         }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
-    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+
+    <!-- ========================================== -->
+    <!-- INTERFACE DO DESKTOP (COMPUTADOR)          -->
+    <!-- ========================================== -->
+    <div id="desktop-ui" class="container mx-auto max-w-4xl p-8 bg-white rounded-3xl shadow-xl space-y-10">
         <header class="text-center">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Leitor de Exames</h1>
-            <p class="text-gray-600 text-lg md:text-xl">
-                Transcreva os resultados de um exame médico a partir de uma foto ou PDF usando IA.
-            </p>
+            <p class="text-gray-600 text-lg md:text-xl">Transcreva os resultados de um exame médico usando IA.</p>
         </header>
 
-        <!-- Botão Voltar ao Menu Principal -->
         <div class="text-center mb-8">
-            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 transition duration-300">
                 &larr; Voltar ao Menu Principal
             </a>
         </div>
 
-        <!-- Seção do Leitor de Exames -->
         <div class="bg-amber-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-amber-200">
-            <h2 class="section-title text-2xl font-bold text-amber-900 mb-4">Analisar Imagem ou PDF de Exame</h2>
-            <p class="text-gray-700 mb-6">Faça o upload de uma imagem ou PDF do seu exame para que a inteligência artificial transcreva os resultados para você de forma segura.</p>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="section-title text-2xl font-bold text-amber-900 mb-2">Analisar Exame</h2>
+                    <p class="text-gray-700 text-sm">Faça o upload do arquivo ou use a câmera do seu celular.</p>
+                </div>
+                <!-- Botão para Iniciar Sincronização Mobile -->
+                <button id="btn-open-qr" class="w-full sm:w-auto px-5 py-3 bg-amber-200 text-amber-800 font-bold rounded-xl hover:bg-amber-300 transition flex items-center justify-center gap-2 shadow-sm border border-amber-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    Escanear com o Celular
+                </button>
+            </div>
             
             <div class="flex flex-col space-y-4">
                 <input type="file" id="exam-image-input" accept="image/*, application/pdf" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-2">
                 
-                <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-gray-300 rounded-lg hidden">
-                    <!-- Pré-visualização da imagem ou PDF (canvas) -->
-                    <img id="exam-image-preview" src="#" alt="Pré-visualização do Exame" class="max-w-full h-auto rounded-lg mx-auto hidden">
-                    <canvas id="exam-pdf-preview" class="hidden"></canvas>
+                <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-amber-300 bg-white rounded-lg hidden">
+                    <img id="exam-image-preview" src="#" alt="Pré-visualização" class="max-w-full h-auto rounded-lg mx-auto hidden max-h-96">
+                    <canvas id="exam-pdf-preview" class="hidden mx-auto"></canvas>
                 </div>
 
                 <button id="analyze-exam-button" class="w-full p-4 font-bold text-white bg-amber-600 rounded-xl hover:bg-amber-700 transition duration-300 shadow-md flex items-center justify-center space-x-2 disabled:opacity-50" disabled>
                     <span id="analyze-text">Transcrever Exame</span>
                     <span id="loading-spinner" class="hidden">
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
@@ -85,93 +86,253 @@
                 </button>
             </div>
             
-            <div id="result-container" class="mt-8 p-6 bg-amber-100 rounded-xl hidden shadow-sm border border-amber-200">
-                <h3 class="font-bold text-lg mb-4 text-amber-900 border-b border-amber-300 pb-2">Resultado da Transcrição:</h3>
+            <div id="result-container" class="mt-8 p-6 bg-white rounded-xl hidden shadow-sm border border-amber-200">
+                <h3 class="font-bold text-lg mb-4 text-amber-900 border-b border-amber-200 pb-2">Resultado da Transcrição:</h3>
                 <div id="transcription-result" class="prose max-w-none text-gray-800"></div>
             </div>
         </div>
         
         <footer class="text-center text-gray-500 text-sm mt-10">
-            <p class="mb-2 text-amber-700 font-bold uppercase tracking-tighter italic">Processamento Seguro (Serverless)</p>
-            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins informativos e não substitui a consulta médica. Os resultados transcritos devem ser sempre interpretados por um profissional.</p>
+            <p class="mb-2 font-bold uppercase tracking-tighter text-amber-700">Comunicação Segura Serverless</p>
             <p>&copy; 2024 Leitor de Exames. Todos os direitos reservados.</p>
         </footer>
     </div>
 
+    <!-- MODAL DO QR CODE (DESKTOP) -->
+    <div id="qr-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center hidden backdrop-blur-sm p-4">
+        <div class="bg-white p-8 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
+            <h3 class="text-2xl font-bold text-gray-800">Conectar Celular</h3>
+            <p class="text-sm text-gray-600">Aponte a câmera do seu celular para o QR Code abaixo. A foto tirada lá aparecerá automaticamente aqui!</p>
+            <div id="qrcode-container" class="flex justify-center p-4 bg-white border-2 border-gray-100 rounded-xl"></div>
+            <p id="qr-status" class="text-sm text-amber-600 font-bold animate-pulse">Aguardando leitura...</p>
+            <button id="close-qr-modal" class="mt-4 px-4 py-3 bg-gray-100 text-gray-800 font-bold rounded-xl hover:bg-gray-200 w-full transition">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- INTERFACE DO MOBILE (CELULAR)              -->
+    <!-- ========================================== -->
+    <div id="mobile-ui" class="hidden container mx-auto max-w-md p-6 bg-white rounded-3xl shadow-2xl text-center flex flex-col justify-center items-center min-h-[70vh] border-4 border-amber-400">
+        <div class="bg-amber-100 p-4 rounded-full mb-4">
+            <svg class="w-12 h-12 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        </div>
+        <h1 class="text-3xl font-black text-gray-800 mb-2">Modo Câmera</h1>
+        <p id="mobile-status-text" class="text-gray-600 font-medium mb-8">Conectando ao computador de forma segura...</p>
+
+        <label id="mobile-upload-btn" class="hidden cursor-pointer bg-amber-600 hover:bg-amber-700 text-white font-bold py-6 px-12 rounded-full shadow-lg transform transition active:scale-95 flex items-center justify-center gap-3 text-xl w-full">
+            <span>Tirar Foto do Exame</span>
+            <input type="file" accept="image/*" capture="environment" id="mobile-file-input" class="hidden">
+        </label>
+        
+        <p class="text-xs text-gray-400 mt-8">A imagem será enviada diretamente para o seu computador sem passar por bancos de dados.</p>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- LÓGICA DO SISTEMA                          -->
+    <!-- ========================================== -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Elementos Desktop
+            const desktopUI = document.getElementById('desktop-ui');
             const imageInput = document.getElementById('exam-image-input');
             const previewContainer = document.getElementById('preview-container');
             const imagePreview = document.getElementById('exam-image-preview');
             const pdfPreviewCanvas = document.getElementById('exam-pdf-preview');
             const analyzeButton = document.getElementById('analyze-exam-button');
-            const loadingSpinner = document.getElementById('loading-spinner');
             const analyzeText = document.getElementById('analyze-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
             const resultContainer = document.getElementById('result-container');
             const transcriptionResult = document.getElementById('transcription-result');
             
-            let fileData = {
-                base64: null,
-                mimeType: null
-            };
+            // Elementos QR e Sincronização
+            const qrModal = document.getElementById('qr-modal');
+            const btnOpenQr = document.getElementById('btn-open-qr');
+            const closeQrModal = document.getElementById('close-qr-modal');
+            const qrStatus = document.getElementById('qr-status');
+            
+            // Elementos Mobile
+            const mobileUI = document.getElementById('mobile-ui');
+            const mobileStatusText = document.getElementById('mobile-status-text');
+            const mobileUploadBtn = document.getElementById('mobile-upload-btn');
+            const mobileFileInput = document.getElementById('mobile-file-input');
 
-            // Função para converter o arquivo para base64
-            const fileToBase64 = (file) => {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = () => {
-                        if (reader.result) {
-                            resolve(reader.result.split(',')[1]);
-                        } else {
-                            reject(new Error("Falha ao ler o arquivo como Base64."));
-                        }
-                    };
-                    reader.onerror = (error) => reject(error);
+            let fileData = { base64: null, mimeType: null };
+            let myPeer = null;
+
+            // 1. VERIFICAR QUAL MODO ABRIR (DESKTOP OU MOBILE)
+            const urlParams = new URLSearchParams(window.location.search);
+            const isMobile = urlParams.has('sync');
+            const targetPeerId = urlParams.get('sync');
+
+            if (isMobile) {
+                // ==========================================
+                // LÓGICA DO CELULAR
+                // ==========================================
+                desktopUI.classList.add('hidden');
+                mobileUI.classList.remove('hidden');
+
+                // Inicializar Conexão WebRTC (Sem servidor)
+                myPeer = new Peer();
+                let desktopConn = null;
+
+                myPeer.on('open', (id) => {
+                    // Conectar ao ID do Desktop
+                    desktopConn = myPeer.connect(targetPeerId);
+                    
+                    desktopConn.on('open', () => {
+                        mobileStatusText.innerHTML = "<span class='text-green-600'>✅ Conectado ao Computador!</span><br>Tire a foto do exame.";
+                        mobileUploadBtn.classList.remove('hidden');
+                        mobileUploadBtn.classList.add('flex');
+                    });
+
+                    desktopConn.on('error', (err) => {
+                        mobileStatusText.innerHTML = "<span class='text-red-600'>🔴 Erro de conexão. Atualize a página do computador e leia o QR Code novamente.</span>";
+                    });
                 });
-            };
 
-            // Função para renderizar PDF para Canvas e obter base64
-            const renderPdfToCanvas = async (file) => {
-                const url = URL.createObjectURL(file);
-                try {
-                    const loadingTask = pdfjsLib.getDocument(url);
-                    const pdf = await loadingTask.promise;
-                    const page = await pdf.getPage(1); // Processa apenas a primeira página
+                // Comprimir a imagem (crucial para enviar pelo ar sem travar)
+                const compressImageMobile = (file) => {
+                    return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = (e) => {
+                            const img = new Image();
+                            img.src = e.target.result;
+                            img.onload = () => {
+                                const canvas = document.createElement('canvas');
+                                const MAX_WIDTH = 1500;
+                                const MAX_HEIGHT = 1500;
+                                let width = img.width;
+                                let height = img.height;
 
-                    const viewport = page.getViewport({ scale: 1.5 });
-                    const context = pdfPreviewCanvas.getContext('2d');
-                    pdfPreviewCanvas.height = viewport.height;
-                    pdfPreviewCanvas.width = viewport.width;
+                                if (width > height) {
+                                    if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                                } else {
+                                    if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                                }
+                                canvas.width = width; canvas.height = height;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, width, height);
+                                // Extrair apenas a string base64 limpa
+                                resolve(canvas.toDataURL('image/jpeg', 0.8).split(',')[1]);
+                            };
+                        };
+                    });
+                };
 
-                    const renderContext = {
-                        canvasContext: context,
-                        viewport: viewport,
-                    };
-                    await page.render(renderContext).promise;
+                // Quando o usuário tira a foto no celular
+                mobileFileInput.addEventListener('change', async (e) => {
+                    const file = e.target.files[0];
+                    if(!file) return;
 
-                    const base64Data = pdfPreviewCanvas.toDataURL('image/png').split(',')[1];
-                    if (!base64Data) {
-                        throw new Error("Falha ao converter a página do PDF para imagem Base64.");
-                    }
-                    return base64Data;
-                } finally {
-                    URL.revokeObjectURL(url);
-                }
-            };
+                    mobileUploadBtn.classList.add('hidden');
+                    mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>A enviar para o computador...</span>";
 
-            // Pré-visualizar a imagem/PDF e habilitar o botão
-            imageInput.addEventListener('change', async (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    previewContainer.classList.remove('hidden');
-                    analyzeButton.disabled = false;
-                    resultContainer.classList.add('hidden');
-                    transcriptionResult.innerHTML = '';
-                    imagePreview.classList.add('hidden');
-                    pdfPreviewCanvas.classList.add('hidden');
+                    const base64Clean = await compressImageMobile(file);
 
+                    // Enviar payload para o desktop
+                    desktopConn.send({ type: 'image', data: base64Clean, mimeType: 'image/jpeg' });
+                    
+                    mobileStatusText.innerHTML = "<span class='text-green-600 font-bold'>✅ Foto enviada com sucesso!</span><br><span class='text-sm'>Pode olhar para a tela do computador.</span>";
+                    setTimeout(() => {
+                        mobileUploadBtn.classList.remove('hidden');
+                        mobileUploadBtn.querySelector('span').textContent = "Tirar Outra Foto";
+                    }, 2000);
+                });
+
+            } else {
+                // ==========================================
+                // LÓGICA DO DESKTOP
+                // ==========================================
+
+                // Função Base64 Local (Upload Padrão)
+                const fileToBase64 = (file) => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.onerror = (error) => reject(error);
+                    });
+                };
+
+                // Função PDF Local
+                const renderPdfToCanvas = async (file) => {
+                    const url = URL.createObjectURL(file);
                     try {
+                        const loadingTask = pdfjsLib.getDocument(url);
+                        const pdf = await loadingTask.promise;
+                        const page = await pdf.getPage(1);
+                        const viewport = page.getViewport({ scale: 1.5 });
+                        const context = pdfPreviewCanvas.getContext('2d');
+                        pdfPreviewCanvas.height = viewport.height;
+                        pdfPreviewCanvas.width = viewport.width;
+                        await page.render({ canvasContext: context, viewport: viewport }).promise;
+                        return pdfPreviewCanvas.toDataURL('image/png').split(',')[1];
+                    } finally {
+                        URL.revokeObjectURL(url);
+                    }
+                };
+
+                // Abrir QR Code
+                btnOpenQr.addEventListener('click', () => {
+                    if (myPeer) myPeer.destroy(); // Limpa conexões antigas
+                    
+                    // Gerar ID único para esta sessão
+                    const randomId = 'exame-' + Math.random().toString(36).substr(2, 6);
+                    myPeer = new Peer(randomId);
+
+                    qrModal.classList.remove('hidden');
+                    document.getElementById('qrcode-container').innerHTML = ''; // Limpar anterior
+                    qrStatus.textContent = "A iniciar servidor local...";
+
+                    myPeer.on('open', (id) => {
+                        const syncUrl = window.location.origin + window.location.pathname + '?sync=' + id;
+                        new QRCode(document.getElementById("qrcode-container"), { 
+                            text: syncUrl, width: 220, height: 220, colorDark : "#1f2937", colorLight : "#ffffff"
+                        });
+                        qrStatus.textContent = "Pronto! Aponte a câmera do celular.";
+                    });
+
+                    // Quando o celular se conectar e enviar dados
+                    myPeer.on('connection', (conn) => {
+                        qrStatus.innerHTML = "<span class='text-green-600'>Celular conectado! Pode tirar a foto.</span>";
+                        
+                        conn.on('data', (payload) => {
+                            if (payload.type === 'image') {
+                                // Fechar modal do QR Code
+                                qrModal.classList.add('hidden');
+                                
+                                // Injetar imagem no sistema do Desktop
+                                fileData = { base64: payload.data, mimeType: payload.mimeType };
+                                imagePreview.src = `data:${payload.mimeType};base64,${payload.data}`;
+                                
+                                previewContainer.classList.remove('hidden');
+                                imagePreview.classList.remove('hidden');
+                                pdfPreviewCanvas.classList.add('hidden');
+                                analyzeButton.disabled = false;
+                                
+                                // Opcional: Clicar no botão "Transcrever" automaticamente
+                                // analyzeButton.click(); 
+                            }
+                        });
+                    });
+                });
+
+                closeQrModal.addEventListener('click', () => {
+                    qrModal.classList.add('hidden');
+                    if (myPeer) myPeer.destroy();
+                });
+
+                // Upload Manual (Desktop)
+                imageInput.addEventListener('change', async (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        previewContainer.classList.remove('hidden');
+                        analyzeButton.disabled = false;
+                        resultContainer.classList.add('hidden');
+                        imagePreview.classList.add('hidden');
+                        pdfPreviewCanvas.classList.add('hidden');
+
                         if (file.type.startsWith('image/')) {
                             imagePreview.src = URL.createObjectURL(file);
                             imagePreview.classList.remove('hidden');
@@ -180,136 +341,72 @@
                         } else if (file.type === 'application/pdf') {
                             pdfPreviewCanvas.classList.remove('hidden');
                             fileData.base64 = await renderPdfToCanvas(file);
-                            fileData.mimeType = 'image/png'; // O PDF é renderizado como PNG
-                        } else {
-                            displayError("Formato de arquivo não suportado. Selecione uma imagem ou PDF.");
-                            analyzeButton.disabled = true;
-                            previewContainer.classList.add('hidden');
-                            return;
+                            fileData.mimeType = 'image/png';
                         }
-                    } catch (error) {
-                        displayError(`Erro ao carregar o arquivo: ${error.message}`);
-                        analyzeButton.disabled = true;
+                    } else {
                         previewContainer.classList.add('hidden');
-                        return;
+                        analyzeButton.disabled = true;
                     }
-                } else {
-                    previewContainer.classList.add('hidden');
-                    imagePreview.classList.add('hidden');
-                    pdfPreviewCanvas.classList.add('hidden');
+                });
+
+                // Análise via API (Passando pela Netlify Proxy Segura)
+                analyzeButton.addEventListener('click', async () => {
+                    if (!fileData.base64) return;
+
                     analyzeButton.disabled = true;
-                    fileData.base64 = null;
-                    fileData.mimeType = null;
-                }
-            });
+                    analyzeText.textContent = 'Transcrevendo via IA...';
+                    loadingSpinner.classList.remove('hidden');
+                    resultContainer.classList.remove('hidden');
+                    transcriptionResult.innerHTML = '<p class="text-gray-600 italic animate-pulse">A analisar a imagem no servidor. Por favor, aguarde...</p>';
 
-            // Função para fazer o fetch com tentativas (Exponential Backoff)
-            async function fetchWithRetry(url, options, maxRetries = 3) {
-                const delays = [1000, 2000, 4000];
-                for (let i = 0; i <= maxRetries; i++) {
-                    try {
-                        const response = await fetch(url, options);
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return await response.json();
-                    } catch (error) {
-                        if (i === maxRetries) throw error;
-                        await new Promise(resolve => setTimeout(resolve, delays[i]));
-                    }
-                }
-            }
+                    const prompt = `Você é um auxiliar de um médico. Você registra os dados em português do Brasil. Analise fotografias de exames médicos de laboratório, exames de imagem, resultados de anatomia patológica e crie uma lista contendo a data o nome de cada exame e seu respectivo resultado. Formate esse resultado em uma lista com a data entre parenteses seguido do primeiro resultado e separando os itens pelo símbolo / em uma linha contínua. Escreva a data apenas no início do registro dos exames de cada data. Omita as unidades de cada exame. No exame hemograma completo anote apenas o resultado da hemoglobina leucócitos e plaquetas. No exame parcial de urina anote apenas os itens que estiverem fora dos valores de referencia citados no exame. Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos, listando os mesmos sempre nesta sequencia. Liste primeiro os exames que estiverem com resultados fora dos valores de referência citados no exame. Nos exames de imagem descreva detalhadamente a conclusão do exame quando houver. Não invente resultados, se atenha apenas em transcrever o que está nas imagens.`;
 
-            // Ação do Botão Analisar
-            analyzeButton.addEventListener('click', async () => {
-                if (!fileData.base64) {
-                    displayError("Nenhum arquivo selecionado para análise.");
-                    return;
-                }
+                    // UTILIZAR O PROXY SEGURO DA NETLIFY
+                    const apiUrl = `/.netlify/functions/gemini-proxy`;
 
-                // UI de carregamento
-                analyzeButton.disabled = true;
-                analyzeText.textContent = 'A transcrever...';
-                loadingSpinner.classList.remove('hidden');
-                resultContainer.classList.remove('hidden');
-                transcriptionResult.innerHTML = '<p class="text-amber-700 italic animate-pulse">A analisar a imagem de forma segura através do servidor. Isto pode demorar alguns segundos...</p>';
-
-                const prompt = `Você é um auxiliar de um médico. Você registra os dados em português do Brasil. Analise fotografias de exames médicos de laboratório, exames de imagem, resultados de anatomia patológica e crie uma lista contendo a data o nome de cada exame e seu respectivo resultado. Formate esse resultado em uma lista com a data entre parenteses seguido do primeiro resultado e separando os itens pelo símbolo / em uma linha contínua. Escreva a data apenas no início do registro dos exames de cada data. Omita as unidades de cada exame. No exame hemograma completo anote apenas o resultado da hemoglobina leucócitos e plaquetas. No exame parcial de urina anote apenas os itens que estiverem fora dos valores de referencia citados no exame. Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos, listando os mesmos sempre nesta sequencia. Liste primeiro os exames que estiverem com resultados fora dos valores de referência citados no exame. Nos exames de imagem descreva detalhadamente a conclusão do exame quando houver.`;
-
-                // ATENÇÃO: Comunicação agora passa pelo Proxy da Netlify
-                const apiUrl = `/.netlify/functions/gemini-proxy`;
-
-                const payload = {
-                    contents: [
-                        {
+                    const payload = {
+                        contents: [{
                             role: "user",
                             parts: [
                                 { text: prompt },
-                                {
-                                    inlineData: {
-                                        mimeType: fileData.mimeType,
-                                        data: fileData.base64
-                                    }
-                                }
+                                { inlineData: { mimeType: fileData.mimeType, data: fileData.base64 } }
                             ]
+                        }]
+                    };
+
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        const result = await response.json();
+
+                        if (!response.ok || result.error) {
+                            const detail = result.details && result.details.error ? result.details.error.message : result.error || response.statusText;
+                            throw new Error(`Falha no servidor: ${detail}`);
                         }
-                    ]
-                };
 
-                try {
-                    const result = await fetchWithRetry(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    // Caso a função da Netlify ou o Google retornem um erro tratado
-                    if (result.error) {
-                        const googleErrorMsg = result.details && result.details.error ? result.details.error.message : "";
-                        throw new Error(`<strong>${result.error}</strong> ${googleErrorMsg}`);
-                    }
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        
-                        const text = result.candidates[0].content.parts[0].text;
-                        
-                        if (text && text.trim().length > 0) {
+                        if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts) {
+                            const text = result.candidates[0].content.parts[0].text;
                             transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap font-sans text-sm leading-relaxed">${text}</pre>`;
                         } else {
-                            throw new Error("A inteligência artificial não conseguiu transcrever o texto da imagem/PDF. Tente novamente com um arquivo mais claro.");
+                            throw new Error("A imagem não está legível ou a resposta veio vazia.");
                         }
-                    } else {
-                        throw new Error("A resposta da inteligência artificial está vazia ou num formato inesperado.");
-                    }
 
-                } catch (error) {
-                    let errorMessage = "Erro ao transcrever o exame. Por favor, tente novamente.";
-                    
-                    if (error.message.includes("HTTP error!")) {
-                        errorMessage = `Erro de comunicação com o servidor proxy (Netlify). Verifique se o proxy está configurado corretamente.`;
-                    } else if (error.message) {
-                        errorMessage = error.message; // Já contém a mensagem formatada que vem do proxy
+                    } catch (error) {
+                        transcriptionResult.innerHTML = `
+                            <div class="p-4 bg-red-50 border border-red-200 rounded-xl">
+                                <p class="text-red-800 font-bold mb-1">⚠️ Erro na Transcrição</p>
+                                <p class="text-red-600 text-sm">${error.message}</p>
+                            </div>`;
+                    } finally {
+                        analyzeButton.disabled = false;
+                        analyzeText.textContent = 'Transcrever Novamente';
+                        loadingSpinner.classList.add('hidden');
                     }
-                    
-                    displayError(`${errorMessage}`);
-                    console.error("Erro na transcrição:", error);
-                } finally {
-                    // UI de carregamento completa
-                    analyzeButton.disabled = false;
-                    analyzeText.textContent = 'Transcrever Exame';
-                    loadingSpinner.classList.add('hidden');
-                }
-            });
-            
-            function displayError(message) {
-                transcriptionResult.innerHTML = `
-                    <div class="p-4 bg-red-50 border border-red-200 rounded-xl">
-                        <p class="text-red-700 font-semibold mb-1">⚠️ Ocorreu um problema</p>
-                        <p class="text-red-600 text-sm">${message}</p>
-                    </div>`;
-                resultContainer.classList.remove('hidden');
+                });
             }
         });
     </script>
