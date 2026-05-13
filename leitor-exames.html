@@ -186,9 +186,8 @@
                 desktopUI.classList.add('hidden');
                 mobileUI.classList.remove('hidden');
 
-                // Não conectamos imediatamente para evitar que o iOS derrube a conexão
-                // enquanto o usuário está com a câmera aberta (backgrounding).
-                myPeer = new Peer();
+                // Não criamos o Peer aqui fora! Deixamos a variável apenas declarada
+                // para evitar que o iOS mate a conexão em segundo plano.
 
                 // Comprimir a imagem (crucial para enviar pelo ar sem travar)
                 const compressImageMobile = (file) => {
@@ -222,31 +221,52 @@
 
                 // Função para conectar e enviar apenas APÓS tirar a foto
                 const connectAndSend = (base64Clean) => {
-                    mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>Conectando ao computador...</span>";
+                    mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>Estabelecendo conexão segura...</span>";
                     
-                    const conn = myPeer.connect(targetPeerId, { reliable: true });
+                    // Destruir qualquer conexão presa do passado
+                    if (myPeer) myPeer.destroy();
                     
+                    // Criar conexão nova e "fresca" agora que o navegador acordou
+                    myPeer = new Peer();
+                    
+                    // Aumentamos o tempo limite para 15 segundos para dar tempo à rede móvel
                     const timeout = setTimeout(() => {
-                        mobileStatusText.innerHTML = "<span class='text-red-600 font-bold'>Falha de Conexão.</span><br><span class='text-sm'>Verifique se o computador ainda exibe o QR Code e tente novamente.</span>";
+                        mobileStatusText.innerHTML = "<span class='text-red-600 font-bold'>Falha de Conexão.</span><br><span class='text-sm text-gray-700'>A rede pode estar a bloquear o P2P ou o PC fechou o QR Code. Tente recarregar a página no computador e ler de novo.</span>";
                         document.getElementById('mobile-upload-buttons').classList.remove('hidden');
-                    }, 8000);
+                        if (myPeer) myPeer.destroy();
+                    }, 15000);
 
-                    conn.on('open', () => {
-                        clearTimeout(timeout);
-                        mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>Enviando imagem...</span>";
-                        conn.send({ type: 'image', data: base64Clean, mimeType: 'image/jpeg' });
-                        
-                        mobileStatusText.innerHTML = "<span class='text-green-600 font-bold'>✅ Sucesso!</span><br><span class='text-sm text-gray-700'>Imagem enviada. Olhe para a tela do computador.</span>";
-                        
-                        setTimeout(() => {
-                            mobileStatusText.innerHTML = "Escolha uma opção para enviar outro exame:";
+                    // Só tenta ligar ao computador quando o celular confirmar que se ligou à internet com sucesso
+                    myPeer.on('open', (id) => {
+                        mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>Sincronizando com o PC...</span>";
+                        const conn = myPeer.connect(targetPeerId, { reliable: true });
+
+                        conn.on('open', () => {
+                            clearTimeout(timeout);
+                            mobileStatusText.innerHTML = "<span class='text-amber-600 animate-pulse'>Enviando imagem...</span>";
+                            
+                            conn.send({ type: 'image', data: base64Clean, mimeType: 'image/jpeg' });
+                            
+                            mobileStatusText.innerHTML = "<span class='text-green-600 font-bold'>✅ Sucesso!</span><br><span class='text-sm text-gray-700'>Imagem enviada. Olhe para a tela do computador.</span>";
+                            
+                            setTimeout(() => {
+                                mobileStatusText.innerHTML = "Escolha uma opção para enviar outro exame:";
+                                document.getElementById('mobile-upload-buttons').classList.remove('hidden');
+                                // Fechamos o canal para poupar bateria e evitar erros futuros
+                                setTimeout(() => { if(myPeer) myPeer.destroy(); }, 1000);
+                            }, 3000);
+                        });
+
+                        conn.on('error', () => {
+                            clearTimeout(timeout);
+                            mobileStatusText.innerHTML = "<span class='text-red-600'>Erro na transferência de dados. Tente novamente.</span>";
                             document.getElementById('mobile-upload-buttons').classList.remove('hidden');
-                        }, 3000);
+                        });
                     });
 
-                    conn.on('error', () => {
+                    myPeer.on('error', (err) => {
                         clearTimeout(timeout);
-                        mobileStatusText.innerHTML = "<span class='text-red-600'>Erro na rede. Tente novamente.</span>";
+                        mobileStatusText.innerHTML = "<span class='text-red-600'>Erro no servidor de comunicação. Tente novamente.</span>";
                         document.getElementById('mobile-upload-buttons').classList.remove('hidden');
                     });
                 };
