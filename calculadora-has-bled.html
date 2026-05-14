@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora HAS-BLED</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #dc2626; /* Red-600 */
+            border-radius: 9999px;
+        }
+        /* Custom Checkbox Style */
+        .criterion-checkbox:checked + div {
+            background-color: #fef2f2; /* red-50 */
+            border-color: #dc2626; /* red-600 */
+        }
+        .criterion-checkbox:checked + div .check-icon {
+            background-color: #dc2626;
+            border-color: #dc2626;
+        }
+        .criterion-checkbox:checked + div .check-icon svg {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+        
+        <!-- Cabeçalho -->
+        <div class="bg-red-700 p-6 md:p-8 text-white text-center relative">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Escore HAS-BLED</h1>
+            <p class="text-red-100 text-sm md:text-base">Avaliação do Risco de Sangramento em Pacientes com Fibrilação Atrial</p>
+            <div class="mt-6">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-red-800 hover:bg-red-900 text-white text-sm font-medium rounded-full transition shadow-sm">
+                    &larr; Voltar ao Menu Principal
+                </a>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-8">
+            <div class="bg-red-50/30 p-6 rounded-2xl border border-red-100">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <div>
+                        <h2 class="section-title text-2xl font-bold text-red-900 mb-2">Critérios Clínicos</h2>
+                        <p class="text-gray-600 text-sm">Selecione todos os fatores de risco presentes no paciente (1 ponto cada).</p>
+                    </div>
+                    <button type="button" id="reset-form" class="text-sm text-red-600 hover:text-red-800 font-bold underline whitespace-nowrap">Limpar Seleção</button>
+                </div>
+                
+                <form id="hasbled-form" class="space-y-3">
+                    <div id="criteria-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <!-- Gerado via JS -->
+                    </div>
+                    
+                    <div class="pt-8 flex justify-center border-t border-red-100 mt-6">
+                        <button type="button" id="calculate-btn" class="w-full md:w-auto px-10 py-4 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 shadow-lg transition transform hover:scale-105">
+                            Calcular Escore
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Resultado -->
+            <div id="result-container" class="hidden mt-6 p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in transition-all border-2">
+                <!-- Conteúdo injetado via JS -->
+            </div>
+        </div>
+
+        <footer class="bg-gray-50 p-6 text-center border-t border-gray-100">
+            <p class="text-red-800 font-bold text-sm mb-1 uppercase tracking-tighter italic">Nota Clínica Importante</p>
+            <p class="text-gray-500 text-xs leading-relaxed max-w-3xl mx-auto">
+                Um escore HAS-BLED alto (≥ 3) <strong>NÃO é motivo isolado para contraindicar a anticoagulação oral</strong>. 
+                Sua principal utilidade é identificar pacientes de alto risco que necessitam de acompanhamento mais frequente e, principalmente, <strong>sinalizar fatores de risco modificáveis</strong> (como pressão arterial não controlada, uso de AINEs/álcool e RNI instável) que devem ser ativamente tratados.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Array de critérios HAS-BLED
+        const criteria = [
+            { id: 'H', letter: 'H', title: 'Hipertensão (Hypertension)', desc: 'Pressão arterial sistólica > 160 mmHg (não controlada).' },
+            { id: 'A1', letter: 'A', title: 'Função Renal Anormal', desc: 'Diálise crônica, transplante renal ou creatinina > 2.26 mg/dL (> 200 µmol/L).' },
+            { id: 'A2', letter: 'A', title: 'Função Hepática Anormal', desc: 'Cirrose crônica ou bilirrubina > 2x o normal com TGO/TGP/FAL > 3x o normal.' },
+            { id: 'S', letter: 'S', title: 'Histórico de AVC (Stroke)', desc: 'Qualquer histórico de acidente vascular cerebral prévio.' },
+            { id: 'B', letter: 'B', title: 'Histórico de Sangramento (Bleeding)', desc: 'Histórico de sangramento maior prévio ou predisposição (ex: anemia grave).' },
+            { id: 'L', letter: 'L', title: 'RNI Instável (Labile INRs)', desc: 'Para pacientes em uso de varfarina: RNI instável, alto ou tempo no alvo terapêutico < 60%.' },
+            { id: 'E', letter: 'E', title: 'Idoso (Elderly)', desc: 'Idade > 65 anos.' },
+            { id: 'D1', letter: 'D', title: 'Uso de Fármacos (Drugs)', desc: 'Uso concomitante de medicamentos que aumentam o risco de sangramento (ex: AAS, Clopidogrel, AINEs).' },
+            { id: 'D2', letter: 'D', title: 'Uso de Álcool (Alcohol)', desc: 'Consumo excessivo de álcool (≥ 8 doses por semana).' }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const criteriaList = document.getElementById('criteria-list');
+            
+            // Renderizar Critérios
+            criteria.forEach(item => {
+                const label = document.createElement('label');
+                label.className = "cursor-pointer block h-full";
+                label.innerHTML = `
+                    <input type="checkbox" name="criterion" value="1" class="hidden criterion-checkbox">
+                    <div class="h-full p-4 border-2 border-gray-200 rounded-xl bg-white hover:bg-gray-50 transition flex items-start gap-4">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-300 flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-800 flex items-center gap-2">
+                                <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-xs font-black shadow-sm">${item.letter}</span>
+                                ${item.title}
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1 leading-snug">${item.desc}</p>
+                        </div>
+                    </div>
+                `;
+                criteriaList.appendChild(label);
+            });
+
+            // Lógica de Cálculo
+            document.getElementById('calculate-btn').addEventListener('click', () => {
+                let score = 0;
+                const checkboxes = document.querySelectorAll('.criterion-checkbox:checked');
+                score = checkboxes.length;
+
+                showResult(score);
+            });
+
+            function showResult(score) {
+                const resultDiv = document.getElementById('result-container');
+                resultDiv.classList.remove('hidden');
+                
+                let colorClass, classification, riskText, recommendation;
+
+                if (score === 0) {
+                    colorClass = "bg-green-50 border-green-500";
+                    classification = "Baixo Risco (1.13%)";
+                    riskText = "text-green-700";
+                    recommendation = "O paciente apresenta um <strong>risco baixo</strong> de sangramento maior (aproximadamente 1.13 sangramentos por 100 pacientes-ano). A anticoagulação pode ser iniciada ou mantida com segurança habitual.";
+                } else if (score >= 1 && score <= 2) {
+                    colorClass = "bg-yellow-50 border-yellow-500";
+                    classification = "Risco Moderado (1.02 - 1.88%)";
+                    riskText = "text-yellow-700";
+                    recommendation = "O paciente apresenta um <strong>risco moderado</strong> de sangramento maior. Avalie e corrija quaisquer fatores de risco modificáveis (como controle de PA e uso de AINEs).";
+                } else {
+                    colorClass = "bg-red-50 border-red-500";
+                    classification = "Alto Risco (≥ 3.74%)";
+                    riskText = "text-red-700";
+                    recommendation = "O paciente apresenta um <strong>alto risco</strong> de sangramento maior (≥ 3.74 a > 12.5 sangramentos por 100 pacientes-ano).<br><br><strong>Atenção:</strong> Isso não contraindica a anticoagulação, mas exige avaliações clínicas frequentes e a correção agressiva de fatores modificáveis (Pressão arterial, drogas, álcool e RNI instável).";
+                }
+
+                resultDiv.className = `mt-8 p-6 md:p-8 rounded-3xl border-2 ${colorClass} block animate-fade-in shadow-lg`;
+                resultDiv.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-6 border-b border-black/10 pb-6 mb-6">
+                        <div class="text-center md:text-left">
+                            <h3 class="text-sm font-bold uppercase tracking-widest opacity-80 mb-1">Risco de Sangramento Maior</h3>
+                            <h2 class="text-2xl md:text-3xl font-black ${riskText}">${classification}</h2>
+                        </div>
+                        <div class="text-center shrink-0">
+                            <div class="text-5xl font-black bg-white/60 px-8 py-3 rounded-2xl shadow-sm text-gray-800">
+                                ${score}<span class="text-2xl text-gray-400">/9</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white/60 p-5 rounded-xl border border-white/40 shadow-sm">
+                        <p class="font-bold text-lg mb-2 flex items-center gap-2 text-gray-800">
+                            <span>💡</span> Conduta e Interpretação:
+                        </p>
+                        <p class="text-base text-gray-700 leading-relaxed">${recommendation}</p>
+                    </div>
+                `;
+                
+                // Rolagem suave até o resultado
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+
+            document.getElementById('reset-form').addEventListener('click', () => {
+                document.getElementById('hasbled-form').reset();
+                document.getElementById('result-container').classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</body>
+</html>
