@@ -47,7 +47,7 @@
         <!-- Header -->
         <div class="bg-red-600 p-6 text-white text-center">
             <h1 class="text-3xl font-bold">Calculadora AHA PREVENT™</h1>
-            <p class="text-red-100 opacity-90 text-sm md:text-base">Previsão de Risco de Doença Cardiovascular (Total CVD) em 10 Anos</p>
+            <p class="text-red-100 opacity-90 text-sm md:text-base">Algoritmo Oficial (AHAprevent v1.0.0)</p>
             <div class="mt-4">
                 <a href="index.html" class="inline-flex items-center text-sm bg-red-700 hover:bg-red-800 px-4 py-2 rounded-full transition shadow-sm">
                     &larr; Voltar ao Menu Principal
@@ -96,7 +96,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">eTFG (mL/min/1.73m²)</label>
-                            <input type="number" id="egfr" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 font-bold" placeholder="15 - 140 (Função Renal)">
+                            <input type="number" id="egfr" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 font-bold" placeholder="> 0 (Função Renal)">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">HbA1c (%)</label>
@@ -119,7 +119,7 @@
                                 <input type="number" id="height" class="w-full p-2 border border-gray-300 rounded-lg text-sm" placeholder="Altura (cm)">
                             </div>
                             <div class="flex-1">
-                                <input type="number" id="bmi" class="w-full p-2 border-2 border-red-200 rounded-lg font-bold text-red-700 bg-red-50" placeholder="IMC (Auto)" readonly>
+                                <input type="number" id="bmi" class="w-full p-2 border-2 border-red-200 rounded-lg font-bold text-red-700 bg-red-50" placeholder="Limites (18.5 - 39.9)" readonly>
                             </div>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                             </select>
                         </div>
                         <div class="flex items-center justify-between p-3 bg-white rounded-xl border border-gray-200">
-                            <span class="text-sm font-medium text-gray-700">Usa remédio para pressão?</span>
+                            <span class="text-sm font-medium text-gray-700">Tratamento Anti-hipertensivo?</span>
                             <select id="bp_meds" class="p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 font-bold">
                                 <option value="0">Não</option>
                                 <option value="1">Sim</option>
@@ -170,7 +170,7 @@
                 <div class="sticky top-6">
                     <div id="result-placeholder" class="h-full flex flex-col items-center justify-center text-gray-400 border-2 border-dashed border-gray-200 rounded-3xl p-10 text-center bg-gray-50 min-h-[400px]">
                         <svg class="w-20 h-20 mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2"></path></svg>
-                        <p class="text-lg">Os resultados aparecerão aqui automaticamente.</p>
+                        <p class="text-lg">Os resultados da equação oficial aparecerão aqui automaticamente.</p>
                     </div>
 
                     <div id="result-content" class="hidden w-full space-y-6">
@@ -183,15 +183,26 @@
                                 </div>
                             </div>
                             
+                            <!-- Quebra Analítica dos Riscos Base (ASCVD / HF) -->
+                            <div class="flex gap-4 mt-6">
+                                <div class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-xl text-center">
+                                    <span class="block text-[10px] uppercase font-bold text-gray-500">Risco Aterosclerótico (ASCVD)</span>
+                                    <span id="res-ascvd" class="text-xl font-black text-gray-800">--%</span>
+                                </div>
+                                <div class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-xl text-center">
+                                    <span class="block text-[10px] uppercase font-bold text-gray-500">Risco Insuf. Cardíaca (HF)</span>
+                                    <span id="res-hf" class="text-xl font-black text-gray-800">--%</span>
+                                </div>
+                            </div>
+
                             <div class="mt-6 pt-6 border-t border-gray-100">
                                 <h4 class="text-sm font-bold text-gray-700 mb-2">Recomendação da AHA/ACC:</h4>
                                 <p id="res-recommendation" class="text-sm text-gray-600 leading-relaxed"></p>
                                 
-                                <!-- Nova Secção de Meta de LDL -->
                                 <div class="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
                                     <span class="text-xs font-bold text-blue-800 uppercase tracking-wider flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                        Meta de LDL-C Recomendada
+                                        Meta de LDL-C Sugerida
                                     </span>
                                     <p id="res-ldl-target" class="text-lg font-black text-blue-900 mt-1"></p>
                                 </div>
@@ -200,18 +211,13 @@
 
                         <div class="text-left p-4 bg-indigo-50 rounded-xl border border-indigo-100 shadow-sm">
                             <p class="text-xs text-indigo-800 leading-relaxed">
-                                <strong>Nota Clínica:</strong> As Equações PREVENT™ (2023) substituem as Pooled Cohort Equations. Elas removem a raça como variável e adicionam a estimativa da <strong>função renal (eTFG)</strong>, adiposidade <strong>(IMC)</strong>, e marcadores glicêmicos/renais adicionais (<strong>HbA1c</strong> e <strong>UACR</strong>) para estimar o risco de eventos cardiovasculares.
+                                <strong>Nota Técnica:</strong> O algoritmo utilizado é a implementação exata das equações oficiais (modelo "prevent_full" com UACR/HbA1c) publicadas no pacote R da American Heart Association (AHA PREVENT 1.0.0).
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <footer class="bg-gray-50 p-6 text-center border-t">
-            <p class="text-red-600 font-bold text-sm mb-1 uppercase tracking-tighter italic">Simulação Algorítmica Funcional AHA PREVENT</p>
-            <p class="text-gray-500 text-xs">O algoritmo utilizado é uma aproximação baseada nos fatores do modelo PREVENT. Para decisões clínicas finais, corrobore com as diretrizes e APIs oficiais da American Heart Association , <a href="https://professional.heart.org/en/guidelines-and-statements/prevent-calculator" target="_blank" rel="nofollow" title="Calculadora PREVENT AHA">clicando aqui.</a> </p>
-        </footer>
     </div>
 
     <script>
@@ -237,7 +243,6 @@
 
             const allInputs = [inAge, inSex, inSbp, inTc, inHdl, inEgfr, inHba1c, inUacr, inWeight, inHeight, inDiabetes, inSmoker, inBpMeds, inStatin];
 
-            // Cálculo do IMC automático
             function calculateBMI() {
                 const w = parseFloat(inWeight.value);
                 const h = parseFloat(inHeight.value);
@@ -250,135 +255,160 @@
                 return null;
             }
 
-            // Função para simular o modelo PREVENT (AHA 2023)
+            // Funções auxiliares matemáticas do pacote AHAprevent R
+            function mmolConversion(cholesterol) {
+                return 0.02586 * cholesterol;
+            }
+
+            function adjustUacr(uacr) {
+                if (!isNaN(uacr) && uacr >= 0) {
+                    if (uacr >= 0.1) return uacr;
+                    if (uacr >= 0 && uacr < 0.1) return 0.1;
+                }
+                return null;
+            }
+
+            // Lógica oficial traduzida do R para JS (AHAprevent v1.0.0 - pred_risk_full)
             function estimatePreventRisk() {
                 const age = parseFloat(inAge.value);
-                const sex = inSex.value;
+                const sex = inSex.value === 'F' ? 1 : 0; 
                 const sbp = parseFloat(inSbp.value);
                 const tc = parseFloat(inTc.value);
                 const hdl = parseFloat(inHdl.value);
                 const egfr = parseFloat(inEgfr.value);
                 const hba1c = parseFloat(inHba1c.value);
                 const uacr = parseFloat(inUacr.value);
-                const bmi = parseFloat(inBmi.value) || 25.0; 
+                const bmi = parseFloat(inBmi.value); 
                 const dm = parseInt(inDiabetes.value);
-                const smoker = parseInt(inSmoker.value);
-                const bpMeds = parseInt(inBpMeds.value);
+                const smoking = parseInt(inSmoker.value);
+                const bptreat = parseInt(inBpMeds.value);
                 const statin = parseInt(inStatin.value);
 
-                // Validação de preenchimento mínimo (exclui HbA1c e UACR que são opcionais)
-                if (!age || !sex || !sbp || !tc || !hdl || !egfr || !inBmi.value) {
+                // 1. Validação de preenchimento mínimo
+                if (!inAge.value || inSex.value === "" || !inSbp.value || !inTc.value || !inHdl.value || !inEgfr.value || !inBmi.value || isNaN(dm) || isNaN(smoking) || isNaN(bptreat) || isNaN(statin)) {
+                    document.getElementById('validation-msg').textContent = "Preencha todos os campos obrigatórios acima para visualizar o risco calculado.";
                     document.getElementById('validation-msg').classList.remove('hidden');
                     document.getElementById('result-placeholder').classList.remove('hidden');
                     document.getElementById('result-content').classList.add('hidden');
                     return;
                 }
+                
+                // 2. Validação rigorosa dos limites impostos pela equação oficial
+                const hasUacr = !isNaN(uacr);
+                const hasHba1c = !isNaN(hba1c);
+
+                if (age < 30 || age > 79 || tc < 130 || tc > 320 || hdl < 20 || hdl > 100 || sbp < 90 || sbp > 200 || egfr <= 0 || bmi < 18.5 || bmi >= 40 || (hasUacr && uacr < 0) || (hasHba1c && hba1c <= 0)) {
+                    document.getElementById('validation-msg').textContent = "Alguns valores estão fora do intervalo validado pelo modelo clínico AHA PREVENT (Idade: 30-79, PAS: 90-200, CT: 130-320, HDL: 20-100, eTFG: >0, IMC: 18.5-39.9).";
+                    document.getElementById('validation-msg').classList.remove('hidden');
+                    document.getElementById('result-placeholder').classList.remove('hidden');
+                    document.getElementById('result-content').classList.add('hidden');
+                    return;
+                }
+
                 document.getElementById('validation-msg').classList.add('hidden');
 
-                // Lógica Proxy Baseada em Ponderação Relativa (Apenas para fins de demonstração UI/UX)
-                // Idade é o principal fator
-                let riskScore = (age - 30) * 0.25; 
-                
-                // Homens tem risco base maior
-                if (sex === 'M') riskScore += 2.5;
+                // Variáveis escaladas para os coeficientes
+                const ageScaled = (age - 55) / 10;
+                const nonHdlScaled = mmolConversion(tc - hdl) - 3.5;
+                const hdlScaled = (mmolConversion(hdl) - 1.3) / 0.3;
+                const sbpMinScaled = (Math.min(sbp, 110) - 110) / 20;
+                const sbpMaxScaled = (Math.max(sbp, 110) - 130) / 20;
+                const egfrMinScaled = (Math.min(egfr, 60) - 60) / (-15);
+                const egfrMaxScaled = (Math.max(egfr, 60) - 90) / (-15);
+                const bmiMinScaled = (Math.min(bmi, 30) - 25) / 5;
+                const bmiMaxScaled = (Math.max(bmi, 30) - 30) / 5;
 
-                // Pressão Arterial
-                let sbpEffect = (sbp - 120) * 0.05;
-                if (bpMeds === 1) sbpEffect *= 1.2; // Risco residual de precisar de remédio
-                riskScore += Math.max(0, sbpEffect);
+                let logCVD = 0, logASCVD = 0, logHF = 0;
 
-                // Colesterol
-                let tcEffect = (tc - 170) * 0.02;
-                riskScore += Math.max(0, tcEffect);
-
-                // HDL (protetor)
-                let hdlEffect = (50 - hdl) * 0.05;
-                riskScore += hdlEffect;
-
-                // Fatores de Risco PREVENT: eGFR e IMC
-                // eTFG < 60 aumenta substancialmente o risco
-                if (egfr < 60) {
-                    riskScore += (60 - egfr) * 0.15;
-                } else if (egfr >= 90) {
-                    riskScore -= 1.0; // Protetor
-                }
-
-                // IMC (Curva em U, mas focado no excesso de peso para risco CVD)
-                if (bmi > 25) {
-                    riskScore += (bmi - 25) * 0.1;
-                }
-
-                // Comorbidades e HbA1c
-                if (dm === 1) {
-                    riskScore += 4.5;
-                    // Penalidade extra se diabetes descontrolada (proxy para HbA1c)
-                    if (!isNaN(hba1c) && hba1c > 7.0) {
-                        riskScore += (hba1c - 7.0) * 0.8;
+                // Fórmulas dinâmicas extraídas do AHAprevent Source Code (R Package)
+                if (!hasUacr && !hasHba1c) {
+                    if (sex === 1) { // Feminino
+                        logCVD = -3.307728 + 0.7939329*ageScaled + 0.0305239*nonHdlScaled - 0.1606857*hdlScaled - 0.2394003*sbpMinScaled + 0.360078*sbpMaxScaled + 0.8667604*dm + 0.5360739*smoking + 0.6045917*egfrMinScaled + 0.0433769*egfrMaxScaled + 0.3151672*bptreat - 0.1477655*statin - 0.0663612*bptreat*sbpMaxScaled + 0.1197879*statin*nonHdlScaled - 0.0819715*ageScaled*nonHdlScaled + 0.0306769*ageScaled*hdlScaled - 0.0946348*ageScaled*sbpMaxScaled - 0.27057*ageScaled*dm - 0.078715*ageScaled*smoking - 0.1637806*ageScaled*egfrMinScaled;
+                        logASCVD = -3.819975 + 0.719883*ageScaled + 0.1176967*nonHdlScaled - 0.151185*hdlScaled - 0.0835358*sbpMinScaled + 0.3592852*sbpMaxScaled + 0.8348585*dm + 0.4831078*smoking + 0.4864619*egfrMinScaled + 0.0397779*egfrMaxScaled + 0.2265309*bptreat - 0.0592374*statin - 0.0395762*bptreat*sbpMaxScaled + 0.0844423*statin*nonHdlScaled - 0.0567839*ageScaled*nonHdlScaled + 0.0325692*ageScaled*hdlScaled - 0.1035985*ageScaled*sbpMaxScaled - 0.2417542*ageScaled*dm - 0.0791142*ageScaled*smoking - 0.1671492*ageScaled*egfrMinScaled;
+                        logHF = -4.310409 + 0.8998235*ageScaled - 0.4559771*sbpMinScaled + 0.3576505*sbpMaxScaled + 1.038346*dm + 0.583916*smoking - 0.0072294*bmiMinScaled + 0.2997706*bmiMaxScaled + 0.7451638*egfrMinScaled + 0.0557087*egfrMaxScaled + 0.3534442*bptreat - 0.0981511*bptreat*sbpMaxScaled - 0.0946663*ageScaled*sbpMaxScaled - 0.3581041*ageScaled*dm - 0.1159453*ageScaled*smoking - 0.003878*ageScaled*bmiMaxScaled - 0.1884289*ageScaled*egfrMinScaled;
+                    } else { // Masculino
+                        logCVD = -3.031168 + 0.7688528*ageScaled + 0.0736174*nonHdlScaled - 0.0954431*hdlScaled - 0.4347345*sbpMinScaled + 0.3362658*sbpMaxScaled + 0.7692857*dm + 0.4386871*smoking + 0.5378979*egfrMinScaled + 0.0164827*egfrMaxScaled + 0.288879*bptreat - 0.1337349*statin - 0.0475924*bptreat*sbpMaxScaled + 0.150273*statin*nonHdlScaled - 0.0517874*ageScaled*nonHdlScaled + 0.0191169*ageScaled*hdlScaled - 0.1049477*ageScaled*sbpMaxScaled - 0.2251948*ageScaled*dm - 0.0895067*ageScaled*smoking - 0.1543702*ageScaled*egfrMinScaled;
+                        logASCVD = -3.500655 + 0.7099847*ageScaled + 0.1658663*nonHdlScaled - 0.1144285*hdlScaled - 0.2837212*sbpMinScaled + 0.3239977*sbpMaxScaled + 0.7189597*dm + 0.3956973*smoking + 0.3690075*egfrMinScaled + 0.0203619*egfrMaxScaled + 0.2036522*bptreat - 0.0865581*statin - 0.0322916*bptreat*sbpMaxScaled + 0.114563*statin*nonHdlScaled - 0.0300005*ageScaled*nonHdlScaled + 0.0232747*ageScaled*hdlScaled - 0.0927024*ageScaled*sbpMaxScaled - 0.2018525*ageScaled*dm - 0.0970527*ageScaled*smoking - 0.1217081*ageScaled*egfrMinScaled;
+                        logHF = -3.946391 + 0.8972642*ageScaled - 0.6811466*sbpMinScaled + 0.3634461*sbpMaxScaled + 0.923776*dm + 0.5023736*smoking - 0.0485841*bmiMinScaled + 0.3726929*bmiMaxScaled + 0.6926917*egfrMinScaled + 0.0251827*egfrMaxScaled + 0.2980922*bptreat - 0.0497731*bptreat*sbpMaxScaled - 0.1289201*ageScaled*sbpMaxScaled - 0.3040924*ageScaled*dm - 0.1401688*ageScaled*smoking + 0.0068126*ageScaled*bmiMaxScaled - 0.1797778*ageScaled*egfrMinScaled;
                     }
-                } else {
-                    // Adiciona risco se paciente não tem diagnóstico prévio de DM mas tem HbA1c no nível de pré-diabetes ou diabetes
-                    if (!isNaN(hba1c) && hba1c >= 5.7) {
-                        riskScore += (hba1c - 5.5) * 1.2;
+                } else if (hasUacr && !hasHba1c) {
+                    const logUacr = Math.log(adjustUacr(uacr));
+                    if (sex === 1) { // Feminino
+                        logCVD = -3.738341 + 0.7969249*ageScaled + 0.0256635*nonHdlScaled - 0.1588107*hdlScaled - 0.2255701*sbpMinScaled + 0.3396649*sbpMaxScaled + 0.8047515*dm + 0.5285338*smoking + 0.4803511*egfrMinScaled + 0.0434472*egfrMaxScaled + 0.2985207*bptreat - 0.1497787*statin - 0.0742889*bptreat*sbpMaxScaled + 0.106756*statin*nonHdlScaled - 0.0778126*ageScaled*nonHdlScaled + 0.0306768*ageScaled*hdlScaled - 0.0907168*ageScaled*sbpMaxScaled - 0.2705122*ageScaled*dm - 0.0830564*ageScaled*smoking - 0.1389249*ageScaled*egfrMinScaled + 0.1793037*logUacr;
+                        logASCVD = -4.174614 + 0.7201999*ageScaled + 0.1135771*nonHdlScaled - 0.1493506*hdlScaled - 0.0726677*sbpMinScaled + 0.3436259*sbpMaxScaled + 0.7773094*dm + 0.4746662*smoking + 0.3824646*egfrMinScaled + 0.0394178*egfrMaxScaled + 0.2125182*bptreat - 0.0603046*statin - 0.0466053*bptreat*sbpMaxScaled + 0.0733118*statin*nonHdlScaled - 0.0534262*ageScaled*nonHdlScaled + 0.0325689*ageScaled*hdlScaled - 0.0999887*ageScaled*sbpMaxScaled - 0.2411762*ageScaled*dm - 0.0826941*ageScaled*smoking - 0.1444737*ageScaled*egfrMinScaled + 0.1501217*logUacr;
+                        logHF = -4.841506 + 0.9145975*ageScaled - 0.4441346*sbpMinScaled + 0.3260323*sbpMaxScaled + 0.9611365*dm + 0.5755787*smoking + 0.0008831*bmiMinScaled + 0.2988964*bmiMaxScaled + 0.5915291*egfrMinScaled + 0.0556823*egfrMaxScaled + 0.3314097*bptreat - 0.1078596*bptreat*sbpMaxScaled - 0.0875231*ageScaled*sbpMaxScaled - 0.356859*ageScaled*dm - 0.1220248*ageScaled*smoking - 0.0053637*ageScaled*bmiMaxScaled - 0.1610389*ageScaled*egfrMinScaled + 0.2197281*logUacr;
+                    } else { // Masculino
+                        logCVD = -3.510705 + 0.7768655*ageScaled + 0.0659949*nonHdlScaled - 0.0951111*hdlScaled - 0.420667*sbpMinScaled + 0.3120151*sbpMaxScaled + 0.698521*dm + 0.4314669*smoking + 0.3841364*egfrMinScaled + 0.009384*egfrMaxScaled + 0.2676494*bptreat - 0.1390966*statin - 0.0579315*bptreat*sbpMaxScaled + 0.1383719*statin*nonHdlScaled - 0.0488332*ageScaled*nonHdlScaled + 0.0200406*ageScaled*hdlScaled - 0.102454*ageScaled*sbpMaxScaled - 0.2236355*ageScaled*dm - 0.089485*ageScaled*smoking - 0.1321848*ageScaled*egfrMinScaled + 0.1887974*logUacr;
+                        logASCVD = -3.85146 + 0.7141718*ageScaled + 0.1602194*nonHdlScaled - 0.1139086*hdlScaled - 0.2719456*sbpMinScaled + 0.3058719*sbpMaxScaled + 0.6600631*dm + 0.3884022*smoking + 0.2466316*egfrMinScaled + 0.0151852*egfrMaxScaled + 0.186167*bptreat - 0.0894395*statin - 0.0411884*bptreat*sbpMaxScaled + 0.1058212*statin*nonHdlScaled - 0.028089*ageScaled*nonHdlScaled + 0.0240427*ageScaled*hdlScaled - 0.0917441*ageScaled*sbpMaxScaled - 0.2004894*ageScaled*dm - 0.096936*ageScaled*smoking - 0.1022867*ageScaled*egfrMinScaled + 0.1510073*logUacr;
+                        logHF = -4.556907 + 0.9111795*ageScaled - 0.6693649*sbpMinScaled + 0.3290082*sbpMaxScaled + 0.8377655*dm + 0.4978917*smoking - 0.042749*bmiMinScaled + 0.3624165*bmiMaxScaled + 0.5075796*egfrMinScaled + 0.0137716*egfrMaxScaled + 0.2739963*bptreat - 0.0645712*bptreat*sbpMaxScaled - 0.1230039*ageScaled*sbpMaxScaled - 0.3013297*ageScaled*dm - 0.1410318*ageScaled*smoking + 0.0021531*ageScaled*bmiMaxScaled - 0.1548018*ageScaled*egfrMinScaled + 0.2306299*logUacr;
+                    }
+                } else if (!hasUacr && hasHba1c) {
+                    const hba1cTerm = hba1c - 5.3;
+                    if (sex === 1) { // Feminino
+                        logCVD = -3.306162 + 0.7858178*ageScaled + 0.0194438*nonHdlScaled - 0.1521964*hdlScaled - 0.2296681*sbpMinScaled + 0.3465777*sbpMaxScaled + 0.5366241*dm + 0.5411682*smoking + 0.5931898*egfrMinScaled + 0.0472458*egfrMaxScaled + 0.3158567*bptreat - 0.1535174*statin - 0.0687752*bptreat*sbpMaxScaled + 0.1054746*statin*nonHdlScaled - 0.0761119*ageScaled*nonHdlScaled + 0.0307469*ageScaled*hdlScaled - 0.0905966*ageScaled*sbpMaxScaled - 0.2241857*ageScaled*dm - 0.080186*ageScaled*smoking - 0.1667286*ageScaled*egfrMinScaled + 0.1338348*hba1cTerm*dm + 0.1622409*hba1cTerm*(1-dm);
+                        logASCVD = -3.838746 + 0.7111831*ageScaled + 0.106797*nonHdlScaled - 0.1425745*hdlScaled - 0.0736824*sbpMinScaled + 0.3480844*sbpMaxScaled + 0.5112951*dm + 0.4880292*smoking + 0.4754997*egfrMinScaled + 0.0438132*egfrMaxScaled + 0.2259093*bptreat - 0.0648872*statin - 0.0437645*bptreat*sbpMaxScaled + 0.0697082*statin*nonHdlScaled - 0.0506382*ageScaled*nonHdlScaled + 0.0327475*ageScaled*hdlScaled - 0.0996442*ageScaled*sbpMaxScaled - 0.1924338*ageScaled*dm - 0.0803539*ageScaled*smoking - 0.1682586*ageScaled*egfrMinScaled + 0.1339055*hba1cTerm*dm + 0.1596461*hba1cTerm*(1-dm);
+                        logHF = -4.288225 + 0.8997391*ageScaled - 0.4422749*sbpMinScaled + 0.3378691*sbpMaxScaled + 0.681284*dm + 0.5886005*smoking - 0.0148657*bmiMinScaled + 0.2958374*bmiMaxScaled + 0.73447*egfrMinScaled + 0.05926*egfrMaxScaled + 0.3543475*bptreat - 0.1002139*bptreat*sbpMaxScaled - 0.0878765*ageScaled*sbpMaxScaled - 0.303684*ageScaled*dm - 0.1178943*ageScaled*smoking - 0.008345*ageScaled*bmiMaxScaled - 0.1912183*ageScaled*egfrMinScaled + 0.1856442*hba1cTerm*dm + 0.1833083*hba1cTerm*(1-dm);
+                    } else { // Masculino
+                        logCVD = -3.040901 + 0.7699177*ageScaled + 0.0605093*nonHdlScaled - 0.0888525*hdlScaled - 0.417713*sbpMinScaled + 0.3288657*sbpMaxScaled + 0.4759471*dm + 0.4385663*smoking + 0.5334616*egfrMinScaled + 0.0206431*egfrMaxScaled + 0.2917524*bptreat - 0.1383313*statin - 0.0482622*bptreat*sbpMaxScaled + 0.1393796*statin*nonHdlScaled - 0.0463501*ageScaled*nonHdlScaled + 0.0205926*ageScaled*hdlScaled - 0.1037717*ageScaled*sbpMaxScaled - 0.1737697*ageScaled*dm - 0.0915839*ageScaled*smoking - 0.1637039*ageScaled*egfrMinScaled + 0.13159*hba1cTerm*dm + 0.1295185*hba1cTerm*(1-dm);
+                        logASCVD = -3.51835 + 0.7064146*ageScaled + 0.1532267*nonHdlScaled - 0.1082166*hdlScaled - 0.2675288*sbpMinScaled + 0.3173809*sbpMaxScaled + 0.432604*dm + 0.3958842*smoking + 0.3665014*egfrMinScaled + 0.0250243*egfrMaxScaled + 0.2061158*bptreat - 0.0899988*statin - 0.0334959*bptreat*sbpMaxScaled + 0.1034168*statin*nonHdlScaled - 0.0255406*ageScaled*nonHdlScaled + 0.0247538*ageScaled*hdlScaled - 0.0917441*ageScaled*sbpMaxScaled - 0.1499195*ageScaled*dm - 0.098089*ageScaled*smoking - 0.1305231*ageScaled*egfrMinScaled + 0.1157161*hba1cTerm*dm + 0.1288303*hba1cTerm*(1-dm);
+                        logHF = -3.961954 + 0.911787*ageScaled - 0.6568071*sbpMinScaled + 0.3524645*sbpMaxScaled + 0.5849752*dm + 0.5014014*smoking - 0.0512352*bmiMinScaled + 0.365294*bmiMaxScaled + 0.6892219*egfrMinScaled + 0.0292377*egfrMaxScaled + 0.3038296*bptreat - 0.0515032*bptreat*sbpMaxScaled - 0.1262343*ageScaled*sbpMaxScaled - 0.2449514*ageScaled*dm - 0.1392217*ageScaled*smoking + 0.0009592*ageScaled*bmiMaxScaled - 0.1917105*ageScaled*egfrMinScaled + 0.1652857*hba1cTerm*dm + 0.1505859*hba1cTerm*(1-dm);
+                    }
+                } else { // FULL Model (UACR e HbA1c presentes, SDI ausente)
+                    const logUacr = Math.log(adjustUacr(uacr));
+                    const hba1cTerm = hba1c - 5.3;
+                    if (sex === 1) { // Feminino
+                        logCVD = -3.860385 + 0.7716794*ageScaled + 0.0062109*nonHdlScaled - 0.1547756*hdlScaled - 0.1933123*sbpMinScaled + 0.3071217*sbpMaxScaled + 0.496753*dm + 0.466605*smoking + 0.4780697*egfrMinScaled + 0.0529077*egfrMaxScaled + 0.3034892*bptreat - 0.1556524*statin - 0.0667026*bptreat*sbpMaxScaled + 0.1061825*statin*nonHdlScaled - 0.0742271*ageScaled*nonHdlScaled + 0.0288245*ageScaled*hdlScaled - 0.0875188*ageScaled*sbpMaxScaled - 0.2267102*ageScaled*dm - 0.0676125*ageScaled*smoking - 0.1493231*ageScaled*egfrMinScaled + 0.1804508 + 0.1645922*logUacr + 0.1298513*hba1cTerm*dm + 0.1412555*hba1cTerm*(1-dm);
+                        logASCVD = -4.291503 + 0.7023067*ageScaled + 0.0898765*nonHdlScaled - 0.1407316*hdlScaled - 0.0256648*sbpMinScaled + 0.314511*sbpMaxScaled + 0.4799217*dm + 0.4062049*smoking + 0.3847744*egfrMinScaled + 0.0495174*egfrMaxScaled + 0.2133861*bptreat - 0.0678552*statin - 0.0451416*bptreat*sbpMaxScaled + 0.0788187*statin*nonHdlScaled - 0.0535985*ageScaled*nonHdlScaled + 0.0291762*ageScaled*hdlScaled - 0.0961839*ageScaled*sbpMaxScaled - 0.2001466*ageScaled*dm - 0.0586472*ageScaled*smoking - 0.1537791*ageScaled*egfrMinScaled + 0.1588908 + 0.1371824*logUacr + 0.123192*hba1cTerm*dm + 0.1410572*hba1cTerm*(1-dm);
+                        logHF = -4.896524 + 0.884209*ageScaled - 0.421474*sbpMinScaled + 0.3002919*sbpMaxScaled + 0.6170359*dm + 0.5380269*smoking - 0.0191335*bmiMinScaled + 0.2764302*bmiMaxScaled + 0.5975847*egfrMinScaled + 0.0654197*egfrMaxScaled + 0.3313614*bptreat - 0.1002304*bptreat*sbpMaxScaled - 0.0845363*ageScaled*sbpMaxScaled - 0.2989062*ageScaled*dm - 0.1111354*ageScaled*smoking + 0.0008104*ageScaled*bmiMaxScaled - 0.1666635*ageScaled*egfrMinScaled + 0.1819138 + 0.1948135*logUacr + 0.176668*hba1cTerm*dm + 0.1614911*hba1cTerm*(1-dm);
+                    } else { // Masculino
+                        logCVD = -3.631387 + 0.7847578*ageScaled + 0.0534485*nonHdlScaled - 0.0911282*hdlScaled - 0.4921973*sbpMinScaled + 0.2972415*sbpMaxScaled + 0.4527054*dm + 0.3726641*smoking + 0.3886854*egfrMinScaled + 0.0081661*egfrMaxScaled + 0.2508052*bptreat - 0.1538484*statin - 0.0474695*bptreat*sbpMaxScaled + 0.1415382*statin*nonHdlScaled - 0.0436455*ageScaled*nonHdlScaled + 0.0199549*ageScaled*hdlScaled - 0.1022686*ageScaled*sbpMaxScaled - 0.1762507*ageScaled*dm - 0.0715873*ageScaled*smoking - 0.1428668*ageScaled*egfrMinScaled + 0.144759 + 0.1772853*logUacr + 0.1165698*hba1cTerm*dm + 0.1048297*hba1cTerm*(1-dm);
+                        logASCVD = -3.969788 + 0.7128741*ageScaled + 0.1465201*nonHdlScaled - 0.1125794*hdlScaled - 0.3387216*sbpMinScaled + 0.2980252*sbpMaxScaled + 0.399583*dm + 0.3379111*smoking + 0.2582604*egfrMinScaled + 0.0147769*egfrMaxScaled + 0.1686621*bptreat - 0.1073619*statin - 0.0381038*bptreat*sbpMaxScaled + 0.1034169*statin*nonHdlScaled - 0.0228755*ageScaled*nonHdlScaled + 0.0267453*ageScaled*hdlScaled - 0.0897449*ageScaled*sbpMaxScaled - 0.1497464*ageScaled*dm - 0.077206*ageScaled*smoking - 0.1198368*ageScaled*egfrMinScaled + 0.1388492 + 0.1375837*logUacr + 0.101282*hba1cTerm*dm + 0.1092726*hba1cTerm*(1-dm);
+                        logHF = -4.663513 + 0.9095703*ageScaled - 0.6765184*sbpMinScaled + 0.3111651*sbpMaxScaled + 0.5535052*dm + 0.4326811*smoking - 0.0854286*bmiMinScaled + 0.3551736*bmiMaxScaled + 0.5102245*egfrMinScaled + 0.015472*egfrMaxScaled + 0.2570964*bptreat - 0.0591177*bptreat*sbpMaxScaled - 0.1219056*ageScaled*sbpMaxScaled - 0.2437577*ageScaled*dm - 0.105363*ageScaled*smoking + 0.0037907*ageScaled*bmiMaxScaled - 0.1660207*ageScaled*egfrMinScaled + 0.1694628 + 0.2164607*logUacr + 0.148297*hba1cTerm*dm + 0.1234088*hba1cTerm*(1-dm);
                     }
                 }
 
-                // Impacto da UACR (Razão Albumina/Creatinina)
-                if (!isNaN(uacr)) {
-                    if (uacr >= 30 && uacr < 300) {
-                        // Microalbuminúria
-                        riskScore += 1.5;
-                    } else if (uacr >= 300) {
-                        // Macroalbuminúria (impacto forte)
-                        riskScore += 3.5;
-                    }
-                }
-                
-                if (smoker === 1) riskScore += 3.5;
+                // Cálculo Final: Probabilidades Percentuais (Log Odds)
+                const riskCVD = 100 * Math.exp(logCVD) / (1 + Math.exp(logCVD));
+                const riskASCVD = 100 * Math.exp(logASCVD) / (1 + Math.exp(logASCVD));
+                const riskHF = 100 * Math.exp(logHF) / (1 + Math.exp(logHF));
 
-                // Estatística: Uso de estatina atenua o risco calculado do colesterol
-                if (statin === 1) riskScore -= 2.0;
-
-                // Limites matemáticos (0.1% a 99.9%)
-                riskScore = Math.max(0.1, Math.min(99.9, riskScore));
-
-                // Se idade for muito baixa e tudo normal, pode dar negativo no proxy, então min é 0.1%
-                if (age < 40 && dm === 0 && smoker === 0 && sbp < 120 && tc < 160 && (!isNaN(uacr) ? uacr < 30 : true)) {
-                    riskScore = Math.random() * (1.5 - 0.5) + 0.5; // Risco baixíssimo simulado
-                }
-
-                updateUI(riskScore);
+                updateUI(riskCVD, riskASCVD, riskHF);
             }
 
-            function updateUI(risk) {
+            function updateUI(riskCVD, riskASCVD, riskHF) {
                 document.getElementById('result-placeholder').classList.add('hidden');
                 document.getElementById('result-content').classList.remove('hidden');
 
                 const resRisk = document.getElementById('res-risk');
+                const resAscvd = document.getElementById('res-ascvd');
+                const resHf = document.getElementById('res-hf');
                 const resCat = document.getElementById('res-category');
                 const resRec = document.getElementById('res-recommendation');
                 const resLdl = document.getElementById('res-ldl-target');
                 const riskCard = document.getElementById('risk-card');
 
-                resRisk.textContent = `${risk.toFixed(1)}%`;
+                resRisk.textContent = `${riskCVD.toFixed(1)}%`;
+                resAscvd.textContent = `${riskASCVD.toFixed(1)}%`;
+                resHf.textContent = `${riskHF.toFixed(1)}%`;
 
-                // Remove cores antigas da borda
+                // Remove cores antigas da borda e badges
                 riskCard.classList.remove('border-green-400', 'border-yellow-400', 'border-orange-400', 'border-red-500');
                 resCat.classList.remove('bg-green-100', 'text-green-700', 'bg-yellow-100', 'text-yellow-700', 'bg-orange-100', 'text-orange-700', 'bg-red-100', 'text-red-700');
 
-                // Classificação Oficial de Risco da AHA/ACC
-                if (risk < 5.0) {
+                // Classificação Oficial de Risco baseada no Risco Total (CVD)
+                if (riskCVD < 5.0) {
                     resCat.textContent = "Baixo Risco";
                     resCat.classList.add('bg-green-100', 'text-green-700');
                     riskCard.classList.add('border-green-400');
                     resRec.innerHTML = "Enfatizar estilo de vida saudável. Terapias medicamentosas profiláticas (como estatinas) geralmente <strong>não são indicadas</strong>, a menos que existam fatores de risco intensificadores específicos.";
                     resLdl.innerHTML = "< 116 mg/dL <span class='text-sm font-normal text-blue-700'>(Foco em otimização do estilo de vida)</span>";
-                } else if (risk >= 5.0 && risk < 7.5) {
+                } else if (riskCVD >= 5.0 && riskCVD < 7.5) {
                     resCat.textContent = "Risco Limítrofe";
                     resCat.classList.add('bg-yellow-100', 'text-yellow-700');
                     riskCard.classList.add('border-yellow-400');
                     resRec.innerHTML = "Estilo de vida saudável é essencial. Se houver fatores intensificadores de risco presentes, pode ser razoável iniciar terapia com estatina de intensidade moderada após discussão risco-benefício.";
                     resLdl.innerHTML = "< 100 mg/dL <span class='text-sm font-normal text-blue-700'>(Considerar estatina se intensificadores presentes)</span>";
-                } else if (risk >= 7.5 && risk < 20.0) {
+                } else if (riskCVD >= 7.5 && riskCVD < 20.0) {
                     resCat.textContent = "Risco Intermediário";
                     resCat.classList.add('bg-orange-100', 'text-orange-700');
                     riskCard.classList.add('border-orange-400');
@@ -392,12 +422,12 @@
                     resLdl.innerHTML = "Redução ≥ 50% <span class='text-sm font-normal text-blue-700'>(Meta prática sugerida: < 70 mg/dL)</span>";
                 }
 
-                // Ajuste rigoroso para pacientes Diabéticos (Baseado nas Diretrizes Atuais)
+                // Ajuste rigoroso para pacientes Diabéticos
                 const dm = parseInt(document.getElementById('diabetes').value);
                 if (dm === 1) {
-                    if (risk >= 20.0) {
+                    if (riskCVD >= 20.0) {
                         resLdl.innerHTML = "Redução ≥ 50% <span class='text-sm font-normal text-blue-700'>(Meta estrita: < 55 mg/dL devido ao DM + Alto Risco)</span>";
-                    } else if (risk >= 7.5) {
+                    } else if (riskCVD >= 7.5) {
                         resLdl.innerHTML = "Redução ≥ 50% <span class='text-sm font-normal text-blue-700'>(Meta estrita: < 70 mg/dL devido ao DM)</span>";
                     }
                 }
@@ -411,11 +441,6 @@
                     }
                     estimatePreventRisk();
                 });
-            });
-            
-            // Listener específico para mudanças no select
-            [inSex, inDiabetes, inSmoker, inBpMeds, inStatin].forEach(sel => {
-                sel.addEventListener('change', estimatePreventRisk);
             });
         });
     </script>
