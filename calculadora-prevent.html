@@ -174,11 +174,13 @@
                     </div>
 
                     <div id="result-content" class="hidden w-full space-y-6">
-                        <div id="risk-card" class="bg-white p-8 rounded-3xl shadow-xl border-t-8 border-gray-200 transition-colors duration-500">
+                        
+                        <!-- Risco 10 Anos -->
+                        <div id="risk-card-10yr" class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-gray-200 transition-colors duration-500">
                             <span class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2 text-center">Risco PREVENT em 10 Anos (Total CVD)</span>
-                            <div class="flex flex-col items-center justify-center my-6">
-                                <h3 id="res-risk" class="text-7xl font-black text-gray-800 tracking-tighter">--%</h3>
-                                <div id="res-category" class="mt-4 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider bg-gray-100 text-gray-600">
+                            <div class="flex flex-col items-center justify-center my-4">
+                                <h3 id="res-risk-10yr" class="text-6xl font-black text-gray-800 tracking-tighter">--%</h3>
+                                <div id="res-category-10yr" class="mt-4 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider bg-gray-100 text-gray-600">
                                     Categoria
                                 </div>
                             </div>
@@ -186,32 +188,60 @@
                             <!-- Quebra Analítica dos Riscos Base (ASCVD / HF) -->
                             <div class="flex gap-4 mt-6">
                                 <div class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-xl text-center">
-                                    <span class="block text-[10px] uppercase font-bold text-gray-500">Risco Aterosclerótico (ASCVD)</span>
-                                    <span id="res-ascvd" class="text-xl font-black text-gray-800">--%</span>
+                                    <span class="block text-[10px] uppercase font-bold text-gray-500">Risco ASCVD</span>
+                                    <span id="res-ascvd-10yr" class="text-xl font-black text-gray-800">--%</span>
                                 </div>
                                 <div class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-xl text-center">
-                                    <span class="block text-[10px] uppercase font-bold text-gray-500">Risco Insuf. Cardíaca (HF)</span>
-                                    <span id="res-hf" class="text-xl font-black text-gray-800">--%</span>
+                                    <span class="block text-[10px] uppercase font-bold text-gray-500">Risco Insuf. Cardíaca</span>
+                                    <span id="res-hf-10yr" class="text-xl font-black text-gray-800">--%</span>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="mt-6 pt-6 border-t border-gray-100">
-                                <h4 class="text-sm font-bold text-gray-700 mb-2">Recomendação da AHA/ACC:</h4>
-                                <p id="res-recommendation" class="text-sm text-gray-600 leading-relaxed"></p>
-                                
-                                <div class="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
-                                    <span class="text-xs font-bold text-blue-800 uppercase tracking-wider flex items-center gap-1">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                        Meta de LDL-C Sugerida
-                                    </span>
-                                    <p id="res-ldl-target" class="text-lg font-black text-blue-900 mt-1"></p>
+                        <!-- Risco 30 Anos -->
+                        <div id="risk-card-30yr" class="bg-white p-6 rounded-3xl shadow-md border border-gray-200">
+                            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-4 text-center">Risco Projetado em 30 Anos</span>
+                            
+                            <div class="flex items-center justify-center gap-6">
+                                <div class="text-center">
+                                    <span class="block text-xs uppercase font-bold text-gray-500">Total CVD</span>
+                                    <span id="res-risk-30yr" class="text-2xl font-black text-red-600">--%</span>
                                 </div>
+                                <div class="w-px h-10 bg-gray-200"></div>
+                                <div class="text-center">
+                                    <span class="block text-xs uppercase font-bold text-gray-500">ASCVD</span>
+                                    <span id="res-ascvd-30yr" class="text-xl font-bold text-gray-700">--%</span>
+                                </div>
+                                <div class="w-px h-10 bg-gray-200"></div>
+                                <div class="text-center">
+                                    <span class="block text-xs uppercase font-bold text-gray-500">Insuf. Cardíaca</span>
+                                    <span id="res-hf-30yr" class="text-xl font-bold text-gray-700">--%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card de Aviso Idade >= 60 (Substitui o 30yr) -->
+                        <div id="risk-card-30yr-na" class="hidden bg-gray-50 p-6 rounded-2xl border border-gray-200 text-center text-gray-500 text-sm">
+                            ⚠️ A projeção de risco em 30 anos é validada pelo modelo AHA PREVENT apenas para indivíduos entre 30 e 59 anos de idade.
+                        </div>
+
+                        <!-- Recomendações -->
+                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                            <h4 class="text-sm font-bold text-gray-700 mb-2">Recomendação da AHA/ACC:</h4>
+                            <p id="res-recommendation" class="text-sm text-gray-600 leading-relaxed"></p>
+                            
+                            <div class="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                                <span class="text-xs font-bold text-blue-800 uppercase tracking-wider flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    Meta de LDL-C Sugerida
+                                </span>
+                                <p id="res-ldl-target" class="text-lg font-black text-blue-900 mt-1"></p>
                             </div>
                         </div>
 
                         <div class="text-left p-4 bg-indigo-50 rounded-xl border border-indigo-100 shadow-sm">
                             <p class="text-xs text-indigo-800 leading-relaxed">
-                                <strong>Nota Técnica:</strong> O algoritmo utilizado é a implementação exata das equações oficiais (modelo "prevent_full" com UACR/HbA1c) publicadas no pacote R da American Heart Association (AHA PREVENT 1.0.0).
+                                <strong>Nota Técnica:</strong> Algoritmo oficial implementado via pacote R "AHAprevent 1.0.0". Inclui modelos dinâmicos para 10 e 30 anos, dependendo da disponibilidade de HbA1c e UACR.
                             </p>
                         </div>
                     </div>
@@ -268,7 +298,7 @@
                 return null;
             }
 
-            // Lógica oficial traduzida do R para JS (AHAprevent v1.0.0 - pred_risk_full)
+            // Lógica oficial traduzida do R para JS (AHAprevent v1.0.0)
             function estimatePreventRisk() {
                 const age = parseFloat(inAge.value);
                 const sex = inSex.value === 'F' ? 1 : 0; 
@@ -309,6 +339,7 @@
 
                 // Variáveis escaladas para os coeficientes
                 const ageScaled = (age - 55) / 10;
+                const ageScaledSquare = Math.pow(ageScaled, 2);
                 const nonHdlScaled = mmolConversion(tc - hdl) - 3.5;
                 const hdlScaled = (mmolConversion(hdl) - 1.3) / 0.3;
                 const sbpMinScaled = (Math.min(sbp, 110) - 110) / 20;
@@ -319,39 +350,72 @@
                 const bmiMaxScaled = (Math.max(bmi, 30) - 30) / 5;
 
                 let logCVD = 0, logASCVD = 0, logHF = 0;
+                let logCVD_30 = 0, logASCVD_30 = 0, logHF_30 = 0;
+
+                const calc30Yr = (age <= 59);
 
                 // Fórmulas dinâmicas extraídas do AHAprevent Source Code (R Package)
-                if (!hasUacr && !hasHba1c) {
+                if (!hasUacr && !hasHba1c) { // Modelo BASE
                     if (sex === 1) { // Feminino
                         logCVD = -3.307728 + 0.7939329*ageScaled + 0.0305239*nonHdlScaled - 0.1606857*hdlScaled - 0.2394003*sbpMinScaled + 0.360078*sbpMaxScaled + 0.8667604*dm + 0.5360739*smoking + 0.6045917*egfrMinScaled + 0.0433769*egfrMaxScaled + 0.3151672*bptreat - 0.1477655*statin - 0.0663612*bptreat*sbpMaxScaled + 0.1197879*statin*nonHdlScaled - 0.0819715*ageScaled*nonHdlScaled + 0.0306769*ageScaled*hdlScaled - 0.0946348*ageScaled*sbpMaxScaled - 0.27057*ageScaled*dm - 0.078715*ageScaled*smoking - 0.1637806*ageScaled*egfrMinScaled;
                         logASCVD = -3.819975 + 0.719883*ageScaled + 0.1176967*nonHdlScaled - 0.151185*hdlScaled - 0.0835358*sbpMinScaled + 0.3592852*sbpMaxScaled + 0.8348585*dm + 0.4831078*smoking + 0.4864619*egfrMinScaled + 0.0397779*egfrMaxScaled + 0.2265309*bptreat - 0.0592374*statin - 0.0395762*bptreat*sbpMaxScaled + 0.0844423*statin*nonHdlScaled - 0.0567839*ageScaled*nonHdlScaled + 0.0325692*ageScaled*hdlScaled - 0.1035985*ageScaled*sbpMaxScaled - 0.2417542*ageScaled*dm - 0.0791142*ageScaled*smoking - 0.1671492*ageScaled*egfrMinScaled;
                         logHF = -4.310409 + 0.8998235*ageScaled - 0.4559771*sbpMinScaled + 0.3576505*sbpMaxScaled + 1.038346*dm + 0.583916*smoking - 0.0072294*bmiMinScaled + 0.2997706*bmiMaxScaled + 0.7451638*egfrMinScaled + 0.0557087*egfrMaxScaled + 0.3534442*bptreat - 0.0981511*bptreat*sbpMaxScaled - 0.0946663*ageScaled*sbpMaxScaled - 0.3581041*ageScaled*dm - 0.1159453*ageScaled*smoking - 0.003878*ageScaled*bmiMaxScaled - 0.1884289*ageScaled*egfrMinScaled;
+                        if (calc30Yr) {
+                            logCVD_30 = -1.318827 + 0.5503079*ageScaled - 0.0928369*ageScaledSquare + 0.0409794*nonHdlScaled - 0.1663306*hdlScaled - 0.1628654*sbpMinScaled + 0.3299505*sbpMaxScaled + 0.6793894*dm + 0.3196112*smoking + 0.1857101*egfrMinScaled + 0.0553528*egfrMaxScaled + 0.2894*bptreat - 0.075688*statin - 0.056367*bptreat*sbpMaxScaled + 0.1071019*statin*nonHdlScaled - 0.0751438*ageScaled*nonHdlScaled + 0.0301786*ageScaled*hdlScaled - 0.0998776*ageScaled*sbpMaxScaled - 0.3206166*ageScaled*dm - 0.1607862*ageScaled*smoking - 0.1450788*ageScaled*egfrMinScaled;
+                            logASCVD_30 = -1.974074 + 0.4669202*ageScaled - 0.0893118*ageScaledSquare + 0.1256901*nonHdlScaled - 0.1542255*hdlScaled - 0.0018093*sbpMinScaled + 0.322949*sbpMaxScaled + 0.6296707*dm + 0.268292*smoking + 0.100106*egfrMinScaled + 0.0499663*egfrMaxScaled + 0.1875292*bptreat + 0.0152476*statin - 0.0276123*bptreat*sbpMaxScaled + 0.0736147*statin*nonHdlScaled - 0.0521962*ageScaled*nonHdlScaled + 0.0316918*ageScaled*hdlScaled - 0.1046101*ageScaled*sbpMaxScaled - 0.2727793*ageScaled*dm - 0.1530907*ageScaled*smoking - 0.1299149*ageScaled*egfrMinScaled;
+                            logHF_30 = -2.205379 + 0.6254374*ageScaled - 0.0983038*ageScaledSquare - 0.3919241*sbpMinScaled + 0.3142295*sbpMaxScaled + 0.8330787*dm + 0.3438651*smoking + 0.0594874*bmiMinScaled + 0.2525536*bmiMaxScaled + 0.2981642*egfrMinScaled + 0.0667159*egfrMaxScaled + 0.333921*bptreat - 0.0893177*bptreat*sbpMaxScaled - 0.0974299*ageScaled*sbpMaxScaled - 0.404855*ageScaled*dm - 0.1982991*ageScaled*smoking - 0.0035619*ageScaled*bmiMaxScaled - 0.1564215*ageScaled*egfrMinScaled;
+                        }
                     } else { // Masculino
                         logCVD = -3.031168 + 0.7688528*ageScaled + 0.0736174*nonHdlScaled - 0.0954431*hdlScaled - 0.4347345*sbpMinScaled + 0.3362658*sbpMaxScaled + 0.7692857*dm + 0.4386871*smoking + 0.5378979*egfrMinScaled + 0.0164827*egfrMaxScaled + 0.288879*bptreat - 0.1337349*statin - 0.0475924*bptreat*sbpMaxScaled + 0.150273*statin*nonHdlScaled - 0.0517874*ageScaled*nonHdlScaled + 0.0191169*ageScaled*hdlScaled - 0.1049477*ageScaled*sbpMaxScaled - 0.2251948*ageScaled*dm - 0.0895067*ageScaled*smoking - 0.1543702*ageScaled*egfrMinScaled;
                         logASCVD = -3.500655 + 0.7099847*ageScaled + 0.1658663*nonHdlScaled - 0.1144285*hdlScaled - 0.2837212*sbpMinScaled + 0.3239977*sbpMaxScaled + 0.7189597*dm + 0.3956973*smoking + 0.3690075*egfrMinScaled + 0.0203619*egfrMaxScaled + 0.2036522*bptreat - 0.0865581*statin - 0.0322916*bptreat*sbpMaxScaled + 0.114563*statin*nonHdlScaled - 0.0300005*ageScaled*nonHdlScaled + 0.0232747*ageScaled*hdlScaled - 0.0927024*ageScaled*sbpMaxScaled - 0.2018525*ageScaled*dm - 0.0970527*ageScaled*smoking - 0.1217081*ageScaled*egfrMinScaled;
                         logHF = -3.946391 + 0.8972642*ageScaled - 0.6811466*sbpMinScaled + 0.3634461*sbpMaxScaled + 0.923776*dm + 0.5023736*smoking - 0.0485841*bmiMinScaled + 0.3726929*bmiMaxScaled + 0.6926917*egfrMinScaled + 0.0251827*egfrMaxScaled + 0.2980922*bptreat - 0.0497731*bptreat*sbpMaxScaled - 0.1289201*ageScaled*sbpMaxScaled - 0.3040924*ageScaled*dm - 0.1401688*ageScaled*smoking + 0.0068126*ageScaled*bmiMaxScaled - 0.1797778*ageScaled*egfrMinScaled;
+                        if (calc30Yr) {
+                            logCVD_30 = -1.148204 + 0.4627309*ageScaled - 0.0984281*ageScaledSquare + 0.0836088*nonHdlScaled - 0.1029824*hdlScaled - 0.2140352*sbpMinScaled + 0.2904325*sbpMaxScaled + 0.5331276*dm + 0.2141914*smoking + 0.1155556*egfrMinScaled + 0.0603775*egfrMaxScaled + 0.232714*bptreat - 0.0272112*statin - 0.0384488*bptreat*sbpMaxScaled + 0.134192*statin*nonHdlScaled - 0.0511759*ageScaled*nonHdlScaled + 0.0165865*ageScaled*hdlScaled - 0.1101437*ageScaled*sbpMaxScaled - 0.2585943*ageScaled*dm - 0.1566406*ageScaled*smoking - 0.1166776*ageScaled*egfrMinScaled;
+                            logASCVD_30 = -1.736444 + 0.3994099*ageScaled - 0.0937484*ageScaledSquare + 0.1744643*nonHdlScaled - 0.120203*hdlScaled - 0.0665117*sbpMinScaled + 0.2753037*sbpMaxScaled + 0.4790257*dm + 0.1782635*smoking - 0.0218789*egfrMinScaled + 0.0602553*egfrMaxScaled + 0.1421182*bptreat + 0.0135996*statin - 0.0218265*bptreat*sbpMaxScaled + 0.1013148*statin*nonHdlScaled - 0.0312619*ageScaled*nonHdlScaled + 0.020673*ageScaled*hdlScaled - 0.0920935*ageScaled*sbpMaxScaled - 0.2159947*ageScaled*dm - 0.1548811*ageScaled*smoking - 0.0712547*ageScaled*egfrMinScaled;
+                            logHF_30 = -1.95751 + 0.5681541*ageScaled - 0.1048388*ageScaledSquare - 0.4761564*sbpMinScaled + 0.30324*sbpMaxScaled + 0.6840338*dm + 0.2656273*smoking + 0.0833107*bmiMinScaled + 0.26999*bmiMaxScaled + 0.2541805*egfrMinScaled + 0.0638923*egfrMaxScaled + 0.2583631*bptreat - 0.0391938*bptreat*sbpMaxScaled - 0.1269124*ageScaled*sbpMaxScaled - 0.3273572*ageScaled*dm - 0.2043019*ageScaled*smoking - 0.0182831*ageScaled*bmiMaxScaled - 0.1342618*ageScaled*egfrMinScaled;
+                        }
                     }
-                } else if (hasUacr && !hasHba1c) {
+                } else if (hasUacr && !hasHba1c) { // Modelo UACR
                     const logUacr = Math.log(adjustUacr(uacr));
                     if (sex === 1) { // Feminino
                         logCVD = -3.738341 + 0.7969249*ageScaled + 0.0256635*nonHdlScaled - 0.1588107*hdlScaled - 0.2255701*sbpMinScaled + 0.3396649*sbpMaxScaled + 0.8047515*dm + 0.5285338*smoking + 0.4803511*egfrMinScaled + 0.0434472*egfrMaxScaled + 0.2985207*bptreat - 0.1497787*statin - 0.0742889*bptreat*sbpMaxScaled + 0.106756*statin*nonHdlScaled - 0.0778126*ageScaled*nonHdlScaled + 0.0306768*ageScaled*hdlScaled - 0.0907168*ageScaled*sbpMaxScaled - 0.2705122*ageScaled*dm - 0.0830564*ageScaled*smoking - 0.1389249*ageScaled*egfrMinScaled + 0.1793037*logUacr;
                         logASCVD = -4.174614 + 0.7201999*ageScaled + 0.1135771*nonHdlScaled - 0.1493506*hdlScaled - 0.0726677*sbpMinScaled + 0.3436259*sbpMaxScaled + 0.7773094*dm + 0.4746662*smoking + 0.3824646*egfrMinScaled + 0.0394178*egfrMaxScaled + 0.2125182*bptreat - 0.0603046*statin - 0.0466053*bptreat*sbpMaxScaled + 0.0733118*statin*nonHdlScaled - 0.0534262*ageScaled*nonHdlScaled + 0.0325689*ageScaled*hdlScaled - 0.0999887*ageScaled*sbpMaxScaled - 0.2411762*ageScaled*dm - 0.0826941*ageScaled*smoking - 0.1444737*ageScaled*egfrMinScaled + 0.1501217*logUacr;
                         logHF = -4.841506 + 0.9145975*ageScaled - 0.4441346*sbpMinScaled + 0.3260323*sbpMaxScaled + 0.9611365*dm + 0.5755787*smoking + 0.0008831*bmiMinScaled + 0.2988964*bmiMaxScaled + 0.5915291*egfrMinScaled + 0.0556823*egfrMaxScaled + 0.3314097*bptreat - 0.1078596*bptreat*sbpMaxScaled - 0.0875231*ageScaled*sbpMaxScaled - 0.356859*ageScaled*dm - 0.1220248*ageScaled*smoking - 0.0053637*ageScaled*bmiMaxScaled - 0.1610389*ageScaled*egfrMinScaled + 0.2197281*logUacr;
+                        if (calc30Yr) {
+                            logCVD_30 = -1.583738 + 0.5491768*ageScaled - 0.0937311*ageScaledSquare + 0.0359847*nonHdlScaled - 0.1642965*hdlScaled - 0.1483404*sbpMinScaled + 0.313353*sbpMaxScaled + 0.6253766*dm + 0.3147172*smoking + 0.1094663*egfrMinScaled + 0.0550705*egfrMaxScaled + 0.2782433*bptreat - 0.0786239*statin - 0.0628947*bptreat*sbpMaxScaled + 0.093204*statin*nonHdlScaled - 0.0710685*ageScaled*nonHdlScaled + 0.0306363*ageScaled*hdlScaled - 0.0951455*ageScaled*sbpMaxScaled - 0.3168231*ageScaled*dm - 0.1636391*ageScaled*smoking - 0.1265483*ageScaled*egfrMinScaled + 0.1142251*logUacr;
+                            logASCVD_30 = -2.178888 + 0.4629669*ageScaled - 0.0902777*ageScaledSquare + 0.1215214*nonHdlScaled - 0.1522069*hdlScaled + 0.0092679*sbpMinScaled + 0.3113609*sbpMaxScaled + 0.581256*dm + 0.263167*smoking + 0.0391726*egfrMinScaled + 0.0492959*egfrMaxScaled + 0.1786178*bptreat + 0.0131058*statin - 0.0325135*bptreat*sbpMaxScaled + 0.0617093*statin*nonHdlScaled - 0.0489189*ageScaled*nonHdlScaled + 0.0321079*ageScaled*hdlScaled - 0.1003185*ageScaled*sbpMaxScaled - 0.2684574*ageScaled*dm - 0.1547301*ageScaled*smoking - 0.1130703*ageScaled*egfrMinScaled + 0.0903471*logUacr;
+                            logHF_30 = -2.538952 + 0.6319513*ageScaled - 0.1009284*ageScaledSquare - 0.3787175*sbpMinScaled + 0.2863393*sbpMaxScaled + 0.7631221*dm + 0.3355843*smoking + 0.0677084*bmiMinScaled + 0.2517238*bmiMaxScaled + 0.1940067*egfrMinScaled + 0.0664006*egfrMaxScaled + 0.3171436*bptreat - 0.0970661*bptreat*sbpMaxScaled - 0.0896239*ageScaled*sbpMaxScaled - 0.400743*ageScaled*dm - 0.2042041*ageScaled*smoking - 0.0054699*ageScaled*bmiMaxScaled - 0.13602*ageScaled*egfrMinScaled + 0.1486028*logUacr;
+                        }
                     } else { // Masculino
                         logCVD = -3.510705 + 0.7768655*ageScaled + 0.0659949*nonHdlScaled - 0.0951111*hdlScaled - 0.420667*sbpMinScaled + 0.3120151*sbpMaxScaled + 0.698521*dm + 0.4314669*smoking + 0.3841364*egfrMinScaled + 0.009384*egfrMaxScaled + 0.2676494*bptreat - 0.1390966*statin - 0.0579315*bptreat*sbpMaxScaled + 0.1383719*statin*nonHdlScaled - 0.0488332*ageScaled*nonHdlScaled + 0.0200406*ageScaled*hdlScaled - 0.102454*ageScaled*sbpMaxScaled - 0.2236355*ageScaled*dm - 0.089485*ageScaled*smoking - 0.1321848*ageScaled*egfrMinScaled + 0.1887974*logUacr;
                         logASCVD = -3.85146 + 0.7141718*ageScaled + 0.1602194*nonHdlScaled - 0.1139086*hdlScaled - 0.2719456*sbpMinScaled + 0.3058719*sbpMaxScaled + 0.6600631*dm + 0.3884022*smoking + 0.2466316*egfrMinScaled + 0.0151852*egfrMaxScaled + 0.186167*bptreat - 0.0894395*statin - 0.0411884*bptreat*sbpMaxScaled + 0.1058212*statin*nonHdlScaled - 0.028089*ageScaled*nonHdlScaled + 0.0240427*ageScaled*hdlScaled - 0.0917441*ageScaled*sbpMaxScaled - 0.2004894*ageScaled*dm - 0.096936*ageScaled*smoking - 0.1022867*ageScaled*egfrMinScaled + 0.1510073*logUacr;
                         logHF = -4.556907 + 0.9111795*ageScaled - 0.6693649*sbpMinScaled + 0.3290082*sbpMaxScaled + 0.8377655*dm + 0.4978917*smoking - 0.042749*bmiMinScaled + 0.3624165*bmiMaxScaled + 0.5075796*egfrMinScaled + 0.0137716*egfrMaxScaled + 0.2739963*bptreat - 0.0645712*bptreat*sbpMaxScaled - 0.1230039*ageScaled*sbpMaxScaled - 0.3013297*ageScaled*dm - 0.1410318*ageScaled*smoking + 0.0021531*ageScaled*bmiMaxScaled - 0.1548018*ageScaled*egfrMinScaled + 0.2306299*logUacr;
+                        if (calc30Yr) {
+                            logCVD_30 = -1.398727 + 0.464491*ageScaled - 0.0998895*ageScaledSquare + 0.0757606*nonHdlScaled - 0.1031778*hdlScaled - 0.1990714*sbpMinScaled + 0.2715816*sbpMaxScaled + 0.4754637*dm + 0.2069672*smoking + 0.0331103*egfrMinScaled + 0.0540474*egfrMaxScaled + 0.2189911*bptreat - 0.0331044*statin - 0.04534*bptreat*sbpMaxScaled + 0.1214535*statin*nonHdlScaled - 0.0483995*ageScaled*nonHdlScaled + 0.0178997*ageScaled*hdlScaled - 0.1059324*ageScaled*sbpMaxScaled - 0.2492861*ageScaled*dm - 0.1561543*ageScaled*smoking - 0.1012429*ageScaled*egfrMinScaled + 0.1007571*logUacr;
+                            logASCVD_30 = -1.873449 + 0.3995607*ageScaled - 0.094557*ageScaledSquare + 0.1686692*nonHdlScaled - 0.1202145*hdlScaled - 0.0555561*sbpMinScaled + 0.2633566*sbpMaxScaled + 0.4362036*dm + 0.1716233*smoking - 0.0775282*egfrMinScaled + 0.0561236*egfrMaxScaled + 0.1319331*bptreat + 0.0102428*statin - 0.0269294*bptreat*sbpMaxScaled + 0.0920557*statin*nonHdlScaled - 0.0297021*ageScaled*nonHdlScaled + 0.0217935*ageScaled*hdlScaled - 0.0893347*ageScaled*sbpMaxScaled - 0.2081467*ageScaled*dm - 0.1542716*ageScaled*smoking - 0.0597254*ageScaled*egfrMinScaled + 0.0684872*logUacr;
+                            logHF_30 = -2.314872 + 0.5750236*ageScaled - 0.1062268*ageScaledSquare - 0.4633994*sbpMinScaled + 0.2742874*sbpMaxScaled + 0.612208*dm + 0.2614987*smoking + 0.0895459*bmiMinScaled + 0.2632424*bmiMaxScaled + 0.1430472*egfrMinScaled + 0.0535184*egfrMaxScaled + 0.2417468*bptreat - 0.0498574*bptreat*sbpMaxScaled - 0.1193827*ageScaled*sbpMaxScaled - 0.316651*ageScaled*dm - 0.2046122*ageScaled*smoking - 0.0216878*ageScaled*bmiMaxScaled - 0.1165637*ageScaled*egfrMinScaled + 0.1366452*logUacr;
+                        }
                     }
-                } else if (!hasUacr && hasHba1c) {
+                } else if (!hasUacr && hasHba1c) { // Modelo HbA1c
                     const hba1cTerm = hba1c - 5.3;
                     if (sex === 1) { // Feminino
                         logCVD = -3.306162 + 0.7858178*ageScaled + 0.0194438*nonHdlScaled - 0.1521964*hdlScaled - 0.2296681*sbpMinScaled + 0.3465777*sbpMaxScaled + 0.5366241*dm + 0.5411682*smoking + 0.5931898*egfrMinScaled + 0.0472458*egfrMaxScaled + 0.3158567*bptreat - 0.1535174*statin - 0.0687752*bptreat*sbpMaxScaled + 0.1054746*statin*nonHdlScaled - 0.0761119*ageScaled*nonHdlScaled + 0.0307469*ageScaled*hdlScaled - 0.0905966*ageScaled*sbpMaxScaled - 0.2241857*ageScaled*dm - 0.080186*ageScaled*smoking - 0.1667286*ageScaled*egfrMinScaled + 0.1338348*hba1cTerm*dm + 0.1622409*hba1cTerm*(1-dm);
                         logASCVD = -3.838746 + 0.7111831*ageScaled + 0.106797*nonHdlScaled - 0.1425745*hdlScaled - 0.0736824*sbpMinScaled + 0.3480844*sbpMaxScaled + 0.5112951*dm + 0.4880292*smoking + 0.4754997*egfrMinScaled + 0.0438132*egfrMaxScaled + 0.2259093*bptreat - 0.0648872*statin - 0.0437645*bptreat*sbpMaxScaled + 0.0697082*statin*nonHdlScaled - 0.0506382*ageScaled*nonHdlScaled + 0.0327475*ageScaled*hdlScaled - 0.0996442*ageScaled*sbpMaxScaled - 0.1924338*ageScaled*dm - 0.0803539*ageScaled*smoking - 0.1682586*ageScaled*egfrMinScaled + 0.1339055*hba1cTerm*dm + 0.1596461*hba1cTerm*(1-dm);
                         logHF = -4.288225 + 0.8997391*ageScaled - 0.4422749*sbpMinScaled + 0.3378691*sbpMaxScaled + 0.681284*dm + 0.5886005*smoking - 0.0148657*bmiMinScaled + 0.2958374*bmiMaxScaled + 0.73447*egfrMinScaled + 0.05926*egfrMaxScaled + 0.3543475*bptreat - 0.1002139*bptreat*sbpMaxScaled - 0.0878765*ageScaled*sbpMaxScaled - 0.303684*ageScaled*dm - 0.1178943*ageScaled*smoking - 0.008345*ageScaled*bmiMaxScaled - 0.1912183*ageScaled*egfrMinScaled + 0.1856442*hba1cTerm*dm + 0.1833083*hba1cTerm*(1-dm);
+                        if (calc30Yr) {
+                            logCVD_30 = -1.341059 + 0.5343493*ageScaled - 0.0952314*ageScaledSquare + 0.0298124*nonHdlScaled - 0.1578451*hdlScaled - 0.1504488*sbpMinScaled + 0.3173368*sbpMaxScaled + 0.4314738*dm + 0.3209399*smoking + 0.1771435*egfrMinScaled + 0.0582828*egfrMaxScaled + 0.2888947*bptreat - 0.0795886*statin - 0.0600438*bptreat*sbpMaxScaled + 0.0920598*statin*nonHdlScaled - 0.0696108*ageScaled*nonHdlScaled + 0.0308807*ageScaled*hdlScaled - 0.0954051*ageScaled*sbpMaxScaled - 0.2763408*ageScaled*dm - 0.1623944*ageScaled*smoking - 0.1430514*ageScaled*egfrMinScaled + 0.0940543*hba1cTerm*dm + 0.1116486*hba1cTerm*(1-dm);
+                            logASCVD_30 = -2.011533 + 0.4555574*ageScaled - 0.0903501*ageScaledSquare + 0.1148321*nonHdlScaled - 0.1458754*hdlScaled + 0.0089323*sbpMinScaled + 0.3139029*sbpMaxScaled + 0.386281*dm + 0.2714309*smoking + 0.0930987*egfrMinScaled + 0.0532216*egfrMaxScaled + 0.1862181*bptreat + 0.0106964*statin - 0.0329713*bptreat*sbpMaxScaled + 0.0583609*statin*nonHdlScaled - 0.0463273*ageScaled*nonHdlScaled + 0.0324717*ageScaled*hdlScaled - 0.1004777*ageScaled*sbpMaxScaled - 0.2266944*ageScaled*dm - 0.1541859*ageScaled*smoking - 0.1286005*ageScaled*egfrMinScaled + 0.0875827*hba1cTerm*dm + 0.1126417*hba1cTerm*(1-dm);
+                            logHF_30 = -2.193553 + 0.6210856*ageScaled - 0.1000972*ageScaledSquare - 0.3773697*sbpMinScaled + 0.295316*sbpMaxScaled + 0.5681692*dm + 0.3449139*smoking + 0.0540094*bmiMinScaled + 0.249767*bmiMaxScaled + 0.2875781*egfrMinScaled + 0.0692013*egfrMaxScaled + 0.3334936*bptreat - 0.0922339*bptreat*sbpMaxScaled - 0.0907885*ageScaled*sbpMaxScaled - 0.3554646*ageScaled*dm - 0.2008846*ageScaled*smoking - 0.0079611*ageScaled*bmiMaxScaled - 0.156803*ageScaled*egfrMinScaled + 0.1448336*hba1cTerm*dm + 0.1277838*hba1cTerm*(1-dm);
+                        }
                     } else { // Masculino
                         logCVD = -3.040901 + 0.7699177*ageScaled + 0.0605093*nonHdlScaled - 0.0888525*hdlScaled - 0.417713*sbpMinScaled + 0.3288657*sbpMaxScaled + 0.4759471*dm + 0.4385663*smoking + 0.5334616*egfrMinScaled + 0.0206431*egfrMaxScaled + 0.2917524*bptreat - 0.1383313*statin - 0.0482622*bptreat*sbpMaxScaled + 0.1393796*statin*nonHdlScaled - 0.0463501*ageScaled*nonHdlScaled + 0.0205926*ageScaled*hdlScaled - 0.1037717*ageScaled*sbpMaxScaled - 0.1737697*ageScaled*dm - 0.0915839*ageScaled*smoking - 0.1637039*ageScaled*egfrMinScaled + 0.13159*hba1cTerm*dm + 0.1295185*hba1cTerm*(1-dm);
                         logASCVD = -3.51835 + 0.7064146*ageScaled + 0.1532267*nonHdlScaled - 0.1082166*hdlScaled - 0.2675288*sbpMinScaled + 0.3173809*sbpMaxScaled + 0.432604*dm + 0.3958842*smoking + 0.3665014*egfrMinScaled + 0.0250243*egfrMaxScaled + 0.2061158*bptreat - 0.0899988*statin - 0.0334959*bptreat*sbpMaxScaled + 0.1034168*statin*nonHdlScaled - 0.0255406*ageScaled*nonHdlScaled + 0.0247538*ageScaled*hdlScaled - 0.0917441*ageScaled*sbpMaxScaled - 0.1499195*ageScaled*dm - 0.098089*ageScaled*smoking - 0.1305231*ageScaled*egfrMinScaled + 0.1157161*hba1cTerm*dm + 0.1288303*hba1cTerm*(1-dm);
                         logHF = -3.961954 + 0.911787*ageScaled - 0.6568071*sbpMinScaled + 0.3524645*sbpMaxScaled + 0.5849752*dm + 0.5014014*smoking - 0.0512352*bmiMinScaled + 0.365294*bmiMaxScaled + 0.6892219*egfrMinScaled + 0.0292377*egfrMaxScaled + 0.3038296*bptreat - 0.0515032*bptreat*sbpMaxScaled - 0.1262343*ageScaled*sbpMaxScaled - 0.2449514*ageScaled*dm - 0.1392217*ageScaled*smoking + 0.0009592*ageScaled*bmiMaxScaled - 0.1917105*ageScaled*egfrMinScaled + 0.1652857*hba1cTerm*dm + 0.1505859*hba1cTerm*(1-dm);
+                        if (calc30Yr) {
+                            logCVD_30 = -1.180767 + 0.4519873*ageScaled - 0.101624*ageScaledSquare + 0.0700456*nonHdlScaled - 0.0968005*hdlScaled - 0.1923527*sbpMinScaled + 0.2827043*sbpMaxScaled + 0.3417152*dm + 0.2105272*smoking + 0.1113291*egfrMinScaled + 0.0640135*egfrMaxScaled + 0.2334248*bptreat - 0.0299421*statin - 0.0393204*bptreat*sbpMaxScaled + 0.1228854*statin*nonHdlScaled - 0.0463737*ageScaled*nonHdlScaled + 0.0184599*ageScaled*hdlScaled - 0.1085744*ageScaled*sbpMaxScaled - 0.2208049*ageScaled*dm - 0.1577978*ageScaled*smoking - 0.1179375*ageScaled*egfrMinScaled + 0.0768169*hba1cTerm*dm + 0.0777295*hba1cTerm*(1-dm);
+                            logASCVD_30 = -1.777708 + 0.3883267*ageScaled - 0.0958114*ageScaledSquare + 0.1613374*nonHdlScaled - 0.1144418*hdlScaled - 0.0474338*sbpMinScaled + 0.2691281*sbpMaxScaled + 0.2859773*dm + 0.1759553*smoking - 0.0242898*egfrMinScaled + 0.0644523*egfrMaxScaled + 0.142874*bptreat + 0.0115062*statin - 0.02333*bptreat*sbpMaxScaled + 0.0899664*statin*nonHdlScaled - 0.0275478*ageScaled*nonHdlScaled + 0.022573*ageScaled*hdlScaled - 0.090802*ageScaled*sbpMaxScaled - 0.1771894*ageScaled*dm - 0.1548847*ageScaled*smoking - 0.0732754*ageScaled*egfrMinScaled + 0.0591089*hba1cTerm*dm + 0.0821158*hba1cTerm*(1-dm);
+                            logHF_30 = -1.974999 + 0.5703729*ageScaled - 0.1084544*ageScaledSquare - 0.4471767*sbpMinScaled + 0.2910152*sbpMaxScaled + 0.4507242*dm + 0.259585*smoking + 0.0850676*bmiMinScaled + 0.2637222*bmiMaxScaled + 0.2454706*egfrMinScaled + 0.0675649*egfrMaxScaled + 0.2611991*bptreat - 0.0408908*bptreat*sbpMaxScaled - 0.1241051*ageScaled*sbpMaxScaled - 0.2849461*ageScaled*dm - 0.2032308*ageScaled*smoking - 0.0239714*ageScaled*bmiMaxScaled - 0.138301*ageScaled*egfrMinScaled + 0.1101184*hba1cTerm*dm + 0.0949198*hba1cTerm*(1-dm);
+                        }
                     }
                 } else { // FULL Model (UACR e HbA1c presentes, SDI ausente)
                     const logUacr = Math.log(adjustUacr(uacr));
@@ -360,10 +424,20 @@
                         logCVD = -3.860385 + 0.7716794*ageScaled + 0.0062109*nonHdlScaled - 0.1547756*hdlScaled - 0.1933123*sbpMinScaled + 0.3071217*sbpMaxScaled + 0.496753*dm + 0.466605*smoking + 0.4780697*egfrMinScaled + 0.0529077*egfrMaxScaled + 0.3034892*bptreat - 0.1556524*statin - 0.0667026*bptreat*sbpMaxScaled + 0.1061825*statin*nonHdlScaled - 0.0742271*ageScaled*nonHdlScaled + 0.0288245*ageScaled*hdlScaled - 0.0875188*ageScaled*sbpMaxScaled - 0.2267102*ageScaled*dm - 0.0676125*ageScaled*smoking - 0.1493231*ageScaled*egfrMinScaled + 0.1804508 + 0.1645922*logUacr + 0.1298513*hba1cTerm*dm + 0.1412555*hba1cTerm*(1-dm);
                         logASCVD = -4.291503 + 0.7023067*ageScaled + 0.0898765*nonHdlScaled - 0.1407316*hdlScaled - 0.0256648*sbpMinScaled + 0.314511*sbpMaxScaled + 0.4799217*dm + 0.4062049*smoking + 0.3847744*egfrMinScaled + 0.0495174*egfrMaxScaled + 0.2133861*bptreat - 0.0678552*statin - 0.0451416*bptreat*sbpMaxScaled + 0.0788187*statin*nonHdlScaled - 0.0535985*ageScaled*nonHdlScaled + 0.0291762*ageScaled*hdlScaled - 0.0961839*ageScaled*sbpMaxScaled - 0.2001466*ageScaled*dm - 0.0586472*ageScaled*smoking - 0.1537791*ageScaled*egfrMinScaled + 0.1588908 + 0.1371824*logUacr + 0.123192*hba1cTerm*dm + 0.1410572*hba1cTerm*(1-dm);
                         logHF = -4.896524 + 0.884209*ageScaled - 0.421474*sbpMinScaled + 0.3002919*sbpMaxScaled + 0.6170359*dm + 0.5380269*smoking - 0.0191335*bmiMinScaled + 0.2764302*bmiMaxScaled + 0.5975847*egfrMinScaled + 0.0654197*egfrMaxScaled + 0.3313614*bptreat - 0.1002304*bptreat*sbpMaxScaled - 0.0845363*ageScaled*sbpMaxScaled - 0.2989062*ageScaled*dm - 0.1111354*ageScaled*smoking + 0.0008104*ageScaled*bmiMaxScaled - 0.1666635*ageScaled*egfrMinScaled + 0.1819138 + 0.1948135*logUacr + 0.176668*hba1cTerm*dm + 0.1614911*hba1cTerm*(1-dm);
+                        if (calc30Yr) {
+                            logCVD_30 = -1.748475 + 0.5073749*ageScaled - 0.0981751*ageScaledSquare + 0.0162303*nonHdlScaled - 0.1617147*hdlScaled - 0.1111241*sbpMinScaled + 0.282946*sbpMaxScaled + 0.4004069*dm + 0.2918701*smoking + 0.1017102*egfrMinScaled + 0.0622643*egfrMaxScaled + 0.2872416*bptreat - 0.0768135*statin - 0.0557282*bptreat*sbpMaxScaled + 0.0917585*statin*nonHdlScaled - 0.0679131*ageScaled*nonHdlScaled + 0.029076*ageScaled*hdlScaled - 0.0907755*ageScaled*sbpMaxScaled - 0.2702118*ageScaled*dm - 0.1373216*ageScaled*smoking - 0.1255864*ageScaled*egfrMinScaled + 0.1567115 + 0.1028065*logUacr + 0.0925285*hba1cTerm*dm + 0.0975598*hba1cTerm*(1 - dm);
+                            logASCVD_30 = -2.314066 + 0.4386739*ageScaled - 0.0921956*ageScaledSquare + 0.0977728*nonHdlScaled - 0.1453525*hdlScaled + 0.0590925*sbpMinScaled + 0.2862862*sbpMaxScaled + 0.3669136*dm + 0.2354695*smoking + 0.0354338*egfrMinScaled + 0.0573093*egfrMaxScaled + 0.1840085*bptreat + 0.0117504*statin - 0.0331945*bptreat*sbpMaxScaled + 0.0664311*statin*nonHdlScaled - 0.0492826*ageScaled*nonHdlScaled + 0.0288888*ageScaled*hdlScaled - 0.0964709*ageScaled*sbpMaxScaled - 0.2279648*ageScaled*dm - 0.120405*ageScaled*smoking - 0.1157635*ageScaled*egfrMinScaled + 0.1308962 + 0.0810739*logUacr + 0.0794709*hba1cTerm*dm + 0.1002615*hba1cTerm*(1-dm);
+                            logHF_30 = -2.642208 + 0.5927507*ageScaled - 0.1028754*ageScaledSquare - 0.3593781*sbpMinScaled + 0.2628556*sbpMaxScaled + 0.5113472*dm + 0.347344*smoking + 0.0564656*bmiMinScaled + 0.2363857*bmiMaxScaled + 0.1971295*egfrMinScaled + 0.0735227*egfrMaxScaled + 0.3219386*bptreat - 0.0880321*bptreat*sbpMaxScaled - 0.0863132*ageScaled*sbpMaxScaled - 0.3425359*ageScaled*dm - 0.181405*ageScaled*smoking + 0.0031285*ageScaled*bmiMaxScaled - 0.1356989*ageScaled*egfrMinScaled + 0.1485802 + 0.1273306*logUacr + 0.1378342*hba1cTerm*dm + 0.1138832*hba1cTerm*(1-dm);
+                        }
                     } else { // Masculino
                         logCVD = -3.631387 + 0.7847578*ageScaled + 0.0534485*nonHdlScaled - 0.0911282*hdlScaled - 0.4921973*sbpMinScaled + 0.2972415*sbpMaxScaled + 0.4527054*dm + 0.3726641*smoking + 0.3886854*egfrMinScaled + 0.0081661*egfrMaxScaled + 0.2508052*bptreat - 0.1538484*statin - 0.0474695*bptreat*sbpMaxScaled + 0.1415382*statin*nonHdlScaled - 0.0436455*ageScaled*nonHdlScaled + 0.0199549*ageScaled*hdlScaled - 0.1022686*ageScaled*sbpMaxScaled - 0.1762507*ageScaled*dm - 0.0715873*ageScaled*smoking - 0.1428668*ageScaled*egfrMinScaled + 0.144759 + 0.1772853*logUacr + 0.1165698*hba1cTerm*dm + 0.1048297*hba1cTerm*(1-dm);
                         logASCVD = -3.969788 + 0.7128741*ageScaled + 0.1465201*nonHdlScaled - 0.1125794*hdlScaled - 0.3387216*sbpMinScaled + 0.2980252*sbpMaxScaled + 0.399583*dm + 0.3379111*smoking + 0.2582604*egfrMinScaled + 0.0147769*egfrMaxScaled + 0.1686621*bptreat - 0.1073619*statin - 0.0381038*bptreat*sbpMaxScaled + 0.1034169*statin*nonHdlScaled - 0.0228755*ageScaled*nonHdlScaled + 0.0267453*ageScaled*hdlScaled - 0.0897449*ageScaled*sbpMaxScaled - 0.1497464*ageScaled*dm - 0.077206*ageScaled*smoking - 0.1198368*ageScaled*egfrMinScaled + 0.1388492 + 0.1375837*logUacr + 0.101282*hba1cTerm*dm + 0.1092726*hba1cTerm*(1-dm);
                         logHF = -4.663513 + 0.9095703*ageScaled - 0.6765184*sbpMinScaled + 0.3111651*sbpMaxScaled + 0.5535052*dm + 0.4326811*smoking - 0.0854286*bmiMinScaled + 0.3551736*bmiMaxScaled + 0.5102245*egfrMinScaled + 0.015472*egfrMaxScaled + 0.2570964*bptreat - 0.0591177*bptreat*sbpMaxScaled - 0.1219056*ageScaled*sbpMaxScaled - 0.2437577*ageScaled*dm - 0.105363*ageScaled*smoking + 0.0037907*ageScaled*bmiMaxScaled - 0.1660207*ageScaled*egfrMinScaled + 0.1694628 + 0.2164607*logUacr + 0.148297*hba1cTerm*dm + 0.1234088*hba1cTerm*(1-dm);
+                        if (calc30Yr) {
+                            logCVD_30 = -1.251031 + 0.437377*ageScaled - 0.104443*ageScaledSquare + 0.0812573*nonHdlScaled - 0.1069199*hdlScaled - 0.2786727*sbpMinScaled + 0.2729256*sbpMaxScaled + 0.5279006*dm + 0.1878949*smoking + 0.0866569*egfrMinScaled + 0.0594948*egfrMaxScaled + 0.2028246*bptreat - 0.0308404*statin - 0.0283679*bptreat*sbpMaxScaled + 0.1439353*statin*nonHdlScaled - 0.0510854*ageScaled*nonHdlScaled + 0.0150236*ageScaled*hdlScaled - 0.1095448*ageScaled*sbpMaxScaled - 0.2561109*ageScaled*dm - 0.1282945*ageScaled*smoking - 0.1011023*ageScaled*egfrMinScaled + 0.0927451 + 0.1007571*logUacr + 0.0676202*hba1cTerm*dm + 0.063409*hba1cTerm*(1 - dm);
+                            logASCVD_30 = -1.836632 + 0.3749788*ageScaled - 0.0990063*ageScaledSquare + 0.1708505*nonHdlScaled - 0.1272841*hdlScaled - 0.1275555*sbpMinScaled + 0.2659339*sbpMaxScaled + 0.4676531*dm + 0.1610104*smoking - 0.0465144*egfrMinScaled + 0.0596996*egfrMaxScaled + 0.1147096*bptreat + 0.0052906*statin - 0.0186687*bptreat*sbpMaxScaled + 0.1063151*statin*nonHdlScaled - 0.0307797*ageScaled*nonHdlScaled + 0.0218126*ageScaled*hdlScaled - 0.0898242*ageScaled*sbpMaxScaled - 0.210054*ageScaled*dm - 0.1246327*ageScaled*smoking - 0.0629358*ageScaled*egfrMinScaled + 0.0863835 + 0.0684872*logUacr + 0.0501422*hba1cTerm*dm + 0.0722905*hba1cTerm*(1-dm);
+                            logHF_30 = -2.060187 + 0.5387527*ageScaled - 0.1090333*ageScaledSquare - 0.4829094*sbpMinScaled + 0.2843569*sbpMaxScaled + 0.6827667*dm + 0.2406677*smoking + 0.0618028*bmiMinScaled + 0.2705615*bmiMaxScaled + 0.2255837*egfrMinScaled + 0.0653632*egfrMaxScaled + 0.2263243*bptreat - 0.0316851*bptreat*sbpMaxScaled - 0.1258716*ageScaled*sbpMaxScaled - 0.3243709*ageScaled*dm - 0.1596172*ageScaled*smoking - 0.0103092*ageScaled*bmiMaxScaled - 0.1204785*ageScaled*egfrMinScaled + 0.1151424 + 0.1233486*logUacr + 0.0985062*hba1cTerm*dm + 0.0804844*hba1cTerm*(1-dm);
+                        }
                     }
                 }
 
@@ -371,54 +445,71 @@
                 const riskCVD = 100 * Math.exp(logCVD) / (1 + Math.exp(logCVD));
                 const riskASCVD = 100 * Math.exp(logASCVD) / (1 + Math.exp(logASCVD));
                 const riskHF = 100 * Math.exp(logHF) / (1 + Math.exp(logHF));
+                
+                let riskCVD_30 = 0, riskASCVD_30 = 0, riskHF_30 = 0;
+                if (calc30Yr) {
+                    riskCVD_30 = 100 * Math.exp(logCVD_30) / (1 + Math.exp(logCVD_30));
+                    riskASCVD_30 = 100 * Math.exp(logASCVD_30) / (1 + Math.exp(logASCVD_30));
+                    riskHF_30 = 100 * Math.exp(logHF_30) / (1 + Math.exp(logHF_30));
+                }
 
-                updateUI(riskCVD, riskASCVD, riskHF);
+                updateUI(riskCVD, riskASCVD, riskHF, riskCVD_30, riskASCVD_30, riskHF_30, calc30Yr);
             }
 
-            function updateUI(riskCVD, riskASCVD, riskHF) {
+            function updateUI(riskCVD, riskASCVD, riskHF, riskCVD_30, riskASCVD_30, riskHF_30, calc30Yr) {
                 document.getElementById('result-placeholder').classList.add('hidden');
                 document.getElementById('result-content').classList.remove('hidden');
 
-                const resRisk = document.getElementById('res-risk');
-                const resAscvd = document.getElementById('res-ascvd');
-                const resHf = document.getElementById('res-hf');
-                const resCat = document.getElementById('res-category');
+                // Atualizar Risco 10 Anos
+                document.getElementById('res-risk-10yr').textContent = `${riskCVD.toFixed(1)}%`;
+                document.getElementById('res-ascvd-10yr').textContent = `${riskASCVD.toFixed(1)}%`;
+                document.getElementById('res-hf-10yr').textContent = `${riskHF.toFixed(1)}%`;
+
+                // Atualizar Risco 30 Anos ou mostrar Aviso
+                if (calc30Yr) {
+                    document.getElementById('risk-card-30yr').classList.remove('hidden');
+                    document.getElementById('risk-card-30yr-na').classList.add('hidden');
+                    document.getElementById('res-risk-30yr').textContent = `${riskCVD_30.toFixed(1)}%`;
+                    document.getElementById('res-ascvd-30yr').textContent = `${riskASCVD_30.toFixed(1)}%`;
+                    document.getElementById('res-hf-30yr').textContent = `${riskHF_30.toFixed(1)}%`;
+                } else {
+                    document.getElementById('risk-card-30yr').classList.add('hidden');
+                    document.getElementById('risk-card-30yr-na').classList.remove('hidden');
+                }
+
+                const resCat = document.getElementById('res-category-10yr');
                 const resRec = document.getElementById('res-recommendation');
                 const resLdl = document.getElementById('res-ldl-target');
-                const riskCard = document.getElementById('risk-card');
-
-                resRisk.textContent = `${riskCVD.toFixed(1)}%`;
-                resAscvd.textContent = `${riskASCVD.toFixed(1)}%`;
-                resHf.textContent = `${riskHF.toFixed(1)}%`;
+                const riskCard = document.getElementById('risk-card-10yr');
 
                 // Remove cores antigas da borda e badges
                 riskCard.classList.remove('border-green-400', 'border-yellow-400', 'border-orange-400', 'border-red-500');
                 resCat.classList.remove('bg-green-100', 'text-green-700', 'bg-yellow-100', 'text-yellow-700', 'bg-orange-100', 'text-orange-700', 'bg-red-100', 'text-red-700');
 
-                // Classificação Oficial de Risco baseada no Risco Total (CVD)
+                // Classificação Oficial de Risco baseada no Risco Total em 10 Anos (CVD)
                 if (riskCVD < 5.0) {
-                    resCat.textContent = "Baixo Risco";
+                    resCat.textContent = "Baixo Risco (10 Anos)";
                     resCat.classList.add('bg-green-100', 'text-green-700');
                     riskCard.classList.add('border-green-400');
                     resRec.innerHTML = "Enfatizar estilo de vida saudável. Terapias medicamentosas profiláticas (como estatinas) geralmente <strong>não são indicadas</strong>, a menos que existam fatores de risco intensificadores específicos.";
                     resLdl.innerHTML = "< 116 mg/dL <span class='text-sm font-normal text-blue-700'>(Foco em otimização do estilo de vida)</span>";
                 } else if (riskCVD >= 5.0 && riskCVD < 7.5) {
-                    resCat.textContent = "Risco Limítrofe";
+                    resCat.textContent = "Risco Limítrofe (10 Anos)";
                     resCat.classList.add('bg-yellow-100', 'text-yellow-700');
                     riskCard.classList.add('border-yellow-400');
                     resRec.innerHTML = "Estilo de vida saudável é essencial. Se houver fatores intensificadores de risco presentes, pode ser razoável iniciar terapia com estatina de intensidade moderada após discussão risco-benefício.";
                     resLdl.innerHTML = "< 100 mg/dL <span class='text-sm font-normal text-blue-700'>(Considerar estatina se intensificadores presentes)</span>";
                 } else if (riskCVD >= 7.5 && riskCVD < 20.0) {
-                    resCat.textContent = "Risco Intermediário";
+                    resCat.textContent = "Risco Intermediário (10 Anos)";
                     resCat.classList.add('bg-orange-100', 'text-orange-700');
                     riskCard.classList.add('border-orange-400');
                     resRec.innerHTML = "Discussão mútua necessária. Geralmente é favorecido o <strong>início de terapia com estatina de intensidade moderada</strong>. Se houver dúvida, considerar Escore de Cálcio Coronariano (CAC) para reclassificação.";
                     resLdl.innerHTML = "Redução de 30% a 49% <span class='text-sm font-normal text-blue-700'>(Meta prática sugerida: < 100 mg/dL)</span>";
                 } else {
-                    resCat.textContent = "Alto Risco";
+                    resCat.textContent = "Alto Risco (10 Anos)";
                     resCat.classList.add('bg-red-100', 'text-red-700');
                     riskCard.classList.add('border-red-500');
-                    resRec.innerHTML = "Indicação forte para <strong>início de terapia com estatina de alta intensidade</strong> para reduzir o risco de eventos cardiovasculares em 10 anos.";
+                    resRec.innerHTML = "Indicação forte para <strong>início de terapia com estatina de alta intensidade</strong> para reduzir o risco de eventos cardiovasculares.";
                     resLdl.innerHTML = "Redução ≥ 50% <span class='text-sm font-normal text-blue-700'>(Meta prática sugerida: < 70 mg/dL)</span>";
                 }
 
