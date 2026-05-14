@@ -100,11 +100,18 @@
         <div class="bg-amber-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-amber-200">
             <div class="flex flex-col mb-6">
                 <h2 class="section-title text-2xl font-bold text-amber-900 mb-2">Nova Análise</h2>
-                <p class="text-gray-700 text-sm">Faça o upload de uma ou várias imagens, ou de um PDF completo (todas as páginas serão lidas).</p>
+                <p class="text-gray-700 text-sm">Faça o upload de imagens ou de um PDF completo.</p>
             </div>
             
             <div class="flex flex-col space-y-4">
-                <input type="file" id="exam-image-input" accept="image/*, application/pdf" multiple class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-2">
+                <!-- Seção de Arquivos (Modificada para Acumular Fotos) -->
+                <div class="flex flex-col sm:flex-row items-center gap-2">
+                    <input type="file" id="exam-image-input" accept="image/*, application/pdf" multiple class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-3">
+                    <button type="button" id="clear-files-btn" class="hidden w-full sm:w-auto px-6 py-3 bg-red-100 text-red-700 font-bold rounded-lg hover:bg-red-200 transition whitespace-nowrap border border-red-200 shadow-sm">
+                        Limpar Fila
+                    </button>
+                </div>
+                <p class="text-xs text-amber-700 font-medium">Dica para o celular: Pode clicar novamente no botão acima para abrir a câmera e continuar adicionando fotos à fila antes de transcrever.</p>
                 
                 <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-amber-300 bg-white rounded-lg hidden">
                     <p id="preview-processing-text" class="text-center font-bold text-amber-600 hidden my-4">Processando páginas do arquivo... Aguarde.</p>
@@ -127,12 +134,14 @@
             <div id="result-container" class="mt-8 p-6 bg-white rounded-xl hidden shadow-sm border border-amber-200">
                 <h3 class="font-bold text-lg mb-4 text-amber-900 border-b border-amber-200 pb-2">Resultado da Transcrição:</h3>
                 <div id="transcription-result" class="prose max-w-none text-gray-800"></div>
+                <!-- Espaço para o Feedback de Salvamento -->
+                <div id="save-feedback" class="mt-4 hidden"></div>
             </div>
         </div>
         
         <footer class="text-center text-gray-500 text-sm mt-10 border-t pt-6">
             <p class="mb-2 font-bold uppercase tracking-tighter text-amber-700">Plataforma Segura em Nuvem</p>
-            <p>&copy; 2024 Leitor de Exames. Todos os direitos reservados.</p>
+            <p>&copy; 2026 Mago MFC. Todos os direitos reservados.</p>
         </footer>
     </div>
 
@@ -161,7 +170,7 @@
                 if (configResponse.ok) {
                     firebaseConfig = await configResponse.json();
                 } else {
-                    console.warn("Função get-firebase-config não encontrada (provável ambiente local).");
+                    console.warn("Função get-firebase-config não encontrada.");
                 }
             } catch (error) {
                 console.error("Erro ao carregar as credenciais seguras do Firebase.", error);
@@ -193,7 +202,7 @@
                     currentUser = user;
                     authSection.classList.add('hidden');
                     appSection.classList.remove('hidden');
-                    loadLastAnalysis(user.uid);
+                    loadLastAnalysis(user.uid); // Chama histórico automaticamente
                 } else {
                     currentUser = null;
                     authSection.classList.remove('hidden');
@@ -249,14 +258,13 @@
         }
 
         // ==========================================
-        // 2. BANCO DE DADOS (Salvar/Carregar) CORRIGIDO
+        // 2. BANCO DE DADOS (Salvar/Carregar)
         // ==========================================
         async function saveAnalysisToDB(texto) {
-            if (!currentUser || !db) return;
+            if (!currentUser || !db) throw new Error("Usuário não autenticado ou Banco de Dados indisponível.");
             try {
                 let docPath;
                 if (typeof __firebase_config !== 'undefined') {
-                    // RESOLVIDO: Formato par de coleção > documento > coleção > documento
                     docPath = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'analises', 'ultima');
                 } else {
                     docPath = doc(db, 'usuarios', currentUser.uid, 'dados', 'ultima_analise');
@@ -267,7 +275,8 @@
                     data: new Date().toLocaleString('pt-BR')
                 });
             } catch (e) {
-                console.error("Erro ao salvar no banco", e);
+                console.error("Erro Crítico ao salvar no banco", e);
+                throw e; // Repassa o erro para mostrar na tela
             }
         }
 
@@ -277,7 +286,6 @@
 
             let docPath;
             if (typeof __firebase_config !== 'undefined') {
-                // RESOLVIDO: Formato par exato
                 docPath = doc(db, 'artifacts', appId, 'users', uid, 'analises', 'ultima');
             } else {
                 docPath = doc(db, 'usuarios', uid, 'dados', 'ultima_analise');
@@ -293,14 +301,15 @@
                     document.getElementById('history-container').classList.add('hidden');
                 }
             }, (error) => {
-                console.error("Erro ao escutar banco.", error);
+                console.error("Erro ao escutar banco (Possível erro de Permissões/Regras Firestore).", error);
             });
         }
 
         // ==========================================
-        // 3. LÓGICA DO LEITOR (Imagens e PDF)
+        // 3. LÓGICA DO LEITOR (ACUMULAR MÚLTIPLAS FOTOS E PDF)
         // ==========================================
         const imageInput = document.getElementById('exam-image-input');
+        const clearFilesBtn = document.getElementById('clear-files-btn');
         const previewContainer = document.getElementById('preview-container');
         const thumbnailsContainer = document.getElementById('preview-thumbnails');
         const previewSummary = document.getElementById('preview-summary');
@@ -309,8 +318,9 @@
         const analyzeButton = document.getElementById('analyze-exam-button');
         const resultContainer = document.getElementById('result-container');
         const transcriptionResult = document.getElementById('transcription-result');
+        const saveFeedback = document.getElementById('save-feedback');
 
-        let fileDataArray = []; 
+        let fileDataArray = []; // Agora acumula as imagens!
 
         function addThumbnail(base64Src) {
             const img = document.createElement('img');
@@ -319,7 +329,17 @@
             thumbnailsContainer.appendChild(img);
         }
 
-        // Compressão embutida (Ajustado para 1200px e 0.7 para envio muito mais rápido e leve)
+        // Botão para limpar a fila de arquivos
+        clearFilesBtn.addEventListener('click', () => {
+            fileDataArray = [];
+            thumbnailsContainer.innerHTML = '';
+            previewContainer.classList.add('hidden');
+            analyzeButton.disabled = true;
+            clearFilesBtn.classList.add('hidden');
+            imageInput.value = ''; // Libera o input
+        });
+
+        // Compressão embutida para envio mais rápido
         const compressImageDesktop = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -354,7 +374,6 @@
                     canvas.height = viewport.height;
                     canvas.width = viewport.width;
                     await page.render({ canvasContext: context, viewport: viewport }).promise;
-                    // Qualidade 0.7 para processamento rápido na rede
                     base64Pages.push(canvas.toDataURL('image/jpeg', 0.7).split(',')[1]);
                 }
                 return base64Pages;
@@ -363,7 +382,7 @@
             }
         };
 
-        // Evento de Upload
+        // Evento de Upload (Modificado para ADICIONAR à fila)
         imageInput.addEventListener('change', async (event) => {
             const files = event.target.files;
             if (files.length > 0) {
@@ -371,8 +390,7 @@
                 resultContainer.classList.add('hidden');
                 previewContainer.classList.remove('hidden');
                 previewProcessingText.classList.remove('hidden');
-                thumbnailsContainer.innerHTML = '';
-                fileDataArray = [];
+                clearFilesBtn.classList.remove('hidden');
 
                 try {
                     for (let file of files) {
@@ -388,7 +406,7 @@
                             }
                         }
                     }
-                    previewSummary.textContent = `${fileDataArray.length} página(s) carregada(s).`;
+                    previewSummary.innerHTML = `<strong>${fileDataArray.length} página(s)</strong> prontas para análise.<br>Pode tirar mais fotos se o exame for maior!`;
                     analyzeButton.disabled = false;
                 } catch(e) {
                     console.error("Erro ao carregar:", e);
@@ -396,18 +414,22 @@
                     previewSummary.classList.add('text-red-600');
                 } finally {
                     previewProcessingText.classList.add('hidden');
+                    // Resetar o input permite que a câmara/galeria reabra para selecionar arquivos extras
+                    imageInput.value = ''; 
                 }
             }
         });
 
-        // Chamada à API com LÓGICA DE LOTES (Impede falha 504 da Netlify)
+        // Chamada à API com LÓGICA DE LOTES
         analyzeButton.addEventListener('click', async () => {
             if (fileDataArray.length === 0) return;
 
             analyzeButton.disabled = true;
             document.getElementById('analyze-text').textContent = 'Transcrevendo via IA...';
             document.getElementById('loading-spinner').classList.remove('hidden');
+            
             resultContainer.classList.remove('hidden');
+            saveFeedback.classList.add('hidden'); // Esconde feedback anterior
             
             const prompt = `Você é um auxiliar de um médico. Você registra os dados em português do Brasil. Analise fotografias de exames médicos de laboratório, exames de imagem, resultados de anatomia patológica  e crie uma lista contendo a data o nome de cada exame e seu respectivo resultado. Formate esse resultado em uma lista com a data entre parenteses seguido do primeiro resultado e separando os itens pelo símbolo / em uma linha contínua. Escreva a data apenas no início do registro dos exames de cada data. Omita as unidades de cada exame, omita os nomes de pessoas que constem nos documentos. No exame hemograma completo anote apenas o resultado da hemoglobina leucócitos e plaquetas. No exame parcial de urina anote apenas os itens que estiverem fora dos valores de referencia citados no exame. Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos, listando os mesmos sempre nesta sequencia . Liste primeiro os exames que estiverem com resultados fora dos valores de referência citados no exame.Destaque exames fora dos valores de referência.  Se atenha aos valores que constem nos documentos, não crie ou insira valores que não estiverem presentes na leitura`;
 
@@ -419,14 +441,14 @@
 
             try {
                 let fullTranscription = "";
-                // Dividir em lotes de 3 para não estourar o limite de 10 segundos da Netlify
+                // Dividir em lotes de 3 para não estourar o limite de tempo da Netlify
                 const batchSize = 3; 
 
                 for (let i = 0; i < fileDataArray.length; i += batchSize) {
                     const batch = fileDataArray.slice(i, i + batchSize);
                     
                     transcriptionResult.innerHTML = `
-                        <p class="text-amber-600 font-bold italic animate-pulse">
+                        <p class="text-amber-600 font-bold italic animate-pulse p-4 text-center">
                             A processar páginas ${i + 1} a ${Math.min(i + batchSize, fileDataArray.length)} de ${fileDataArray.length} no servidor...
                         </p>`;
 
@@ -449,10 +471,22 @@
                 // Renderiza o resultado final combinado
                 transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap font-sans text-sm">${fullTranscription}</pre>`;
                 
-                await saveAnalysisToDB(fullTranscription);
+                // Feedback visual de sincronização
+                saveFeedback.className = "mt-4 p-3 bg-blue-50 text-blue-800 font-bold rounded-xl border border-blue-200 flex items-center gap-2 animate-pulse block";
+                saveFeedback.innerHTML = "<span>☁️</span> Salvando na Nuvem...";
+                
+                try {
+                    await saveAnalysisToDB(fullTranscription);
+                    // Confirmação de Sucesso!
+                    saveFeedback.className = "mt-4 p-3 bg-green-50 text-green-800 font-bold rounded-xl border border-green-300 flex items-center gap-2 block transition-all";
+                    saveFeedback.innerHTML = "<span>✅</span> Salvo na nuvem com sucesso! Verifique noutro dispositivo.";
+                } catch (dbError) {
+                    saveFeedback.className = "mt-4 p-3 bg-red-50 text-red-800 font-bold rounded-xl border border-red-300 flex items-center gap-2 block";
+                    saveFeedback.innerHTML = "<span>⚠️</span> Transcrição concluída, mas falhou ao salvar na nuvem. Verifique suas permissões do Firebase.";
+                }
 
             } catch (error) {
-                transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">Erro ao analisar: ${error.message}</p>`;
+                transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold p-4 bg-red-50 rounded-lg border border-red-200">Erro ao analisar: ${error.message}</p>`;
             } finally {
                 analyzeButton.disabled = false;
                 document.getElementById('analyze-text').textContent = 'Nova Transcrição';
