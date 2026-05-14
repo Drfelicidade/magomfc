@@ -94,7 +94,7 @@
                 Última Análise Salva na Nuvem
             </h2>
             <p id="history-date" class="text-xs text-blue-700 mb-4"></p>
-            <div id="history-text" class="prose max-w-none text-sm text-gray-800 bg-white p-4 rounded-xl border border-blue-100"></div>
+            <div id="history-text" class="prose max-w-none text-sm text-gray-800 bg-white p-4 rounded-xl border border-blue-100 max-h-64 overflow-y-auto"></div>
         </div>
 
         <div class="bg-amber-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-amber-200">
@@ -108,7 +108,7 @@
                 
                 <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-amber-300 bg-white rounded-lg hidden">
                     <p id="preview-processing-text" class="text-center font-bold text-amber-600 hidden my-4">Processando páginas do arquivo... Aguarde.</p>
-                    <div id="preview-thumbnails" class="grid grid-cols-2 sm:grid-cols-4 gap-4"></div>
+                    <div id="preview-thumbnails" class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-h-60 overflow-y-auto p-2"></div>
                     <canvas id="exam-pdf-preview" class="hidden"></canvas>
                     <p id="preview-summary" class="text-sm font-semibold text-center text-gray-600 mt-4"></p>
                 </div>
@@ -249,14 +249,15 @@
         }
 
         // ==========================================
-        // 2. BANCO DE DADOS (Salvar/Carregar)
+        // 2. BANCO DE DADOS (Salvar/Carregar) CORRIGIDO
         // ==========================================
         async function saveAnalysisToDB(texto) {
             if (!currentUser || !db) return;
             try {
                 let docPath;
                 if (typeof __firebase_config !== 'undefined') {
-                    docPath = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'exames');
+                    // RESOLVIDO: Formato par de coleção > documento > coleção > documento
+                    docPath = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'analises', 'ultima');
                 } else {
                     docPath = doc(db, 'usuarios', currentUser.uid, 'dados', 'ultima_analise');
                 }
@@ -276,7 +277,8 @@
 
             let docPath;
             if (typeof __firebase_config !== 'undefined') {
-                docPath = doc(db, 'artifacts', appId, 'users', uid, 'exames');
+                // RESOLVIDO: Formato par exato
+                docPath = doc(db, 'artifacts', appId, 'users', uid, 'analises', 'ultima');
             } else {
                 docPath = doc(db, 'usuarios', uid, 'dados', 'ultima_analise');
             }
@@ -317,7 +319,7 @@
             thumbnailsContainer.appendChild(img);
         }
 
-        // Compressão embutida para evitar bloqueios de tamanho de payload
+        // Compressão embutida (Ajustado para 1200px e 0.7 para envio muito mais rápido e leve)
         const compressImageDesktop = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -328,11 +330,11 @@
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
                         let width = img.width, height = img.height;
-                        if (width > height) { if (width > 1500) { height *= 1500 / width; width = 1500; } } 
-                        else { if (height > 1500) { width *= 1500 / height; height = 1500; } }
+                        if (width > height) { if (width > 1200) { height *= 1200 / width; width = 1200; } } 
+                        else { if (height > 1200) { width *= 1200 / height; height = 1200; } }
                         canvas.width = width; canvas.height = height;
                         canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.8).split(',')[1]);
+                        resolve(canvas.toDataURL('image/jpeg', 0.7).split(',')[1]);
                     };
                 };
             });
@@ -352,7 +354,8 @@
                     canvas.height = viewport.height;
                     canvas.width = viewport.width;
                     await page.render({ canvasContext: context, viewport: viewport }).promise;
-                    base64Pages.push(canvas.toDataURL('image/jpeg', 0.8).split(',')[1]);
+                    // Qualidade 0.7 para processamento rápido na rede
+                    base64Pages.push(canvas.toDataURL('image/jpeg', 0.7).split(',')[1]);
                 }
                 return base64Pages;
             } finally { 
@@ -397,7 +400,7 @@
             }
         });
 
-        // Chamada à API
+        // Chamada à API com LÓGICA DE LOTES (Impede falha 504 da Netlify)
         analyzeButton.addEventListener('click', async () => {
             if (fileDataArray.length === 0) return;
 
@@ -405,38 +408,51 @@
             document.getElementById('analyze-text').textContent = 'Transcrevendo via IA...';
             document.getElementById('loading-spinner').classList.remove('hidden');
             resultContainer.classList.remove('hidden');
-            transcriptionResult.innerHTML = '<p class="text-gray-600 italic animate-pulse">Enviando documento(s) para o servidor seguro...</p>';
-
-            const prompt = `Você é um auxiliar de um médico. Você registra os dados em português do Brasil. Analise fotografias de exames médicos de laboratório, exames de imagem, resultados de anatomia patológica  e crie uma lista contendo a data o nome de cada exame e seu respectivo resultado. Formate esse resultado em uma lista com a data entre parenteses seguido do primeiro resultado e separando os itens pelo símbolo / em uma linha contínua. Escreva a data apenas no início do registro dos exames de cada data. Omita as unidades de cada exame, omita os nomes de pessoas que constem nos documentos. No exame hemograma completo anote apenas o resultado da hemoglobina leucócitos e plaquetas. No exame parcial de urina anote apenas os itens que estiverem fora dos valores de referencia citados no exame. Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos, listando os mesmos sempre nesta sequencia . Liste primeiro os exames que estiverem com resultados fora dos valores de referência citados no exame. Se atenha aos valores que constem nos documentos, não crie ou insira valores que não estiverem presentes na leitura `;
-
-            let partsPayload = [{ text: prompt }];
-            fileDataArray.forEach(file => {
-                partsPayload.push({ inlineData: { mimeType: file.mimeType, data: file.data } });
-            });
+            
+            const prompt = `Você é um auxiliar de um médico. Você registra os dados em português do Brasil. Analise fotografias de exames médicos de laboratório, exames de imagem, resultados de anatomia patológica  e crie uma lista contendo a data o nome de cada exame e seu respectivo resultado. Formate esse resultado em uma lista com a data entre parenteses seguido do primeiro resultado e separando os itens pelo símbolo / em uma linha contínua. Escreva a data apenas no início do registro dos exames de cada data. Omita as unidades de cada exame, omita os nomes de pessoas que constem nos documentos. No exame hemograma completo anote apenas o resultado da hemoglobina leucócitos e plaquetas. No exame parcial de urina anote apenas os itens que estiverem fora dos valores de referencia citados no exame. Agrupe os resultados de colesterol total, colesterol HDL e triglicerídeos, listando os mesmos sempre nesta sequencia . Liste primeiro os exames que estiverem com resultados fora dos valores de referência citados no exame.Destaque exames fora dos valores de referência.  Se atenha aos valores que constem nos documentos, não crie ou insira valores que não estiverem presentes na leitura`;
 
             // Proxy da Netlify Seguro
             let apiUrl = `/.netlify/functions/gemini-proxy`;
-            
-            // Fallback para testes
             if (window.location.hostname.includes('google') || window.location.hostname === 'localhost') {
                 apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=`; 
             }
 
-            const payload = { contents: [{ role: "user", parts: partsPayload }] };
-
             try {
-                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                const result = await response.json();
+                let fullTranscription = "";
+                // Dividir em lotes de 3 para não estourar o limite de 10 segundos da Netlify
+                const batchSize = 3; 
 
-                if (!response.ok || result.error) throw new Error("Erro na comunicação com a API Gemini.");
+                for (let i = 0; i < fileDataArray.length; i += batchSize) {
+                    const batch = fileDataArray.slice(i, i + batchSize);
+                    
+                    transcriptionResult.innerHTML = `
+                        <p class="text-amber-600 font-bold italic animate-pulse">
+                            A processar páginas ${i + 1} a ${Math.min(i + batchSize, fileDataArray.length)} de ${fileDataArray.length} no servidor...
+                        </p>`;
 
-                const text = result.candidates[0].content.parts[0].text;
-                transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap font-sans text-sm">${text}</pre>`;
+                    let partsPayload = [{ text: prompt }];
+                    batch.forEach(file => {
+                        partsPayload.push({ inlineData: { mimeType: file.mimeType, data: file.data } });
+                    });
+
+                    const payload = { contents: [{ role: "user", parts: partsPayload }] };
+
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    const result = await response.json();
+
+                    if (!response.ok || result.error) throw new Error(result.error || "Erro na comunicação com a API Gemini.");
+
+                    const text = result.candidates[0].content.parts[0].text;
+                    fullTranscription += text + "\n\n";
+                }
+
+                // Renderiza o resultado final combinado
+                transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap font-sans text-sm">${fullTranscription}</pre>`;
                 
-                await saveAnalysisToDB(text);
+                await saveAnalysisToDB(fullTranscription);
 
             } catch (error) {
-                transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">Erro ao analisar. O servidor pode estar indisponível ou o limite de tempo foi excedido. Tente enviar menos páginas de cada vez.</p>`;
+                transcriptionResult.innerHTML = `<p class="text-red-700 font-semibold">Erro ao analisar: ${error.message}</p>`;
             } finally {
                 analyzeButton.disabled = false;
                 document.getElementById('analyze-text').textContent = 'Nova Transcrição';
