@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Função Renal (eTFG)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 1100px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #2563eb; /* Blue-600 */
+            border-radius: 9999px;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-blue-600 p-6 text-white text-center">
+            <h1 class="text-3xl font-bold">Calculadora de Função Renal</h1>
+            <p class="text-blue-100 opacity-90 text-sm md:text-base">Estimativa da Taxa de Filtração Glomerular (eTFG) e Clearance de Creatinina</p>
+            <div class="mt-4">
+                <a href="index.html" class="inline-flex items-center text-sm bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-full transition shadow-sm">
+                    &larr; Voltar ao Menu Principal
+                </a>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Coluna de Entradas (Inputs) -->
+            <div class="lg:col-span-7 space-y-8">
+                
+                <!-- Dados Demográficos -->
+                <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 shadow-sm">
+                    <h2 class="section-title text-lg font-bold text-blue-900 mb-4">Dados Demográficos</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Idade (anos)</label>
+                            <input type="number" id="age" min="0" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold" placeholder="Ex: 45">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Sexo ao Nascimento</label>
+                            <select id="sex" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold bg-white">
+                                <option value="">Selecione...</option>
+                                <option value="F">Feminino</option>
+                                <option value="M">Masculino</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Etnia <span class="font-normal text-gray-500">(Usado apenas na equação MDRD)</span></label>
+                            <select id="race" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold bg-white">
+                                <option value="0">Não Afrodescendente</option>
+                                <option value="1">Afrodescendente</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dados Clínicos / Antropométricos -->
+                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm">
+                    <h2 class="section-title text-lg font-bold text-gray-800 mb-4">Parâmetros Clínicos</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Creatinina Sérica (mg/dL)</label>
+                            <input type="number" id="scr" step="0.01" min="0" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold" placeholder="Ex: 1.2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Altura (cm)</label>
+                            <input type="number" id="height" min="0" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold" placeholder="Ex: 110">
+                            <p class="text-[10px] text-blue-600 mt-1 font-bold uppercase">*Obrigatório para Crianças (Schwartz)</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Peso (kg)</label>
+                            <input type="number" id="weight" min="0" step="0.1" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold" placeholder="Ex: 70">
+                            <p class="text-[10px] text-gray-500 mt-1 font-bold uppercase">*Obrigatório para Cockcroft-Gault</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="validation-msg" class="hidden p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-yellow-800 text-sm font-medium text-center">
+                    Preencha Idade, Sexo e Creatinina para visualizar o cálculo.
+                </div>
+            </div>
+
+            <!-- Coluna de Resultados (Outputs) -->
+            <div class="lg:col-span-5 relative">
+                <div class="sticky top-6">
+                    <div id="result-placeholder" class="h-full flex flex-col items-center justify-center text-gray-400 border-2 border-dashed border-gray-200 rounded-3xl p-10 text-center bg-gray-50 min-h-[400px]">
+                        <svg class="w-20 h-20 mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        <p class="text-lg">Insira os dados do paciente para estimar a função renal automaticamente.</p>
+                    </div>
+
+                    <div id="result-content" class="hidden w-full space-y-6">
+                        
+                        <!-- Risco Principal Destaque -->
+                        <div id="rec-box" class="bg-white p-8 rounded-3xl shadow-xl border-t-8 transition-colors duration-500">
+                            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2 text-center" id="rec-title">Fórmula Recomendada</span>
+                            <div class="flex flex-col items-center justify-center my-6">
+                                <div class="flex items-end gap-2">
+                                    <h3 id="rec-value" class="text-7xl font-black text-gray-800 tracking-tighter">--</h3>
+                                    <span class="text-lg text-gray-500 font-bold mb-2">mL/min</span>
+                                </div>
+                                <div id="rec-stage" class="mt-4 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider bg-gray-100 text-gray-600">
+                                    Estágio
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-6 border-t border-gray-100">
+                                <p id="rec-desc" class="text-sm text-gray-600 leading-relaxed text-center"></p>
+                            </div>
+                        </div>
+
+                        <!-- Fórmulas Secundárias -->
+                        <div id="secondary-formulas" class="space-y-4">
+                            <div id="card-mdrd" class="bg-white border border-gray-200 p-5 rounded-2xl flex justify-between items-center shadow-sm hidden">
+                                <div>
+                                    <span class="block text-xs font-bold text-blue-600 uppercase">MDRD (Clássico)</span>
+                                    <span class="text-xs text-gray-500">mL/min/1.73m²</span>
+                                </div>
+                                <span id="val-mdrd" class="text-2xl font-black text-gray-800">--</span>
+                            </div>
+                            
+                            <div id="card-cg" class="bg-white border border-gray-200 p-5 rounded-2xl flex justify-between items-center shadow-sm hidden">
+                                <div>
+                                    <span class="block text-xs font-bold text-orange-600 uppercase">Cockcroft-Gault</span>
+                                    <span class="text-xs text-gray-500">Clearance (mL/min)</span>
+                                </div>
+                                <span id="val-cg" class="text-2xl font-black text-gray-800">--</span>
+                            </div>
+                        </div>
+
+                        <div class="text-left p-4 bg-indigo-50 rounded-xl border border-indigo-100 shadow-sm">
+                            <p class="text-xs text-indigo-800 leading-relaxed">
+                                <strong>Nota Técnica:</strong> O sistema seleciona a fórmula apropriada automaticamente. A fórmula de <strong>Schwartz (2009)</strong> é ativada para pacientes &lt; 18 anos. Para adultos (≥ 18 anos), o <strong>CKD-EPI 2021</strong> (independente de etnia) é a equação de primeira linha preconizada pelo KDIGO.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inputs
+            const inAge = document.getElementById('age');
+            const inSex = document.getElementById('sex');
+            const inRace = document.getElementById('race');
+            const inScr = document.getElementById('scr');
+            const inHeight = document.getElementById('height');
+            const inWeight = document.getElementById('weight');
+            
+            const allInputs = [inAge, inSex, inRace, inScr, inHeight, inWeight];
+
+            const resPlaceholder = document.getElementById('result-placeholder');
+            const resContent = document.getElementById('result-content');
+            const valMsg = document.getElementById('validation-msg');
+
+            const recTitle = document.getElementById('rec-title');
+            const recValue = document.getElementById('rec-value');
+            const recStage = document.getElementById('rec-stage');
+            const recDesc = document.getElementById('rec-desc');
+            const recBox = document.getElementById('rec-box');
+
+            function getStage(egfr) {
+                if (egfr >= 90) return { stage: "G1", desc: "Normal ou Elevada", color: "text-green-600", border: "border-green-500", bg: "bg-green-100" };
+                if (egfr >= 60) return { stage: "G2", desc: "Levemente Diminuída", color: "text-yellow-600", border: "border-yellow-400", bg: "bg-yellow-100" };
+                if (egfr >= 45) return { stage: "G3a", desc: "Diminuição Leve a Moderada", color: "text-orange-500", border: "border-orange-400", bg: "bg-orange-100" };
+                if (egfr >= 30) return { stage: "G3b", desc: "Diminuição Moderada a Severa", color: "text-orange-600", border: "border-orange-500", bg: "bg-orange-200" };
+                if (egfr >= 15) return { stage: "G4", desc: "Severamente Diminuída", color: "text-red-600", border: "border-red-500", bg: "bg-red-100" };
+                return { stage: "G5", desc: "Falência Renal", color: "text-red-800", border: "border-red-700", bg: "bg-red-200" };
+            }
+
+            function calculateGFR() {
+                const age = parseFloat(inAge.value);
+                const sex = inSex.value;
+                const isBlack = inRace.value === '1';
+                const scr = parseFloat(inScr.value);
+                const height = parseFloat(inHeight.value);
+                const weight = parseFloat(inWeight.value);
+
+                valMsg.classList.add('hidden');
+
+                // Validação Básica
+                if (isNaN(age) || sex === "" || isNaN(scr)) {
+                    valMsg.textContent = "Preencha Idade, Sexo e Creatinina para obter a estimativa da função renal.";
+                    valMsg.classList.remove('hidden');
+                    resPlaceholder.classList.remove('hidden');
+                    resContent.classList.add('hidden');
+                    return;
+                }
+
+                // Validação Pediátrica
+                if (age < 18 && isNaN(height)) {
+                    valMsg.textContent = "Para pacientes pediátricos (< 18 anos), a Altura (cm) é obrigatória para a fórmula de Schwartz.";
+                    valMsg.classList.remove('hidden');
+                    resPlaceholder.classList.remove('hidden');
+                    resContent.classList.add('hidden');
+                    return;
+                }
+
+                resPlaceholder.classList.add('hidden');
+                resContent.classList.remove('hidden');
+
+                let primaryVal = 0;
+                let schwartz = null, ckdEpi = null, mdrd = null, cg = null;
+
+                // CÁLCULOS
+                if (age < 18) {
+                    // Schwartz Bedside (2009)
+                    schwartz = (0.413 * height) / scr;
+                } else {
+                    // CKD-EPI 2021
+                    let k = sex === 'F' ? 0.7 : 0.9;
+                    let a = sex === 'F' ? -0.241 : -0.302;
+                    let multiplier = sex === 'F' ? 1.012 : 1;
+                    let minScrK = Math.min(scr/k, 1);
+                    let maxScrK = Math.max(scr/k, 1);
+                    ckdEpi = 142 * Math.pow(minScrK, a) * Math.pow(maxScrK, -1.200) * Math.pow(0.9938, age) * multiplier;
+                    
+                    // MDRD
+                    mdrd = 175 * Math.pow(scr, -1.154) * Math.pow(age, -0.203);
+                    if (sex === 'F') mdrd *= 0.742;
+                    if (isBlack) mdrd *= 1.212;
+                }
+
+                if (!isNaN(weight)) {
+                    // Cockcroft-Gault
+                    cg = ((140 - age) * weight) / (72 * scr);
+                    if (sex === 'F') cg *= 0.85;
+                }
+
+                // UI UPDATES BASEADOS NA FAIXA ETÁRIA
+                if (age < 18) {
+                    primaryVal = schwartz;
+                    recTitle.textContent = "Fórmula de Schwartz (Pediátrica)";
+                    recDesc.innerHTML = "Recomendada para estimativa da Taxa de Filtração Glomerular em crianças e adolescentes (< 18 anos).<br><em>Nota: As fórmulas de adultos foram desativadas por segurança (risco de superestimação).</em>";
+                    
+                    // Ocultar cards de adultos
+                    document.getElementById('card-mdrd').classList.add('hidden');
+                    document.getElementById('card-cg').classList.add('hidden');
+                } else {
+                    primaryVal = ckdEpi;
+                    recTitle.textContent = "CKD-EPI 2021";
+                    recDesc.textContent = "Fórmula atualmente recomendada pelo KDIGO para estimativa da TFG em adultos (independente de etnia).";
+                    
+                    // Mostrar MDRD
+                    document.getElementById('card-mdrd').classList.remove('hidden');
+                    document.getElementById('val-mdrd').textContent = mdrd.toFixed(1);
+                    
+                    // Mostrar CG se tiver peso
+                    if (cg !== null) {
+                        document.getElementById('card-cg').classList.remove('hidden');
+                        document.getElementById('val-cg').textContent = cg.toFixed(1);
+                    } else {
+                        document.getElementById('card-cg').classList.add('hidden');
+                    }
+                }
+
+                recValue.textContent = primaryVal.toFixed(1);
+                
+                const stageInfo = getStage(primaryVal);
+                recStage.textContent = `Estágio ${stageInfo.stage} - ${stageInfo.desc}`;
+                recStage.className = `mt-4 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider inline-block ${stageInfo.bg} ${stageInfo.color}`;
+
+                // Atualizar cor da borda do card principal
+                recBox.className = `bg-white p-8 rounded-3xl shadow-xl border-t-8 transition-colors duration-500 ${stageInfo.border}`;
+            }
+
+            // Listeners
+            allInputs.forEach(input => {
+                input.addEventListener('input', calculateGFR);
+            });
+            
+            // Força o seletor de Etnia a mudar e recalcular (para quem clica no select)
+            inRace.addEventListener('change', calculateGFR);
+            inSex.addEventListener('change', calculateGFR);
+        });
+    </script>
+</body>
+</html>
