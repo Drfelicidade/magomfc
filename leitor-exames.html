@@ -104,14 +104,14 @@
             </div>
             
             <div class="flex flex-col space-y-4">
-                <!-- Seção de Arquivos (Modificada para Acumular Fotos) -->
+                <!-- Seção de Arquivos -->
                 <div class="flex flex-col sm:flex-row items-center gap-2">
                     <input type="file" id="exam-image-input" accept="image/*, application/pdf" multiple class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-3">
                     <button type="button" id="clear-files-btn" class="hidden w-full sm:w-auto px-6 py-3 bg-red-100 text-red-700 font-bold rounded-lg hover:bg-red-200 transition whitespace-nowrap border border-red-200 shadow-sm">
                         Limpar Fila
                     </button>
                 </div>
-                <p class="text-xs text-amber-700 font-medium">Dica para o celular: Pode clicar novamente no botão acima para abrir a câmera e continuar adicionando fotos à fila antes de transcrever.</p>
+                <p class="text-xs text-amber-700 font-medium">Dica de Celular: Pode clicar novamente no botão acima para abrir a câmara e continuar adicionando fotos à fila antes de transcrever.</p>
                 
                 <div id="preview-container" class="mt-4 p-4 border-dashed border-2 border-amber-300 bg-white rounded-lg hidden">
                     <p id="preview-processing-text" class="text-center font-bold text-amber-600 hidden my-4">Processando páginas do arquivo... Aguarde.</p>
@@ -141,7 +141,7 @@
         
         <footer class="text-center text-gray-500 text-sm mt-10 border-t pt-6">
             <p class="mb-2 font-bold uppercase tracking-tighter text-amber-700">Plataforma Segura em Nuvem</p>
-            <p>&copy; 2026 Mago MFC. Todos os direitos reservados.</p>
+            <p>&copy; 2024 Leitor de Exames. Todos os direitos reservados.</p>
         </footer>
     </div>
 
@@ -267,7 +267,7 @@
                 if (typeof __firebase_config !== 'undefined') {
                     docPath = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'analises', 'ultima');
                 } else {
-                    docPath = doc(db, 'usuarios', currentUser.uid, 'dados', 'ultima_analise');
+                    docPath = doc(db, 'usuarios', currentUser.uid);
                 }
                 
                 await setDoc(docPath, {
@@ -288,7 +288,7 @@
             if (typeof __firebase_config !== 'undefined') {
                 docPath = doc(db, 'artifacts', appId, 'users', uid, 'analises', 'ultima');
             } else {
-                docPath = doc(db, 'usuarios', uid, 'dados', 'ultima_analise');
+                docPath = doc(db, 'usuarios', uid);
             }
 
             unsubSnapshot = onSnapshot(docPath, (docSnap) => {
@@ -320,7 +320,7 @@
         const transcriptionResult = document.getElementById('transcription-result');
         const saveFeedback = document.getElementById('save-feedback');
 
-        let fileDataArray = []; // Agora acumula as imagens!
+        let fileDataArray = []; 
 
         function addThumbnail(base64Src) {
             const img = document.createElement('img');
@@ -339,7 +339,7 @@
             imageInput.value = ''; // Libera o input
         });
 
-        // Compressão embutida para envio mais rápido
+        // Compressão embutida
         const compressImageDesktop = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -382,7 +382,7 @@
             }
         };
 
-        // Evento de Upload (Modificado para ADICIONAR à fila)
+        // Evento de Upload
         imageInput.addEventListener('change', async (event) => {
             const files = event.target.files;
             if (files.length > 0) {
@@ -414,13 +414,12 @@
                     previewSummary.classList.add('text-red-600');
                 } finally {
                     previewProcessingText.classList.add('hidden');
-                    // Resetar o input permite que a câmara/galeria reabra para selecionar arquivos extras
                     imageInput.value = ''; 
                 }
             }
         });
 
-        // Chamada à API com LÓGICA DE LOTES
+        // Chamada à API
         analyzeButton.addEventListener('click', async () => {
             if (fileDataArray.length === 0) return;
 
@@ -441,7 +440,6 @@
 
             try {
                 let fullTranscription = "";
-                // Dividir em lotes de 3 para não estourar o limite de tempo da Netlify
                 const batchSize = 3; 
 
                 for (let i = 0; i < fileDataArray.length; i += batchSize) {
@@ -468,7 +466,7 @@
                     fullTranscription += text + "\n\n";
                 }
 
-                // Renderiza o resultado final combinado
+                // Renderiza o resultado
                 transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap font-sans text-sm">${fullTranscription}</pre>`;
                 
                 // Feedback visual de sincronização
@@ -477,7 +475,6 @@
                 
                 try {
                     await saveAnalysisToDB(fullTranscription);
-                    // Confirmação de Sucesso!
                     saveFeedback.className = "mt-4 p-3 bg-green-50 text-green-800 font-bold rounded-xl border border-green-300 flex items-center gap-2 block transition-all";
                     saveFeedback.innerHTML = "<span>✅</span> Salvo na nuvem com sucesso! Verifique noutro dispositivo.";
                 } catch (dbError) {
