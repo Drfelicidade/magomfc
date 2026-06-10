@@ -12,7 +12,7 @@
             background-color: #f0f4f8;
         }
         .container {
-            max-width: 900px;
+            max-width: 950px;
         }
         input[type="date"]::-webkit-calendar-picker-indicator {
             background: none;
@@ -41,235 +41,266 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
-    <div class="container mx-auto p-8 bg-white rounded-3xl shadow-xl space-y-10">
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto p-6 md:p-10 bg-white rounded-3xl shadow-xl space-y-10">
         <header class="text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora de Idade Gestacional</h1>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Calculadora Gestacional</h1>
             <p class="text-gray-600 text-lg md:text-xl">
-                Calcule a idade do seu bebê e a provável data do parto de forma simples e precisa.
+                Cálculo preciso de idade gestacional, trimestres e data provável do parto.
             </p>
         </header>
 
         <!-- Botão Voltar ao Menu Principal -->
-        <div class="text-center mb-8">
-            <a href="index.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300">
+        <div class="text-center">
+            <a href="index.html" class="inline-flex items-center px-6 py-2.5 border border-transparent text-base font-semibold rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none transition duration-300">
                 &larr; Voltar ao Menu Principal
             </a>
         </div>
 
-        <!-- Seção de Calculadora por DUM -->
-        <div class="bg-blue-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-blue-200">
-            <h2 class="section-title text-2xl font-bold text-blue-900 mb-4">Calcular pela Data da Última Menstruação (DUM)</h2>
-            <p class="text-gray-700 mb-6">Insira a data do primeiro dia da sua última menstruação. Este método é mais preciso para ciclos regulares.</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-                <div class="flex flex-col">
-                    <label for="dum-date" class="text-sm font-medium text-gray-700 mb-1">Data da Última Menstruação (DUM)</label>
-                    <input type="date" id="dum-date" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
-                </div>
-                <button id="calculate-dum" class="w-full sm:mt-5 p-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">
-                    Calcular DUM
-                </button>
-            </div>
-            <div id="result-dum" class="mt-8 p-4 bg-blue-100 rounded-xl hidden">
-                <!-- Resultados serão exibidos aqui -->
-            </div>
-        </div>
-
-        <!-- Seção de Calculadora por Ultrassom -->
-        <div class="bg-green-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-green-200">
-            <h2 class="section-title text-2xl font-bold text-green-900 mb-4">Calcular por Ultrassonografia (Idade Gestacional)</h2>
-            <p class="text-gray-700 mb-6">Insira a idade gestacional e a data do ultrassom. Este método é geralmente considerado mais preciso.</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                <div class="flex flex-col">
-                    <label class="text-sm font-medium text-gray-700 mb-1">Idade Gestacional no Ultrassom</label>
-                    <div class="flex space-x-2">
-                        <input type="number" id="ultrasound-weeks" min="0" class="w-1/2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200" placeholder="Semanas">
-                        <input type="number" id="ultrasound-days" min="0" max="6" class="w-1/2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200" placeholder="Dias">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Coluna de Entradas (Inputs) -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Seção de Calculadora por DUM -->
+                <div class="bg-blue-50 p-6 rounded-2xl border border-blue-200 shadow-sm">
+                    <h2 class="section-title text-xl font-bold text-blue-900 mb-3">Calcular pela Última Menstruação (DUM)</h2>
+                    <p class="text-gray-600 text-sm mb-4">Insira o primeiro dia da sua última menstruação.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                        <div class="sm:col-span-2 flex flex-col">
+                            <label for="dum-date" class="text-xs font-bold text-gray-500 uppercase mb-1">Data da DUM</label>
+                            <input type="date" id="dum-date" class="p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold text-gray-700 bg-white">
+                        </div>
+                        <button id="calculate-dum" class="w-full p-3 font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition shadow-md">
+                            Calcular DUM
+                        </button>
                     </div>
                 </div>
-                <div class="flex flex-col">
-                    <label for="ultrasound-date" class="text-sm font-medium text-gray-700 mb-1">Data do Ultrassom</label>
-                    <input type="date" id="ultrasound-date" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200">
+
+                <!-- Seção de Calculadora por Ultrassom -->
+                <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-200 shadow-sm">
+                    <h2 class="section-title text-xl font-bold text-emerald-900 mb-3">Calcular por Ultrassonografia (Idade Gestacional)</h2>
+                    <p class="text-gray-600 text-sm mb-4">Insira o tempo de gestação indicado no laudo e a data de realização.</p>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex flex-col">
+                                <label class="text-xs font-bold text-gray-500 uppercase mb-1">Tempo no Ultrassom</label>
+                                <div class="flex space-x-2">
+                                    <input type="number" id="ultrasound-weeks" min="0" class="w-1/2 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 font-bold text-center" placeholder="Semanas">
+                                    <input type="number" id="ultrasound-days" min="0" max="6" class="w-1/2 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 font-bold text-center" placeholder="Dias">
+                                </div>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="ultrasound-date" class="text-xs font-bold text-gray-500 uppercase mb-1">Data do Exame</label>
+                                <input type="date" id="ultrasound-date" class="p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 font-bold text-gray-700 bg-white">
+                            </div>
+                        </div>
+                        <button id="calculate-ultrasound" class="w-full p-3 font-bold text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition shadow-md">
+                            Calcular Ultrassom
+                        </button>
+                    </div>
                 </div>
-                <button id="calculate-ultrasound" class="w-full md:mt-5 p-3 font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-300 shadow-md">
-                    Calcular Ultrassom
-                </button>
+
+                <!-- Nova Seção de Calculadora por CCN -->
+                <div class="bg-purple-50 p-6 rounded-2xl border border-purple-200 shadow-sm">
+                    <h2 class="section-title text-xl font-bold text-purple-900 mb-3">Calcular por Comprimento Céfalo-Caudal (CCN)</h2>
+                    <p class="text-gray-600 text-sm mb-4">Insira a medida do CCN (mm) obtida no primeiro trimestre do ultrassom.</p>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex flex-col">
+                                <label for="ccn-value" class="text-xs font-bold text-gray-500 uppercase mb-1">CCN (mm)</label>
+                                <input type="number" id="ccn-value" min="0" step="0.1" class="p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 font-bold text-center" placeholder="Ex: 25.4">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="ccn-ultrasound-date" class="text-xs font-bold text-gray-500 uppercase mb-1">Data do Exame</label>
+                                <input type="date" id="ccn-ultrasound-date" class="p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 font-bold text-gray-700 bg-white">
+                            </div>
+                        </div>
+                        <button id="calculate-ccn" class="w-full p-3 font-bold text-white bg-purple-600 rounded-xl hover:bg-purple-700 transition shadow-md">
+                            Calcular CCN
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div id="result-ultrasound" class="mt-8 p-4 bg-green-100 rounded-xl hidden">
-                <!-- Resultados serão exibidos aqui -->
+
+            <!-- Coluna de Resultados (Outputs) -->
+            <div class="lg:col-span-5 relative">
+                <div class="sticky top-6">
+                    <!-- Placeholder Inicial -->
+                    <div id="result-placeholder" class="h-full flex flex-col items-center justify-center text-gray-400 border-2 border-dashed border-gray-200 rounded-3xl p-10 text-center bg-gray-50 min-h-[400px]">
+                        <svg class="w-16 h-16 mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                        <p class="text-base font-medium">Os resultados clínicos e informativos aparecerão aqui assim que realizar qualquer cálculo.</p>
+                    </div>
+
+                    <!-- Resultados Reais -->
+                    <div id="result-content" class="hidden space-y-6">
+                        <!-- Card Principal -->
+                        <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-lg space-y-6">
+                            <div class="text-center border-b border-gray-100 pb-4">
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">Idade Gestacional Atual</span>
+                                <h3 id="res-age" class="text-4xl font-black text-gray-800 tracking-tight">--</h3>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 text-center">
+                                <div class="bg-blue-50 border border-blue-100 p-3 rounded-2xl">
+                                    <span class="block text-[10px] uppercase font-bold text-blue-500">Data do Parto (DPP)</span>
+                                    <span id="res-dpp" class="text-lg font-black text-blue-900">--</span>
+                                </div>
+                                <div class="bg-emerald-50 border border-emerald-100 p-3 rounded-2xl">
+                                    <span class="block text-[10px] uppercase font-bold text-emerald-500">Faltam para o Parto</span>
+                                    <span id="res-countdown" class="text-lg font-black text-emerald-900">--</span>
+                                </div>
+                            </div>
+
+                            <!-- Barra de Progresso Trimestral -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs font-bold text-gray-500">
+                                    <span>Início</span>
+                                    <span id="res-trimester-label">Trimestre</span>
+                                    <span>Parto</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden flex">
+                                    <div id="progress-bar" class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Nova Seção de Calculadora por CCN -->
-        <div class="bg-purple-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-purple-200">
-            <h2 class="section-title text-2xl font-bold text-purple-900 mb-4">Calcular por Comprimento Céfalo-Caudal (CCN)</h2>
-            <p class="text-gray-700 mb-6">Insira o valor do CCN (em mm) e a data do ultrassom. Este método é muito preciso no primeiro trimestre.</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                <div class="flex flex-col">
-                    <label for="ccn-value" class="text-sm font-medium text-gray-700 mb-1">Valor do CCN (mm)</label>
-                    <input type="number" id="ccn-value" min="0" step="0.1" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition duration-200" placeholder="Ex: 25.4">
-                </div>
-                <div class="flex flex-col">
-                    <label for="ccn-ultrasound-date" class="text-sm font-medium text-gray-700 mb-1">Data do Ultrassom (CCN)</label>
-                    <input type="date" id="ccn-ultrasound-date" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition duration-200">
-                </div>
-                <button id="calculate-ccn" class="w-full md:mt-5 p-3 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300 shadow-md">
-                    Calcular CCN
-                </button>
-            </div>
-            <div id="result-ccn" class="mt-8 p-4 bg-purple-100 rounded-xl hidden">
-                <!-- Resultados CCN serão exibidos aqui -->
-            </div>
-            <p class="text-gray-600 text-sm mt-4">
-                <strong class="font-semibold">Nota:</strong> Pequenas divergências nos resultados podem ocorrer entre diferentes calculadoras devido a variações nas equações de regressão e métodos de arredondamento utilizados.
-            </p>
-        </div>
-        
-        <footer class="text-center text-gray-500 text-sm mt-10">
-            <p class="mb-2"><strong>Aviso Legal:</strong> Esta ferramenta é apenas para fins informativos e não substitui uma consulta médica. Acompanhamento pré-natal com um profissional de saúde é fundamental para a sua saúde e a do seu bebê.</p>
-            <p>&copy; 2024 Calculadora Gestacional. Todos os direitos reservados.</p>
+        <footer class="text-center text-gray-400 text-xs border-t pt-6">
+            <p><strong>Aviso Clínico:</strong> As estimativas são baseadas nas equações Hadlock e Robinson. Pequenas variações de até 3 dias podem ocorrer dependendo de arredondamentos sistêmicos. Sempre valide com a conduta médica pré-natal.</p>
         </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Função para exibir resultados
-            function displayResult(containerId, gestationalAge, dueDate) {
-                const container = document.getElementById(containerId);
-                container.innerHTML = `
-                    <h3 class="font-bold text-lg mb-2">Seu Resultado</h3>
-                    <p class="text-gray-800"><span class="font-semibold">Idade Gestacional:</span> ${gestationalAge.weeks} semanas e ${gestationalAge.days} dias</p>
-                    <p class="text-gray-800"><span class="font-semibold">Data Provável do Parto (DPP):</span> ${dueDate}</p>
-                `;
-                container.classList.remove('hidden');
+            // Parser de data blindado contra problemas de fuso horário local
+            function parseLocalDate(dateString) {
+                const parts = dateString.split('-');
+                return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
             }
 
-            // Função para exibir mensagens de erro
-            function displayError(containerId, message) {
-                const container = document.getElementById(containerId);
-                container.innerHTML = `<p class="text-red-700 font-semibold">${message}</p>`;
-                container.classList.remove('hidden');
+            function formatDateBR(date) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
             }
 
-            // Lógica para a calculadora DUM
+            function calculateDaysDifference(date1, date2) {
+                // Remove componentes de hora para garantir cálculo de dias puros à meia-noite
+                const d1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+                const d2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+                const diffTime = d1.getTime() - d2.getTime();
+                return Math.round(diffTime / (1000 * 60 * 60 * 24));
+            }
+
+            function addDays(date, days) {
+                const result = new Date(date);
+                result.setDate(result.getDate() + days);
+                return result;
+            }
+
+            function displayClinicalResults(dumEquivalent) {
+                const today = new Date();
+                
+                // Idade Gestacional Atual em dias
+                const totalDays = calculateDaysDifference(today,   dumEquivalent);
+                
+                if (totalDays < 0) {
+                    alert("A data calculada de início da gestação é futura. Por favor, verifique as datas inseridas.");
+                    return;
+                }
+
+                const currentWeeks = Math.floor(totalDays / 7);
+                const currentDays = totalDays % 7;
+                
+                // DPP é exatamente 280 dias a partir do DUM-equivalente
+                const dpp = addDays(dumEquivalent, 280);
+                const daysRemaining = calculateDaysDifference(dpp, today);
+
+                // Exibir na UI
+                document.getElementById('result-placeholder').classList.add('hidden');
+                document.getElementById('result-content').classList.remove('hidden');
+
+                document.getElementById('res-age').innerHTML = `${currentWeeks} <span class="text-xl font-bold text-gray-500">sem</span> e ${currentDays} <span class="text-xl font-bold text-gray-500">dias</span>`;
+                document.getElementById('res-dpp').textContent = formatDateBR(dpp);
+
+                if (daysRemaining > 0) {
+                    document.getElementById('res-countdown').textContent = `${daysRemaining} dias`;
+                } else if (daysRemaining === 0) {
+                    document.getElementById('res-countdown').textContent = "Hoje!";
+                } else {
+                    document.getElementById('res-countdown').textContent = `Nascido há ${Math.abs(daysRemaining)} dias`;
+                }
+
+                // Cálculo do Trimestre & Barra de Progresso (teto de 280 dias para 100%)
+                const progressPct = Math.min(Math.max((totalDays / 280) * 100, 0), 100);
+                document.getElementById('progress-bar').style.width = `${progressPct}%`;
+
+                let trimesterLabel = "";
+                if (currentWeeks < 13) {
+                    trimesterLabel = "1º Trimestre";
+                } else if (currentWeeks < 27) {
+                    trimesterLabel = "2º Trimestre";
+                } else {
+                    trimesterLabel = "3º Trimestre";
+                }
+                document.getElementById('res-trimester-label').textContent = trimesterLabel;
+            }
+
+            // 1. Lógica por DUM
             document.getElementById('calculate-dum').addEventListener('click', () => {
-                const dumDateInput = document.getElementById('dum-date').value;
-                const resultContainer = document.getElementById('result-dum');
-                resultContainer.classList.add('hidden');
-
-                if (!dumDateInput) {
-                    displayError('result-dum', 'Por favor, insira a Data da Última Menstruação.');
+                const dumInput = document.getElementById('dum-date').value;
+                if (!dumInput) {
+                    alert("Por favor, selecione a data da DUM.");
                     return;
                 }
 
-                const dum = new Date(dumDateInput);
-                const today = new Date();
-                
-                today.setHours(0, 0, 0, 0);
-                dum.setHours(0, 0, 0, 0);
-
-                const diffTime = today.getTime() - dum.getTime();
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                
-                if (diffDays < 0) {
-                    displayError('result-dum', 'A DUM não pode ser uma data futura.');
-                    return;
-                }
-
-                const weeks = Math.floor(diffDays / 7);
-                const days = diffDays % 7;
-
-                const dpp = new Date(dum.getTime() + 280 * 24 * 60 * 60 * 1000);
-                const dppFormatted = dpp.toLocaleDateString('pt-BR');
-                
-                displayResult('result-dum', { weeks, days }, dppFormatted);
+                const dumDate = parseLocalDate(dumInput);
+                // DUM equivale a exatamente o início (0w 0d)
+                displayClinicalResults(dumDate);
             });
 
-            // Lógica para a calculadora por Ultrassom (Idade Gestacional)
+            // 2. Lógica por Ultrassom (Idade Gestacional)
             document.getElementById('calculate-ultrasound').addEventListener('click', () => {
-                const ultrasoundWeeks = parseInt(document.getElementById('ultrasound-weeks').value);
-                const ultrasoundDays = parseInt(document.getElementById('ultrasound-days').value);
-                const ultrasoundDateInput = document.getElementById('ultrasound-date').value;
-                const resultContainer = document.getElementById('result-ultrasound');
-                resultContainer.classList.add('hidden');
+                const weeks = parseInt(document.getElementById('ultrasound-weeks').value, 10);
+                const days = parseInt(document.getElementById('ultrasound-days').value, 10) || 0;
+                const usgInput = document.getElementById('ultrasound-date').value;
 
-                if (isNaN(ultrasoundWeeks) || isNaN(ultrasoundDays) || !ultrasoundDateInput) {
-                    displayError('result-ultrasound', 'Por favor, preencha todos os campos do ultrassom.');
+                if (isNaN(weeks) || !usgInput) {
+                    alert("Por favor, insira o número de semanas e a data em que o exame foi realizado.");
                     return;
                 }
+
+                const usgDate = parseLocalDate(usgInput);
+                const ageInDaysAtUsg = (weeks * 7) + days;
                 
-                if (ultrasoundDays > 6) {
-                    displayError('result-ultrasound', 'O número de dias não pode ser maior que 6.');
-                    return;
-                }
-
-                const ultrasoundDate = new Date(ultrasoundDateInput);
-                const today = new Date();
-                
-                today.setHours(0, 0, 0, 0);
-                ultrasoundDate.setHours(0, 0, 0, 0);
-
-                if (ultrasoundDate > today) {
-                    displayError('result-ultrasound', 'A data do ultrassom não pode ser uma data futura.');
-                    return;
-                }
-
-                const totalUltrasoundDays = (ultrasoundWeeks * 7) + ultrasoundDays;
-                const conceptionDate = new Date(ultrasoundDate.getTime() - totalUltrasoundDays * 24 * 60 * 60 * 1000);
-                const diffTime = today.getTime() - conceptionDate.getTime();
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                const currentWeeks = Math.floor(diffDays / 7);
-                const currentDays = diffDays % 7; // Usando % 7 para dias restantes
-                const dpp = new Date(conceptionDate.getTime() + 266 * 24 * 60 * 60 * 1000);
-                const dppFormatted = dpp.toLocaleDateString('pt-BR');
-
-                displayResult('result-ultrasound', { weeks: currentWeeks, days: currentDays }, dppFormatted);
+                // Calcula a DUM Equivalente = Data do USG - dias de gestação naquele momento
+                const dumEquivalent = addDays(usgDate, -ageInDaysAtUsg);
+                displayClinicalResults(dumEquivalent);
             });
 
-            // Lógica para a calculadora por CCN
+            // 3. Lógica por CCN
             document.getElementById('calculate-ccn').addEventListener('click', () => {
-                const ccnValue = parseFloat(document.getElementById('ccn-value').value);
-                const ccnUltrasoundDateInput = document.getElementById('ccn-ultrasound-date').value;
-                const resultContainer = document.getElementById('result-ccn');
-                resultContainer.classList.add('hidden');
+                const ccn = parseFloat(document.getElementById('ccn-value').value);
+                const ccnDateInput = document.getElementById('ccn-ultrasound-date').value;
 
-                if (isNaN(ccnValue) || !ccnUltrasoundDateInput) {
-                    displayError('result-ccn', 'Por favor, preencha o valor do CCN e a data do ultrassom.');
+                if (isNaN(ccn) || !ccnDateInput) {
+                    alert("Por favor, insira a medida do CCN e a data de realização.");
                     return;
                 }
 
-                const ccnUltrasoundDate = new Date(ccnUltrasoundDateInput);
-                const today = new Date();
+                const ccnDate = parseLocalDate(ccnDateInput);
 
-                today.setHours(0, 0, 0, 0);
-                ccnUltrasoundDate.setHours(0, 0, 0, 0);
+                // Equação Hadlock Oficial para converter CCN (mm) em idade gestacional (semanas):
+                // GA (semanas) = 5.2856 + (0.1584 * CCN) - (0.0007 * CCN^2)
+                const gaWeeks = 5.2856 + (0.1584 * ccn) - (0.0007 * Math.pow(ccn, 2));
+                const gaDays = Math.round(gaWeeks * 7);
 
-                if (ccnUltrasoundDate > today) {
-                    displayError('result-ccn', 'A data do ultrassom (CCN) não pode ser uma data futura.');
-                    return;
-                }
-
-                // Fórmula para calcular a idade gestacional em dias a partir do CCN (Hadlock et al., 1992)
-                // Esta fórmula é mais precisa para CCN entre 2mm e 84mm (aproximadamente 5 a 14 semanas)
-                const totalDaysAtUltrasound = (8.052 * Math.sqrt(ccnValue)) + 22.94;
-
-                // Diferença de dias entre a data do ultrassom e hoje
-                const diffTimeUltrasoundToday = today.getTime() - ccnUltrasoundDate.getTime();
-                const daysSinceUltrasound = Math.floor(diffTimeUltrasoundToday / (1000 * 60 * 60 * 24));
-
-                // Idade gestacional atual em dias
-                const currentTotalDays = totalDaysAtUltrasound + daysSinceUltrasound;
-                
-                const currentWeeks = Math.floor(currentTotalDays / 7);
-                const currentDays = Math.floor(currentTotalDays % 7); // Usando Math.floor para dias restantes, para consistência
-                
-                // Calcular DPP: Data de Concepção = Data do Ultrassom - Idade Gestacional no Ultrassom
-                // DPP = Data de Concepção + 266 dias (duração média da gestação a partir da concepção)
-                const conceptionDate = new Date(ccnUltrasoundDate.getTime() - totalDaysAtUltrasound * 24 * 60 * 60 * 1000);
-                const dpp = new Date(conceptionDate.getTime() + 266 * 24 * 60 * 60 * 1000);
-                const dppFormatted = dpp.toLocaleDateString('pt-BR');
-
-                displayResult('result-ccn', { weeks: currentWeeks, days: currentDays }, dppFormatted);
+                // DUM Equivalente = Data do Exame - Idade do embrião estimada em dias
+                const dumEquivalent = addDays(ccnDate, -gaDays);
+                displayClinicalResults(dumEquivalent);
             });
         });
     </script>
