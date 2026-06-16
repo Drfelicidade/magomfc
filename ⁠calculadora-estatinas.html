@@ -1,0 +1,331 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Equivalência de Estatinas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #0d9488; /* Teal-600 */
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+        
+        <!-- Cabeçalho -->
+        <div class="bg-teal-700 p-6 md:p-8 text-white text-center relative">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Equivalência de Estatinas</h1>
+            <p class="text-teal-100 text-sm md:text-base">Conversão de doses e classificação de intensidade terapêutica (SBC/AHA)</p>
+            <div class="mt-6">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-teal-800 hover:bg-teal-900 text-white text-sm font-medium rounded-full transition shadow-sm">
+                    &larr; Voltar ao Menu Principal
+                </a>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Coluna de Entradas -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-teal-50/50 p-6 rounded-2xl border border-teal-100 shadow-sm">
+                    <h2 class="section-title text-xl font-bold text-teal-900 mb-6">Dose Atual</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Estatina Atual</label>
+                            <select id="current-statin" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 font-bold bg-white text-gray-800">
+                                <option value="">Selecione o medicamento...</option>
+                                <option value="rosu">Rosuvastatina</option>
+                                <option value="atorva">Atorvastatina</option>
+                                <option value="sinva">Sinvastatina</option>
+                                <option value="pita">Pitavastatina</option>
+                                <option value="prava">Pravastatina</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Dose (mg/dia)</label>
+                            <select id="current-dose" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 font-bold bg-gray-50 text-gray-800" disabled>
+                                <option value="">Selecione primeiro a estatina...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-left p-4 bg-gray-50 rounded-xl border border-gray-200">
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        <strong>Nota Clínica:</strong> A equivalência foca no perfil de redução do LDL-c. A terapia de <strong>Alta Intensidade</strong> objetiva redução de LDL ≥ 50%. A de <strong>Moderada Intensidade</strong> visa 30% a 49%.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Coluna de Resultados -->
+            <div class="lg:col-span-7 relative">
+                <div class="sticky top-6">
+                    
+                    <!-- Placeholder Inicial -->
+                    <div id="result-placeholder" class="h-full flex flex-col items-center justify-center text-gray-400 border-2 border-dashed border-gray-200 rounded-3xl p-10 text-center bg-gray-50 min-h-[350px]">
+                        <svg class="w-16 h-16 mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        <p class="text-base font-medium">Selecione a estatina e a dose para calcular as equivalências terapêuticas automáticas.</p>
+                    </div>
+
+                    <!-- Resultados Reais -->
+                    <div id="result-content" class="hidden w-full space-y-4">
+                        
+                        <!-- Card de Intensidade (Destaque) -->
+                        <div id="intensity-card" class="p-6 rounded-3xl shadow-md border-2 transition-all duration-300 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-widest block mb-1 opacity-70">Intensidade da Terapia</span>
+                                <h3 id="intensity-text" class="text-2xl font-black tracking-tight">Alta Intensidade</h3>
+                                <p id="intensity-desc" class="text-sm font-medium mt-1">Redução esperada do LDL-c ≥ 50%</p>
+                            </div>
+                            <div class="hidden sm:block">
+                                <div id="intensity-icon" class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                                    <!-- Ícone dinâmico -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lista de Alternativas (Equivalentes) -->
+                        <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-lg">
+                            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 border-b pb-2">Doses Equivalentes</h3>
+                            
+                            <ul id="equivalents-list" class="space-y-3">
+                                <!-- Preenchido dinamicamente via JS -->
+                            </ul>
+                        </div>
+                        
+                        <!-- Alertas Dinâmicos Específicos -->
+                        <div id="clinical-alert" class="hidden bg-orange-50 border border-orange-200 p-4 rounded-2xl flex items-start gap-3">
+                            <span class="text-orange-500 text-lg mt-0.5">⚠️</span>
+                            <p id="clinical-alert-text" class="text-sm text-orange-800 leading-relaxed font-medium"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tabela de Dados e Níveis de Equivalência (Power levels)
+            // Nível 1 = Baixa
+            // Nível 2 = Moderada Baixa (Ex: Sinva 20, Atorva 10)
+            // Nível 3 = Moderada Alta (Ex: Sinva 40, Atorva 20)
+            // Nível 4 = Alta Base (Ex: Atorva 40, Rosu 20)
+            // Nível 5 = Alta Max (Ex: Atorva 80, Rosu 40)
+            
+            const db = {
+                rosu: {
+                    name: 'Rosuvastatina',
+                    doses: [
+                        { val: 5, level: 2, int: 'mod', desc: '30-49%' },
+                        { val: 10, level: 3, int: 'mod', desc: '30-49%' },
+                        { val: 20, level: 4, int: 'high', desc: '≥ 50%' },
+                        { val: 40, level: 5, int: 'high', desc: '≥ 50%' }
+                    ]
+                },
+                atorva: {
+                    name: 'Atorvastatina',
+                    doses: [
+                        { val: 10, level: 2, int: 'mod', desc: '30-49%' },
+                        { val: 20, level: 3, int: 'mod', desc: '30-49%' },
+                        { val: 40, level: 4, int: 'high', desc: '≥ 50%' },
+                        { val: 80, level: 5, int: 'high', desc: '≥ 50%' }
+                    ]
+                },
+                sinva: {
+                    name: 'Sinvastatina',
+                    doses: [
+                        { val: 10, level: 1, int: 'low', desc: '< 30%' },
+                        { val: 20, level: 2, int: 'mod', desc: '30-49%' },
+                        { val: 40, level: 3, int: 'mod', desc: '30-49%' },
+                        { val: 80, level: 4, int: 'high_warn', desc: '≥ 50%' } // 80mg é contraindicado iniciar
+                    ]
+                },
+                pita: {
+                    name: 'Pitavastatina',
+                    doses: [
+                        { val: 1, level: 1, int: 'low', desc: '< 30%' },
+                        { val: 2, level: 2, int: 'mod', desc: '30-49%' },
+                        { val: 4, level: 3, int: 'mod', desc: '30-49%' }
+                    ]
+                },
+                prava: {
+                    name: 'Pravastatina',
+                    doses: [
+                        { val: 10, level: 0.5, int: 'low', desc: '< 30%' }, // Menos de nivel 1 padrão
+                        { val: 20, level: 1, int: 'low', desc: '< 30%' },
+                        { val: 40, level: 2, int: 'mod', desc: '30-49%' },
+                        { val: 80, level: 3, int: 'mod', desc: '30-49%' }
+                    ]
+                }
+            };
+
+            const selStatin = document.getElementById('current-statin');
+            const selDose = document.getElementById('current-dose');
+            const resPlaceholder = document.getElementById('result-placeholder');
+            const resContent = document.getElementById('result-content');
+            
+            const intCard = document.getElementById('intensity-card');
+            const intText = document.getElementById('intensity-text');
+            const intDesc = document.getElementById('intensity-desc');
+            const intIcon = document.getElementById('intensity-icon');
+            
+            const eqList = document.getElementById('equivalents-list');
+            const alertBox = document.getElementById('clinical-alert');
+            const alertText = document.getElementById('clinical-alert-text');
+
+            // Quando troca a estatina, atualiza as opções de dose
+            selStatin.addEventListener('change', () => {
+                const statinKey = selStatin.value;
+                selDose.innerHTML = '<option value="">Selecione a dose...</option>';
+                
+                if (statinKey) {
+                    selDose.disabled = false;
+                    selDose.classList.remove('bg-gray-50');
+                    selDose.classList.add('bg-white');
+                    
+                    db[statinKey].doses.forEach(d => {
+                        const opt = document.createElement('option');
+                        opt.value = d.level;
+                        opt.textContent = `${d.val} mg/dia`;
+                        selDose.appendChild(opt);
+                    });
+                } else {
+                    selDose.disabled = true;
+                    selDose.classList.add('bg-gray-50');
+                    selDose.classList.remove('bg-white');
+                    resetUI();
+                }
+            });
+
+            // Quando troca a dose, calcula equivalência
+            selDose.addEventListener('change', calculateEquivalents);
+
+            function resetUI() {
+                resPlaceholder.classList.remove('hidden');
+                resContent.classList.add('hidden');
+            }
+
+            function calculateEquivalents() {
+                const statinKey = selStatin.value;
+                const selectedLevel = parseFloat(selDose.value);
+                
+                if (!statinKey || isNaN(selectedLevel)) {
+                    resetUI();
+                    return;
+                }
+
+                // Encontrar os dados da dose selecionada
+                const currentDoseObj = db[statinKey].doses.find(d => d.level === selectedLevel);
+                
+                resPlaceholder.classList.add('hidden');
+                resContent.classList.remove('hidden');
+
+                // 1. Atualiza Card de Intensidade
+                updateIntensityCard(currentDoseObj.int, currentDoseObj.desc);
+
+                // 2. Lida com Alertas Clínicos
+                alertBox.classList.add('hidden');
+                if (statinKey === 'sinva' && currentDoseObj.val === 80) {
+                    alertBox.classList.remove('hidden');
+                    alertText.innerHTML = "O início de <strong>Sinvastatina 80mg</strong> é restrito pela FDA/SBC devido ao alto risco de miopatia e rabdomiólise. Se o paciente não atinge a meta com 40mg, recomenda-se trocar para estatina de alta potência (Rosuvastatina ou Atorvastatina).";
+                }
+
+                // 3. Monta lista de equivalentes
+                eqList.innerHTML = '';
+                let hasEquivalents = false;
+
+                Object.keys(db).forEach(key => {
+                    if (key === statinKey) return; // Pula a estatina atual
+                    
+                    const statinInfo = db[key];
+                    // Busca a dose com o nível exato ou mais próximo possível
+                    let equivalentDose = statinInfo.doses.find(d => d.level === selectedLevel);
+
+                    const li = document.createElement('li');
+                    li.className = "flex items-center justify-between p-4 rounded-2xl bg-gray-50 border border-gray-100";
+                    
+                    let nameHtml = `<span class="font-bold text-gray-800">${statinInfo.name}</span>`;
+                    let doseHtml = "";
+
+                    if (equivalentDose) {
+                        hasEquivalents = true;
+                        doseHtml = `<span class="px-3 py-1 bg-teal-100 text-teal-800 font-black rounded-lg text-lg">${equivalentDose.val} <span class="text-sm font-medium">mg</span></span>`;
+                    } else {
+                        // Se não tem equivalente (ex: tentar achar Pitavastatina Nível Alta)
+                        doseHtml = `<span class="text-sm text-gray-400 font-medium italic">Não há equivalente direto</span>`;
+                    }
+
+                    li.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <div class="w-2 h-2 rounded-full bg-teal-500"></div>
+                            ${nameHtml}
+                        </div>
+                        <div>${doseHtml}</div>
+                    `;
+                    eqList.appendChild(li);
+                });
+            }
+
+            function updateIntensityCard(intensity, desc) {
+                // Reseta classes
+                intCard.className = "p-6 rounded-3xl shadow-md border-2 transition-all duration-300 flex items-center justify-between";
+                intText.className = "text-2xl font-black tracking-tight";
+                
+                if (intensity === 'high' || intensity === 'high_warn') {
+                    intCard.classList.add('bg-red-50', 'border-red-500');
+                    intText.classList.add('text-red-700');
+                    intDesc.classList.add('text-red-600');
+                    intText.textContent = "Alta Intensidade";
+                    intDesc.textContent = `Redução esperada do LDL-c ${desc}`;
+                    intIcon.className = "w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl bg-red-600 shadow-sm";
+                    intIcon.textContent = "A";
+                } else if (intensity === 'mod') {
+                    intCard.classList.add('bg-orange-50', 'border-orange-400');
+                    intText.classList.add('text-orange-700');
+                    intDesc.classList.add('text-orange-600');
+                    intText.textContent = "Moderada Intensidade";
+                    intDesc.textContent = `Redução esperada do LDL-c ${desc}`;
+                    intIcon.className = "w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl bg-orange-500 shadow-sm";
+                    intIcon.textContent = "M";
+                } else {
+                    intCard.classList.add('bg-green-50', 'border-green-500');
+                    intText.classList.add('text-green-700');
+                    intDesc.classList.add('text-green-600');
+                    intText.textContent = "Baixa Intensidade";
+                    intDesc.textContent = `Redução esperada do LDL-c ${desc}`;
+                    intIcon.className = "w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl bg-green-500 shadow-sm";
+                    intIcon.textContent = "B";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+```
