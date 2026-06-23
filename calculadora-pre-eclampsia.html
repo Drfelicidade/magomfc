@@ -1,0 +1,287 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilaxia de Pré-Eclâmpsia</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #8b5cf6; /* Violet-500 */
+            border-radius: 9999px;
+        }
+        /* Custom Checkbox Style - Alto Risco */
+        .high-risk-checkbox:checked + div {
+            background-color: #f5f3ff; /* violet-50 */
+            border-color: #8b5cf6; /* violet-500 */
+        }
+        .high-risk-checkbox:checked + div .check-icon {
+            background-color: #8b5cf6;
+            border-color: #8b5cf6;
+        }
+        .high-risk-checkbox:checked + div .check-icon svg {
+            opacity: 1;
+        }
+        
+        /* Custom Checkbox Style - Risco Moderado */
+        .mod-risk-checkbox:checked + div {
+            background-color: #f0fdfa; /* cyan-50 */
+            border-color: #0d9488; /* teal-600 */
+        }
+        .mod-risk-checkbox:checked + div .check-icon {
+            background-color: #0d9488;
+            border-color: #0d9488;
+        }
+        .mod-risk-checkbox:checked + div .check-icon svg {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+        
+        <!-- Cabeçalho -->
+        <div class="bg-violet-700 p-6 md:p-8 text-white text-center relative">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Profilaxia de Pré-Eclâmpsia</h1>
+            <p class="text-violet-100 text-sm md:text-base">Indicação de AAS com base nos Fatores de Risco Clínicos (ACOG / USPSTF / Febrasgo)</p>
+            <div class="mt-6">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-violet-800 hover:bg-violet-900 text-white text-sm font-medium rounded-full transition shadow-sm">
+                    &larr; Voltar ao Menu Principal
+                </a>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Coluna de Formulário -->
+            <div class="lg:col-span-8 space-y-8">
+                
+                <div class="flex justify-between items-center border-b pb-2">
+                    <p class="text-gray-600 text-sm font-medium">Selecione todos os fatores de risco presentes na gestante.</p>
+                    <button type="button" id="reset-form" class="text-sm text-gray-500 hover:text-violet-700 font-bold underline whitespace-nowrap">Limpar Seleção</button>
+                </div>
+
+                <form id="preeclampsia-form" class="space-y-8">
+                    
+                    <!-- Fatores de Alto Risco -->
+                    <div class="bg-violet-50/40 p-5 md:p-6 rounded-2xl border border-violet-100">
+                        <h2 class="section-title text-xl font-bold text-violet-900 mb-4">Fatores de Alto Risco</h2>
+                        <p class="text-xs font-bold text-violet-600 mb-4 uppercase tracking-wider">Basta 1 fator para indicar profilaxia</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="high-risk-list">
+                            <!-- Gerado via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Fatores de Risco Moderado -->
+                    <div class="bg-cyan-50/30 p-5 md:p-6 rounded-2xl border border-cyan-100">
+                        <h2 class="section-title !after:bg-teal-600 text-xl font-bold text-teal-900 mb-4">Fatores de Risco Moderado</h2>
+                        <p class="text-xs font-bold text-teal-600 mb-4 uppercase tracking-wider">São necessários ≥ 2 fatores para indicar profilaxia</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="mod-risk-list">
+                            <!-- Gerado via JS -->
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Coluna de Resultados -->
+            <div class="lg:col-span-4 relative">
+                <div class="sticky top-6">
+                    <div id="result-container" class="bg-gray-50 p-6 md:p-8 rounded-3xl border-2 border-gray-200 transition-all duration-300 shadow-lg text-center h-full flex flex-col justify-center min-h-[400px]">
+                        
+                        <div id="status-icon" class="w-20 h-20 mx-auto rounded-full bg-gray-200 flex items-center justify-center text-4xl mb-4 transition-colors">
+                            🤰
+                        </div>
+                        
+                        <h3 id="res-title" class="text-2xl font-black text-gray-700 mb-2">Avaliação de Risco</h3>
+                        
+                        <div class="flex justify-center gap-4 my-4">
+                            <div class="text-center">
+                                <span class="block text-[10px] font-bold uppercase text-gray-500">Alto Risco</span>
+                                <span id="count-high" class="text-xl font-black text-violet-600">0</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="block text-[10px] font-bold uppercase text-gray-500">Risco Mod.</span>
+                                <span id="count-mod" class="text-xl font-black text-teal-600">0</span>
+                            </div>
+                        </div>
+
+                        <div id="res-box" class="mt-4 p-4 rounded-xl bg-white border border-gray-200 text-sm text-gray-600">
+                            Selecione os fatores de risco ao lado para visualizar a recomendação clínica.
+                        </div>
+
+                        <div id="dose-info" class="hidden mt-4 pt-4 border-t border-black/10">
+                            <p class="text-xs font-bold uppercase tracking-wider opacity-70 mb-2">Prescrição Recomendada</p>
+                            <div class="font-black text-lg text-gray-800">AAS 100 a 150 mg/dia</div>
+                            <p class="text-xs mt-1">Iniciar entre 12 e 16 semanas<br>(uso noturno até as 36 semanas)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="bg-gray-50 p-6 text-center border-t border-gray-100">
+            <p class="text-violet-800 font-bold text-sm mb-1 uppercase tracking-tighter italic">Nota Clínica</p>
+            <p class="text-gray-500 text-xs leading-relaxed max-w-3xl mx-auto">
+                A suplementação de Cálcio (≥ 1g/dia) também deve ser considerada em gestantes de alto risco com baixa ingestão de cálcio na dieta. A profilaxia com AAS (Aspirina) diminui substancialmente o risco de pré-eclâmpsia prematura e desfechos fetais/maternos adversos. A dose indicada é entre 100 e 150 mg (idealmente 150mg) e deve ser ser iniciada entre 12 e 16 semanas (até 20 semanas no maximo) e ser interrompida com 36 semanas.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Dados Estruturados
+        const highRiskFactors = [
+            { id: 'h1', title: 'Pré-eclâmpsia prévia', desc: 'Especialmente se associada a desfecho adverso.' },
+            { id: 'h2', title: 'Gestação Múltipla', desc: 'Gêmeos, trigêmeos, etc.' },
+            { id: 'h3', title: 'Hipertensão Crônica', desc: 'Diagnosticada antes da gestação.' },
+            { id: 'h4', title: 'Diabetes Pré-Gestacional', desc: 'Diabetes Mellitus tipo 1 ou 2.' },
+            { id: 'h5', title: 'Doença Renal Crônica', desc: 'Com comprometimento da função renal.' },
+            { id: 'h6', title: 'Doença Autoimune', desc: 'Lúpus Eritematoso Sistêmico (LES) ou Síndrome do Anticorpo Antifosfolípide (SAF).' }
+        ];
+
+        const modRiskFactors = [
+            { id: 'm1', title: 'Nuliparidade', desc: 'Primeira gestação da paciente.' },
+            { id: 'm2', title: 'Obesidade', desc: 'IMC pré-gestacional ≥ 30 kg/m².' },
+            { id: 'm3', title: 'Histórico Familiar', desc: 'Mãe ou irmã com histórico de pré-eclâmpsia.' },
+            { id: 'm4', title: 'Idade Materna Avançada', desc: 'Idade ≥ 35 anos no momento do parto.' },
+            { id: 'm5', title: 'Fatores Sociodemográficos', desc: 'Raça negra ou baixo nível socioeconômico.' },
+            { id: 'm6', title: 'Histórico Pessoal', desc: 'Baixo peso ao nascer, PIG anterior ou intervalo interpartal > 10 anos.' },
+            { id: 'm7', title: 'FIV', desc: 'Gestação resultante de Fertilização In Vitro.' }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const highRiskList = document.getElementById('high-risk-list');
+            const modRiskList = document.getElementById('mod-risk-list');
+            
+            // Gerar Checkboxes Alto Risco
+            highRiskFactors.forEach(item => {
+                const label = document.createElement('label');
+                label.className = "cursor-pointer block h-full";
+                label.innerHTML = `
+                    <input type="checkbox" name="highRisk" value="1" class="hidden high-risk-checkbox">
+                    <div class="h-full p-4 border-2 border-gray-200 rounded-xl bg-white hover:bg-violet-50 transition flex items-start gap-3">
+                        <div class="check-icon w-5 h-5 rounded border-2 border-gray-300 flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                            <svg class="w-3.5 h-3.5 text-white opacity-0 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-800 text-sm">${item.title}</div>
+                            <p class="text-xs text-gray-500 mt-0.5 leading-snug">${item.desc}</p>
+                        </div>
+                    </div>
+                `;
+                highRiskList.appendChild(label);
+            });
+
+            // Gerar Checkboxes Risco Moderado
+            modRiskFactors.forEach(item => {
+                const label = document.createElement('label');
+                label.className = "cursor-pointer block h-full";
+                label.innerHTML = `
+                    <input type="checkbox" name="modRisk" value="1" class="hidden mod-risk-checkbox">
+                    <div class="h-full p-4 border-2 border-gray-200 rounded-xl bg-white hover:bg-cyan-50 transition flex items-start gap-3">
+                        <div class="check-icon w-5 h-5 rounded border-2 border-gray-300 flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                            <svg class="w-3.5 h-3.5 text-white opacity-0 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-800 text-sm">${item.title}</div>
+                            <p class="text-xs text-gray-500 mt-0.5 leading-snug">${item.desc}</p>
+                        </div>
+                    </div>
+                `;
+                modRiskList.appendChild(label);
+            });
+
+            // Elementos de Resultado
+            const resContainer = document.getElementById('result-container');
+            const resTitle = document.getElementById('res-title');
+            const resBox = document.getElementById('res-box');
+            const statusIcon = document.getElementById('status-icon');
+            const doseInfo = document.getElementById('dose-info');
+            const countHigh = document.getElementById('count-high');
+            const countMod = document.getElementById('count-mod');
+
+            function calculateRisk() {
+                const highCount = document.querySelectorAll('.high-risk-checkbox:checked').length;
+                const modCount = document.querySelectorAll('.mod-risk-checkbox:checked').length;
+
+                countHigh.textContent = highCount;
+                countMod.textContent = modCount;
+
+                if (highCount === 0 && modCount === 0) {
+                    // Sem seleção
+                    resContainer.className = "bg-gray-50 p-6 md:p-8 rounded-3xl border-2 border-gray-200 transition-all duration-300 shadow-lg text-center h-full flex flex-col justify-center min-h-[400px]";
+                    statusIcon.className = "w-20 h-20 mx-auto rounded-full bg-gray-200 flex items-center justify-center text-4xl mb-4 transition-colors";
+                    statusIcon.innerHTML = "🤰";
+                    resTitle.textContent = "Avaliação de Risco";
+                    resTitle.className = "text-2xl font-black text-gray-700 mb-2";
+                    resBox.className = "mt-4 p-4 rounded-xl bg-white border border-gray-200 text-sm text-gray-600";
+                    resBox.innerHTML = "Selecione os fatores de risco ao lado para visualizar a recomendação clínica.";
+                    doseInfo.classList.add('hidden');
+                    return;
+                }
+
+                if (highCount >= 1 || modCount >= 2) {
+                    // Recomenda Profilaxia
+                    resContainer.className = "bg-violet-600 p-6 md:p-8 rounded-3xl border-4 border-violet-400 transition-all duration-300 shadow-2xl text-center h-full flex flex-col justify-center min-h-[400px]";
+                    statusIcon.className = "w-20 h-20 mx-auto rounded-full bg-white flex items-center justify-center text-4xl mb-4 transition-colors shadow-inner";
+                    statusIcon.innerHTML = "💊";
+                    resTitle.textContent = "Profilaxia Indicada";
+                    resTitle.className = "text-2xl font-black text-white mb-2";
+                    
+                    let motif = highCount >= 1 ? `Presença de ${highCount} fator(es) de ALTO RISCO.` : `Presença de ${modCount} fatores de RISCO MODERADO.`;
+                    resBox.className = "mt-4 p-4 rounded-xl bg-violet-800 border border-violet-500 text-sm text-violet-100";
+                    resBox.innerHTML = `<strong>Indicação Forte:</strong> ${motif}`;
+                    
+                    doseInfo.classList.remove('hidden');
+                    doseInfo.className = "mt-6 pt-6 border-t border-violet-400/50 text-white";
+                } else {
+                    // Não recomenda profilaxia (Apenas 1 moderado)
+                    resContainer.className = "bg-emerald-50 p-6 md:p-8 rounded-3xl border-2 border-emerald-400 transition-all duration-300 shadow-lg text-center h-full flex flex-col justify-center min-h-[400px]";
+                    statusIcon.className = "w-20 h-20 mx-auto rounded-full bg-emerald-100 flex items-center justify-center text-4xl mb-4 transition-colors text-emerald-600";
+                    statusIcon.innerHTML = "👍";
+                    resTitle.textContent = "Profilaxia Não Indicada";
+                    resTitle.className = "text-2xl font-black text-emerald-800 mb-2";
+                    
+                    resBox.className = "mt-4 p-4 rounded-xl bg-white border border-emerald-200 text-sm text-emerald-700";
+                    resBox.innerHTML = "Apenas 1 fator de risco moderado presente. As diretrizes atuais não recomendam o uso rotineiro de AAS profilático neste cenário clínico.";
+                    
+                    doseInfo.classList.add('hidden');
+                }
+            }
+
+            // Atrelar evento a todos os inputs
+            const form = document.getElementById('preeclampsia-form');
+            form.addEventListener('change', calculateRisk);
+
+            // Botão de Limpar
+            document.getElementById('reset-form').addEventListener('click', () => {
+                form.reset();
+                calculateRisk();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
+
+```
