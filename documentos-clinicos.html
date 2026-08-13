@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos Clínicos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #3b82f6; /* Blue-500 */
+            border-radius: 9999px;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                background-color: white;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .print-area {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden print-area">
+        
+        <!-- Cabeçalho (Não impresso) -->
+        <div class="bg-blue-600 p-6 md:p-8 text-white text-center relative no-print">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Documentos Clínicos</h1>
+            <p class="text-blue-100 text-sm md:text-base">Materiais de apoio e orientações para impressão e entrega ao paciente</p>
+            <div class="mt-6">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-full transition shadow-sm">
+                    &larr; Voltar ao Menu Principal
+                </a>
+            </div>
+        </div>
+
+        <!-- Menu de Documentos (Não impresso) -->
+        <div class="p-6 md:p-8 border-b border-gray-200 bg-gray-50 no-print">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Selecione o documento para visualizar e imprimir:</h2>
+            <div class="flex flex-wrap gap-4">
+                <button onclick="showDocument('bp-log')" class="px-6 py-3 bg-white border border-gray-300 rounded-xl shadow-sm hover:border-blue-500 hover:text-blue-600 font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Controle de Pressão Arterial
+                </button>
+                <button onclick="showDocument('cervical-stretch')" class="px-6 py-3 bg-white border border-gray-300 rounded-xl shadow-sm hover:border-blue-500 hover:text-blue-600 font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Alongamento Cervical
+                </button>
+                <button onclick="showDocument('lumbar-stretch')" class="px-6 py-3 bg-white border border-gray-300 rounded-xl shadow-sm hover:border-blue-500 hover:text-blue-600 font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Alongamento Lombar
+                </button>
+            </div>
+            
+            <div class="mt-6 flex justify-end">
+                <button onclick="window.print()" class="px-8 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-md hover:bg-blue-700 transition flex items-center gap-2 hidden" id="print-btn">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Imprimir Documento
+                </button>
+            </div>
+        </div>
+
+        <!-- Área de Documentos -->
+        <div class="p-8 md:p-12">
+            
+            <!-- Mensagem Inicial (Não impresso) -->
+            <div id="placeholder" class="text-center py-12 text-gray-400 no-print">
+                <svg class="w-16 h-16 mx-auto mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <p>Selecione um documento acima para visualizá-lo.</p>
+            </div>
+
+            <!-- 1. Controle de Pressão Arterial -->
+            <div id="bp-log" class="hidden document-content">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold uppercase tracking-wider border-b-2 border-black pb-2 inline-block">Controle de Pressão Arterial</h2>
+                </div>
+                
+                <div class="mb-6 flex items-end gap-2">
+                    <span class="font-bold text-lg">Nome:</span>
+                    <div class="flex-1 border-b border-black"></div>
+                </div>
+
+                <table class="w-full border-collapse border-2 border-black text-center">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-black p-3 font-bold w-1/4">DATA / HORA</th>
+                            <th class="border border-black p-3 font-bold w-1/4">PRESSÃO (mmHg)</th>
+                            <th class="border border-black p-3 font-bold w-1/4">DATA / HORA</th>
+                            <th class="border border-black p-3 font-bold w-1/4">PRESSÃO (mmHg)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bp-table-body">
+                        <!-- Linhas geradas via JS -->
+                    </tbody>
+                </table>
+                
+                <div class="mt-8 text-sm text-gray-700">
+                    <p class="font-bold mb-2">Orientações para a medição correta:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Meça a pressão num ambiente calmo, após 5 minutos de repouso.</li>
+                        <li>Não fume, não consuma bebidas alcoólicas, café ou alimentos pelo menos 30 minutos antes.</li>
+                        <li>Sente-se com as costas apoiadas, pernas descruzadas e pés no chão.</li>
+                        <li>Mantenha o braço apoiado à altura do coração.</li>
+                        <li>Não fale durante a medição.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 2. Alongamento Cervical -->
+            <div id="cervical-stretch" class="hidden document-content">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold uppercase tracking-wider border-b-2 border-black pb-2 inline-block">Exercícios de Alongamento Cervical</h2>
+                    <p class="mt-2 text-gray-600">Realize os movimentos suavemente, respeitando o limite da dor.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-x-8 gap-y-12">
+                    
+                    <!-- Item 1 -->
+                    <div class="flex gap-4 border-b border-gray-200 pb-6">
+                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                            <!-- Placeholder for Image 1 -->
+                             <span class="text-gray-400 text-xs text-center p-2">Imagem: Alongamento Trapézio 1</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Alongamento do trapézio - 1</h3>
+                            <p class="text-sm">Encoste a orelha esquerda ao ombro esquerdo.<br><br>Mantenha a posição por 10 segundos. Repita no lado contrário.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="flex gap-4 border-b border-gray-200 pb-6">
+                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                             <span class="text-gray-400 text-xs text-center p-2">Imagem: Alongamento Trapézio 2</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Alongamento do trapézio - 2</h3>
+                            <p class="text-sm">Encoste a orelha esquerda ao ombro esquerdo. Aplique alguma pressão com a mão.<br><br>Mantenha a posição por 10 segundos. Repita no lado contrário.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="flex gap-4 border-b border-gray-200 pb-6">
+                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                             <span class="text-gray-400 text-xs text-center p-2">Imagem: Zona Posterior</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Alongamento zona posterior</h3>
+                            <p class="text-sm">Tente encostar o queixo ao peito.<br><br>Mantenha a posição por 10 segundos.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="flex gap-4 border-b border-gray-200 pb-6">
+                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                             <span class="text-gray-400 text-xs text-center p-2">Imagem: Rotação Pescoço</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Rotação do pescoço</h3>
+                            <p class="text-sm">Rode a cabeça por cima do ombro até sentir um ligeiro alongamento do pescoço.<br><br>Mantenha a posição por 10 segundos. Repita no lado oposto.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="flex gap-4 border-b border-gray-200 pb-6">
+                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                             <span class="text-gray-400 text-xs text-center p-2">Imagem: Isométrico 1</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Alongamento isométrico - 1</h3>
+                            <p class="text-sm">Empurre a cabeça em frente contra a resistência da sua própria mão.<br><br>Mantenha a posição durante 10 segundos. Repita 3 vezes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 6 -->
+                    <div class="flex gap-4 border-b border-gray-200 pb-6">
+                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                             <span class="text-gray-400 text-xs text-center p-2">Imagem: Isométrico 2</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Alongamento isométrico - 2</h3>
+                            <p class="text-sm">Empurre a cabeça para o lado, contra a resistência da sua própria mão.<br><br>Mantenha a posição durante 10 segundos. Repita 3 vezes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 7 -->
+                    <div class="flex gap-4">
+                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                             <span class="text-gray-400 text-xs text-center p-2">Imagem: Combinado</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Alongamento combinado</h3>
+                            <p class="text-sm">Puxe o braço direito com a mão esquerda. Incline a cabeça para trás e para o lado oposto ao ombro esquerdo.<br><br>Mantenha a posição durante 10 segundos e repita no lado oposto.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 8 -->
+                    <div class="flex gap-4">
+                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                             <span class="text-gray-400 text-xs text-center p-2">Imagem: Músculos Profundos</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Alongamento músculos profundos</h3>
+                            <p class="text-sm">Deite-se de costas. Calmamente, puxe a cabeça em direção ao peito.<br><br>Mantenha a posição durante 7 segundos. Repita 3 vezes.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 3. Alongamento Lombar -->
+            <div id="lumbar-stretch" class="hidden document-content">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-red-800 uppercase tracking-wider mb-4">Alongamento para aliviar a dor lombar</h2>
+                    <p class="text-sm text-gray-800 border-t-2 border-b-2 border-red-800 py-4 font-medium">O alongamento é uma boa opção para aliviar as dores na coluna lombar. No entanto, para que os efeitos esperados sejam obtidos, os movimentos devem ser suaves, a coluna mantida em linha reta, e os limites do corpo, respeitados.</p>
+                </div>
+
+                <div class="space-y-8">
+                    
+                    <!-- Exercício 1 -->
+                    <div class="flex flex-col md:flex-row items-center gap-6 pb-6 border-b border-gray-200">
+                        <div class="w-full md:w-1/3 bg-gray-100 h-32 rounded-xl flex items-center justify-center shrink-0">
+                            <span class="text-gray-400 text-xs text-center p-2">Imagem: Criança (Child's Pose)</span>
+                        </div>
+                        <div class="w-full md:w-2/3 text-center md:text-left text-gray-700">
+                            <p>Fique de quatro e, em seguida, estique os braços para a frente, fazendo com que o rosto se aproxime do chão.</p>
+                            <p class="mt-2 text-red-700 font-medium">Lentamente, sente-se sobre os calcanhares. Permaneça, assim, por trinta segundos, e repita, se necessário.</p>
+                        </div>
+                    </div>
+
+                    <!-- Exercício 2 -->
+                    <div class="flex flex-col md:flex-row items-center gap-6 pb-6 border-b border-gray-200">
+                        <div class="w-full md:w-1/3 bg-gray-100 h-32 rounded-xl flex items-center justify-center shrink-0">
+                            <span class="text-gray-400 text-xs text-center p-2">Imagem: Cobra (Cobra Pose)</span>
+                        </div>
+                        <div class="w-full md:w-2/3 text-center md:text-left text-gray-700">
+                            <p>Deite-se de bruços. Apoie as palmas das mãos no chão, na altura do peito. Empurre o chão e erga o corpo, até que os braços fiquem esticados.</p>
+                            <p class="mt-2 text-red-700 font-medium">Permaneça, nessa posição, por trinta segundos, e repita, se necessário.</p>
+                        </div>
+                    </div>
+
+                    <!-- Exercício 3 -->
+                    <div class="flex flex-col md:flex-row items-center gap-6 pb-6 border-b border-gray-200">
+                        <div class="w-full md:w-1/3 bg-gray-100 h-32 rounded-xl flex items-center justify-center shrink-0">
+                            <span class="text-gray-400 text-xs text-center p-2">Imagem: Cachorro olhando para baixo</span>
+                        </div>
+                        <div class="w-full md:w-2/3 text-center md:text-left text-gray-700">
+                            <p>De quatro, com as mãos um pouco à frente dos ombros, empurre o chão de forma a levantar o corpo, esticando as pernas. Mantenha a cabeça alinhada com o tronco e braços.</p>
+                            <p class="mt-2 text-red-700 font-medium">Permaneça, assim, por vinte segundos, e repita, se necessário.</p>
+                        </div>
+                    </div>
+
+                    <!-- Exercício 4 -->
+                    <div class="flex flex-col md:flex-row items-center gap-6 pb-6 border-b border-gray-200">
+                        <div class="w-full md:w-1/3 bg-gray-100 h-32 rounded-xl flex items-center justify-center shrink-0">
+                            <span class="text-gray-400 text-xs text-center p-2">Imagem: Joelho no peito</span>
+                        </div>
+                        <div class="w-full md:w-2/3 text-center md:text-left text-gray-700">
+                            <p>Deite-se de barriga para cima. Mantenha uma das pernas estendida no chão. Flexione a outra perna, e aproxime o joelho do peito. Segure a perna nesta posição com ambas as mãos.</p>
+                            <p class="mt-2 text-red-700 font-medium">Mantenha-se nessa posição por trinta segundos. Repita o exercício com a outra perna.</p>
+                        </div>
+                    </div>
+
+                    <!-- Exercício 5 -->
+                    <div class="flex flex-col md:flex-row items-center gap-6 pb-6 border-b border-gray-200">
+                        <div class="w-full md:w-1/3 bg-gray-100 h-32 rounded-xl flex items-center justify-center shrink-0">
+                            <span class="text-gray-400 text-xs text-center p-2">Imagem: Gato e Vaca (Cat-Cow)</span>
+                        </div>
+                        <div class="w-full md:w-2/3 text-center md:text-left text-gray-700">
+                            <p>Fique de quatro. Inspire profundamente, arqueando as costas. Permaneça nessa posição por vinte segundos.</p>
+                            <p class="mt-2 text-red-700 font-medium">Em seguida, expire, fazendo com que o tronco se curve para baixo, mantendo-se assim por vinte segundos. Repita cada passo mais duas vezes.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Função para gerar as linhas da tabela de pressão arterial
+        function generateBPTableRows() {
+            const tbody = document.getElementById('bp-table-body');
+            let rowsHtml = '';
+            // Gera 16 linhas (32 campos no total)
+            for (let i = 0; i < 16; i++) {
+                rowsHtml += `
+                    <tr>
+                        <td class="border border-black p-4"></td>
+                        <td class="border border-black p-4"></td>
+                        <td class="border border-black p-4"></td>
+                        <td class="border border-black p-4"></td>
+                    </tr>
+                `;
+            }
+            tbody.innerHTML = rowsHtml;
+        }
+
+        // Função para mostrar o documento selecionado
+        function showDocument(docId) {
+            // Esconde placeholder
+            document.getElementById('placeholder').classList.add('hidden');
+            
+            // Mostra o botão de imprimir
+            document.getElementById('print-btn').classList.remove('hidden');
+
+            // Esconde todos os documentos
+            const docs = document.querySelectorAll('.document-content');
+            docs.forEach(doc => {
+                doc.classList.add('hidden');
+            });
+
+            // Mostra o documento selecionado
+            document.getElementById(docId).classList.remove('hidden');
+        }
+
+        // Inicializa gerando a tabela
+        document.addEventListener('DOMContentLoaded', () => {
+            generateBPTableRows();
+        });
+    </script>
+</body>
+</html>
