@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Equivalência de Estatinas</title>
+    <title>Calculadora LDL-C (Martin-Hopkins)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -12,7 +12,7 @@
             background-color: #f0f4f8;
         }
         .container {
-            max-width: 900px;
+            max-width: 800px;
         }
         .section-title {
             position: relative;
@@ -25,8 +25,13 @@
             left: 0;
             width: 50px;
             height: 3px;
-            background-color: #0d9488; /* Teal-600 */
+            background-color: #f97316; /* Orange-500 */
             border-radius: 9999px;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
     </style>
 </head>
@@ -34,92 +39,113 @@
     <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
         
         <!-- Cabeçalho -->
-        <div class="bg-teal-700 p-6 md:p-8 text-white text-center relative">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">Equivalência de Estatinas</h1>
-            <p class="text-teal-100 text-sm md:text-base">Conversão de doses e classificação de intensidade terapêutica (SBC/AHA)</p>
+        <div class="bg-orange-600 p-6 md:p-8 text-white text-center relative">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Calculadora de Colesterol LDL</h1>
+            <p class="text-orange-100 text-sm md:text-base">Fórmula de Martin-Hopkins (Tabela Original de 180 Células)</p>
             <div class="mt-6">
-                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-teal-800 hover:bg-teal-900 text-white text-sm font-medium rounded-full transition shadow-sm">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-orange-700 hover:bg-orange-800 text-white text-sm font-medium rounded-full transition shadow-sm">
                     &larr; Voltar ao Menu Principal
                 </a>
             </div>
         </div>
 
-        <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- Coluna de Entradas -->
-            <div class="lg:col-span-5 space-y-6">
-                <div class="bg-teal-50/50 p-6 rounded-2xl border border-teal-100 shadow-sm">
-                    <h2 class="section-title text-xl font-bold text-teal-900 mb-6">Dose Atual</h2>
+        <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Coluna de Entrada -->
+            <div class="space-y-6">
+                <div class="bg-orange-50/50 p-6 rounded-2xl border border-orange-100 shadow-sm">
+                    <h2 class="section-title text-xl font-bold text-orange-900 mb-4">Perfil Lipídico (mg/dL)</h2>
                     
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Estatina Atual</label>
-                            <select id="current-statin" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 font-bold bg-white text-gray-800">
-                                <option value="">Selecione o medicamento...</option>
-                                <option value="rosu">Rosuvastatina</option>
-                                <option value="atorva">Atorvastatina</option>
-                                <option value="sinva">Sinvastatina</option>
-                                <option value="pita">Pitavastatina</option>
-                                <option value="prava">Pravastatina</option>
-                            </select>
+                            <label for="tc" class="block text-sm font-medium text-gray-700 mb-1">Colesterol Total (CT)</label>
+                            <input type="number" id="tc" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 font-bold bg-white" placeholder="Ex: 210">
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Dose (mg/dia)</label>
-                            <select id="current-dose" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 font-bold bg-gray-50 text-gray-800" disabled>
-                                <option value="">Selecione primeiro a estatina...</option>
-                            </select>
+                            <label for="hdl" class="block text-sm font-medium text-gray-700 mb-1">Colesterol HDL</label>
+                            <input type="number" id="hdl" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 font-bold bg-white" placeholder="Ex: 45">
+                        </div>
+                        
+                        <div>
+                            <label for="tg" class="block text-sm font-medium text-gray-700 mb-1">Triglicerídeos (TG)</label>
+                            <input type="number" id="tg" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 font-bold bg-white" placeholder="Ex: 150">
                         </div>
                     </div>
-                </div>
 
+                    <button id="btn-calculate" class="w-full mt-8 py-3 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-700 shadow-lg transition transform active:scale-95">
+                        Calcular LDL-C
+                    </button>
+                </div>
+                
                 <div class="text-left p-4 bg-gray-50 rounded-xl border border-gray-200">
                     <p class="text-xs text-gray-600 leading-relaxed">
-                        <strong>Nota Clínica:</strong> A equivalência foca no perfil de redução do LDL-c. A terapia de <strong>Alta Intensidade</strong> objetiva redução de LDL ≥ 50%. A de <strong>Moderada Intensidade</strong> visa 30% a 49%.
+                        <strong>Nota:</strong> Esta calculadora utiliza a matriz exata publicada no método Martin-Hopkins. Em pacientes com triglicerídeos elevados (até 399 mg/dL) ou níveis baixos de LDL, este método é significativamente mais preciso que a fórmula tradicional de Friedewald.
                     </p>
                 </div>
             </div>
 
             <!-- Coluna de Resultados -->
-            <div class="lg:col-span-7 relative">
-                <div class="sticky top-6">
-                    
-                    <!-- Placeholder Inicial -->
-                    <div id="result-placeholder" class="h-full flex flex-col items-center justify-center text-gray-400 border-2 border-dashed border-gray-200 rounded-3xl p-10 text-center bg-gray-50 min-h-[350px]">
-                        <svg class="w-16 h-16 mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                        <p class="text-base font-medium">Selecione a estatina e a dose para calcular as equivalências terapêuticas automáticas.</p>
-                    </div>
-
-                    <!-- Resultados Reais -->
-                    <div id="result-content" class="hidden w-full space-y-4">
+            <div class="relative h-full">
+                <div class="sticky top-6 h-full flex flex-col">
+                    <div id="result-box" class="flex flex-col justify-center items-center text-center p-6 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 min-h-[400px] transition-all duration-300 flex-1">
                         
-                        <!-- Card de Intensidade (Destaque) -->
-                        <div id="intensity-card" class="p-6 rounded-3xl shadow-md border-2 transition-all duration-300 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs font-bold uppercase tracking-widest block mb-1 opacity-70">Intensidade da Terapia</span>
-                                <h3 id="intensity-text" class="text-2xl font-black tracking-tight">Alta Intensidade</h3>
-                                <p id="intensity-desc" class="text-sm font-medium mt-1">Redução esperada do LDL-c ≥ 50%</p>
-                            </div>
-                            <div class="hidden sm:block">
-                                <div id="intensity-icon" class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                                    <!-- Ícone dinâmico -->
+                        <div id="placeholder" class="text-gray-400">
+                            <svg class="w-20 h-20 mx-auto mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2"></path>
+                            </svg>
+                            <p class="font-medium text-base px-4">Preencha os valores do painel lipídico para obter o cálculo exato do LDL-C.</p>
+                        </div>
+
+                        <div id="content" class="hidden w-full space-y-6 animate-fade-in">
+                            <!-- Card Principal de Resultado -->
+                            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border-t-8 border-orange-500">
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">LDL-C Estimado</span>
+                                <div class="flex items-end justify-center gap-2">
+                                    <h3 class="text-6xl md:text-7xl font-black text-orange-600 tracking-tighter" id="res-ldl"></h3>
+                                    <span class="text-lg font-bold text-gray-500 mb-2">mg/dL</span>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Lista de Alternativas (Equivalentes) -->
-                        <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-lg">
-                            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 border-b pb-2">Doses Equivalentes</h3>
-                            
-                            <ul id="equivalents-list" class="space-y-3">
-                                <!-- Preenchido dinamicamente via JS -->
-                            </ul>
-                        </div>
-                        
-                        <!-- Alertas Dinâmicos Específicos -->
-                        <div id="clinical-alert" class="hidden bg-orange-50 border border-orange-200 p-4 rounded-2xl flex items-start gap-3">
-                            <span class="text-orange-500 text-lg mt-0.5">⚠️</span>
-                            <p id="clinical-alert-text" class="text-sm text-orange-800 leading-relaxed font-medium"></p>
+                            <!-- Métricas Secundárias -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="p-4 bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-center">
+                                    <span class="block text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Colesterol Não-HDL</span>
+                                    <div class="flex items-baseline justify-center gap-1">
+                                        <span id="res-non-hdl" class="text-2xl font-black text-gray-800"></span>
+                                        <span class="text-xs font-medium text-gray-500 mb-0.5">mg/dL</span>
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-center relative group">
+                                    <span class="block text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Fator Ajustável</span>
+                                    <span id="res-factor" class="text-2xl font-black text-gray-800"></span>
+                                    
+                                    <!-- Tooltip com a fórmula -->
+                                    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10 pointer-events-none">
+                                        Fórmula: TG / Fator<br>Substitui o "5" da fórmula clássica.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Alertas e Informações -->
+                            <div id="alert-friedewald" class="hidden text-left p-4 bg-yellow-50 rounded-xl border border-yellow-200 flex items-start gap-3">
+                                <span class="text-xl">⚠️</span>
+                                <div>
+                                    <span class="block text-xs font-bold text-yellow-800 uppercase tracking-widest mb-0.5">Comparação Histórica</span>
+                                    <p class="text-sm text-yellow-900 font-medium">
+                                        Pela fórmula clássica de Friedewald (TG/5), o resultado seria de <strong class="text-black bg-yellow-200/50 px-1 rounded" id="res-friedewald"></strong> mg/dL.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div id="alert-high-tg" class="hidden text-left p-4 bg-red-50 rounded-xl border border-red-200 flex items-start gap-3">
+                                <span class="text-xl">🛑</span>
+                                <div>
+                                    <span class="block text-xs font-bold text-red-800 uppercase tracking-widest mb-0.5">Aviso Clínico</span>
+                                    <p class="text-sm text-red-900 font-medium leading-snug">
+                                        Triglicerídeos ≥ 400 mg/dL. As diretrizes recomendam a medição direta do LDL-C (ultracentrifugação) ou a utilização da equação de Sampson/NIH em casos de hipertrigliceridemia grave.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -128,200 +154,141 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Tabela de Dados e Níveis de Equivalência (Power levels)
-            // Nível 1 = Baixa
-            // Nível 2 = Moderada Baixa (Ex: Sinva 20, Atorva 10)
-            // Nível 3 = Moderada Alta (Ex: Sinva 40, Atorva 20)
-            // Nível 4 = Alta Base (Ex: Atorva 40, Rosu 20)
-            // Nível 5 = Alta Max (Ex: Atorva 80, Rosu 40)
-            
-            const db = {
-                rosu: {
-                    name: 'Rosuvastatina',
-                    doses: [
-                        { val: 5, level: 2, int: 'mod', desc: '30-49%' },
-                        { val: 10, level: 3, int: 'mod', desc: '30-49%' },
-                        { val: 20, level: 4, int: 'high', desc: '≥ 50%' },
-                        { val: 40, level: 5, int: 'high', desc: '≥ 50%' }
-                    ]
-                },
-                atorva: {
-                    name: 'Atorvastatina',
-                    doses: [
-                        { val: 10, level: 2, int: 'mod', desc: '30-49%' },
-                        { val: 20, level: 3, int: 'mod', desc: '30-49%' },
-                        { val: 40, level: 4, int: 'high', desc: '≥ 50%' },
-                        { val: 80, level: 5, int: 'high', desc: '≥ 50%' }
-                    ]
-                },
-                sinva: {
-                    name: 'Sinvastatina',
-                    doses: [
-                        { val: 10, level: 1, int: 'low', desc: '< 30%' },
-                        { val: 20, level: 2, int: 'mod', desc: '30-49%' },
-                        { val: 40, level: 3, int: 'mod', desc: '30-49%' },
-                        { val: 80, level: 4, int: 'high_warn', desc: '≥ 50%' } // 80mg é contraindicado iniciar
-                    ]
-                },
-                pita: {
-                    name: 'Pitavastatina',
-                    doses: [
-                        { val: 1, level: 1, int: 'low', desc: '< 30%' },
-                        { val: 2, level: 2, int: 'mod', desc: '30-49%' },
-                        { val: 4, level: 3, int: 'mod', desc: '30-49%' }
-                    ]
-                },
-                prava: {
-                    name: 'Pravastatina',
-                    doses: [
-                        { val: 10, level: 0.5, int: 'low', desc: '< 30%' }, // Menos de nivel 1 padrão
-                        { val: 20, level: 1, int: 'low', desc: '< 30%' },
-                        { val: 40, level: 2, int: 'mod', desc: '30-49%' },
-                        { val: 80, level: 3, int: 'mod', desc: '30-49%' }
-                    ]
+        // =========================================================================
+        // TABELA OFICIAL MARTIN-HOPKINS (180 Células)
+        // Extraída com precisão da tabela fornecida (tabela.jpg)
+        // =========================================================================
+        
+        // Definição das colunas de Não-HDL (Limites inferiores)
+        // Index: 0 (<100), 1 (100-129), 2 (130-159), 3 (160-189), 4 (190-219), 5 (>=220)
+        
+        // Definição das linhas de Triglicerídeos (TG) com seu limite mínimo, máximo e o array de fatores
+        const martinHopkinsTable = [
+            { minTG: 7,   maxTG: 49,   factors: [3.5, 3.4, 3.3, 3.3, 3.2, 3.1] },
+            { minTG: 50,  maxTG: 56,   factors: [4.0, 3.9, 3.7, 3.6, 3.6, 3.4] },
+            { minTG: 57,  maxTG: 61,   factors: [4.3, 4.1, 4.0, 3.9, 3.8, 3.6] },
+            { minTG: 62,  maxTG: 66,   factors: [4.5, 4.3, 4.1, 4.0, 3.9, 3.9] },
+            { minTG: 67,  maxTG: 71,   factors: [4.7, 4.4, 4.3, 4.2, 4.1, 3.9] },
+            { minTG: 72,  maxTG: 75,   factors: [4.8, 4.6, 4.4, 4.2, 4.2, 4.1] },
+            { minTG: 76,  maxTG: 79,   factors: [4.9, 4.6, 4.5, 4.3, 4.3, 4.2] },
+            { minTG: 80,  maxTG: 83,   factors: [5.0, 4.8, 4.6, 4.4, 4.3, 4.2] },
+            { minTG: 84,  maxTG: 87,   factors: [5.1, 4.8, 4.6, 4.5, 4.4, 4.3] },
+            { minTG: 88,  maxTG: 92,   factors: [5.2, 4.9, 4.7, 4.6, 4.4, 4.3] },
+            { minTG: 93,  maxTG: 96,   factors: [5.3, 5.0, 4.8, 4.7, 4.5, 4.4] },
+            { minTG: 97,  maxTG: 100,  factors: [5.4, 5.1, 4.8, 4.7, 4.5, 4.3] },
+            { minTG: 101, maxTG: 105,  factors: [5.5, 5.2, 5.0, 4.7, 4.6, 4.5] },
+            { minTG: 106, maxTG: 110,  factors: [5.6, 5.3, 5.0, 4.8, 4.6, 4.5] },
+            { minTG: 111, maxTG: 115,  factors: [5.7, 5.4, 5.1, 4.9, 4.7, 4.5] },
+            { minTG: 116, maxTG: 120,  factors: [5.8, 5.5, 5.2, 5.0, 4.8, 4.6] },
+            { minTG: 121, maxTG: 126,  factors: [6.0, 5.5, 5.3, 5.0, 4.8, 4.6] },
+            { minTG: 127, maxTG: 132,  factors: [6.1, 5.7, 5.3, 5.1, 4.9, 4.7] },
+            { minTG: 133, maxTG: 138,  factors: [6.2, 5.8, 5.4, 5.2, 5.0, 4.7] },
+            { minTG: 139, maxTG: 146,  factors: [6.3, 5.9, 5.6, 5.3, 5.0, 4.8] },
+            { minTG: 147, maxTG: 154,  factors: [6.5, 6.0, 5.7, 5.4, 5.1, 4.8] },
+            { minTG: 155, maxTG: 163,  factors: [6.7, 6.2, 5.8, 5.4, 5.2, 4.9] },
+            { minTG: 164, maxTG: 173,  factors: [6.8, 6.3, 5.9, 5.5, 5.3, 5.0] },
+            { minTG: 174, maxTG: 185,  factors: [7.0, 6.5, 6.0, 5.7, 5.4, 5.1] },
+            { minTG: 186, maxTG: 201,  factors: [7.3, 6.7, 6.2, 5.8, 5.5, 5.2] },
+            { minTG: 202, maxTG: 220,  factors: [7.6, 6.9, 6.4, 6.0, 5.6, 5.3] },
+            { minTG: 221, maxTG: 247,  factors: [8.0, 7.2, 6.6, 6.2, 5.9, 5.4] },
+            { minTG: 248, maxTG: 292,  factors: [8.5, 7.6, 7.0, 6.5, 6.1, 5.6] },
+            { minTG: 293, maxTG: 399,  factors: [9.5, 8.3, 7.5, 7.0, 6.5, 5.9] },
+            { minTG: 400, maxTG: 99999,factors: [11.9,10.0, 8.8, 8.1, 7.5, 6.7] }
+        ];
+
+        function getMartinHopkinsFactor(tg, nonHdl) {
+            // 1. Encontrar o índice da coluna baseado no Não-HDL
+            let colIndex = 0;
+            if (nonHdl < 100) colIndex = 0;
+            else if (nonHdl >= 100 && nonHdl <= 129) colIndex = 1;
+            else if (nonHdl >= 130 && nonHdl <= 159) colIndex = 2;
+            else if (nonHdl >= 160 && nonHdl <= 189) colIndex = 3;
+            else if (nonHdl >= 190 && nonHdl <= 219) colIndex = 4;
+            else if (nonHdl >= 220) colIndex = 5;
+
+            // 2. Tratar TG abaixo do limite da tabela (Raro, mas seguro assumir a primeira linha)
+            if (tg < 7) return martinHopkinsTable[0].factors[colIndex];
+
+            // 3. Encontrar a linha exata baseada nos Triglicerídeos
+            for (let i = 0; i < martinHopkinsTable.length; i++) {
+                if (tg >= martinHopkinsTable[i].minTG && tg <= martinHopkinsTable[i].maxTG) {
+                    return martinHopkinsTable[i].factors[colIndex];
                 }
-            };
-
-            const selStatin = document.getElementById('current-statin');
-            const selDose = document.getElementById('current-dose');
-            const resPlaceholder = document.getElementById('result-placeholder');
-            const resContent = document.getElementById('result-content');
+            }
             
-            const intCard = document.getElementById('intensity-card');
-            const intText = document.getElementById('intensity-text');
-            const intDesc = document.getElementById('intensity-desc');
-            const intIcon = document.getElementById('intensity-icon');
-            
-            const eqList = document.getElementById('equivalents-list');
-            const alertBox = document.getElementById('clinical-alert');
-            const alertText = document.getElementById('clinical-alert-text');
+            // Fallback (não deve ser atingido com a configuração atual de maxTG)
+            return 5.0; 
+        }
 
-            // Quando troca a estatina, atualiza as opções de dose
-            selStatin.addEventListener('change', () => {
-                const statinKey = selStatin.value;
-                selDose.innerHTML = '<option value="">Selecione a dose...</option>';
-                
-                if (statinKey) {
-                    selDose.disabled = false;
-                    selDose.classList.remove('bg-gray-50');
-                    selDose.classList.add('bg-white');
-                    
-                    db[statinKey].doses.forEach(d => {
-                        const opt = document.createElement('option');
-                        opt.value = d.level;
-                        opt.textContent = `${d.val} mg/dia`;
-                        selDose.appendChild(opt);
-                    });
-                } else {
-                    selDose.disabled = true;
-                    selDose.classList.add('bg-gray-50');
-                    selDose.classList.remove('bg-white');
-                    resetUI();
-                }
-            });
+        document.getElementById('btn-calculate').addEventListener('click', () => {
+            const tc = parseFloat(document.getElementById('tc').value);
+            const hdl = parseFloat(document.getElementById('hdl').value);
+            const tg = parseFloat(document.getElementById('tg').value);
 
-            // Quando troca a dose, calcula equivalência
-            selDose.addEventListener('change', calculateEquivalents);
-
-            function resetUI() {
-                resPlaceholder.classList.remove('hidden');
-                resContent.classList.add('hidden');
+            if (isNaN(tc) || isNaN(hdl) || isNaN(tg) || tc <= 0 || hdl <= 0 || tg <= 0) {
+                alert("Por favor, preencha todos os campos com valores válidos maiores que zero.");
+                return;
             }
 
-            function calculateEquivalents() {
-                const statinKey = selStatin.value;
-                const selectedLevel = parseFloat(selDose.value);
-                
-                if (!statinKey || isNaN(selectedLevel)) {
-                    resetUI();
-                    return;
-                }
+            // Cálculos Intermediários
+            const nonHdl = tc - hdl;
+            
+            // Busca o Fator Exato na Matriz
+            const adjustableFactor = getMartinHopkinsFactor(tg, nonHdl);
+            
+            // O VLDL estimado (Martin-Hopkins)
+            const vldl = tg / adjustableFactor;
+            
+            // O LDL estimado (CT - HDL - VLDL)
+            const ldl = tc - hdl - vldl;
 
-                // Encontrar os dados da dose selecionada
-                const currentDoseObj = db[statinKey].doses.find(d => d.level === selectedLevel);
-                
-                resPlaceholder.classList.add('hidden');
-                resContent.classList.remove('hidden');
+            // O LDL de Friedewald clássico (para comparação)
+            const ldlFriedewald = tc - hdl - (tg / 5);
 
-                // 1. Atualiza Card de Intensidade
-                updateIntensityCard(currentDoseObj.int, currentDoseObj.desc);
+            // Tratamento de segurança (LDL não pode ser negativo)
+            const finalLdl = ldl > 0 ? Math.round(ldl) : 0;
+            const finalFriedewald = ldlFriedewald > 0 ? Math.round(ldlFriedewald) : 0;
 
-                // 2. Lida com Alertas Clínicos
-                alertBox.classList.add('hidden');
-                if (statinKey === 'sinva' && currentDoseObj.val === 80) {
-                    alertBox.classList.remove('hidden');
-                    alertText.innerHTML = "O início de <strong>Sinvastatina 80mg</strong> é restrito pela FDA/SBC devido ao alto risco de miopatia e rabdomiólise. Se o paciente não atinge a meta com 40mg, recomenda-se trocar para estatina de alta potência (Rosuvastatina ou Atorvastatina).";
-                }
-
-                // 3. Monta lista de equivalentes
-                eqList.innerHTML = '';
-                let hasEquivalents = false;
-
-                Object.keys(db).forEach(key => {
-                    if (key === statinKey) return; // Pula a estatina atual
-                    
-                    const statinInfo = db[key];
-                    // Busca a dose com o nível exato ou mais próximo possível
-                    let equivalentDose = statinInfo.doses.find(d => d.level === selectedLevel);
-
-                    const li = document.createElement('li');
-                    li.className = "flex items-center justify-between p-4 rounded-2xl bg-gray-50 border border-gray-100";
-                    
-                    let nameHtml = `<span class="font-bold text-gray-800">${statinInfo.name}</span>`;
-                    let doseHtml = "";
-
-                    if (equivalentDose) {
-                        hasEquivalents = true;
-                        doseHtml = `<span class="px-3 py-1 bg-teal-100 text-teal-800 font-black rounded-lg text-lg">${equivalentDose.val} <span class="text-sm font-medium">mg</span></span>`;
-                    } else {
-                        // Se não tem equivalente (ex: tentar achar Pitavastatina Nível Alta)
-                        doseHtml = `<span class="text-sm text-gray-400 font-medium italic">Não há equivalente direto</span>`;
-                    }
-
-                    li.innerHTML = `
-                        <div class="flex items-center gap-3">
-                            <div class="w-2 h-2 rounded-full bg-teal-500"></div>
-                            ${nameHtml}
-                        </div>
-                        <div>${doseHtml}</div>
-                    `;
-                    eqList.appendChild(li);
-                });
+            // Manipulação da Interface (UI)
+            const resultBox = document.getElementById('result-box');
+            resultBox.classList.remove('bg-gray-50', 'border-dashed', 'border-gray-200');
+            resultBox.classList.add('bg-white', 'border-solid', 'border-orange-200', 'shadow-sm');
+            
+            document.getElementById('placeholder').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+            
+            document.getElementById('res-ldl').textContent = finalLdl;
+            document.getElementById('res-non-hdl').textContent = nonHdl;
+            document.getElementById('res-factor').textContent = adjustableFactor.toFixed(1);
+            
+            // Exibir a comparação apenas se a diferença for maior que 1 mg/dL para não poluir
+            if (Math.abs(finalLdl - finalFriedewald) >= 1) {
+                document.getElementById('res-friedewald').textContent = finalFriedewald;
+                document.getElementById('alert-friedewald').classList.remove('hidden');
+            } else {
+                document.getElementById('alert-friedewald').classList.add('hidden');
             }
 
-            function updateIntensityCard(intensity, desc) {
-                // Reseta classes
-                intCard.className = "p-6 rounded-3xl shadow-md border-2 transition-all duration-300 flex items-center justify-between";
-                intText.className = "text-2xl font-black tracking-tight";
-                
-                if (intensity === 'high' || intensity === 'high_warn') {
-                    intCard.classList.add('bg-red-50', 'border-red-500');
-                    intText.classList.add('text-red-700');
-                    intDesc.classList.add('text-red-600');
-                    intText.textContent = "Alta Intensidade";
-                    intDesc.textContent = `Redução esperada do LDL-c ${desc}`;
-                    intIcon.className = "w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl bg-red-600 shadow-sm";
-                    intIcon.textContent = "A";
-                } else if (intensity === 'mod') {
-                    intCard.classList.add('bg-orange-50', 'border-orange-400');
-                    intText.classList.add('text-orange-700');
-                    intDesc.classList.add('text-orange-600');
-                    intText.textContent = "Moderada Intensidade";
-                    intDesc.textContent = `Redução esperada do LDL-c ${desc}`;
-                    intIcon.className = "w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl bg-orange-500 shadow-sm";
-                    intIcon.textContent = "M";
-                } else {
-                    intCard.classList.add('bg-green-50', 'border-green-500');
-                    intText.classList.add('text-green-700');
-                    intDesc.classList.add('text-green-600');
-                    intText.textContent = "Baixa Intensidade";
-                    intDesc.textContent = `Redução esperada do LDL-c ${desc}`;
-                    intIcon.className = "w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl bg-green-500 shadow-sm";
-                    intIcon.textContent = "B";
-                }
+            // Alerta Triglicerídeos Elevados (Limitante Clínico)
+            if (tg >= 400) {
+                document.getElementById('alert-high-tg').classList.remove('hidden');
+                document.getElementById('res-ldl').classList.add('text-red-600');
+                document.getElementById('res-ldl').classList.remove('text-orange-600');
+            } else {
+                document.getElementById('alert-high-tg').classList.add('hidden');
+                document.getElementById('res-ldl').classList.remove('text-red-600');
+                document.getElementById('res-ldl').classList.add('text-orange-600');
             }
         });
     </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
 </body>
 </html>
