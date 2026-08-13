@@ -42,11 +42,11 @@
     <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden print-area">
         
         <!-- Cabeçalho (Não impresso) -->
-        <div class="bg-blue-600 p-6 md:p-8 text-white text-center relative no-print">
+        <div class="bg-indigo-600 p-6 md:p-8 text-white text-center relative no-print">
             <h1 class="text-3xl md:text-4xl font-bold mb-2">Documentos Clínicos</h1>
-            <p class="text-blue-100 text-sm md:text-base">Materiais de apoio, formulários e orientações em PDF para entrega ao paciente</p>
+            <p class="text-indigo-100 text-sm md:text-base">Materiais de apoio, formulários obrigatórios e guias para impressão</p>
             <div class="mt-6">
-                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-full transition shadow-sm">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-medium rounded-full transition shadow-sm">
                     &larr; Voltar ao Menu Principal
                 </a>
             </div>
@@ -54,41 +54,74 @@
 
         <!-- Seção de Acesso Rápido -->
         <div class="p-6 md:p-10 no-print">
-            <h2 class="text-xl font-bold text-gray-800 mb-6">Selecione o documento que deseja acessar:</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-2">Formulários Clínicos e Termos</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
                 
                 <!-- Card 1: Controle de Pressão (HTML Nativo) -->
-                <button onclick="showBPLog()" class="text-left group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100">
-                    <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <button onclick="showBPLog()" class="text-left group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-indigo-500 hover:bg-indigo-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-100">
+                    <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                     </div>
-                    <h3 class="font-bold text-gray-800 group-hover:text-blue-700 text-lg mb-1">Controle de Pressão</h3>
-                    <p class="text-sm text-gray-500 text-center">Formulário em tabela para o paciente anotar as medições diárias.</p>
+                    <h3 class="font-bold text-gray-800 group-hover:text-indigo-700 text-lg mb-1 text-center">Controle de Pressão</h3>
+                    <p class="text-sm text-gray-500 text-center">Diário de medições para o paciente preencher em casa.</p>
+                    <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-indigo-500 bg-indigo-100 px-3 py-1 rounded-full">Gerar Formulário</span>
                 </button>
 
-                <!-- Card 2: Alongamento Cervical (PDF) -->
-                <!-- Note o target="_blank" para abrir em nova aba -->
-                <a href="alongamento-cervical.pdf" target="_blank" class="group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-red-500 hover:bg-red-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-red-100">
-                    <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <!-- Icone de Documento/PDF -->
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m-3-3h6"></path></svg>
+                <!-- NOVO: Nirsevimabe (PDF) -->
+                <a href="prescricao-nirsevimabe.pdf" target="_blank" class="group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-teal-500 hover:bg-teal-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-teal-100">
+                    <div class="w-16 h-16 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
-                    <h3 class="font-bold text-gray-800 group-hover:text-red-700 text-lg mb-1 text-center">Alongamento Cervical</h3>
-                    <p class="text-sm text-gray-500 text-center">Arquivo PDF ilustrado. Clica para abrir e imprimir.</p>
-                    <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-red-500 bg-red-100 px-3 py-1 rounded-full">Abrir PDF</span>
+                    <h3 class="font-bold text-gray-800 group-hover:text-teal-700 text-lg mb-1 text-center">Prescrição Nirsevimabe</h3>
+                    <p class="text-sm text-gray-500 text-center">Formulário de solicitação SES para anticorpo VSR.</p>
+                    <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-3 py-1 rounded-full">Abrir PDF</span>
                 </a>
 
-                <!-- Card 3: Alongamento Lombar (PDF) -->
-                <a href="alongamento-lombar.pdf" target="_blank" class="group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-red-500 hover:bg-red-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-red-100">
-                    <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m-3-3h6"></path></svg>
+                <!-- NOVO: Termo Isotretinoína (PDF) -->
+                <a href="termo-isotretinoina.pdf" target="_blank" class="group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-amber-500 hover:bg-amber-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-amber-100">
+                    <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                     </div>
-                    <h3 class="font-bold text-gray-800 group-hover:text-red-700 text-lg mb-1 text-center">Alongamento Lombar</h3>
-                    <p class="text-sm text-gray-500 text-center">Arquivo PDF ilustrado. Clica para abrir e imprimir.</p>
-                    <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-red-500 bg-red-100 px-3 py-1 rounded-full">Abrir PDF</span>
+                    <h3 class="font-bold text-gray-800 group-hover:text-amber-700 text-lg mb-1 text-center">Termo Isotretinoína</h3>
+                    <p class="text-sm text-gray-500 text-center">Termo de responsabilidade e esclarecimento para acne grave.</p>
+                    <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-100 px-3 py-1 rounded-full">Abrir PDF</span>
                 </a>
-                
+
+                <!-- NOVO: Termo Sibutramina (PDF) -->
+                <a href="termo-sibutramina.pdf" target="_blank" class="group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-amber-500 hover:bg-amber-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-amber-100">
+                    <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800 group-hover:text-amber-700 text-lg mb-1 text-center">Termo Sibutramina</h3>
+                    <p class="text-sm text-gray-500 text-center">Termo de prescrição para tratamento de obesidade.</p>
+                    <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-100 px-3 py-1 rounded-full">Abrir PDF</span>
+                </a>
+
+            </div>
+
+            <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-2">Guias e Orientações</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Card: Alongamento Cervical (PDF) -->
+                <a href="alongamento-cervical.pdf" target="_blank" class="group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-emerald-500 hover:bg-emerald-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-emerald-100">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800 group-hover:text-emerald-700 text-lg mb-1 text-center">Alongamento Cervical</h3>
+                    <p class="text-sm text-gray-500 text-center">Guia ilustrado de exercícios para alívio de dor cervical.</p>
+                    <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">Abrir PDF</span>
+                </a>
+
+                <!-- Card: Alongamento Lombar (PDF) -->
+                <a href="alongamento-lombar.pdf" target="_blank" class="group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-emerald-500 hover:bg-emerald-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-emerald-100">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800 group-hover:text-emerald-700 text-lg mb-1 text-center">Alongamento Lombar</h3>
+                    <p class="text-sm text-gray-500 text-center">Guia ilustrado de exercícios para alívio de dor lombar.</p>
+                    <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">Abrir PDF</span>
+                </a>
             </div>
         </div>
 
@@ -101,7 +134,7 @@
             <span class="text-sm font-bold text-gray-600">Visualizando: Controle de Pressão</span>
             <div class="space-x-3">
                 <button onclick="hideBPLog()" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition">Fechar</button>
-                <button onclick="window.print()" class="px-6 py-2 bg-blue-600 text-white font-bold rounded-lg shadow-sm hover:bg-blue-700 transition flex items-center gap-2">
+                <button onclick="window.print()" class="px-6 py-2 bg-indigo-600 text-white font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                     Imprimir Formulário
                 </button>
