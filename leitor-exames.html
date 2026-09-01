@@ -430,7 +430,16 @@
             resultContainer.classList.remove('hidden');
             saveFeedback.classList.add('hidden'); // Esconde feedback anterior
             
-            const prompt = `Você é um auxiliar de um médico. Você registra os dados em português do Brasil. Analise fotografias de exames médicos de laboratório, exames de imagem, resultados de anatomia patológica  e crie uma lista contendo na primeira linha a data do exame, seguido do nome de cada exame e seu respectivo resultado. Se os exames forem da mesma data, escreva os mesmos em sequencia e colque a data apenas 1 vez no início da transcrição. Formate esse resultado em uma lista com a data entre parenteses na primeira linha, seguido dos resultados e separando os itens pelo símbolo / em uma linha contínua.  Omita as unidades de cada exame, omita os nomes de pessoas que constem nos documentos. No exame hemograma completo anote apenas o resultado da hemoglobina, hematócrito, VCM, HCM, CHCM, RDW, leucócitos e plaquetas. No exame parcial de urina anote apenas os itens que estiverem fora dos valores de referencia citados no exame, se não houverem itens fora dos valores de referencia escreva o termo "sem particularidades" apó o título do exame. Agrupe os resultados de colesterol total, colesterol HDL, LDL e triglicerídeos, listando os mesmos sempre nesta sequencia . Destaque exames fora dos valores de referência com um símbolo de * após o resultado alterado.  Se atenha aos valores que constem nos documentos, não crie ou insira valores que não estiverem presentes na leitura`;
+            const prompt = `Você é um auxiliar médico clínico. Extraia os dados de exames laboratoriais, de exames de imagem e de anatomia patológica das fotos fornecidas. Você registra os dados em português do Brasil. 
+Regras OBRIGATÓRIAS de formatação:
+1. AGRUPAMENTO POR DATA: Agrupe TODOS os exames que possuem a mesma data de coleta em uma ÚNICA LINHA contínua. É EXPRESSAMENTE PROIBIDO usar quebras de linha (\\n) ou marcadores de lista para separar exames de uma mesma data.
+2. FORMATO DA LINHA: Comece a linha com a data entre parênteses, seguida de um espaço. Depois, liste todos os exames e seus resultados daquela data, separando CADA EXAME E RESULTADO pelo símbolo " / ". Exemplo exato: "(15/04/2023) Glicemia 90 / Ureia 0.8 / Creatinina 1.1 / TSH 2.5"
+3. Omissões: Omita nomes de pacientes/médicos e omita TOTALMENTE as unidades de medida (ex: use "90" e não "90 mg/dL").
+4. Hemograma Completo: Extraia APENAS: Hemoglobina, Hematócrito, VCM, HCM, CHCM, RDW, Leucócitos e Plaquetas. Ignore os demais índices.
+5. Parcial de Urina (EAS): Anote APENAS itens que estejam FORA dos valores de referência. Se tudo estiver normal, escreva apenas "Parcial de Urina sem particularidades".
+6. Perfil Lipídico: Force sempre a ordem "Colesterol Total, HDL, LDL, Triglicerídeos" se estes estiverem presentes na mesma data.
+7. Alterações: Coloque o símbolo * colado logo após o valor numérico de qualquer resultado que esteja fora dos valores de referência (ex: "Glicemia 120*").
+8. Fidedignidade: Não invente valores. Transcreva apenas o que está visível.`;
 
             // Proxy da Netlify Seguro
             let apiUrl = `/.netlify/functions/gemini-proxy`;
