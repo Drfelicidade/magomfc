@@ -89,11 +89,22 @@
 
         <!-- Histórico (Última Análise Salva) -->
         <div id="history-container" class="bg-blue-50 p-6 rounded-2xl border border-blue-200 shadow-sm hidden">
-            <h2 class="font-bold text-blue-900 mb-2 flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                Última Análise Salva na Nuvem
-            </h2>
-            <p id="history-date" class="text-xs text-blue-700 mb-4"></p>
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h2 class="font-bold text-blue-900 mb-1 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+                        Última Análise Salva na Nuvem
+                    </h2>
+                    <p id="history-date" class="text-xs text-blue-700"></p>
+                </div>
+                
+                <!-- NOVO BOTÃO DE COPIAR DO HISTÓRICO -->
+                <button id="btn-copy-history" class="px-4 py-2 bg-blue-100 text-blue-800 hover:bg-blue-200 font-bold rounded-lg text-sm transition-colors flex items-center gap-2 border border-blue-200 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span id="btn-copy-history-text">Copiar</span>
+                </button>
+            </div>
+            
             <div id="history-text" class="prose max-w-none text-sm text-gray-800 bg-white p-4 rounded-xl border border-blue-100 max-h-64 overflow-y-auto"></div>
         </div>
 
@@ -135,8 +146,8 @@
                 <div class="flex justify-between items-center mb-4 border-b border-amber-200 pb-2">
                     <h3 class="font-bold text-lg text-amber-900">Resultado da Transcrição:</h3>
                     
-                    <!-- NOVO BOTÃO DE COPIAR -->
-                    <button id="btn-copy" class="hidden px-4 py-2 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 font-bold rounded-lg text-sm transition-colors flex items-center gap-2 border border-indigo-200">
+                    <!-- BOTÃO DE COPIAR RESULTADO -->
+                    <button id="btn-copy" class="hidden px-4 py-2 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 font-bold rounded-lg text-sm transition-colors flex items-center gap-2 border border-indigo-200 shadow-sm">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                         <span id="btn-copy-text">Copiar</span>
                     </button>
@@ -204,9 +215,14 @@
         const passwordInput = document.getElementById('auth-password');
         const authError = document.getElementById('auth-error');
         
-        // Elementos do Botão de Copiar
+        // Elementos do Botão de Copiar (Resultado Novo)
         const btnCopy = document.getElementById('btn-copy');
         const btnCopyText = document.getElementById('btn-copy-text');
+        
+        // Elementos do Botão de Copiar (Histórico)
+        const btnCopyHistory = document.getElementById('btn-copy-history');
+        const btnCopyHistoryText = document.getElementById('btn-copy-history-text');
+        const historyText = document.getElementById('history-text');
 
         // Monitora o estado de autenticação
         if (auth) {
@@ -353,13 +369,11 @@
             btnCopy.classList.add('hidden'); // Oculta o botão de copiar ao limpar
         });
 
-        // Lógica de cópia para o botão
+        // Lógica de cópia para o Resultado Novo
         btnCopy.addEventListener('click', () => {
             const resultTextElement = transcriptionResult.querySelector('pre');
             if (resultTextElement) {
-                // Tenta usar a API Clipboard (navegadores modernos)
                 navigator.clipboard.writeText(resultTextElement.innerText).then(() => {
-                    // Feedback visual de sucesso
                     const originalHTML = btnCopy.innerHTML;
                     btnCopy.classList.replace('bg-indigo-100', 'bg-green-100');
                     btnCopy.classList.replace('text-indigo-700', 'text-green-700');
@@ -367,7 +381,6 @@
                     btnCopy.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copiado!`;
                     
                     setTimeout(() => {
-                        // Restaura o estado original após 2 segundos
                         btnCopy.innerHTML = originalHTML;
                         btnCopy.classList.replace('bg-green-100', 'bg-indigo-100');
                         btnCopy.classList.replace('text-green-700', 'text-indigo-700');
@@ -375,7 +388,6 @@
                     }, 2000);
                 }).catch(err => {
                     console.error("Falha ao copiar:", err);
-                    // Fallback para seleção antiga se a API falhar
                     const selection = window.getSelection();
                     const range = document.createRange();
                     range.selectNodeContents(resultTextElement);
@@ -385,6 +397,38 @@
                     selection.removeAllRanges();
                     btnCopyText.innerText = "Copiado!";
                     setTimeout(() => btnCopyText.innerText = "Copiar", 2000);
+                });
+            }
+        });
+
+        // Lógica de cópia para o Histórico em Nuvem
+        btnCopyHistory.addEventListener('click', () => {
+            const resultTextElement = historyText.querySelector('pre');
+            if (resultTextElement) {
+                navigator.clipboard.writeText(resultTextElement.innerText).then(() => {
+                    const originalHTML = btnCopyHistory.innerHTML;
+                    btnCopyHistory.classList.replace('bg-blue-100', 'bg-green-100');
+                    btnCopyHistory.classList.replace('text-blue-800', 'text-green-800');
+                    btnCopyHistory.classList.replace('border-blue-200', 'border-green-300');
+                    btnCopyHistory.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copiado!`;
+                    
+                    setTimeout(() => {
+                        btnCopyHistory.innerHTML = originalHTML;
+                        btnCopyHistory.classList.replace('bg-green-100', 'bg-blue-100');
+                        btnCopyHistory.classList.replace('text-green-800', 'text-blue-800');
+                        btnCopyHistory.classList.replace('border-green-300', 'border-blue-200');
+                    }, 2000);
+                }).catch(err => {
+                    console.error("Falha ao copiar do histórico:", err);
+                    const selection = window.getSelection();
+                    const range = document.createRange();
+                    range.selectNodeContents(resultTextElement);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    document.execCommand('copy');
+                    selection.removeAllRanges();
+                    btnCopyHistoryText.innerText = "Copiado!";
+                    setTimeout(() => btnCopyHistoryText.innerText = "Copiar", 2000);
                 });
             }
         });
