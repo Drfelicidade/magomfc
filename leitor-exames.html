@@ -132,7 +132,16 @@
             </div>
             
             <div id="result-container" class="mt-8 p-6 bg-white rounded-xl hidden shadow-sm border border-amber-200">
-                <h3 class="font-bold text-lg mb-4 text-amber-900 border-b border-amber-200 pb-2">Resultado da Transcrição:</h3>
+                <div class="flex justify-between items-center mb-4 border-b border-amber-200 pb-2">
+                    <h3 class="font-bold text-lg text-amber-900">Resultado da Transcrição:</h3>
+                    
+                    <!-- NOVO BOTÃO DE COPIAR -->
+                    <button id="btn-copy" class="hidden px-4 py-2 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 font-bold rounded-lg text-sm transition-colors flex items-center gap-2 border border-indigo-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        <span id="btn-copy-text">Copiar</span>
+                    </button>
+                </div>
+                
                 <div id="transcription-result" class="prose max-w-none text-gray-800"></div>
                 <!-- Espaço para o Feedback de Salvamento -->
                 <div id="save-feedback" class="mt-4 hidden"></div>
@@ -194,6 +203,10 @@
         const emailInput = document.getElementById('auth-email');
         const passwordInput = document.getElementById('auth-password');
         const authError = document.getElementById('auth-error');
+        
+        // Elementos do Botão de Copiar
+        const btnCopy = document.getElementById('btn-copy');
+        const btnCopyText = document.getElementById('btn-copy-text');
 
         // Monitora o estado de autenticação
         if (auth) {
@@ -306,7 +319,7 @@
         }
 
         // ==========================================
-        // 3. LÓGICA DO LEITOR (ACUMULAR MÚLTIPLAS FOTOS E PDF)
+        // 3. LÓGICA DO LEITOR E EVENTOS
         // ==========================================
         const imageInput = document.getElementById('exam-image-input');
         const clearFilesBtn = document.getElementById('clear-files-btn');
@@ -337,6 +350,43 @@
             analyzeButton.disabled = true;
             clearFilesBtn.classList.add('hidden');
             imageInput.value = ''; // Libera o input
+            btnCopy.classList.add('hidden'); // Oculta o botão de copiar ao limpar
+        });
+
+        // Lógica de cópia para o botão
+        btnCopy.addEventListener('click', () => {
+            const resultTextElement = transcriptionResult.querySelector('pre');
+            if (resultTextElement) {
+                // Tenta usar a API Clipboard (navegadores modernos)
+                navigator.clipboard.writeText(resultTextElement.innerText).then(() => {
+                    // Feedback visual de sucesso
+                    const originalHTML = btnCopy.innerHTML;
+                    btnCopy.classList.replace('bg-indigo-100', 'bg-green-100');
+                    btnCopy.classList.replace('text-indigo-700', 'text-green-700');
+                    btnCopy.classList.replace('border-indigo-200', 'border-green-300');
+                    btnCopy.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copiado!`;
+                    
+                    setTimeout(() => {
+                        // Restaura o estado original após 2 segundos
+                        btnCopy.innerHTML = originalHTML;
+                        btnCopy.classList.replace('bg-green-100', 'bg-indigo-100');
+                        btnCopy.classList.replace('text-green-700', 'text-indigo-700');
+                        btnCopy.classList.replace('border-green-300', 'border-indigo-200');
+                    }, 2000);
+                }).catch(err => {
+                    console.error("Falha ao copiar:", err);
+                    // Fallback para seleção antiga se a API falhar
+                    const selection = window.getSelection();
+                    const range = document.createRange();
+                    range.selectNodeContents(resultTextElement);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    document.execCommand('copy');
+                    selection.removeAllRanges();
+                    btnCopyText.innerText = "Copiado!";
+                    setTimeout(() => btnCopyText.innerText = "Copiar", 2000);
+                });
+            }
         });
 
         // Compressão embutida
@@ -391,6 +441,7 @@
                 previewContainer.classList.remove('hidden');
                 previewProcessingText.classList.remove('hidden');
                 clearFilesBtn.classList.remove('hidden');
+                btnCopy.classList.add('hidden'); // Garante que o botão de cópia está escondido
 
                 try {
                     for (let file of files) {
@@ -424,6 +475,7 @@
             if (fileDataArray.length === 0) return;
 
             analyzeButton.disabled = true;
+            btnCopy.classList.add('hidden'); // Esconde o botão durante nova análise
             document.getElementById('analyze-text').textContent = 'Transcrevendo via IA...';
             document.getElementById('loading-spinner').classList.remove('hidden');
             
@@ -475,8 +527,9 @@ Regras OBRIGATÓRIAS de formatação:
                     fullTranscription += text + "\n\n";
                 }
 
-                // Renderiza o resultado
+                // Renderiza o resultado e exibe o botão de copiar
                 transcriptionResult.innerHTML = `<pre class="whitespace-pre-wrap font-sans text-sm">${fullTranscription}</pre>`;
+                btnCopy.classList.remove('hidden');
                 
                 // Feedback visual de sincronização
                 saveFeedback.className = "mt-4 p-3 bg-blue-50 text-blue-800 font-bold rounded-xl border border-blue-200 flex items-center gap-2 animate-pulse block";
