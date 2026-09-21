@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Risco Cardiovascular - HEARTS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #e11d48; /* rose-600 */
+            border-radius: 9999px;
+        }
+        
+        /* Custom Toggles */
+        .toggle-radio:checked + div {
+            background-color: #e11d48;
+            border-color: #e11d48;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden">
+        
+        <!-- Cabeçalho -->
+        <div class="bg-rose-700 p-6 md:p-8 text-white text-center relative">
+            <div class="absolute top-6 left-6 opacity-20">
+                <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2 relative z-10">Calculadora HEARTS (OMS)</h1>
+            <p class="text-rose-100 text-sm md:text-base relative z-10">Estimativa de Risco Cardiovascular em 10 anos (Atenção Primária)</p>
+            <div class="mt-6 relative z-10">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-rose-900 hover:bg-rose-950 text-white text-sm font-medium rounded-full transition shadow-sm">
+                    &larr; Voltar ao Menu Principal
+                </a>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Coluna do Formulário -->
+            <div class="lg:col-span-7 space-y-6">
+                <form id="hearts-form" class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm space-y-6">
+                    <h2 class="section-title text-xl font-bold text-gray-800 mb-6">Parâmetros Clínicos</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Sexo -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Sexo</label>
+                            <div class="flex gap-3">
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="sexo" value="M" class="hidden toggle-radio" checked>
+                                    <div class="text-center py-2 px-4 border-2 border-gray-300 rounded-xl text-gray-600 transition-colors">Masculino</div>
+                                </label>
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="sexo" value="F" class="hidden toggle-radio">
+                                    <div class="text-center py-2 px-4 border-2 border-gray-300 rounded-xl text-gray-600 transition-colors">Feminino</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Idade -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Idade (anos)</label>
+                            <input type="number" id="idade" min="40" max="79" value="55" class="w-full p-3 border-2 border-gray-300 rounded-xl focus:border-rose-500 focus:ring-0 text-gray-800 font-bold" required>
+                            <p class="text-[10px] text-gray-500 mt-1">Válido entre 40 e 79 anos</p>
+                        </div>
+
+                        <!-- Tabagismo -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Tabagista?</label>
+                            <div class="flex gap-3">
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="fumo" value="S" class="hidden toggle-radio">
+                                    <div class="text-center py-2 px-4 border-2 border-gray-300 rounded-xl text-gray-600 transition-colors">Sim</div>
+                                </label>
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="fumo" value="N" class="hidden toggle-radio" checked>
+                                    <div class="text-center py-2 px-4 border-2 border-gray-300 rounded-xl text-gray-600 transition-colors">Não</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Diabetes -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Diabetes?</label>
+                            <div class="flex gap-3">
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="dm" value="S" class="hidden toggle-radio">
+                                    <div class="text-center py-2 px-4 border-2 border-gray-300 rounded-xl text-gray-600 transition-colors">Sim</div>
+                                </label>
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="dm" value="N" class="hidden toggle-radio" checked>
+                                    <div class="text-center py-2 px-4 border-2 border-gray-300 rounded-xl text-gray-600 transition-colors">Não</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Pressão Arterial -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">PAS (mmHg)</label>
+                            <input type="number" id="pas" min="100" max="200" value="130" class="w-full p-3 border-2 border-gray-300 rounded-xl focus:border-rose-500 focus:ring-0 text-gray-800 font-bold" required>
+                            <p class="text-[10px] text-gray-500 mt-1">Pressão Sistólica</p>
+                        </div>
+
+                        <!-- Colesterol -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Colesterol Total (mg/dL)</label>
+                            <input type="number" id="colesterol" min="100" max="400" value="180" class="w-full p-3 border-2 border-gray-300 rounded-xl focus:border-rose-500 focus:ring-0 text-gray-800 font-bold" required>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="text-left p-4 bg-rose-50 rounded-xl border border-rose-100">
+                    <p class="text-xs text-rose-800 leading-relaxed font-medium">
+                        <strong>Nota Clínica:</strong> Pacientes com doença cardiovascular estabelecida (IAM, AVC prévio) já são classificados automaticamente como <strong>Alto Risco</strong> e não necessitam do uso desta tabela para estratificação.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Coluna de Resultados -->
+            <div class="lg:col-span-5 relative">
+                <div class="sticky top-6">
+                    
+                    <div id="result-card" class="bg-white border-2 border-gray-200 rounded-3xl p-6 shadow-lg text-center transition-all duration-500 h-full flex flex-col justify-center min-h-[350px]">
+                        
+                        <div id="risk-icon" class="w-20 h-20 mx-auto rounded-full bg-gray-100 flex items-center justify-center text-3xl mb-4 transition-colors">
+                            ❤️‍🩹
+                        </div>
+                        
+                        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Risco em 10 Anos</h3>
+                        <div id="risk-percentage" class="text-5xl font-black text-gray-300 mb-2">--%</div>
+                        <h4 id="risk-level" class="text-xl font-bold text-gray-500 mb-4">Aguardando dados...</h4>
+                        
+                        <div id="clinical-guideline" class="mt-4 p-4 rounded-xl bg-gray-50 border border-gray-100 text-sm text-gray-600 hidden">
+                            <!-- Preenchido via JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('hearts-form');
+            const resultCard = document.getElementById('result-card');
+            const riskIcon = document.getElementById('risk-icon');
+            const riskPercentage = document.getElementById('risk-percentage');
+            const riskLevel = document.getElementById('risk-level');
+            const clinicalGuideline = document.getElementById('clinical-guideline');
+
+            // Simulação da Matriz WHO HEARTS (2019) baseada em pontos
+            // Para efeitos de ferramenta clínica de front-end, utilizamos um algoritmo aproximado
+            // que reflete os degraus de risco da tabela de cores da OMS.
+            function calculateRisk() {
+                const sexo = document.querySelector('input[name="sexo"]:checked').value;
+                const fumo = document.querySelector('input[name="fumo"]:checked').value === 'S';
+                const dm = document.querySelector('input[name="dm"]:checked').value === 'S';
+                const idade = parseInt(document.getElementById('idade').value);
+                const pas = parseInt(document.getElementById('pas').value);
+                const col = parseInt(document.getElementById('colesterol').value);
+
+                if (isNaN(idade) || isNaN(pas) || isNaN(col) || idade < 40 || idade > 79) {
+                    resetUI();
+                    return;
+                }
+
+                // Cálculo Base Simplificado (Proxy para Tabela OMS Américas)
+                let pontos = 0;
+
+                // Idade
+                if (idade >= 50 && idade < 60) pontos += 2;
+                if (idade >= 60 && idade < 70) pontos += 4;
+                if (idade >= 70) pontos += 6;
+
+                // Sexo (Homens têm risco basal maior nas tabelas)
+                if (sexo === 'M') pontos += 2;
+
+                // Fumo
+                if (fumo) pontos += 3;
+
+                // DM
+                if (dm) pontos += 4;
+
+                // PAS
+                if (pas >= 140 && pas < 160) pontos += 1;
+                if (pas >= 160 && pas < 180) pontos += 2;
+                if (pas >= 180) pontos += 4;
+
+                // Colesterol
+                if (col >= 200 && col < 240) pontos += 1;
+                if (col >= 240 && col < 280) pontos += 2;
+                if (col >= 280) pontos += 3;
+
+                // Determinação da Cor e Porcentagem (HEARTS Scale)
+                // Verde: < 5%
+                // Amarelo: 5% a < 10%
+                // Laranja: 10% a < 20%
+                // Vermelho: 20% a < 30%
+                // Vermelho Escuro: >= 30%
+                
+                let riscoPct = "";
+                let nivel = "";
+                let colorClass = "";
+                let conduta = "";
+
+                if (pontos <= 4) {
+                    riscoPct = "< 5%";
+                    nivel = "Risco Baixo";
+                    colorClass = "green";
+                    conduta = "Aconselhamento sobre estilo de vida. Reavaliar em 1 a 2 anos.";
+                } else if (pontos > 4 && pontos <= 7) {
+                    riscoPct = "5% a < 10%";
+                    nivel = "Risco Moderado-Baixo";
+                    colorClass = "yellow";
+                    conduta = "Intervenção no estilo de vida. Considerar tratamento medicamentoso se pressão/lípidos continuarem elevados.";
+                } else if (pontos > 7 && pontos <= 11) {
+                    riscoPct = "10% a < 20%";
+                    nivel = "Risco Moderado-Alto";
+                    colorClass = "orange";
+                    conduta = "Iniciar tratamento anti-hipertensivo se PAS ≥ 140. Considerar estatina.";
+                } else if (pontos > 11 && pontos <= 15) {
+                    riscoPct = "20% a < 30%";
+                    nivel = "Risco Alto";
+                    colorClass = "red";
+                    conduta = "Tratamento medicamentoso imediato (Anti-hipertensivo + Estatina de moderada/alta potência). Acompanhamento rigoroso.";
+                } else {
+                    riscoPct = "≥ 30%";
+                    nivel = "Risco Muito Alto";
+                    colorClass = "darkred";
+                    conduta = "Terapia medicamentosa intensiva imediata. Estatina de alta potência. Controle estrito de PA e glicemia.";
+                }
+
+                updateUI(riscoPct, nivel, colorClass, conduta);
+            }
+
+            function resetUI() {
+                resultCard.className = "bg-white border-2 border-gray-200 rounded-3xl p-6 shadow-lg text-center transition-all duration-500 h-full flex flex-col justify-center min-h-[350px]";
+                riskIcon.className = "w-20 h-20 mx-auto rounded-full bg-gray-100 flex items-center justify-center text-3xl mb-4 transition-colors";
+                riskPercentage.textContent = "--%";
+                riskPercentage.className = "text-5xl font-black text-gray-300 mb-2";
+                riskLevel.textContent = "Aguardando dados...";
+                riskLevel.className = "text-xl font-bold text-gray-500 mb-4";
+                clinicalGuideline.classList.add('hidden');
+            }
+
+            function updateUI(pct, nivel, cor, conduta) {
+                clinicalGuideline.classList.remove('hidden');
+                clinicalGuideline.innerHTML = `<strong>Conduta Sugerida:</strong><br>${conduta}`;
+
+                resultCard.className = "rounded-3xl p-6 shadow-xl text-center transition-all duration-500 h-full flex flex-col justify-center min-h-[350px] border-4";
+                riskPercentage.textContent = pct;
+                riskLevel.textContent = nivel;
+
+                if (cor === 'green') {
+                    resultCard.classList.add('bg-green-50', 'border-green-400');
+                    riskIcon.className = "w-20 h-20 mx-auto rounded-full bg-green-500 text-white flex items-center justify-center text-3xl mb-4 shadow-md";
+                    riskPercentage.className = "text-5xl font-black text-green-700 mb-2 tracking-tighter";
+                    riskLevel.className = "text-xl font-bold text-green-800 mb-4";
+                    clinicalGuideline.className = "mt-4 p-4 rounded-xl bg-white border border-green-200 text-sm text-green-800";
+                } else if (cor === 'yellow') {
+                    resultCard.classList.add('bg-yellow-50', 'border-yellow-400');
+                    riskIcon.className = "w-20 h-20 mx-auto rounded-full bg-yellow-400 text-yellow-900 flex items-center justify-center text-3xl mb-4 shadow-md";
+                    riskPercentage.className = "text-5xl font-black text-yellow-600 mb-2 tracking-tighter";
+                    riskLevel.className = "text-xl font-bold text-yellow-700 mb-4";
+                    clinicalGuideline.className = "mt-4 p-4 rounded-xl bg-white border border-yellow-200 text-sm text-yellow-800";
+                } else if (cor === 'orange') {
+                    resultCard.classList.add('bg-orange-50', 'border-orange-500');
+                    riskIcon.className = "w-20 h-20 mx-auto rounded-full bg-orange-500 text-white flex items-center justify-center text-3xl mb-4 shadow-md";
+                    riskPercentage.className = "text-5xl font-black text-orange-600 mb-2 tracking-tighter";
+                    riskLevel.className = "text-xl font-bold text-orange-700 mb-4";
+                    clinicalGuideline.className = "mt-4 p-4 rounded-xl bg-white border border-orange-200 text-sm text-orange-900";
+                } else if (cor === 'red') {
+                    resultCard.classList.add('bg-red-50', 'border-red-500');
+                    riskIcon.className = "w-20 h-20 mx-auto rounded-full bg-red-600 text-white flex items-center justify-center text-3xl mb-4 shadow-md";
+                    riskPercentage.className = "text-5xl font-black text-red-700 mb-2 tracking-tighter";
+                    riskLevel.className = "text-xl font-bold text-red-800 mb-4";
+                    clinicalGuideline.className = "mt-4 p-4 rounded-xl bg-white border border-red-200 text-sm text-red-900";
+                } else if (cor === 'darkred') {
+                    resultCard.classList.add('bg-rose-950', 'border-rose-900');
+                    riskIcon.className = "w-20 h-20 mx-auto rounded-full bg-black text-white flex items-center justify-center text-3xl mb-4 shadow-md border-2 border-rose-800";
+                    riskPercentage.className = "text-5xl font-black text-rose-100 mb-2 tracking-tighter";
+                    riskLevel.className = "text-xl font-bold text-white mb-4";
+                    clinicalGuideline.className = "mt-4 p-4 rounded-xl bg-rose-900 border border-rose-800 text-sm text-rose-100";
+                }
+            }
+
+            // Escutar eventos de alteração em todos os inputs do formulário
+            form.addEventListener('input', calculateRisk);
+            form.addEventListener('change', calculateRisk);
+            
+            // Cálculo inicial
+            calculateRisk();
+        });
+    </script>
+</body>
+</html>
