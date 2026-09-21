@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia de Introdução Alimentar</title>
+    <title>Guia de Introdução Alimentar - Prático</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -31,7 +31,6 @@
                 width: 100% !important;
                 max-width: none !important;
             }
-            .page-break { page-break-before: always; }
         }
 
         .a4-container {
@@ -49,111 +48,95 @@
     <!-- Botões de Controle (Ocultos na Impressão) -->
     <div class="no-print fixed top-6 right-6 flex flex-col gap-3">
         <button onclick="window.print()" class="px-6 py-3 bg-emerald-600 text-white font-bold rounded-full shadow-lg hover:bg-emerald-700 transition flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
             Imprimir Guia A4
-        </button>
-        <button onclick="window.close()" class="px-6 py-3 bg-gray-200 text-gray-800 font-bold rounded-full shadow-lg hover:bg-gray-300 transition text-center">
-            Fechar
         </button>
     </div>
 
     <!-- Documento A4 -->
     <div class="a4-container print-area">
         
-        <!-- Cabeçalho -->
-        <header class="border-b-4 border-emerald-500 pb-4 mb-6 flex justify-between items-end">
-            <div>
-                <h1 class="text-3xl font-black text-gray-800 uppercase tracking-tight">Introdução Alimentar</h1>
-                <p class="text-emerald-700 font-bold mt-1 text-lg">Guia Prático e Baseado em Evidências (A partir dos 6 Meses)</p>
-            </div>
-            <div class="text-right text-sm text-gray-500 font-medium">
-                Data: ____/____/________<br>
-                Paciente: ________________________
-            </div>
+        <header class="border-b-4 border-emerald-500 pb-4 mb-6">
+            <h1 class="text-3xl font-black text-gray-800 uppercase tracking-tight">Guia Prático: Introdução Alimentar</h1>
+            <p class="text-emerald-700 font-bold mt-1">A partir dos 6 meses de vida[cite: 11]</p>
         </header>
 
-        <!-- Seção 1: O Início e a Textura -->
+        <!-- Regras de Ouro -->
         <section class="mb-5">
-            <div class="flex items-center gap-2 mb-2">
-                <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-sm">1</div>
-                <h2 class="text-lg font-bold text-gray-800">O Início e a Forma de Oferecer (Tradicional e BLW)</h2>
-            </div>
-            <p class="text-gray-700 text-sm leading-relaxed mb-3">A alimentação sólida deve iniciar aos <strong>6 meses</strong>, complementando o leite materno ou fórmula. A Sociedade Brasileira de Pediatria (SBP) orienta a <strong>alimentação responsiva</strong>: respeite os sinais de fome e saciedade do bebê, sem forçar.</p>
-            <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100 flex items-start gap-3">
-                <div class="text-2xl">🥑</div>
-                <div class="text-sm">
-                    <p class="text-gray-700"><strong>Como preparar:</strong> Você pode oferecer alimentos <strong>amassados com o garfo</strong> (nunca liquidificados ou peneirados) ou em <strong>pedaços macios e seguros</strong>, permitindo que o bebê pegue com as mãos (método BLW - <i>Baby-led Weaning</i>). O ideal é evoluir a textura gradativamente, incentivando a mastigação desde cedo.</p>
-                </div>
-            </div>
+            <h2 class="text-lg font-bold text-gray-800 mb-2 border-b border-gray-200 pb-1">1. Regras de Ouro do Preparo e Ambiente</h2>
+            <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1.5">
+                <li><strong>Ambiente:</strong> Mantenha a TV desligada e os celulares distantes durante a refeição, pois a exposição a telas não é recomendada até os 2 anos[cite: 11].</li>
+                <li><strong>Consistência:</strong> Amasse a comida apenas com o garfo[cite: 11]. Não peneire e nem bata no liquidificador, para que a criança aprenda diferentes texturas[cite: 11].</li>
+                <li><strong>Temperos:</strong> Não adicione sal na papa[cite: 11]. Aposte em temperos naturais como cebola, alho e cebolinha[cite: 11]. O cheiro verde deve ser introduzido no final do cozimento para não perder vitaminas[cite: 11].</li>
+                <li><strong>Óleo:</strong> Use óleo (soja, canola ou azeite de oliva) na quantidade de 3 a 3,5 ml para cada 100 gramas de preparação[cite: 11]. O óleo pode ser aquecido no refogado ou colocado cru após o preparo[cite: 11].</li>
+            </ul>
         </section>
 
-        <!-- Seção 2: O Pratinho Colorido -->
+        <!-- O Prato Completo -->
         <section class="mb-5">
-            <div class="flex items-center gap-2 mb-2">
-                <div class="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 font-bold text-sm">2</div>
-                <h2 class="text-lg font-bold text-gray-800">Composição do Prato Principal (Almoço/Jantar)</h2>
-            </div>
-            <p class="text-gray-700 text-sm mb-3">Ofereça um alimento de cada um dos quatro grupos principais. Varie as cores diariamente.</p>
-            
+            <h2 class="text-lg font-bold text-gray-800 mb-2 border-b border-gray-200 pb-1">2. O Prato Completo (Múltiplas Misturas)</h2>
+            <p class="text-sm text-gray-700 mb-2">Desde a primeira refeição, a papa deve conter um alimento de cada grupo[cite: 11]:</p>
             <div class="grid grid-cols-2 gap-3 text-sm">
-                <div class="border border-gray-200 rounded p-2">
-                    <strong class="text-orange-700 block mb-1">🌾 Cereais e Raízes</strong>
-                    <span class="text-gray-600">Arroz, macarrão, batata, mandioca, mandioquinha, cará, inhame, milho.</span>
+                <div class="border border-gray-200 rounded p-2 bg-orange-50">
+                    <strong class="text-orange-700 block mb-1">Cereais ou Tubérculos</strong>
+                    <span class="text-gray-600">Arroz, milho, macarrão, batata, mandioca (aipim) ou inhame[cite: 11].</span>
                 </div>
-                <div class="border border-gray-200 rounded p-2">
-                    <strong class="text-green-700 block mb-1">🥦 Legumes e Verduras</strong>
-                    <span class="text-gray-600">Cenoura, abóbora, brócolis, beterraba, chuchu, couve, espinafre.</span>
+                <div class="border border-gray-200 rounded p-2 bg-green-50">
+                    <strong class="text-green-700 block mb-1">Legumes e Verduras</strong>
+                    <span class="text-gray-600">Cenoura, abóbora, beterraba, chuchu, alface, couve ou espinafre[cite: 11].</span>
                 </div>
-                <div class="border border-gray-200 rounded p-2">
-                    <strong class="text-amber-700 block mb-1">🫘 Leguminosas</strong>
-                    <span class="text-gray-600">Feijões (preto, carioca, fradinho), lentilha, grão-de-bico, ervilha.</span>
+                <div class="border border-gray-200 rounded p-2 bg-amber-50">
+                    <strong class="text-amber-700 block mb-1">Leguminosas</strong>
+                    <span class="text-gray-600">Feijão, soja, ervilha, grão-de-bico ou lentilha[cite: 11].</span>
                 </div>
-                <div class="border border-gray-200 rounded p-2">
-                    <strong class="text-red-700 block mb-1">🥩 Carnes ou Ovos</strong>
-                    <span class="text-gray-600">Boi, frango, porco, peixe, miúdos (fígado) ou ovo bem cozido.</span>
+                <div class="border border-gray-200 rounded p-2 bg-red-50">
+                    <strong class="text-red-700 block mb-1">Proteína Animal</strong>
+                    <span class="text-gray-600">Carne de boi, frango, porco, peixe, vísceras (muito bem cozidas) ou ovo cozido (clara e gema)[cite: 11].</span>
                 </div>
             </div>
         </section>
 
-        <!-- Seção 3: Vegetarianismo -->
+        <!-- Frutas e Bebidas -->
         <section class="mb-5">
-            <div class="flex items-center gap-2 mb-2">
-                <div class="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold text-sm">3</div>
-                <h2 class="text-lg font-bold text-gray-800">Dietas Vegetarianas e Veganas na Infância</h2>
-            </div>
-            <div class="bg-teal-50 p-3 rounded-lg border border-teal-100 text-sm text-gray-700">
-                <p>O vegetarianismo em pediatria é reconhecido como seguro e adequado para promover o crescimento infantil, desde que <strong>bem planejado e acompanhado por um profissional de saúde</strong>. Substitua as carnes por maior oferta de leguminosas (feijões, lentilha, tofu). É <strong>obrigatório</strong> o monitoramento e suplementação preventiva de <strong>Vitamina B12 e Ferro</strong>, sob prescrição médica.</p>
-            </div>
+            <h2 class="text-lg font-bold text-gray-800 mb-2 border-b border-gray-200 pb-1">3. Exemplos Práticos: Frutas e Lanches</h2>
+            <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1.5">
+                <li><strong>Qualquer fruta:</strong> Pode oferecer in natura, raspada, ralada ou amassada[cite: 11].</li>
+                <li><strong>Prevenção de Engasgo:</strong> Frutas pequenas ou com caroço (como uva e acerola) devem ter sementes retiradas e ser cortadas em 2 a 4 pedaços[cite: 11].</li>
+                <li><strong>Sorvete Saudável:</strong> Frutas podem ser congeladas para virar "sorvete"[cite: 11]. Bata banana congelada sozinha ou com morango/manga, sem adicionar açúcar[cite: 11].</li>
+                <li><strong>Água:</strong> Comece a oferecer água no intervalo entre as refeições[cite: 11]. Não ofereça água de coco como substituto[cite: 11].</li>
+            </ul>
         </section>
 
-        <!-- Seção 4: Água e Restrições -->
+        <!-- Dicas Especiais -->
         <section class="mb-5 flex gap-4 text-sm">
-            <div class="flex-1 bg-blue-50 p-3 rounded-lg border border-blue-100">
-                <h3 class="font-bold text-blue-900 mb-1 flex items-center gap-1">💧 Água, não Sucos</h3>
-                <p class="text-gray-700">Ofereça água pura várias vezes ao dia. <strong>Sucos não são recomendados antes de 1 ano</strong> (mesmo os naturais). Ofereça a fruta in natura nos lanches.</p>
+            <div class="flex-1 bg-teal-50 p-3 rounded-lg border border-teal-100">
+                <h3 class="font-bold text-teal-900 mb-1">🌱 Dica para Absorção de Ferro (Vegetarianismo)</h3>
+                <p class="text-gray-700">Deixe o feijão de molho por 12 horas e despreze esta água para o cozimento[cite: 11]. Isso reduz o fitato e aumenta a absorção do ferro[cite: 11].</p>
             </div>
-            <div class="flex-1 bg-red-50 p-3 rounded-lg border border-red-100">
-                <h3 class="font-bold text-red-900 mb-1 flex items-center gap-1">🚫 Proibidos antes de 2 anos</h3>
-                <p class="text-gray-700"><strong>Açúcar</strong> (branco, mascavo, mel), embutidos (salsicha, presunto), salgadinhos, bolachas, achocolatados e refrigerantes. O uso de sal deve ser mínimo.</p>
+            <div class="flex-1 bg-yellow-50 p-3 rounded-lg border border-yellow-100">
+                <h3 class="font-bold text-yellow-900 mb-1">🥚 Alimentos Alergênicos</h3>
+                <p class="text-gray-700">Introduza ovos, glúten e peixes para desenvolver tolerância imunológica[cite: 11]. Aguarde de 3 a 5 dias para introduzir outro alergênico[cite: 11].</p>
             </div>
         </section>
 
-        <!-- Assinatura e Referências -->
+        <!-- Proibições -->
+        <section class="mb-5">
+            <h2 class="text-lg font-bold text-gray-800 mb-2 border-b border-gray-200 pb-1">4. O que NÃO oferecer</h2>
+            <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1.5">
+                <li><strong>Sucos (mesmo naturais):</strong> Não são recomendados até um ano de idade, pois têm teor alto de açúcar e aumentam o risco de obesidade[cite: 11].</li>
+                <li><strong>Mel:</strong> Não recomendado no primeiro ano devido ao risco de botulismo, e desaconselhado até os 2 anos por ser um carboidrato simples[cite: 11].</li>
+                <li><strong>Caldos industrializados:</strong> Não utilize tabletes de carne ou legumes[cite: 11].</li>
+            </ul>
+        </section>
+
+        <!-- Rodapé -->
         <footer class="mt-8 border-t border-gray-200 pt-4">
-            <div class="flex justify-between items-end mb-8 px-4">
-                <div class="border-t border-gray-400 w-56 pt-1 text-center text-xs text-gray-600">Assinatura do Profissional</div>
+            <div class="flex justify-between items-end px-4">
+                <div class="border-t border-gray-400 w-56 pt-1 text-center text-xs text-gray-600">Assinatura do Pediatra</div>
                 <div class="border-t border-gray-400 w-48 pt-1 text-center text-xs text-gray-600">Carimbo / CRM</div>
             </div>
-            
-            <div class="text-[9px] text-gray-400 leading-tight">
-                <strong class="text-gray-500 uppercase">Referências Técnicas e Científicas:</strong><br>
-                1. Ministério da Saúde (SAPS). Guia alimentar para crianças brasileiras menores de 2 anos. Brasília, 2019.<br>
-                2. Sociedade Brasileira de Pediatria (SBP). Manual de Alimentação: Orientações para alimentação do lactente ao adolescente. 4ª ed. São Paulo, 2018.<br>
-                3. SBP. A alimentação complementar e o método BLW (baby-led weaning) / Posição da SBP diante do Guia de Alimentação do MS.<br>
-                4. SBP / SVB. Vegetarianismo na Infância e Adolescência (SBP) e Vegetarianismo em Pediatria (SVB - Parecer Oficial de 2020).<br>
-                5. WHO. Guiding Principles for Feeding Non-breastfed Children 6-24 Months of Age, 2005.<br>
-                6. Schurmann S, et al. Vegetarian diets in children. Eur J Nutr, 2017; Weder S, et al. VeChi Diet Study. Nutrients, 2019.
-            </div>
+            <p class="text-[9px] text-gray-400 mt-6 text-center">
+                Material baseado nas orientações de Dra. Gabriela Kuzma e Dra. Arianne Ditzel Gaspar[cite: 11].
+            </p>
         </footer>
 
     </div>
