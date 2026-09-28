@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Migração NPH → Glargina | Calculadora</title>
+<style>
+/* ===== Ajuste as cores aqui para combinar com o seu site ===== */
+:root{
+  --bg:#f4f7f9; --card:#ffffff; --text:#1b2a33; --muted:#5f7280; --border:#dbe4ea;
+  --primary:#0f766e; --primary-dark:#0b5a54; --accent-bg:#e6f4f2;
+  --warn-bg:#fff6e0; --warn-bd:#f0c96a; --warn-tx:#7a5300;
+  --err-bg:#fdecec; --err-bd:#f1a9a9; --err-tx:#8a1f1f;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#10181d;--card:#182329;--text:#e6eef2;--muted:#9bb0bc;--border:#2a3a43;
+  --primary:#2fb5a8;--primary-dark:#4fd0c3;--accent-bg:#14312f;
+  --warn-bg:#33290f;--warn-bd:#7a5f1c;--warn-tx:#f3d68a;
+  --err-bg:#361a1a;--err-bd:#8a3a3a;--err-tx:#f5b5b5;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.5rem;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 18px;font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+label{display:block;font-weight:600;font-size:.9rem;margin-bottom:5px}
+.hint{font-weight:400;color:var(--muted);font-size:.8rem}
+input,select{width:100%;padding:11px 12px;font-size:1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);font-family:inherit}
+input:focus,select:focus{outline:2px solid var(--primary);border-color:transparent}
+.full{grid-column:1/-1}
+button{width:100%;margin-top:16px;padding:13px;font-size:1rem;font-weight:700;border:0;border-radius:10px;background:var(--primary);color:#fff;cursor:pointer}
+button:hover{background:var(--primary-dark)}
+button.sec{background:transparent;color:var(--muted);border:1px solid var(--border);margin-top:8px;font-weight:600}
+.res{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:560px){.res{grid-template-columns:1fr}}
+.box{background:var(--accent-bg);border-radius:12px;padding:14px;text-align:center}
+.box .v{font-size:1.8rem;font-weight:800;color:var(--primary-dark)}
+.box .u{font-size:.85rem;color:var(--muted)}
+.box .l{font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:2px}
+.alert{border-radius:10px;padding:11px 13px;margin-top:12px;font-size:.92rem;border:1px solid}
+.alert.w{background:var(--warn-bg);border-color:var(--warn-bd);color:var(--warn-tx)}
+.alert.e{background:var(--err-bg);border-color:var(--err-bd);color:var(--err-tx)}
+ul.d{margin:10px 0 0;padding-left:20px;font-size:.93rem}
+ul.d li{margin-bottom:5px}
+.small{font-size:.8rem;color:var(--muted)}
+details summary{cursor:pointer;font-weight:600}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Migração NPH → Glargina</h1>
+  <p class="sub">Conversão de insulina NPH para glargina conforme a Nota Técnica Conjunta nº 169/2026 (DAF/SCTIE/DEPROS/SAPS/DAET/SAES/MS).</p>
+
+  <div class="card">
+    <div class="grid">
+      <div>
+        <label for="peso">Peso (kg)</label>
+        <input id="peso" type="number" inputmode="decimal" min="1" step="0.1" placeholder="Ex.: 70">
+      </div>
+      <div>
+        <label for="tipo">Tipo de diabetes</label>
+        <select id="tipo">
+          <option value="2">Diabetes tipo 2 (DM2)</option>
+          <option value="1">Diabetes tipo 1 (DM1)</option>
+        </select>
+      </div>
+      <div>
+        <label for="nph">Dose total diária de NPH (UI) <span class="hint">soma de todas as aplicações</span></label>
+        <input id="nph" type="number" inputmode="decimal" min="1" step="1" placeholder="Ex.: 30">
+      </div>
+      <div>
+        <label for="apl">Aplicações de NPH por dia</label>
+        <select id="apl">
+          <option value="1">1 vez ao dia</option>
+          <option value="2" selected>2 vezes ao dia</option>
+          <option value="3">3 ou mais vezes ao dia</option>
+        </select>
+      </div>
+      <div>
+        <label for="dtdi">Dose total diária de insulina (UI) <span class="hint">NPH + todas as outras (regular/rápida)</span></label>
+        <input id="dtdi" type="number" inputmode="decimal" min="1" step="1" placeholder="Ex.: 30">
+      </div>
+      <div>
+        <label for="idade">Idade (anos) <span class="hint">opcional – checa elegibilidade</span></label>
+        <input id="idade" type="number" inputmode="numeric" min="0" max="120" placeholder="Ex.: 72">
+      </div>
+      <div class="full">
+        <label for="per">Período de dispensação</label>
+        <select id="per">
+          <option value="30" selected>30 dias</option>
+          <option value="60">60 dias</option>
+          <option value="90">90 dias</option>
+        </select>
+      </div>
+    </div>
+    <button id="calc">Calcular</button>
+    <button id="clr" class="sec">Limpar</button>
+    <div id="erro"></div>
+  </div>
+
+  <div id="out" class="hidden">
+    <div class="card">
+      <div class="res">
+        <div class="box"><div class="l">Glargina sugerida</div><div class="v" id="rDose">–</div><div class="u">UI, 1× ao dia</div></div>
+        <div class="box"><div class="l">Dose por peso</div><div class="v" id="rKg">–</div><div class="u">UI/kg/dia</div></div>
+        <div class="box"><div class="l">Tubetes a dispensar</div><div class="v" id="rTub">–</div><div class="u" id="rTubSub">–</div></div>
+      </div>
+      <ul class="d" id="detalhes"></ul>
+      <div id="alertas"></div>
+    </div>
+
+    <div class="card">
+      <details>
+        <summary>Como foi calculado</summary>
+        <ul class="d">
+          <li><b>NPH 1×/dia:</b> conversão 1:1, mantendo o horário de aplicação.</li>
+          <li><b>NPH 2× ou mais/dia:</b> redução de ~20% da dose total diária (×0,8); glargina 1×/dia, preferencialmente no horário da maior dose prévia de NPH.</li>
+          <li><b>Tubetes:</b> cada tubete tem 3 mL a 100 UI/mL (300 UI) e, depois de aberto, dura no máximo 28 dias. Consumo diário = dose + 2 UI de escorva (teste de fluxo) por aplicação. Quantidade = período ÷ duração de cada tubete, arredondada para cima. Referência do MS: média de 3,66 tubetes/mês por pessoa.</li>
+          <li><b>Alertas de excesso de basal (Quadro 4 da NT):</b> DM2 com basal &gt; 0,5 UI/kg/dia; DM1 em crianças/adolescentes com basal &gt; 50% da dose total diária.</li>
+          <li><b>Titulação:</b> individualizada pela glicemia de jejum, em intervalos de até 3 dias, com monitorização mais frequente nas primeiras semanas.</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+
+  <p class="small">Ferramenta de apoio ao cálculo, sem substituir o julgamento clínico. O próprio Ministério da Saúde ressalta que a dose inicial deve ser individualizada (glicemia de jejum, resposta clínica, função renal, idade, comorbidades e risco de hipoglicemia). A troca da insulina basal não implica troca automática da insulina prandial. Elegibilidade nacional: DM1 de 2 a 17 anos, e DM1 ou DM2 com 70 anos ou mais, com prescrição válida.</p>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const f = (n, d=0) => n.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+function erro(msg){ $('erro').innerHTML = msg ? '<div class="alert e">'+msg+'</div>' : ''; }
+
+function calcular(){
+  erro('');
+  const peso = parseFloat($('peso').value), nph = parseFloat($('nph').value),
+        dtdi = parseFloat($('dtdi').value), idadeRaw = $('idade').value,
+        idade = idadeRaw === '' ? null : parseFloat(idadeRaw),
+        tipo = $('tipo').value, apl = parseInt($('apl').value), per = parseInt($('per').value);
+
+  if(!(peso>0) || !(nph>0) || !(dtdi>0)){ $('out').classList.add('hidden'); return erro('Preencha peso, dose total de NPH e dose total diária de insulina.'); }
+  if(dtdi < nph){ $('out').classList.add('hidden'); return erro('A dose total diária de insulina não pode ser menor que a dose de NPH.'); }
+
+  // Conversão (NT 169/2026, Quadro 3)
+  const bruta = apl === 1 ? nph : nph * 0.8;
+  const dose = Math.max(1, Math.round(bruta));
+  const perKg = dose / peso;
+  const pctDtdi = (dose / dtdi) * 100;
+
+  // Tubetes: 3 mL x 100 UI/mL = 300 UI; validade após aberto = 28 dias; escorva 2 UI
+  const consumoDia = dose + 2;
+  const diasPorTubete = Math.min(28, 300 / consumoDia);
+  const tubetes = Math.ceil(per / diasPorTubete - 1e-9);
+  const mensal = 30 / diasPorTubete;
+
+  $('rDose').textContent = f(dose);
+  $('rKg').textContent = f(perKg, 2);
+  $('rTub').textContent = tubetes;
+  $('rTubSub').textContent = 'tubetes de 3 mL em ' + per + ' dias';
+
+  const det = [];
+  if(apl === 1){
+    det.push('<b>Conversão 1:1:</b> '+f(nph)+' UI de NPH → '+f(dose)+' UI de glargina, mantendo o horário atual de aplicação.');
+  } else {
+    det.push('<b>Redução de 20%:</b> '+f(nph)+' UI × 0,8 = '+f(bruta,1)+' UI → <b>'+f(dose)+' UI</b> de glargina (arredondado para 1 UI), 1× ao dia, preferencialmente no horário da maior dose prévia de NPH.');
+  }
+  det.push('Glargina representa <b>'+f(pctDtdi,0)+'%</b> da dose total diária de insulina ('+f(dtdi)+' UI).');
+  det.push('Cada tubete dura cerca de <b>'+f(diasPorTubete,1)+' dias</b> nesta dose (consumo estimado de '+f(consumoDia)+' UI/dia com escorva); média de '+f(mensal,1)+' tubetes por 30 dias.');
+  det.push('Agulha 4 mm: 1 por dia de uso ('+per+' unidades no período).');
+  $('detalhes').innerHTML = det.map(x=>'<li>'+x+'</li>').join('');
+
+  // Alertas
+  const al = [];
+  const w = t => al.push('<div class="alert w">'+t+'</div>');
+
+  if(idade !== null){
+    const elegivel = (tipo==='1' && idade>=2 && idade<18) || (idade>=70);
+    if(!elegivel){
+      w('<b>Fora do público-alvo da NT 169/2026.</b> A dispensação nacional é para DM1 de 2 a 17 anos e DM1/DM2 com 70 anos ou mais. Verifique o fluxo/protocolo local.');
+    }
+  }
+  if(tipo==='2' && perKg > 0.5){
+    w('<b>Basal acima de 0,5 UI/kg/dia (DM2).</b> A NT considera sinal de alerta de excesso de insulina basal se houver HbA1c acima da meta com glicemia de jejum no alvo, hipoglicemia ou queda da glicemia &gt; 50 mg/dL entre deitar e acordar. Reavalie o esquema e evite aumentar a basal.');
+  }
+  if(tipo==='1' && pctDtdi > 50){
+    w('<b>Basal acima de 50% da dose total diária.</b> Em crianças e adolescentes com DM1 a NT considera sinal de alerta de excesso de basal. Reavalie a proporção basal/prandial.');
+  }
+  if(tipo==='1' && perKg > 1.0){
+    w('<b>Dose basal &gt; 1,0 UI/kg/dia.</b> Acima da faixa de referência do PCDT DM1 (basal até 1,0 UI/kg/dia em púberes). Considere cuidado compartilhado com a Atenção Especializada.');
+  }
+  if(dtdi/peso > 2){
+    w('Dose total diária acima de 2,0 UI/kg/dia: confira os valores digitados.');
+  }
+  w('Reavalie a necessidade basal real na transição, acompanhe a glicemia de jejum e oriente sobre hipoglicemia, horário fixo e técnica de aplicação. Titulação em intervalos de até 3 dias, se necessário.');
+  $('alertas').innerHTML = al.join('');
+  $('out').classList.remove('hidden');
+}
+
+$('calc').addEventListener('click', calcular);
+document.querySelectorAll('input,select').forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') calcular(); }));
+$('clr').addEventListener('click', ()=>{
+  document.querySelectorAll('input').forEach(i=>i.value='');
+  $('tipo').value='2'; $('apl').value='2'; $('per').value='30';
+  $('out').classList.add('hidden'); erro('');
+});
+</script>
+</body>
+</html>
