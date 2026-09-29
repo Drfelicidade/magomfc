@@ -48,6 +48,7 @@ button.sec{background:transparent;color:var(--muted);border:1px solid var(--bord
 .alert.e{background:var(--err-bg);border-color:var(--err-bd);color:var(--err-tx)}
 ul.d{margin:10px 0 0;padding-left:20px;font-size:.93rem}ul.d li{margin-bottom:5px}
 .small{font-size:.8rem;color:var(--muted)}
+a{color:var(--primary-dark)}
 details summary{cursor:pointer;font-weight:600}
 .hidden{display:none}
 .sep{border-top:1px solid var(--border);margin-top:18px;padding-top:14px}
@@ -160,7 +161,7 @@ function glCard(tipo,peso,idade,lo,hi){
   li.push('Titulação pela glicemia de jejum, em intervalos de <b>3 a 4 dias</b> (SBD 2026; a NT 169/2026 cita até 3 dias), buscando 80 a 130 mg/dL ou a meta do perfil. '+(tipo==='2'?'Evitar dose &gt; <b>0,5 UI/kg</b> ('+f(peso*0.5,0)+' UI).':'A NT 169/2026 manda avaliar excesso de basal acima de 0,5 UI/kg; no DM1 púbere a faixa de referência chega a 1,0 UI/kg, então confira também se a basal passa de 50% da dose total e se há queda noturna &gt; 50 mg/dL ou hipoglicemia.'));
   li.push('Tubetes: 3 mL a 100 UI/mL (300 UI), validade de 28 dias após aberto, considerando 2 UI de escorva por aplicação (premissa; para 30 dias).');
   if(tipo==='2') li.push('Maior benefício da glargina: hipoglicemia noturna ou grave, grande variabilidade glicêmica, redução da função renal ou hepática, idosos, gestantes e dificuldade com várias doses (SBD 2026).');
-  else li.push('Se o paciente já usa NPH 2× ao dia, a migração reduz 20% da dose total diária (use a calculadora de migração). A troca da basal não implica troca automática do bolus.');
+  else li.push('Se o paciente já usa NPH 2× ao dia, a migração reduz 20% da dose total diária (use a <a href="calculadora-insulina.html">calculadora de migração</a>). A troca da basal não implica troca automática do bolus.');
   const al=e===null?A('w','Informe a idade para verificar a elegibilidade nacional (NT 169/2026).'):(e?A('w','<b>Faixa etária elegível</b> à glargina na APS pela NT 169/2026 (≥ 70 anos com DM1 ou DM2; DM1 de 2 a 17 anos). Confirme a disponibilidade e o fluxo locais.'):A('e','<b>Fora do público-alvo da NT 169/2026</b> (≥ 70 anos com DM1/DM2; DM1 de 2 a 17 anos). A dispensação pela APS pode não estar disponível: verifique o protocolo local.'));
   $('glarg').innerHTML='<div class="sep"><h3>Opção: iniciar com insulina glargina (U100)</h3><div class="res">'+box('Glargina',dose,'UI, 1× ao dia')+box('Dose por peso',kg,'UI/kg/dia')+box('Tubetes (30 dias)',tb,'de 3 mL')+'</div><ul class="d">'+li.map(x=>'<li>'+x+'</li>').join('')+'</ul>'+al+'</div>';
 }
@@ -209,7 +210,7 @@ function calcular(){
     glCard('1',peso,idade,fase==='rec'?0:Math.round(bl),fase==='rec'?Math.round(th*0.5):Math.round(bh));
     if(fase==='rec' || fase==='lac' || fase==='pre' || fase==='pub' || (idade!==null&&idade<18)) al.push(A('w','<b>DM1 em criança/adolescente ou recém-diagnosticado:</b> o PCDT DM1 recomenda acompanhamento por especialista (endocrinologista) e equipe multiprofissional. Encaminhe e mantenha o seguimento na APS.'));
     al.push(A('e','Nunca suspender a insulina no DM1 (risco de cetoacidose). Sintomas de insulinopenia com cetonúria, vômitos ou desidratação: emergência.'));
-    al.push(A('w','Elegibilidade para análogos no DM1 depende dos critérios do PCDT DM1 (hipoglicemias graves, noturnas ou frequentes, ou controle inadequado persistente apesar de automonitorização). Na NT 169/2026, a glargina é indicada a crianças e adolescentes de 2 a 17 anos e a pessoas ≥ 70 anos: 1× ao dia, em horário fixo. Ao migrar de NPH 2× ao dia, reduzir 20% da dose total (use a calculadora de migração).'));
+    al.push(A('w','Elegibilidade para análogos no DM1 depende dos critérios do PCDT DM1 (hipoglicemias graves, noturnas ou frequentes, ou controle inadequado persistente apesar de automonitorização). Na NT 169/2026, a glargina é indicada a crianças e adolescentes de 2 a 17 anos e a pessoas ≥ 70 anos: 1× ao dia, em horário fixo. Ao migrar de NPH 2× ao dia, reduzir 20% da dose total (use a <a href="calculadora-insulina.html">calculadora de migração</a>).'));
   }
   $('det').innerHTML=det.map(x=>'<li>'+x+'</li>').join('');
   $('alertas').innerHTML=al.join('');

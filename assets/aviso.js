@@ -7,18 +7,21 @@
   var barra = document.createElement('aside');
   barra.id = 'aviso-clinico';
   barra.setAttribute('role', 'note');
+  var escuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var cor = escuro ? { fundo: '#33290f', texto: '#f3d68a', borda: '#7a5f1c', link: '#ffd98a' }
+                   : { fundo: '#fffbeb', texto: '#78350f', borda: '#fcd34d', link: '#92400e' };
   barra.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;' +
-    'justify-content:center;gap:12px;padding:6px 12px;background:#fffbeb;color:#78350f;' +
-    'border-top:1px solid #fcd34d;font:12px/1.4 system-ui,sans-serif;text-align:center';
+    'justify-content:center;gap:12px;padding:6px 12px;background:' + cor.fundo + ';color:' + cor.texto + ';' +
+    'border-top:1px solid ' + cor.borda + ';font:12px/1.4 system-ui,sans-serif;text-align:center';
   barra.innerHTML = '<span><strong>Aviso:</strong> apoio à decisão clínica; não substitui o julgamento do ' +
     'profissional nem protocolos locais. Confira os dados e não insira dados que identifiquem o paciente. ' +
-    '<a href="index.html" style="color:#92400e;text-decoration:underline">Início</a></span>';
+    '<a href="index.html" style="color:' + cor.link + ';text-decoration:underline">Início</a></span>';
 
   var fechar = document.createElement('button');
   fechar.type = 'button';
   fechar.setAttribute('aria-label', 'Ocultar aviso nesta sessão');
   fechar.textContent = '×';
-  fechar.style.cssText = 'flex:none;border:0;background:transparent;color:#78350f;font-size:18px;' +
+  fechar.style.cssText = 'flex:none;border:0;background:transparent;color:' + cor.texto + ';font-size:18px;' +
     'line-height:1;cursor:pointer;padding:0 4px';
   barra.appendChild(fechar);
 
