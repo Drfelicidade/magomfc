@@ -16,13 +16,13 @@ const medicamentos = linhas.map((l, i) => {
     gestacao: { nivel: NIVEIS[ng], texto: tg },
     lactacao: { nivel: NIVEIS[nl], texto: tl },
     conduta: conduta === '-' ? '' : conduta,
-    revisao: 'rascunho',
+    revisao: 'revisao-assistida-ia',
   };
 });
 medicamentos.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 fs.writeFileSync(__dirname + '/../data/medicamentos.json', JSON.stringify({
-  aviso: 'Rascunho compilado a partir de conhecimento geral, ainda sem revisão médica/farmacêutica formal. Confirme em LactMed, Briggs, bulas e protocolos do Ministério da Saúde antes de decidir.',
-  versao: 'rascunho-1',
+  aviso: 'Conteúdo compilado e revisado com apoio de IA, sem validação por comissão médica/farmacêutica e sem conferência automática em bases externas. Confirme em LactMed, Briggs, bulas e protocolos do Ministério da Saúde antes de decidir.',
+  versao: 'v1 (revisão assistida por IA)',
   niveis: { compativel: 'Compatível', cautela: 'Usar com cautela', evitar: 'Evitar', contraindicado: 'Contraindicado' },
   medicamentos,
 }, null, 1));

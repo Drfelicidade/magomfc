@@ -1,6 +1,6 @@
 {
- "aviso": "Rascunho compilado a partir de conhecimento geral, ainda sem revisão médica/farmacêutica formal. Confirme em LactMed, Briggs, bulas e protocolos do Ministério da Saúde antes de decidir.",
- "versao": "rascunho-1",
+ "aviso": "Conteúdo compilado e revisado com apoio de IA, sem validação por comissão médica/farmacêutica e sem conferência automática em bases externas. Confirme em LactMed, Briggs, bulas e protocolos do Ministério da Saúde antes de decidir.",
+ "versao": "v1 (revisão assistida por IA)",
  "niveis": {
   "compativel": "Compatível",
   "cautela": "Usar com cautela",
@@ -21,10 +21,10 @@
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Aceito na lactação; ver critérios MEC para o pós-parto imediato."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Acetilcisteína",
@@ -42,7 +42,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Aciclovir",
@@ -59,7 +59,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ácido acetilsalicílico",
@@ -78,7 +78,7 @@
     "texto": "Dose baixa é aceita. Doses analgésicas repetidas devem ser evitadas (risco de Reye e sangramento no lactente)."
    },
    "conduta": "Paracetamol como analgésico.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ácido fólico",
@@ -96,7 +96,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ácido tranexâmico",
@@ -113,7 +113,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ácido valproico",
@@ -133,7 +133,7 @@
     "texto": "Passagem baixa; usar com acompanhamento."
    },
    "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Acitretina",
@@ -150,7 +150,7 @@
     "texto": "Contraindicada."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Albendazol",
@@ -167,7 +167,7 @@
     "texto": "Absorção baixa; compatível."
    },
    "conduta": "Adiar tratamento para depois do 1º trimestre.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Alopurinol",
@@ -184,7 +184,7 @@
     "texto": "Passagem baixa."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Alprazolam",
@@ -201,7 +201,7 @@
     "texto": "Pode causar sedação no lactente."
    },
    "conduta": "Reavaliar indicação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ambroxol",
@@ -218,7 +218,7 @@
     "texto": "Poucos dados."
    },
    "conduta": "Hidratação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Amitriptilina",
@@ -236,7 +236,7 @@
     "texto": "Doses baixas costumam ser compatíveis; observar sedação no lactente."
    },
    "conduta": "Reavaliar indicação e menor dose.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Amoxicilina",
@@ -254,7 +254,7 @@
     "texto": "Passagem baixa; pode causar diarreia ou candidíase no lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Amoxicilina com clavulanato",
@@ -273,7 +273,7 @@
     "texto": "Compatível; observar diarreia no lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ampicilina",
@@ -290,7 +290,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Anlodipino",
@@ -307,7 +307,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Nifedipino.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Anticoncepcional oral combinado",
@@ -322,10 +322,10 @@
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Evitar nas primeiras 6 semanas e enquanto a amamentação estiver estabelecida (pode reduzir o leite)."
+    "texto": "Evitar nas primeiras 6 semanas do pós-parto e, em geral, até 6 meses com amamentação exclusiva (pode reduzir o leite); ver critérios MEC."
    },
    "conduta": "Métodos apenas com progestagênio ou não hormonais.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Atenolol",
@@ -342,7 +342,7 @@
     "texto": "Concentra-se no leite e pode causar bradicardia no lactente."
    },
    "conduta": "Metildopa, nifedipino, labetalol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Atorvastatina",
@@ -360,7 +360,7 @@
     "texto": "Sem dados de segurança; evitar."
    },
    "conduta": "Manter mudanças de estilo de vida.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Azatioprina",
@@ -377,7 +377,7 @@
     "texto": "Passagem baixa; acompanhamento especializado."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Azitromicina",
@@ -395,7 +395,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Beclometasona",
@@ -412,7 +412,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Betametasona",
@@ -429,7 +429,7 @@
     "texto": "Uso curto é aceito."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Bisacodil",
@@ -446,7 +446,7 @@
     "texto": "Absorção mínima; compatível."
    },
    "conduta": "Fibras, lactulose.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Bromocriptina",
@@ -463,7 +463,7 @@
     "texto": "Contraindicada: inibe a produção de leite."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Bromoprida",
@@ -480,7 +480,7 @@
     "texto": "Poucos dados; preferir alternativas."
    },
    "conduta": "Metoclopramida.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Budesonida",
@@ -498,7 +498,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Bupropiona",
@@ -516,7 +516,7 @@
     "texto": "Poucos dados; observar o lactente."
    },
    "conduta": "Sertralina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Butilescopolamina",
@@ -534,7 +534,7 @@
     "texto": "Absorção oral baixa; compatível."
    },
    "conduta": "Medidas não farmacológicas.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Cabergolina",
@@ -551,7 +551,7 @@
     "texto": "Contraindicada: inibe a produção de leite."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Captopril",
@@ -568,7 +568,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Metildopa ou nifedipino na gestação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Carbamazepina",
@@ -585,7 +585,7 @@
     "texto": "Passagem baixa; compatível, observar o lactente."
    },
    "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Carbonato de cálcio",
@@ -604,7 +604,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Carvedilol",
@@ -622,7 +622,7 @@
     "texto": "Poucos dados; preferir metoprolol ou propranolol."
    },
    "conduta": "Labetalol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Cefalexina",
@@ -639,7 +639,7 @@
     "texto": "Compatível; observar diarreia no lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ceftriaxona",
@@ -656,7 +656,7 @@
     "texto": "Compatível; evitar em recém-nascidos com icterícia ou em uso de cálcio endovenoso."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Cefuroxima",
@@ -673,7 +673,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Cetirizina",
@@ -690,7 +690,7 @@
     "texto": "Pode causar sonolência no lactente."
    },
    "conduta": "Loratadina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Cetoconazol",
@@ -707,7 +707,7 @@
     "texto": "Poucos dados; uso tópico é aceito."
    },
    "conduta": "Clotrimazol, nistatina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Cetoprofeno",
@@ -724,7 +724,7 @@
     "texto": "Poucos dados. Uso curto costuma ser aceito; preferir ibuprofeno."
    },
    "conduta": "Paracetamol na gestação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ciclobenzaprina",
@@ -741,7 +741,7 @@
     "texto": "Poucos dados; preferir alternativas."
    },
    "conduta": "Medidas físicas e paracetamol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ciprofloxacino",
@@ -758,7 +758,7 @@
     "texto": "Uso curto é geralmente aceito; preferir outras classes."
    },
    "conduta": "Amoxicilina, cefalosporinas.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Citalopram",
@@ -775,7 +775,7 @@
     "texto": "Passagem moderada; observar o lactente."
    },
    "conduta": "Sertralina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Claritromicina",
@@ -792,7 +792,7 @@
     "texto": "Passagem baixa; observar diarreia no lactente."
    },
    "conduta": "Azitromicina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Clindamicina",
@@ -809,7 +809,7 @@
     "texto": "Compatível; observar diarreia no lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Clomifeno",
@@ -826,7 +826,7 @@
     "texto": "Pode reduzir a produção de leite; evitar."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Clonazepam",
@@ -843,7 +843,7 @@
     "texto": "Pode causar sedação no lactente; usar com cautela."
    },
    "conduta": "Reavaliar indicação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Clonidina",
@@ -860,7 +860,7 @@
     "texto": "Pode reduzir a produção de leite e causar sedação no lactente."
    },
    "conduta": "Metildopa.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Clopidogrel",
@@ -877,7 +877,7 @@
     "texto": "Sem dados suficientes."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Clorfeniramina",
@@ -895,7 +895,7 @@
     "texto": "Pode causar sonolência no lactente e reduzir o leite."
    },
    "conduta": "Loratadina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Cloroquina",
@@ -910,7 +910,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Clotrimazol",
@@ -927,7 +927,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Codeína",
@@ -945,7 +945,7 @@
     "texto": "Risco de depressão respiratória no lactente (metabolizadoras ultrarrápidas). Evitar."
    },
    "conduta": "Paracetamol; se necessário, outro analgésico.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Colchicina",
@@ -962,7 +962,7 @@
     "texto": "Passagem baixa; uso aceito."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Colecalciferol",
@@ -981,7 +981,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Dapagliflozina",
@@ -998,7 +998,7 @@
     "texto": "Sem dados; evitar."
    },
    "conduta": "Insulina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Desloratadina",
@@ -1015,7 +1015,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Loratadina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Dexametasona",
@@ -1032,7 +1032,7 @@
     "texto": "Uso curto é aceito; monitorar."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Dextrometorfano",
@@ -1046,8 +1046,8 @@
     "nivel": "cautela",
     "texto": "Poucos dados; uso pontual aceito."
    },
-   "conduta": "Mel e hidratação (se lactente com mais de 1 ano).",
-   "revisao": "rascunho"
+   "conduta": "Hidratação e medidas não farmacológicas para tosse leve.",
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Diazepam",
@@ -1065,7 +1065,7 @@
     "texto": "Meia-vida longa e acúmulo no lactente; evitar."
    },
    "conduta": "Medidas não farmacológicas; reavaliar indicação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Diclofenaco",
@@ -1083,7 +1083,7 @@
     "texto": "Passagem baixa para o leite; uso curto é aceito."
    },
    "conduta": "Paracetamol na gestação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Dimenidrinato",
@@ -1100,7 +1100,7 @@
     "texto": "Pode causar sedação no lactente e reduzir a produção de leite."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Dipirona",
@@ -1119,7 +1119,7 @@
     "texto": "Passa ao leite. Dose única ocasional é aceita; evitar uso prolongado e observar o lactente."
    },
    "conduta": "Preferir paracetamol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Domperidona",
@@ -1137,7 +1137,7 @@
     "texto": "Passagem muito baixa; compatível (usada como galactagogo, atenção ao QT prolongado)."
    },
    "conduta": "Metoclopramida.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Doxiciclina",
@@ -1154,7 +1154,7 @@
     "texto": "Uso curto (até 3 semanas) é aceito; evitar uso prolongado."
    },
    "conduta": "Azitromicina ou amoxicilina conforme o caso.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Doxilamina e piridoxina",
@@ -1172,7 +1172,7 @@
     "texto": "Doxilamina pode causar sonolência no lactente; usar com observação."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Empagliflozina",
@@ -1189,7 +1189,7 @@
     "texto": "Sem dados; evitar."
    },
    "conduta": "Insulina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Enalapril",
@@ -1206,7 +1206,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Metildopa ou nifedipino na gestação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Enoxaparina",
@@ -1223,7 +1223,7 @@
     "texto": "Não é absorvida por via oral; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Eritromicina",
@@ -1238,7 +1238,7 @@
     "texto": "Compatível; observar risco de estenose pilórica no lactente nas primeiras semanas."
    },
    "conduta": "Azitromicina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Escitalopram",
@@ -1255,7 +1255,7 @@
     "texto": "Passagem moderada; observar o lactente."
    },
    "conduta": "Sertralina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Espironolactona",
@@ -1272,7 +1272,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Estradiol",
@@ -1289,7 +1289,7 @@
     "texto": "Pode reduzir a produção de leite; evitar."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ezetimiba",
@@ -1306,7 +1306,7 @@
     "texto": "Sem dados; evitar."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Famotidina",
@@ -1323,7 +1323,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Fenitoína",
@@ -1341,7 +1341,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Fenobarbital",
@@ -1358,7 +1358,7 @@
     "texto": "Pode causar sedação no lactente."
    },
    "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Fenofibrato",
@@ -1375,7 +1375,7 @@
     "texto": "Sem dados; evitar."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Fexofenadina",
@@ -1392,7 +1392,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Loratadina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Fluconazol",
@@ -1402,15 +1402,15 @@
    ],
    "classe": "Antifúngico azólico",
    "gestacao": {
-    "nivel": "cautela",
-    "texto": "Dose única (150 mg) para candidíase é aceita; doses altas ou prolongadas no 1º trimestre estão associadas a malformações."
+    "nivel": "evitar",
+    "texto": "Preferir azólicos tópicos. Doses altas ou prolongadas no 1º trimestre estão associadas a malformações, e mesmo a dose única pode se associar a maior risco de aborto espontâneo."
    },
    "lactacao": {
     "nivel": "compativel",
     "texto": "Compatível."
    },
    "conduta": "Antifúngicos tópicos (clotrimazol, nistatina).",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Fluoxetina",
@@ -1428,7 +1428,7 @@
     "texto": "Passa ao leite em quantidade maior que a sertralina; observar o lactente."
    },
    "conduta": "Sertralina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Formoterol",
@@ -1445,7 +1445,7 @@
     "texto": "Poucos dados."
    },
    "conduta": "Salbutamol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Fosfomicina",
@@ -1462,7 +1462,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Furosemida",
@@ -1479,7 +1479,7 @@
     "texto": "Pode reduzir a produção de leite."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Gentamicina",
@@ -1494,7 +1494,7 @@
     "texto": "Absorção oral mínima; compatível."
    },
    "conduta": "Cefalosporinas quando possível.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Glibenclamida",
@@ -1511,7 +1511,7 @@
     "texto": "Risco de hipoglicemia no lactente; preferir metformina."
    },
    "conduta": "Insulina ou metformina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Gliclazida",
@@ -1528,7 +1528,7 @@
     "texto": "Poucos dados; preferir metformina."
    },
    "conduta": "Insulina ou metformina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Haloperidol",
@@ -1545,7 +1545,7 @@
     "texto": "Passagem baixa a moderada; observar o lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Heparina",
@@ -1562,7 +1562,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Hidralazina",
@@ -1579,7 +1579,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Hidroclorotiazida",
@@ -1596,7 +1596,7 @@
     "texto": "Doses baixas costumam ser aceitas; doses altas podem reduzir a produção de leite."
    },
    "conduta": "Nifedipino ou metildopa.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Hidrocortisona",
@@ -1613,7 +1613,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Hidroxicloroquina",
@@ -1631,7 +1631,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Hidróxido de alumínio e magnésio",
@@ -1651,7 +1651,7 @@
     "texto": "Absorção mínima; compatível."
    },
    "conduta": "Medidas posturais e dietéticas.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Hidroxizina",
@@ -1668,7 +1668,7 @@
     "texto": "Pode causar sedação no lactente."
    },
    "conduta": "Loratadina ou cetirizina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ibuprofeno",
@@ -1686,7 +1686,7 @@
     "texto": "Passagem muito baixa; é o AINE preferido na lactação."
    },
    "conduta": "Na gestação, usar paracetamol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Insulina asparte",
@@ -1703,7 +1703,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Insulina detemir",
@@ -1720,7 +1720,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Insulina glargina",
@@ -1738,7 +1738,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Insulina lispro",
@@ -1755,7 +1755,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Insulina NPH",
@@ -1773,7 +1773,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Insulina regular",
@@ -1791,7 +1791,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ipratrópio",
@@ -1809,7 +1809,7 @@
     "texto": "Absorção mínima; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Isoniazida",
@@ -1824,7 +1824,7 @@
     "texto": "Compatível; manter piridoxina e observar o lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Isotretinoína",
@@ -1842,7 +1842,7 @@
     "texto": "Contraindicada."
    },
    "conduta": "Tratamentos tópicos compatíveis.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ivermectina",
@@ -1859,7 +1859,7 @@
     "texto": "Passagem baixa; evitar na primeira semana de vida do lactente."
    },
    "conduta": "Permetrina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Labetalol",
@@ -1874,7 +1874,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Lactulose",
@@ -1891,7 +1891,7 @@
     "texto": "Não é absorvida; compatível."
    },
    "conduta": "Fibras e hidratação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Lamotrigina",
@@ -1908,7 +1908,7 @@
     "texto": "Passagem moderada; observar o lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Levetiracetam",
@@ -1925,7 +1925,7 @@
     "texto": "Passagem moderada; observar o lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Levofloxacino",
@@ -1943,7 +1943,7 @@
     "texto": "Poucos dados; preferir outras classes."
    },
    "conduta": "Amoxicilina, cefalosporinas.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Levonorgestrel",
@@ -1960,7 +1960,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Levotiroxina",
@@ -1979,7 +1979,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Lidocaína (uso tópico)",
@@ -1998,7 +1998,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Lítio",
@@ -2016,7 +2016,7 @@
     "texto": "Passa em quantidade importante; evitar ou acompanhar de perto."
    },
    "conduta": "Acompanhamento psiquiátrico.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Loperamida",
@@ -2033,7 +2033,7 @@
     "texto": "Absorção mínima; compatível em doses habituais."
    },
    "conduta": "Hidratação oral.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Loratadina",
@@ -2050,7 +2050,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Lorazepam",
@@ -2067,7 +2067,7 @@
     "texto": "Uso ocasional é aceito; observar sedação."
    },
    "conduta": "Reavaliar indicação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Losartana",
@@ -2084,7 +2084,7 @@
     "texto": "Dados insuficientes; preferir enalapril ou captopril na lactação."
    },
    "conduta": "Metildopa ou nifedipino na gestação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Mebendazol",
@@ -2101,7 +2101,7 @@
     "texto": "Absorção baixa; compatível."
    },
    "conduta": "Adiar tratamento se possível.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Melatonina",
@@ -2116,7 +2116,7 @@
     "texto": "Passagem baixa; dados limitados."
    },
    "conduta": "Higiene do sono.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Metformina",
@@ -2134,7 +2134,7 @@
     "texto": "Excreção baixa; compatível."
    },
    "conduta": "Insulina segue como padrão.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Metildopa",
@@ -2151,7 +2151,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Metilergometrina",
@@ -2168,7 +2168,7 @@
     "texto": "Uso curto (poucos dias) é aceito; pode reduzir o leite."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Metilfenidato",
@@ -2186,7 +2186,7 @@
     "texto": "Passagem baixa; observar o lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Metimazol",
@@ -2203,7 +2203,7 @@
     "texto": "Compatível em doses até 20 a 30 mg/dia."
    },
    "conduta": "Propiltiouracil no 1º trimestre.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Metoclopramida",
@@ -2220,7 +2220,7 @@
     "texto": "Pode aumentar a prolactina e causar sonolência ou sintomas gastrointestinais; uso curto é aceito."
    },
    "conduta": "Piridoxina e doxilamina como primeira linha.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Metoprolol",
@@ -2237,7 +2237,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Labetalol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Metotrexato",
@@ -2254,7 +2254,7 @@
     "texto": "Contraindicado."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Metronidazol",
@@ -2271,7 +2271,7 @@
     "texto": "Passa ao leite; dose única é aceita, e em uso prolongado observar o lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Miconazol",
@@ -2288,7 +2288,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Mirtazapina",
@@ -2305,7 +2305,7 @@
     "texto": "Passagem baixa; observar sedação no lactente."
    },
    "conduta": "Sertralina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Misoprostol",
@@ -2322,7 +2322,7 @@
     "texto": "Pode causar diarreia no lactente; dose única é aceita."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Montelucaste",
@@ -2339,7 +2339,7 @@
     "texto": "Poucos dados."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Morfina",
@@ -2356,7 +2356,7 @@
     "texto": "Uso curto em dose baixa é aceito, com observação de sonolência no lactente."
    },
    "conduta": "Reavaliar necessidade e menor dose eficaz.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Naproxeno",
@@ -2373,7 +2373,7 @@
     "texto": "Meia-vida longa, com possível acúmulo no lactente. Preferir ibuprofeno."
    },
    "conduta": "Paracetamol na gestação; ibuprofeno na lactação.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Nicotina (reposição)",
@@ -2391,7 +2391,7 @@
     "texto": "Melhor que fumar; preferir formas de curta duração."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Nifedipino",
@@ -2408,7 +2408,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Nistatina",
@@ -2425,7 +2425,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Nitazoxanida",
@@ -2442,7 +2442,7 @@
     "texto": "Sem dados suficientes."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Nitrofurantoína",
@@ -2460,7 +2460,7 @@
     "texto": "Evitar nas primeiras semanas de vida e em lactentes com deficiência de G6PD."
    },
    "conduta": "Cefalexina, fosfomicina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Noretisterona",
@@ -2474,10 +2474,10 @@
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; método apenas com progestagênio aceito na lactação."
+    "texto": "Métodos apenas com progestagênio são aceitos na lactação; ver critérios MEC para o pós-parto imediato."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Nortriptilina",
@@ -2494,7 +2494,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Olanzapina",
@@ -2511,7 +2511,7 @@
     "texto": "Passagem moderada; observar o lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Omeprazol",
@@ -2529,7 +2529,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Medidas dietéticas e antiácidos como primeiro passo.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Ondansetrona",
@@ -2547,7 +2547,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Piridoxina, doxilamina, metoclopramida.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Orlistate",
@@ -2564,7 +2564,7 @@
     "texto": "Sem dados."
    },
    "conduta": "Orientação nutricional.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Oseltamivir",
@@ -2581,7 +2581,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Pantoprazol",
@@ -2598,7 +2598,7 @@
     "texto": "Poucos dados; omeprazol é preferido."
    },
    "conduta": "Omeprazol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Paracetamol",
@@ -2616,7 +2616,7 @@
     "texto": "Passagem mínima para o leite; compatível com a amamentação."
    },
    "conduta": "Primeira escolha para dor e febre.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Paroxetina",
@@ -2634,7 +2634,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Sertralina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Penicilina benzatina",
@@ -2652,7 +2652,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Permetrina",
@@ -2669,7 +2669,7 @@
     "texto": "Absorção mínima; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Piridoxina",
@@ -2686,7 +2686,7 @@
     "texto": "Compatível em doses habituais."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Prednisolona",
@@ -2703,7 +2703,7 @@
     "texto": "Compatível; com doses altas, esperar 4 h após a dose."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Prednisona",
@@ -2720,7 +2720,7 @@
     "texto": "Compatível; com doses acima de 20 mg, esperar 4 h após a dose."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Primaquina",
@@ -2735,7 +2735,7 @@
     "texto": "Evitar, principalmente se lactente com deficiência de G6PD ou sem teste."
    },
    "conduta": "Orientação especializada.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Progesterona micronizada",
@@ -2754,7 +2754,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Prometazina",
@@ -2771,7 +2771,7 @@
     "texto": "Pode causar sedação no lactente."
    },
    "conduta": "Metoclopramida ou doxilamina para náuseas.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Propiltiouracil",
@@ -2788,7 +2788,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Propranolol",
@@ -2805,7 +2805,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "Labetalol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Pseudoefedrina",
@@ -2820,7 +2820,7 @@
     "texto": "Pode reduzir a produção de leite e causar irritabilidade no lactente."
    },
    "conduta": "Soro nasal.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Quetiapina",
@@ -2837,7 +2837,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Rifampicina",
@@ -2854,7 +2854,7 @@
     "texto": "Compatível; pode dar coloração alaranjada ao leite."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Risperidona",
@@ -2871,7 +2871,7 @@
     "texto": "Passagem baixa; observar o lactente."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Rivaroxabana",
@@ -2888,7 +2888,7 @@
     "texto": "Sem dados suficientes; evitar."
    },
    "conduta": "Heparina de baixo peso molecular.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Rosuvastatina",
@@ -2905,7 +2905,7 @@
     "texto": "Sem dados de segurança; evitar."
    },
    "conduta": "Manter mudanças de estilo de vida.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Salbutamol",
@@ -2922,7 +2922,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Secnidazol",
@@ -2937,7 +2937,7 @@
     "texto": "Passa ao leite; considerar suspender a amamentação por 24 h após a dose."
    },
    "conduta": "Metronidazol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Sertralina",
@@ -2955,7 +2955,7 @@
     "texto": "Excreção baixa; compatível (ISRS preferido na lactação)."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Sibutramina",
@@ -2972,7 +2972,7 @@
     "texto": "Contraindicada."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Simeticona",
@@ -2989,7 +2989,7 @@
     "texto": "Não é absorvida; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Sinvastatina",
@@ -3006,7 +3006,7 @@
     "texto": "Sem dados de segurança; evitar."
    },
    "conduta": "Manter mudanças de estilo de vida.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Sitagliptina",
@@ -3023,7 +3023,7 @@
     "texto": "Sem dados; evitar."
    },
    "conduta": "Insulina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Soro fisiológico nasal",
@@ -3041,7 +3041,7 @@
     "texto": "Seguro."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Sulfametoxazol e trimetoprima",
@@ -3060,7 +3060,7 @@
     "texto": "Evitar em recém-nascidos, prematuros, com icterícia ou deficiência de G6PD."
    },
    "conduta": "Cefalexina, amoxicilina, fosfomicina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Sulfato ferroso",
@@ -3078,7 +3078,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Sumatriptano",
@@ -3096,7 +3096,7 @@
     "texto": "Passagem baixa; compatível (pode-se esperar 8 h para reduzir exposição)."
    },
    "conduta": "Paracetamol e metoclopramida como primeira linha.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Teofilina",
@@ -3111,7 +3111,7 @@
     "texto": "Pode causar irritabilidade no lactente."
    },
    "conduta": "Salbutamol.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Terbinafina",
@@ -3128,7 +3128,7 @@
     "texto": "Passa ao leite; evitar uso oral."
    },
    "conduta": "Tratamento tópico ou adiamento.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Tetraciclina",
@@ -3143,7 +3143,7 @@
     "texto": "Uso curto é aceito; evitar uso prolongado."
    },
    "conduta": "Azitromicina ou amoxicilina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Topiramato",
@@ -3160,7 +3160,7 @@
     "texto": "Pode causar sonolência e diarreia no lactente."
    },
    "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Tramadol",
@@ -3177,7 +3177,7 @@
     "texto": "Risco de sedação e depressão respiratória no lactente, sobretudo em metabolizadoras rápidas. Evitar."
    },
    "conduta": "Paracetamol; discutir opioide se dor intensa.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Valaciclovir",
@@ -3194,7 +3194,7 @@
     "texto": "Passagem baixa; compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Valsartana",
@@ -3211,7 +3211,7 @@
     "texto": "Dados insuficientes; preferir enalapril ou captopril."
    },
    "conduta": "Metildopa ou nifedipino.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Vareniclina",
@@ -3228,7 +3228,7 @@
     "texto": "Poucos dados; evitar."
    },
    "conduta": "Aconselhamento; reposição de nicotina se necessário.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Varfarina",
@@ -3246,7 +3246,7 @@
     "texto": "Excreção mínima; compatível."
    },
    "conduta": "Heparina de baixo peso molecular.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Venlafaxina",
@@ -3263,7 +3263,7 @@
     "texto": "Passagem moderada; observar o lactente."
    },
    "conduta": "Sertralina.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Vitamina B12",
@@ -3282,7 +3282,7 @@
     "texto": "Compatível."
    },
    "conduta": "",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   },
   {
    "nome": "Zolpidem",
@@ -3299,7 +3299,7 @@
     "texto": "Passagem baixa; observar sedação."
    },
    "conduta": "Higiene do sono.",
-   "revisao": "rascunho"
+   "revisao": "revisao-assistida-ia"
   }
  ]
 }

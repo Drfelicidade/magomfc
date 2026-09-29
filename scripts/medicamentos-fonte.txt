@@ -54,7 +54,7 @@ Clindamicina|dalacin;clindamicina|Lincosamida|c|Aceita quando indicada.|c|Compat
 Doxiciclina|vibramicina;doxiciclina|Tetraciclina|x|Contraindicada: afeta ossos e dentes fetais.|a|Uso curto (até 3 semanas) é aceito; evitar uso prolongado.|Azitromicina ou amoxicilina conforme o caso.
 Tetraciclina|tetraciclina|Tetraciclina|x|Contraindicada: afeta ossos e dentes fetais.|a|Uso curto é aceito; evitar uso prolongado.|Azitromicina ou amoxicilina.
 Gentamicina|gentamicina|Aminoglicosídeo|e|Risco de ototoxicidade fetal; reservar para infecções graves.|c|Absorção oral mínima; compatível.|Cefalosporinas quando possível.
-Fluconazol|zoltec;diflucan;fluconazol|Antifúngico azólico|a|Dose única (150 mg) para candidíase é aceita; doses altas ou prolongadas no 1º trimestre estão associadas a malformações.|c|Compatível.|Antifúngicos tópicos (clotrimazol, nistatina).
+Fluconazol|zoltec;diflucan;fluconazol|Antifúngico azólico|e|Preferir azólicos tópicos. Doses altas ou prolongadas no 1º trimestre estão associadas a malformações, e mesmo a dose única pode se associar a maior risco de aborto espontâneo.|c|Compatível.|Antifúngicos tópicos (clotrimazol, nistatina).
 Nistatina|micostatin;nistatina|Antifúngico|c|Segura (uso tópico ou oral não absorvido).|c|Compatível.|-
 Clotrimazol|canesten;clotrimazol|Antifúngico tópico|c|Preferido no tratamento de candidíase vaginal na gestação.|c|Compatível.|-
 Miconazol|daktarin;miconazol|Antifúngico tópico|c|Aceito por via tópica ou vaginal.|c|Compatível.|-
@@ -137,7 +137,7 @@ Prometazina|fenergan;prometazina|Anti-histamínico sedativo|a|Uso pontual aceito
 Hidroxizina|hixizine;hidroxizina|Anti-histamínico sedativo|e|Evitar no 1º trimestre.|a|Pode causar sedação no lactente.|Loratadina ou cetirizina.
 Acetilcisteína|fluimucil;acetilcisteina|Mucolítico|c|Uso aceito.|c|Compatível.|-
 Ambroxol|mucosolvan;ambroxol|Mucolítico|a|Evitar no 1º trimestre por falta de dados.|a|Poucos dados.|Hidratação.
-Dextrometorfano|dextrometorfano|Antitussígeno|a|Dados limitados; uso pontual aceito.|a|Poucos dados; uso pontual aceito.|Mel e hidratação (se lactente com mais de 1 ano).
+Dextrometorfano|dextrometorfano|Antitussígeno|a|Dados limitados; uso pontual aceito.|a|Poucos dados; uso pontual aceito.|Hidratação e medidas não farmacológicas para tosse leve.
 Pseudoefedrina|pseudoefedrina|Descongestionante sistêmico|e|Evitar no 1º trimestre (risco de gastrosquise).|e|Pode reduzir a produção de leite e causar irritabilidade no lactente.|Soro nasal.
 Soro fisiológico nasal|soro nasal;cloreto de sodio nasal|Descongestionante tópico|c|Seguro.|c|Seguro.|-
 Sertralina|zoloft;serenata;sertralina|Antidepressivo ISRS|a|ISRS mais estudado na gestação; pesar risco e benefício e manter se necessário.|c|Excreção baixa; compatível (ISRS preferido na lactação).|-
@@ -170,9 +170,9 @@ Metilfenidato|ritalina;concerta;metilfenidato|Psicoestimulante|a|Dados limitados
 Melatonina|melatonina|Hormônio|a|Dados limitados.|a|Passagem baixa; dados limitados.|Higiene do sono.
 Vareniclina|champix;vareniclina|Auxiliar de cessação do tabagismo|a|Dados limitados; reservar para casos em que outros métodos falharam.|e|Poucos dados; evitar.|Aconselhamento; reposição de nicotina se necessário.
 Nicotina (reposição)|nicorette;adesivo de nicotina|Auxiliar de cessação do tabagismo|a|Preferir formas de curta duração (goma, pastilha) quando o aconselhamento falhou.|a|Melhor que fumar; preferir formas de curta duração.|-
-Anticoncepcional oral combinado|pílula combinada;etinilestradiol|Contraceptivo hormonal|x|Sem indicação na gestação. Se usado sem saber da gestação, não há risco teratogênico importante conhecido.|e|Evitar nas primeiras 6 semanas e enquanto a amamentação estiver estabelecida (pode reduzir o leite).|Métodos apenas com progestagênio ou não hormonais.
-Noretisterona|micronor;noretisterona|Progestagênio|e|Evitar na gestação.|c|Compatível; método apenas com progestagênio aceito na lactação.|-
-Acetato de medroxiprogesterona|depo-provera;depo provera;acetato de medroxiprogesterona|Contraceptivo injetável|x|Sem indicação na gestação.|c|Compatível.|-
+Anticoncepcional oral combinado|pílula combinada;etinilestradiol|Contraceptivo hormonal|x|Sem indicação na gestação. Se usado sem saber da gestação, não há risco teratogênico importante conhecido.|e|Evitar nas primeiras 6 semanas do pós-parto e, em geral, até 6 meses com amamentação exclusiva (pode reduzir o leite); ver critérios MEC.|Métodos apenas com progestagênio ou não hormonais.
+Noretisterona|micronor;noretisterona|Progestagênio|e|Evitar na gestação.|c|Métodos apenas com progestagênio são aceitos na lactação; ver critérios MEC para o pós-parto imediato.|-
+Acetato de medroxiprogesterona|depo-provera;depo provera;acetato de medroxiprogesterona|Contraceptivo injetável|x|Sem indicação na gestação.|c|Aceito na lactação; ver critérios MEC para o pós-parto imediato.|-
 Levonorgestrel|postinor;levonorgestrel|Contracepção de emergência|c|Não é teratogênico nem interrompe uma gestação estabelecida.|c|Compatível.|-
 Progesterona micronizada|utrogestan;evocanil;progesterona|Progestagênio|c|Uso aceito quando indicado (prevenção de parto prematuro, suporte de fase lútea).|c|Compatível.|-
 Estradiol|estrofem;estradiol|Estrogênio|x|Contraindicado na gestação.|e|Pode reduzir a produção de leite; evitar.|-

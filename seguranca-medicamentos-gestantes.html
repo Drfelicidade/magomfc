@@ -87,7 +87,7 @@
         $('res-classe').textContent = m.classe
             ? m.classe + (m.sinonimos && m.sinonimos.length ? ' · também: ' + m.sinonimos.join(', ') : '') : '';
         const ia = origem === 'ia';
-        $('res-origem').textContent = ia ? 'Gerado por IA, não verificado: confira em fonte de referência' : 'Base local (rascunho em revisão)';
+        $('res-origem').textContent = ia ? 'Gerado por IA, não verificado: confira em fonte de referência' : 'Base local (revisão assistida por IA, sem validação por comissão)';
         $('res-origem').className = 'inline-block mt-2 text-xs font-semibold px-2 py-1 rounded-full ' +
             (ia ? 'bg-yellow-100 text-yellow-900' : 'bg-gray-100 text-gray-700');
         const g = nivelValido(m.gestacao.nivel), l = nivelValido(m.lactacao.nivel);
