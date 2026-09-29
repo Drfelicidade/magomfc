@@ -562,7 +562,8 @@ Regras OBRIGATÓRIAS de formatação:
 
                     const payload = { contents: [{ role: "user", parts: partsPayload }] };
 
-                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    const idToken = await auth.currentUser.getIdToken();
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` }, body: JSON.stringify(payload) });
                     const result = await response.json();
 
                     if (!response.ok || result.error) throw new Error(result.error || "Erro na comunicação com a API Gemini.");

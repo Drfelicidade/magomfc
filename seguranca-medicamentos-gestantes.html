@@ -183,33 +183,9 @@
                 resContent.classList.add('hidden');
                 errorContainer.classList.add('hidden');
 
-                // Prompt Modificado: Inclui pedido explícito para Lactação e formatação JSON rígida
-                const prompt = `
-Você é um médico farmacologista. Analise a segurança do medicamento "${medName}" para gestantes e lactantes.
-Retorne EXATAMENTE UM objeto JSON válido com os seguintes campos (não use crases \`\`\` nem marcações de bloco, apenas o JSON puro):
-{
-  "isValid": true se o nome for um medicamento válido, false caso contrário,
-  "fdaCategory": "A letra da categoria FDA (A, B, C, D ou X) ou 'Não classificado'",
-  "gestationRiskText": "Resumo clínico sobre o risco fetal na gestação. Seja direto.",
-  "lactationStatus": "Classifique como 'Seguro', 'Risco Muito Baixo', 'Risco Moderado' ou 'Contraindicado'",
-  "lactationRiskText": "Explique a passagem para o leite materno e o risco para o bebê.",
-  "alternatives": "Sugira a conduta e alternativas mais seguras na mesma classe terapêutica."
-}`;
-
-                // Roteamento da API
-                let apiUrl = `/.netlify/functions/gemini-proxy`;
-                if (window.location.hostname.includes('google') || window.location.hostname === 'localhost') {
-                    // Modo de desenvolvimento
-                    apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=`; 
-                }
-
-                const payload = {
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: {
-                        temperature: 0.2, // Baixa temperatura para resultados mais fiéis e menos criativos
-                        responseMimeType: "application/json" // Força saída em JSON
-                    }
-                };
+                // O prompt fica no servidor; aqui só enviamos o nome do medicamento
+                const apiUrl = `/.netlify/functions/medication-safety`;
+                const payload = { medicationName: medName };
 
                 try {
                     const result = await fetchWithRetry(apiUrl, {

@@ -1,0 +1,333 @@
+{
+ "aviso": "Base de EXEMPLO para testar o formato. Conteúdo NÃO validado; revisar cada item com fontes (Briggs, LactMed, bulas) antes de uso.",
+ "versao": "prototipo-0.1",
+ "medicamentos": [
+  {
+   "nome": "Paracetamol",
+   "sinonimos": [
+    "acetaminofeno",
+    "tylenol"
+   ],
+   "classe": "Analgésico/antitérmico",
+   "gestacao": {
+    "categoria": "B",
+    "texto": "Considerado o analgésico/antitérmico de escolha na gestação nas doses habituais."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Passagem mínima para o leite; compatível com a amamentação."
+   },
+   "alternativas": "Manter como primeira escolha para dor e febre.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Ibuprofeno",
+   "sinonimos": [
+    "advil",
+    "alivium"
+   ],
+   "classe": "AINE",
+   "gestacao": {
+    "categoria": "C",
+    "texto": "Evitar, sobretudo após 20 semanas (risco de oligoidrâmnio e fechamento precoce do ducto arterioso); contraindicado no 3º trimestre."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Baixa passagem para o leite; é o AINE preferido na lactação."
+   },
+   "alternativas": "Na gestação, preferir paracetamol.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Enalapril",
+   "sinonimos": [
+    "renitec"
+   ],
+   "classe": "IECA",
+   "gestacao": {
+    "categoria": "D",
+    "texto": "Contraindicado: fetotoxicidade renal no 2º/3º trimestres."
+   },
+   "lactacao": {
+    "status": "Risco Muito Baixo",
+    "texto": "Baixa excreção no leite; uso aceito em lactantes com recém-nascido a termo."
+   },
+   "alternativas": "Metildopa ou nifedipino na gestação.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Losartana",
+   "sinonimos": [
+    "cozaar"
+   ],
+   "classe": "BRA",
+   "gestacao": {
+    "categoria": "D",
+    "texto": "Contraindicada: fetotoxicidade, como os IECA."
+   },
+   "lactacao": {
+    "status": "Risco Moderado",
+    "texto": "Dados insuficientes; preferir enalapril ou captopril na lactação."
+   },
+   "alternativas": "Metildopa ou nifedipino na gestação.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Metildopa",
+   "sinonimos": [
+    "aldomet"
+   ],
+   "classe": "Anti-hipertensivo central",
+   "gestacao": {
+    "categoria": "B",
+    "texto": "Uma das opções de primeira linha para hipertensão na gestação."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Excreção baixa; compatível com a amamentação."
+   },
+   "alternativas": "-",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Atenolol",
+   "sinonimos": [
+    "atenol"
+   ],
+   "classe": "Betabloqueador",
+   "gestacao": {
+    "categoria": "D",
+    "texto": "Associado a restrição de crescimento fetal; evitar quando possível."
+   },
+   "lactacao": {
+    "status": "Risco Moderado",
+    "texto": "Concentra-se no leite; pode causar bradicardia no lactente. Monitorar."
+   },
+   "alternativas": "Metildopa, nifedipino ou labetalol.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Metformina",
+   "sinonimos": [
+    "glifage"
+   ],
+   "classe": "Antidiabético oral",
+   "gestacao": {
+    "categoria": "B",
+    "texto": "Uso aceito em diabetes gestacional e DM2 quando insulina não é possível."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Excreção baixa no leite; compatível com a amamentação."
+   },
+   "alternativas": "Insulina segue como padrão na gestação.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Levotiroxina",
+   "sinonimos": [
+    "puran t4",
+    "euthyrox"
+   ],
+   "classe": "Hormônio tireoidiano",
+   "gestacao": {
+    "categoria": "A",
+    "texto": "Segura e necessária; a dose costuma precisar de aumento na gestação."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Hormônio endógeno; compatível."
+   },
+   "alternativas": "-",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Amoxicilina",
+   "sinonimos": [
+    "amoxil"
+   ],
+   "classe": "Antibiótico betalactâmico",
+   "gestacao": {
+    "categoria": "B",
+    "texto": "Segura."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Passagem baixa; observar diarreia ou candidíase no lactente."
+   },
+   "alternativas": "-",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Azitromicina",
+   "sinonimos": [
+    "zitromax"
+   ],
+   "classe": "Macrolídeo",
+   "gestacao": {
+    "categoria": "B",
+    "texto": "Considerada segura."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Passagem baixa; compatível com a amamentação."
+   },
+   "alternativas": "-",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Ciprofloxacino",
+   "sinonimos": [
+    "cipro"
+   ],
+   "classe": "Quinolona",
+   "gestacao": {
+    "categoria": "C",
+    "texto": "Evitar; usar apenas se não houver alternativa."
+   },
+   "lactacao": {
+    "status": "Risco Moderado",
+    "texto": "Uso curto é geralmente aceito; preferir outras classes."
+   },
+   "alternativas": "Amoxicilina ou cefalosporinas conforme o caso.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Sertralina",
+   "sinonimos": [
+    "zoloft"
+   ],
+   "classe": "ISRS",
+   "gestacao": {
+    "categoria": "C",
+    "texto": "Um dos ISRS mais estudados na gestação; pesar risco e benefício."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Excreção baixa; ISRS de preferência na lactação."
+   },
+   "alternativas": "-",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Omeprazol",
+   "sinonimos": [
+    "losec"
+   ],
+   "classe": "IBP",
+   "gestacao": {
+    "categoria": "C",
+    "texto": "Dados de segurança favoráveis; uso aceito quando indicado."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Excreção baixa."
+   },
+   "alternativas": "Medidas dietéticas e antiácidos primeiro.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Ácido fólico",
+   "sinonimos": [
+    "folico"
+   ],
+   "classe": "Vitamina",
+   "gestacao": {
+    "categoria": "A",
+    "texto": "Recomendado antes e durante a gestação para prevenir defeitos do tubo neural."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Compatível."
+   },
+   "alternativas": "-",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Varfarina",
+   "sinonimos": [
+    "marevan"
+   ],
+   "classe": "Anticoagulante",
+   "gestacao": {
+    "categoria": "X",
+    "texto": "Contraindicada: embriopatia e sangramento fetal."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Excreção mínima; compatível com a amamentação."
+   },
+   "alternativas": "Heparina de baixo peso molecular.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Isotretinoína",
+   "sinonimos": [
+    "roacutan"
+   ],
+   "classe": "Retinoide",
+   "gestacao": {
+    "categoria": "X",
+    "texto": "Contraindicada: teratogenicidade grave."
+   },
+   "lactacao": {
+    "status": "Contraindicado",
+    "texto": "Contraindicada."
+   },
+   "alternativas": "Tratamentos tópicos compatíveis.",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Misoprostol",
+   "sinonimos": [
+    "cytotec"
+   ],
+   "classe": "Prostaglandina",
+   "gestacao": {
+    "categoria": "X",
+    "texto": "Contraindicado na gestação, exceto sob indicação obstétrica."
+   },
+   "lactacao": {
+    "status": "Risco Moderado",
+    "texto": "Pode causar diarreia no lactente."
+   },
+   "alternativas": "-",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  },
+  {
+   "nome": "Fluconazol",
+   "sinonimos": [
+    "zoltec"
+   ],
+   "classe": "Antifúngico azólico",
+   "gestacao": {
+    "categoria": "D",
+    "texto": "Doses altas ou prolongadas associadas a malformações; evitar."
+   },
+   "lactacao": {
+    "status": "Seguro",
+    "texto": "Dose única é compatível."
+   },
+   "alternativas": "Antifúngicos tópicos (clotrimazol, nistatina).",
+   "fonte": "EXEMPLO - conferir antes de uso clínico",
+   "revisado": "0000-00-00"
+  }
+ ]
+}
