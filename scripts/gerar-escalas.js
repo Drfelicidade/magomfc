@@ -1,5 +1,5 @@
 // Gera as páginas das escalas e regras clínicas simples (CURB-65, Centor/McIsaac, CHA2DS2-VASc,
-// PHQ-9, GAD-7, AUDIT-C, Ottawa do tornozelo e Apgar) a partir dos conteúdos definidos abaixo.
+// PHQ-9, GAD-7, AUDIT-C e Ottawa do tornozelo) a partir dos conteúdos definidos abaixo.
 // Uso: node scripts/gerar-escalas.js
 const fs = require('fs');
 const raiz = __dirname + '/..';
@@ -424,65 +424,5 @@ function atualizar() {
     'Bachmann LM et al. BMJ 2003;326:417 (revisão sistemática: sensibilidade próxima de 100% e redução de radiografias em cerca de 30 a 40%).',
     'Validada em adultos; há adaptações para crianças a partir de 5 anos, que exigem cuidado adicional.',
     'Não substitui o exame físico completo (palpação da fíbula proximal, sinais de lesão ligamentar, vascular e neurológica).'
-  ]
-});
-
-// ======================= Apgar =======================
-const APGAR = [
-  ['Frequência cardíaca', [['Ausente', 0], ['Menor que 100 bpm', 1], ['100 bpm ou mais', 2]]],
-  ['Respiração', [['Ausente', 0], ['Fraca ou irregular', 1], ['Boa, choro forte', 2]]],
-  ['Tônus muscular', [['Flácido', 0], ['Alguma flexão de extremidades', 1], ['Movimentos ativos', 2]]],
-  ['Irritabilidade reflexa', [['Sem resposta', 0], ['Careta ou choro fraco', 1], ['Choro, tosse ou espirro', 2]]],
-  ['Cor da pele', [['Cianose central ou palidez', 0], ['Corpo róseo e extremidades cianóticas', 1], ['Totalmente rosado', 2]]]
-];
-const apgarLinhas = APGAR.map(([nome, ops], i) => `            <tr class="border-t border-gray-200">
-                <th scope="row" class="text-left py-3 pr-2 font-semibold text-gray-800">${nome}</th>
-${['1', '5', '10'].map(t => `                <td class="py-2 px-1"><select id="a${i}_${t}" class="w-full p-2 border border-gray-300 rounded-lg text-sm" aria-label="${nome}, ${t}º minuto">
-                    <option value="">–</option>
-${ops.map(([r, v]) => `                    <option value="${v}">${v} · ${r}</option>`).join('\n')}
-                </select></td>`).join('\n')}
-            </tr>`).join('\n');
-pagina({
-  arquivo: 'calculadora-apgar.html',
-  titulo: 'Escore de Apgar',
-  sub: 'Avaliação do recém-nascido ao 1º, 5º e 10º minuto de vida',
-  hue: 'pink',
-  corpo: `        <div class="overflow-x-auto">
-        <table class="w-full text-sm">
-            <thead><tr><th class="text-left pb-2">Critério</th><th class="pb-2">1º min</th><th class="pb-2">5º min</th><th class="pb-2">10º min (se 5º &lt; 7)</th></tr></thead>
-            <tbody>
-${apgarLinhas}
-            </tbody>
-        </table>
-        </div>
-${nota('O Apgar descreve o estado do recém-nascido e a resposta à reanimação. A decisão de reanimar não deve esperar o escore do 1º minuto: siga o fluxograma de reanimação neonatal (avaliação de tônus, respiração e frequência cardíaca).')}`,
-  script: `
-function total(t) {
-    let soma = 0, n = 0;
-    for (let i = 0; i < 5; i++) { const v = $('a' + i + '_' + t).value; if (v !== '') { soma += Number(v); n++; } }
-    return { soma, n };
-}
-function atualizar() {
-    const linhas = [];
-    let cor = 'cinza', pior = null, algum = false;
-    ['1', '5', '10'].forEach(t => {
-        const r = total(t);
-        if (r.n === 0) return;
-        algum = true;
-        if (r.n < 5) { linhas.push(t + 'º minuto: ' + r.n + ' de 5 critérios preenchidos (parcial: ' + r.soma + ').'); return; }
-        const faixa = r.soma >= 7 ? 'normal' : r.soma >= 4 ? 'moderadamente deprimido' : 'gravemente deprimido';
-        linhas.push(t + 'º minuto: ' + r.soma + ' (' + faixa + ').');
-        if (t === '5' || pior === null) pior = r.soma;
-    });
-    if (!algum) { ocultar(); return; }
-    if (pior !== null) cor = pior >= 7 ? 'verde' : pior >= 4 ? 'amarelo' : 'vermelho';
-    const t5 = total('5');
-    if (t5.n === 5 && t5.soma < 7) linhas.push('Apgar do 5º minuto abaixo de 7: repetir a avaliação a cada 5 minutos, até 20 minutos, e avaliar necessidade de cuidados intensivos.');
-    mostrar(cor, 'Escore de Apgar', linhas);
-}`,
-  refs: [
-    'Apgar V. Curr Res Anesth Analg 1953;32:260-7.',
-    'American Academy of Pediatrics e ACOG, Committee Opinion 644 (2015): uso e limites do escore de Apgar.',
-    'Faixas: 7 a 10 normal, 4 a 6 moderadamente deprimido e 0 a 3 gravemente deprimido. Prematuros e sedação materna reduzem o escore sem indicar asfixia.'
   ]
 });
