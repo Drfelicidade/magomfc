@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elegibilidade para Contracepção | OMS MEC 6ª ed.</title>
+<style>
+/* ===== Ajuste as cores aqui para combinar com o seu site ===== */
+:root{
+  --bg:#f4f7f9; --card:#ffffff; --text:#1b2a33; --muted:#5f7280; --border:#dbe4ea;
+  --primary:#0f766e; --primary-dark:#0b5a54; --accent-bg:#e6f4f2;
+  --c1:#1e8e4e; --c1b:#e3f5ea; --c2:#8a7a00; --c2b:#fbf6d6; --c3:#b45309; --c3b:#ffeed9; --c4:#b42318; --c4b:#fdecec;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#10181d;--card:#182329;--text:#e6eef2;--muted:#9bb0bc;--border:#2a3a43;--primary:#2fb5a8;--primary-dark:#4fd0c3;--accent-bg:#14312f;
+  --c1:#5fd28c;--c1b:#153322;--c2:#e6d34d;--c2b:#33300f;--c3:#f5a65b;--c3b:#3a2a12;--c4:#f58a80;--c4b:#3a1a18;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.5}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.5rem;margin:0 0 4px} h2{font-size:1.1rem;margin:0 0 10px}
+.sub{color:var(--muted);margin:0 0 18px;font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
+label{font-weight:600;font-size:.9rem}
+select,input[type=search]{width:100%;padding:10px 12px;font-size:1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);font-family:inherit}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+details{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--bg)}
+summary{cursor:pointer;padding:10px 12px;font-weight:600}
+summary .n{background:var(--primary);color:#fff;border-radius:99px;padding:0 8px;font-size:.78rem;margin-left:6px}
+.opts{padding:2px 12px 10px}
+.opt{display:flex;gap:9px;align-items:flex-start;padding:6px 0;font-size:.92rem;cursor:pointer}
+.opt input{margin-top:4px;flex:none;width:17px;height:17px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.chip{background:var(--accent-bg);color:var(--primary-dark);border-radius:99px;padding:3px 10px;font-size:.8rem}
+button{padding:10px 14px;font-size:.95rem;font-weight:600;border:1px solid var(--border);border-radius:9px;background:transparent;color:var(--muted);cursor:pointer;margin-top:10px}
+.m{border:1px solid var(--border);border-left-width:6px;border-radius:10px;padding:12px 14px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center}
+.m.k1{border-left-color:var(--c1)} .m.k2{border-left-color:var(--c2)} .m.k3{border-left-color:var(--c3)} .m.k4{border-left-color:var(--c4)}
+.m b{font-size:1rem}.m .d{font-size:.82rem;color:var(--muted);grid-column:1/-1}
+.bd{font-weight:800;border-radius:8px;padding:4px 12px;font-size:1.15rem;text-align:center;min-width:64px}
+.k1 .bd{background:var(--c1b);color:var(--c1)}.k2 .bd{background:var(--c2b);color:var(--c2)}.k3 .bd{background:var(--c3b);color:var(--c3)}.k4 .bd{background:var(--c4b);color:var(--c4)}
+.lg{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:.85rem}
+.small{font-size:.8rem;color:var(--muted)}
+.alert{border-radius:10px;padding:10px 13px;margin:0 0 12px;font-size:.9rem;background:var(--c3b);color:var(--c3);border:1px solid var(--c3)}
+.hidden{display:none}
+.res2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:560px){.res2{grid-template-columns:1fr}}
+.lt{display:inline-block;min-width:26px;text-align:center;font-weight:800;border-radius:7px;padding:1px 7px}
+.lA{background:var(--c1b);color:var(--c1)}.lC{background:var(--c2b);color:var(--c2)}.lD{background:var(--c3b);color:var(--c3)}.lS{background:var(--c4b);color:var(--c4)}.lNA{background:var(--bg);color:var(--muted);font-size:.8rem}
+.box .v .lt{font-size:1.5rem}
+table.st{width:100%;border-collapse:collapse;font-size:.9rem}table.st th,table.st td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--border);vertical-align:top}table.st th:nth-child(n+2),table.st td:nth-child(n+2){width:72px}
+.cols{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;align-items:start}
+@media(max-width:700px){.cols{grid-template-columns:1fr}}
+.obs h2{font-size:1rem;margin:0 0 8px}
+.ob{background:var(--accent-bg);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:.86rem}
+.ob p{margin:3px 0 0;color:var(--text)}
+.kna{border-left-color:var(--muted)}.kna .bd{background:var(--bg);color:var(--muted);font-size:.95rem}
+.wrap{max-width:1000px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Elegibilidade para Métodos Contraceptivos</h1>
+  <p class="sub">Categorias de elegibilidade médica (MEC) da OMS, <i>Medical eligibility criteria for contraceptive use</i>, 6ª edição (2025), Tabela-resumo 5.12.</p>
+
+  <div class="card">
+    <h2>1. Perfil da paciente</h2>
+    <div class="row">
+      <div><label for="idade">Faixa etária</label>
+        <select id="idade"><option value="0">Menarca a &lt; 18 anos</option><option value="1">18 a 19 anos</option><option value="2" selected>20 a 39 anos</option><option value="3">40 a 45 anos</option><option value="4">&gt; 45 anos</option></select></div>
+      <div><label for="busca">Buscar condição</label><input id="busca" type="search" placeholder="Ex.: enxaqueca, hipertensão, HIV..."></div>
+    </div>
+    <label>2. Condições clínicas <span class="small">(marque todas que se aplicam)</span></label>
+    <div id="grupos" style="margin-top:8px"></div>
+    <div class="chips" id="chips"></div>
+    <button id="limpar">Limpar seleção</button>
+  </div>
+
+  <div class="card">
+    <h2>Resultado</h2>
+    <div id="alerta"></div>
+    <div class="cols"><div id="res"></div><aside class="obs"><h2>Observações da OMS</h2><div id="obs"></div></aside></div>
+    <div class="lg" style="margin-top:14px">
+      <b>1</b><span>Sem restrição ao uso.</span>
+      <b>2</b><span>Benefícios geralmente superam os riscos.</span>
+      <b>3</b><span>Riscos geralmente superam os benefícios.</span>
+      <b>4</b><span>Risco inaceitável à saúde: não usar.</span>
+    </div>
+  </div>
+
+  <div class="card" id="ster">
+    <h2>Esterilização cirúrgica</h2>
+    <p class="small" style="margin:0 0 10px">Método permanente, com escala própria (não usa 1 a 4). Falha no 1º ano no uso típico (EUA): laqueadura 0,5%; vasectomia 0,15%. Não protege contra ISTs. Métodos transcervicais não são abordados pela OMS. Vale a mesma seleção de condições acima, aplicada a quem faria o procedimento.</p>
+    <div id="sterRes"></div><div id="sterRows"></div>
+    <div class="lg" style="margin-top:12px"><span class="lt lA">A</span><span>Aceitar: sem razão médica para negar.</span><span class="lt lC">C</span><span>Cautela: rotina, com preparo e precauções extras.</span><span class="lt lD">D</span><span>Adiar: até avaliar/corrigir a condição, com método temporário.</span><span class="lt lS">S</span><span>Especial: cirurgião experiente, anestesia geral e apoio clínico.</span></div>
+    <div class="alert" style="margin:14px 0 0">Aconselhamento: a decisão deve ser voluntária e informada, com atenção a jovens, nulíparas, homens sem filhos e pessoas com problemas de saúde mental (inclusive depressão); informar sobre a permanência e sobre métodos reversíveis de longa duração; seguir a legislação e as normas locais.</div>
+  </div>
+
+  <div class="card" id="extra">
+    <h2>Anticoncepção de emergência (pílulas)</h2>
+    <p class="small" style="margin:0 0 10px">Pílulas tomadas o quanto antes, em até 5 dias após a relação desprotegida: levonorgestrel (LNG) 0,75 ou 1,5 mg, ulipristal (UPA) 30 mg ou pílula combinada (COC). Atuam impedindo ou adiando a ovulação e não funcionam se já houver gravidez. A inserção de DIU de cobre após a relação também reduz o risco de gravidez (Tabela 1.1); nesse caso valem as categorias do DIU de cobre acima. Não protege contra ISTs. Escala MEC de 1 a 4.</p>
+    <div id="ecRes"></div><div id="ecRows"></div>
+
+    <h2 style="margin-top:22px">Métodos de conscientização da fertilidade</h2>
+    <p class="small" style="margin:0 0 10px">Baseados em sintomas (muco cervical, Dois Dias, sintotérmico) ou no calendário (Ritmo, Dias Padrão), podendo ser combinados com abstinência ou barreira nos dias férteis. Segundo a OMS, nenhuma condição médica piora pelo uso desses métodos, por isso não se aplica a escala de 1 a 4: as letras indicam se o uso é mais complexo (A aceitar, C cautela com aconselhamento especial, D adiar). Falha no 1º ano (perfeito/típico, EUA): Sensiplan 0,4/2; Clue 3/8; Dias Padrão 5/13; Billings –/23; Calendário –/15 (19 internacional); Natural Cycles –/7. Não protegem contra ISTs.</p>
+    <div id="fabRes"></div><div id="fabRows"></div>
+
+    <h2 style="margin-top:22px">Amenorreia lactacional (LAM)</h2>
+    <p class="small" style="margin:0 0 6px">Exige as três condições ao mesmo tempo: <b>amenorreia</b>, <b>amamentação total ou quase total</b> e <b>menos de 6 meses de pós-parto</b>. Não há condição médica que restrinja a LAM, mas alguns fatores reduzem sua utilidade por afetar a amamentação ou a duração da amenorreia:</p>
+    <ul class="d">
+      <li>Medicamentos em que a amamentação não é recomendada: antimetabólitos, bromocriptina, certos anticoagulantes, corticoides em altas doses, ciclosporina, ergotamina, lítio, fármacos que alteram o humor, radiofármacos e reserpina.</li>
+      <li>Condições do recém-nascido: deformidades de boca, mandíbula ou palato, prematuros ou pequenos para a idade gestacional em cuidados neonatais intensivos e certos distúrbios metabólicos.</li>
+      <li>HIV: a amamentação com antirretrovirais na mãe e/ou no lactente reduz muito o risco de transmissão; a decisão segue as normas nacionais e o aconselhamento individual.</li>
+    </ul>
+
+    <h2 style="margin-top:22px">Coito interrompido (retirada)</h2>
+    <p class="small" style="margin:0">Sem categorias no MEC: não há riscos à saúde diretamente associados, não afeta a amamentação e não tem custo. Falha no 1º ano: 4% (uso perfeito) e 20% (típico, EUA); 17% no uso típico internacional. Pode servir a casais muito motivados, com razões religiosas ou filosóficas para evitar outros métodos, que precisam de método imediato ou temporário, ou com relações pouco frequentes. Quem tem alto risco de IST/HIV deve usar preservativo em toda relação.</p>
+  </div>
+
+  <p class="small">Ferramenta de apoio à decisão baseada na Tabela-resumo do MEC/OMS 2025; não substitui o julgamento clínico nem a consulta às tabelas completas de cada método (seção 5 do documento). Quando várias condições são marcadas, vale a categoria mais restritiva para cada método. Ordem: menor categoria primeiro e, dentro dela, maior eficácia no uso típico (Tabela 1.1 da OMS, dados dos EUA). Valores como "2/3" ou "3/4" (*) variam conforme a gravidade ou detalhes clínicos: consulte a tabela do método. "Continuação" indica a categoria para quem já usa o método (I = início, C = continuação). O MEC não considera preferências da paciente nem proteção contra ISTs: o preservativo continua indicado para dupla proteção. Métodos de barreira vêm da tabela 5.7 do documento (categorias 1 a 4; NA = não se aplica); têm maior taxa de falha no uso típico e podem não ser adequados quando uma gravidez representa risco inaceitável. A esterilização cirúrgica (tabelas 5.11.1 e 5.11.2) tem seção própria com a escala A/C/D/S. As observações são resumos em português dos esclarecimentos e comentários adicionais da OMS; nem toda condição tem observação. Anticoncepção de emergência (tabela 5.3), conscientização da fertilidade (5.8), LAM (5.9) e coito interrompido (5.10) também têm seções próprias. Não estão incluídos: esterilização transcervical nem os fármacos não listados na Tabela-resumo.</p>
+</div>
+
+<script>
+const M=[
+ {n:"Pílula combinada, adesivo ou anel vaginal",e:7,d:"Hormonal combinado (COC/P/CVR)"},
+ {n:"Injetável combinado (mensal)",e:null,d:"Hormonal combinado (CIC)"},
+ {n:"Pílula só de progestogênio",e:7,d:"POP"},
+ {n:"Injetável trimestral (AMPD/DMPA ou NET-EN)",e:4,d:"Progestogênio injetável"},
+ {n:"Implante subdérmico (LNG/ETG)",e:0.1,d:"Progestogênio de longa duração"},
+ {n:"DIU de cobre",e:0.8,d:"Cu-IUD, sem hormônio"},
+ {n:"SIU de levonorgestrel (DIU hormonal)",e:0.4,d:"LNG-IUD"},
+ {n:"Preservativo masculino ou feminino",e:13,d:"Barreira · único que protege também contra ISTs (feminino: ~21%)"},
+ {n:"Diafragma ou capuz cervical (com espermicida)",e:17,d:"Barreira (capuz cervical: ~22%)"},
+ {n:"Espermicida",e:21,d:"Barreira"}
+];
+// Formato: "COC,CIC,POP,DMPA,IMP,Cu,LNG". "."=não se aplica; "a>b"=início>continuação; "a/b"=varia conforme detalhes
+const AG=["1,1,1,2,1,2,2,1,1,1","1,1,1,1,1,2,2,1,1,1","1,1,1,1,1,1,1,1,1,1","2,2,1,1,1,1,1,1,1,1","2,2,1,2,1,1,1,1,1,1"];
+const AGN=["Menarca a < 18 anos: injetável trimestral (DMPA/NET-EN) e DIUs são categoria 2; para DMPA/NET-EN há possível efeito na densidade mineral óssea em adolescentes.","18 a 19 anos: DIUs (cobre e SIU) são categoria 2 até os 20 anos.","","≥ 40 anos: o risco cardiovascular aumenta com a idade e pode aumentar com CHC; sem outras condições adversas, os CHC podem ser usados até a menopausa.","> 45 anos: injetável trimestral é categoria 2. Sem outras condições adversas, os CHC podem ser usados até a menopausa."];
+const G=[
+["Gestação, pós-parto e aborto",[
+["Nuliparidade","1,1,1,1,1,2,2,1,1,1","","A,-","Nulíparas, como todas as mulheres, devem ser aconselhadas sobre a permanência da esterilização e sobre métodos alternativos de longa duração e alta eficácia."],
+["Amamentando, < 6 semanas de pós-parto","4,4,2,2,2,.,.,1,1,NA","Estudos mostram resultados conflitantes sobre o efeito dos CHC no aleitamento e não demonstraram dano ao lactente, mas não excluem riscos a longo prazo. Diafragma e capuz cervical são inadequados até a involução uterina completa; espermicida não se aplica.","A,-",""],
+["Amamentando, 6 semanas a < 6 meses","3,3,1,1,1,.,.,1,1,1","Em lactantes, o uso de CHC geralmente não é recomendado antes de 6 meses de pós-parto.","A,-",""],
+["Amamentando, ≥ 6 meses","2,2,1,1,1,.,.,1,1,1","","A,-",""],
+["Pós-parto sem amamentar, < 21 dias, sem outros fatores de TEV","3,3,1,1,1,.,.,1,1,NA","Outros fatores de risco de TEV: imobilidade, transfusão no parto, IMC > 30, hemorragia pós-parto, cesárea imediata, pré-eclâmpsia, tabagismo. O risco de TEV é maior nas primeiras 3 semanas e volta perto do basal por volta de 42 dias. Diafragma e capuz são inadequados até a involução uterina completa.","-,-",""],
+["Pós-parto sem amamentar, < 21 dias, com outros fatores de TEV","4,4,1,1,1,.,.,1,1,NA","Outros fatores de risco de TEV: imobilidade, transfusão no parto, IMC > 30, hemorragia pós-parto, cesárea imediata, pré-eclâmpsia, tabagismo. O risco de TEV é maior nas primeiras 3 semanas e volta perto do basal por volta de 42 dias. Diafragma e capuz são inadequados até a involução uterina completa.","-,-",""],
+["Pós-parto sem amamentar, 21 a 42 dias, sem fatores de TEV","2,2,1,1,1,.,.,1,1,NA","Outros fatores de risco de TEV: imobilidade, transfusão no parto, IMC > 30, hemorragia pós-parto, cesárea imediata, pré-eclâmpsia, tabagismo. O risco de TEV é maior nas primeiras 3 semanas e volta perto do basal por volta de 42 dias. Diafragma e capuz são inadequados até a involução uterina completa.","-,-",""],
+["Pós-parto sem amamentar, 21 a 42 dias, com fatores de TEV","3,3,1,1,1,.,.,1,1,NA","Outros fatores de risco de TEV: imobilidade, transfusão no parto, IMC > 30, hemorragia pós-parto, cesárea imediata, pré-eclâmpsia, tabagismo. O risco de TEV é maior nas primeiras 3 semanas e volta perto do basal por volta de 42 dias. Diafragma e capuz são inadequados até a involução uterina completa.","-,-",""],
+["Pós-parto imediato (< 48 h, inclusive inserção pós-dequitação) para DIU",".,.,.,.,.,1,1/2,1,1,NA","Diafragma e capuz cervical são inadequados até a involução uterina completa.","-,-",""],
+["Pós-parto de 48 h a < 4 semanas (para DIU)",".,.,.,.,.,3,3,1,1,NA","Diafragma e capuz cervical são inadequados até a involução uterina completa.","-,-",""],
+["Sepse puerperal (para DIU)",".,.,.,.,.,4,4,1,1,1","","-,-",""],
+["Pós-aborto de 2º trimestre","1,1,1,1,1,2,2,1,1,1","CHC e progestogênios podem ser iniciados logo após o aborto. Diafragma e capuz só após 6 semanas do aborto de 2º trimestre. O risco de expulsão do DIU é maior após aborto de 2º trimestre.","-,-",""],
+["Pós-aborto séptico imediato","1,1,1,1,1,4,4,1,1,1","CHC e progestogênios podem ser iniciados logo após o aborto; DIU é categoria 4.","D,-","Maior risco de infecção pós-operatória."],
+["Gravidez ectópica prévia","1,1,2,1,1,1,1,1,1,1","O risco de nova gestação ectópica está aumentado; os CHC protegem contra gestação, inclusive ectópica.","A,-",""]]],
+["Tabagismo e obesidade",[
+["Fumante, idade < 35 anos","2,2,1,1,1,1,1,1,1,1","Usuárias de COC que fumam têm maior risco cardiovascular, sobretudo infarto, e o risco cresce com o número de cigarros por dia.","A,-",""],
+["Fumante ≥ 35 anos, < 15 cigarros/dia","3,2,1,1,1,1,1,1,1,1","Usuárias de COC que fumam têm maior risco cardiovascular, sobretudo infarto, e o risco cresce com o número de cigarros por dia.","A,-",""],
+["Fumante ≥ 35 anos, ≥ 15 cigarros/dia","4,3,1,1,1,1,1,1,1,1","Usuárias de COC que fumam têm maior risco cardiovascular, sobretudo infarto, e o risco cresce com o número de cigarros por dia.","A,-",""],
+["IMC ≥ 30 kg/m²","2,2,1,1,1,1,1,1,1,1","Em adolescentes obesas há ganho de peso diferencial com DMPA, mas não com NET-EN, que é categoria 2 pelo possível efeito na densidade mineral óssea. Obesidade grave pode dificultar a colocação de diafragma e capuz.","C,-","Maior risco de infecção da ferida operatória."],
+["Menarca a < 18 anos e IMC ≥ 30 kg/m²","2,2,1,2,1,1,1,1,1,1","Em adolescentes obesas há ganho de peso diferencial com DMPA, mas não com NET-EN, que é categoria 2 pelo possível efeito na densidade mineral óssea.","C,-",""]]],
+["Cardiovascular",[
+["Múltiplos fatores de risco para DCV arterial (idade, tabagismo, diabetes, HAS, dislipidemia)","3/4,3/4,2,3,2,1,2,1,1,1","Não se trata de somar categorias: dois fatores de categoria 2 não implicam necessariamente categoria maior. Avaliar caso a caso.","S,-","Vários fatores de risco juntos: possível alto risco de complicações da anestesia e da cirurgia."],
+["Histórico de HAS, PA não pode ser avaliada (inclui HAS na gestação)","3,3,2,2,2,1,2,1,1,1","Avaliar causa e nível da hipertensão o quanto antes. Mulheres com HAS tratada e monitorada têm menor risco de IAM e AVC do que as não tratadas.","-,-",""],
+["HAS adequadamente controlada, PA avaliável","3,3,1,2,1,1,1,1,1,1","Mulheres com HAS bem controlada têm menor risco de IAM e AVC do que as não tratadas. Uma única aferição não basta para classificar como hipertensa.","C,-","Monitorar a pressão arterial no intra e pós-operatório."],
+["PA sistólica 140–159 ou diastólica 90–99 mmHg","3,3,1,2,1,1,1,1,1,1","Uma única aferição não basta para classificar como hipertensa; avaliar causa e nível da hipertensão o quanto antes.","C,-","Uma única aferição não basta para classificar como hipertensa."],
+["PA sistólica ≥ 160 ou diastólica ≥ 100 mmHg","4,4,2,3,2,1,2,1,1,1","Uma única aferição não basta para classificar como hipertensa; avaliar causa e nível da hipertensão o quanto antes.","S,-",""],
+["Doença vascular","4,4,2,3,2,1,2,1,1,1","","S,-",""],
+["Histórico de HAS na gestação (PA atual normal)","2,2,1,1,1,1,1,1,1,1","","A,-",""],
+["Histórico de TVP/TEP","4,4,2,2,2,1,2,1,1,1","","A,-",""],
+["TVP/TEP agudo","4,4,3,3,3,1,3,1,1,1","","D,-",""],
+["TVP/TEP em anticoagulação","4,4,2,2,2,1,2,1,1,1","","S,-",""],
+["Histórico familiar de TVP/TEP (1º grau)","2,2,1,1,1,1,1,1,1,1","","A,-",""],
+["Cirurgia maior com imobilização prolongada","4,4,2,2,2,1,2,1,1,1","","D,-",""],
+["Cirurgia maior sem imobilização prolongada","2,2,1,1,1,1,1,1,1,1","","A,-",""],
+["Mutação trombogênica conhecida (fator V de Leiden, protrombina, deficiência de proteína C/S, antitrombina)","4,4,2,2,2,1,2,1,1,1","Rastreamento de rotina não é apropriado, pela raridade das condições e pelo alto custo.","A,-",""],
+["Trombose venosa superficial","2,2,1,1,1,1,1,1,1,1","A TVS pode se associar a maior risco de TEV.","A,-",""],
+["Doença cardíaca isquêmica atual ou prévia","4,4,2>3,3,2>3,1,2>3,1,1,1","","D/C,-","D se atual, C se história prévia. Alto risco de complicações da anestesia e da cirurgia."],
+["AVC (história de acidente vascular cerebral)","4,4,2>3,3,2>3,1,2,1,1,1","","C,-",""],
+["Dislipidemia sem outros fatores de risco CV","2,2,2,2,2,1,2,1,1,1","Rastreamento de rotina não é apropriado. Dislipidemias genéticas graves implicam risco cardiovascular bem maior e podem exigir avaliação clínica adicional.","A,-",""],
+["Valvulopatia não complicada","2,2,1,1,1,1,1,1,1,1","","C,-",""],
+["Valvulopatia complicada (hipertensão pulmonar, risco de FA, endocardite bacteriana subaguda prévia)","4,4,1,1,1,2,2,1,1,2","CHC podem aumentar o risco de trombose arterial. Recomenda-se antibiótico profilático contra endocardite na inserção de DIU.","S,-",""]]],
+["Neurológicas e psiquiátricas",[
+["Cefaleia não migranosa (leve ou intensa)","1>2,1>2,1,1,1,1,1,1,1,1","A classificação depende do diagnóstico correto de cefaleias migranosas. Toda cefaleia nova ou mudança marcante deve ser avaliada. Vale para mulheres sem outros fatores de risco para AVC (o risco aumenta com idade, HAS e tabagismo).","A,-",""],
+["Enxaqueca sem aura, idade < 35 anos","2>3,2>3,1>2,2,2,1,2,1,1,1","A classificação depende do diagnóstico correto. Aura é um sintoma neurológico focal específico. Vale para mulheres sem outros fatores de risco para AVC (o risco aumenta com idade, HAS e tabagismo).","A,-",""],
+["Enxaqueca sem aura, idade ≥ 35 anos","3>4,3>4,1>2,2,2,1,2,1,1,1","A classificação depende do diagnóstico correto. Aura é um sintoma neurológico focal específico. Vale para mulheres sem outros fatores de risco para AVC (o risco aumenta com idade, HAS e tabagismo).","A,-",""],
+["Enxaqueca com aura (qualquer idade)","4,4,2>3,2>3,2>3,1,2,1,1,1","A classificação depende do diagnóstico correto. Aura é um sintoma neurológico focal específico. Vale para mulheres sem outros fatores de risco para AVC (o risco aumenta com idade, HAS e tabagismo).","A,-",""],
+["Epilepsia (se em uso de anticonvulsivante, marque também o fármaco)","1,1,1,1,1,1,1,1,1,1","Se usa anticonvulsivante, marque também o fármaco: alguns reduzem a eficácia dos contraceptivos hormonais.","C,-",""],
+["Transtornos depressivos","1,1,1,1,1,1,1,1,1,1","Classificação baseada em transtornos depressivos selecionados; não havia dados sobre transtorno bipolar nem depressão pós-parto. Há possíveis interações entre alguns antidepressivos e contraceptivos hormonais.","C,C","A esterilização é permanente: exige escolha voluntária e informada, com atenção especial a pessoas com problemas de saúde mental, inclusive depressão."]]],
+["Sangramento e afecções ginecológicas",[
+["Sangramento irregular sem fluxo aumentado","1,1,2,2,2,1,1,1,1,1","","A,-",""],
+["Sangramento intenso ou prolongado","1,1,2,2,2,2,1>2,1,1,1","Sangramento excepcionalmente intenso deve levantar suspeita de condição subjacente grave.","A,-",""],
+["Sangramento vaginal inexplicado (suspeita de doença grave), antes da avaliação","2,2,2,3,3,4>2,4>2,1,1,1","Se houver suspeita de gravidez ou doença pélvica (ex.: neoplasia), avaliar e reclassificar depois. Não é preciso remover o DIU antes da avaliação.","D,-",""],
+["Endometriose","1,1,1,1,1,2,1,1,1,1","","S,-",""],
+["Dismenorreia grave","1,1,1,1,1,2,1,1,1,1","","A,-",""],
+["Doença trofoblástica gestacional com β-hCG decrescente/indetectável","1,1,1,1,1,3,3,1,1,1","","A,-",""],
+["Doença trofoblástica gestacional com β-hCG persistentemente elevado ou maligna","1,1,1,1,1,4,4,1,1,1","","D,-",""],
+["Neoplasia intraepitelial cervical (NIC)","2,2,1,2,2,1,2,1,1,1","Capuz cervical não deve ser usado; não há restrição ao diafragma.","A,-",""],
+["Câncer de colo do útero","2,2,1,2,2,4>2,4>2,1,2,1","Aguardando tratamento, a mulher pode usar CHC (há preocupação teórica sobre o prognóstico); o tratamento geralmente esteriliza. Capuz cervical não deve ser usado.","D,-","Em geral, o tratamento esteriliza a mulher."],
+["Câncer de endométrio","1,1,1,1,1,4>2,4>2,1,1,1","COC reduz o risco de câncer de endométrio. Aguardando tratamento, pode usar CHC; o tratamento geralmente esteriliza.","D,-","Em geral, o tratamento esteriliza a mulher."],
+["Câncer de ovário","1,1,1,1,1,3>2,3>2,1,1,1","COC reduz o risco de câncer de ovário.","D,-","Em geral, o tratamento esteriliza a mulher."],
+["Mioma com distorção da cavidade uterina","1,1,1,1,1,4,4,1,1,1","COC não parecem causar crescimento de miomas; CIC, adesivo e anel também não são esperados causar.","C,-","Conforme tamanho e localização, pode ser difícil localizar as tubas e mobilizar o útero."],
+["Anomalia anatômica que distorce a cavidade uterina",".,.,.,.,.,4,4,1,1,NA","O diafragma não pode ser usado em certos casos de prolapso, e o capuz cervical não é adequado com anatomia cervical muito distorcida.","-,-",""],
+["Anomalia anatômica que não distorce a cavidade",".,.,.,.,.,2,2,1,1,NA","O diafragma não pode ser usado em certos casos de prolapso, e o capuz cervical não é adequado com anatomia cervical muito distorcida.","-,-",""],
+["DIP prévia sem gravidez subsequente","1,1,1,1,1,2,2,1,1,1","","C,-","A DIP pode aumentar o risco de infecção ou aderências pós-esterilização. A se houve gravidez posterior à DIP."],
+["DIP atual","1,1,1,1,1,4>2,4>2,1,1,1","COC podem reduzir o risco de DIP em mulheres com ISTs. CHC não protegem contra HIV nem contra ISTs do trato genital inferior.","D,-","A DIP pode aumentar o risco de infecção ou aderências pós-esterilização."]]],
+["Mama",[
+["Nódulo mamário não diagnosticado","2,2,2,2,2,1,2,1,1,1","Investigar o mais cedo possível.","A,-",""],
+["Câncer de mama atual","4,4,4,4,4,1,4,1,1,1","Tumor sensível a hormônios: o prognóstico de câncer de mama atual ou recente pode piorar com CHC.","C,-",""],
+["Câncer de mama passado, sem doença há 5 anos","3,3,3,3,3,1,3,1,1,1","Tumor sensível a hormônios: o prognóstico pode piorar com CHC.","A,-",""]]],
+["Infecções",[
+["Cervicite purulenta, clamídia ou gonorreia atual","1,1,1,1,1,4>2,4>2,1,1,1","","D,-","Maior risco de infecção pós-operatória."],
+["Outras ISTs ou vaginites","1,1,1,1,1,2,2,1,1,1","","A,-","Maior risco de infecção pós-operatória."],
+["Risco aumentado de IST","1,1,1,1,1,2/3,2,1,1,1","A inserção do DIU pode aumentar o risco de DIP, embora a evidência sugira risco baixo; em risco individual muito alto de IST, em geral não inserir DIU. Preservativo continua indicado.","A,-",""],
+["HIV assintomático ou leve (estágio OMS 1 ou 2)","1,1,1,1,1,2,2,1,3,3","Espermicida e diafragma (com espermicida) podem lesar a mucosa cervical, aumentando a excreção viral e a transmissão do HIV a parceiros não infectados. Não há interação conhecida entre TARV e DIU.","A,A","Sem rastreamento de rotina; seguir rigorosamente as precauções de infecção. Recomenda-se preservativo após a esterilização."],
+["HIV grave ou avançado (estágio OMS 3 ou 4)","1,1,1,1,1,3>2,3>2,1,3,3","Espermicida e diafragma (com espermicida) podem lesar a mucosa cervical, aumentando a excreção viral e a transmissão do HIV a parceiros não infectados. Não há interação conhecida entre TARV e DIU.","S,S","Doença avançada pode exigir adiar o procedimento."],
+["Alto risco de HIV","1,1,1,1,1,1,1,1,4,4","A categoria 4 do diafragma decorre do espermicida, não do diafragma. Uso repetido e em altas doses de nonoxinol-9 associou-se a lesões genitais e maior risco de adquirir HIV. Muitas dessas mulheres também têm risco de outras ISTs (ver risco aumentado de IST).","A,A","Sem rastreamento de rotina; seguir rigorosamente as precauções de infecção. Recomenda-se preservativo após a esterilização."],
+["Tuberculose pélvica","1,1,1,1,1,4>3,4>3,1,1,1","Se usa rifampicina, marque também o fármaco: ela tende a reduzir a eficácia dos contraceptivos hormonais.","S,-",""]]],
+["Diabetes, fígado, vesícula e sangue",[
+["Diabetes não vascular (insulinodependente ou não)","2,2,2,2,2,1,2,1,1,1","","C,C","Risco de hipoglicemia ou cetoacidose no procedimento, sobretudo com glicemia mal controlada; se descontrolada, encaminhar a serviço de maior complexidade. Maior risco de infecção de ferida (vasectomia)."],
+["Diabetes com nefropatia, retinopatia ou neuropatia","3/4,3/4,2,3,2,1,2,1,1,1","Classificar conforme a gravidade da doença.","S,C","Risco de hipoglicemia ou cetoacidose no procedimento, sobretudo com glicemia mal controlada; se descontrolada, encaminhar a serviço de maior complexidade. Maior risco de infecção de ferida (vasectomia)."],
+["Diabetes com outra doença vascular ou duração > 20 anos","3/4,3/4,2,3,2,1,2,1,1,1","Classificar conforme a gravidade da doença.","S,C","Risco de hipoglicemia ou cetoacidose no procedimento, sobretudo com glicemia mal controlada; se descontrolada, encaminhar a serviço de maior complexidade. Maior risco de infecção de ferida (vasectomia)."],
+["Colecistopatia sintomática tratada clinicamente ou atual","3,2,2,2,2,1,2,1,1,1","CHC podem causar pequeno aumento do risco de doença da vesícula e podem piorar doença existente.","A/D,-","A se tratada clinicamente ou por colecistectomia; D se atual."],
+["Colecistopatia assintomática ou pós-colecistectomia","2,2,2,2,2,1,2,1,1,1","CHC podem causar pequeno aumento do risco de doença da vesícula e podem piorar doença existente.","A,-",""],
+["Colestase da gestação (história)","2,2,1,1,1,1,1,1,1,1","Pode predizer maior risco de colestase associada ao COC.","A,-",""],
+["Colestase relacionada ao uso de COC (história)","3,2,2,2,2,1,2,1,1,1","Prediz maior risco com novo uso de COC.","A,-",""],
+["Hepatite viral aguda ou em surto","3/4>2,3>2,1,1,1,1,1,1,1,1","Classificar conforme a gravidade da condição.","D,-","Alto risco de complicações da anestesia e da cirurgia."],
+["Cirrose grave (descompensada)","4,3,3,3,3,1,3,1,1,1","","S,-",""],
+["Adenoma hepatocelular","4,3,3,3,3,1,3,1,1,1","O uso de COC em mulheres saudáveis associa-se ao surgimento e crescimento de adenoma hepatocelular; não há evidência sobre contraceptivos hormonais em mulheres que já o têm.","C,-",""],
+["Hiperplasia nodular focal","2,2,2,2,2,1,2,1,1,1","","A,-",""],
+["Tumor hepático maligno (hepatoma)","4,3/4,3,3,3,1,3,1,1,1","","C,-",""],
+["Talassemia ou anemia ferropriva","1,1,1,1,1,2,1,1,1,1","Há relato anedótico, de países com muita talassemia, de que o COC não piora a condição. Anemia ferropriva: CHC podem reduzir o sangramento menstrual.","C,-","Vale para talassemia. Para anemia (inclusive ferropriva) veja a faixa de hemoglobina na seção de esterilização."],
+["Anemia falciforme","2,2,1,1,1,2,1,1,1,1","","C,A","Maior risco de complicações pulmonares, cardíacas ou neurológicas e possível maior risco de infecção de ferida."]]],
+["Interações medicamentosas",[
+["Anticonvulsivante indutor enzimático (fenitoína, carbamazepina, barbitúricos, primidona, topiramato, oxcarbazepina)","3,2,3,1/2,2,1,1,1,1,1","A interação não é prejudicial, mas reduz a eficácia de COC, adesivo, anel, pílula de progestogênio e implante. Estimular outros métodos em uso prolongado. Se escolher COC, usar ≥ 30 µg de etinilestradiol. O DMPA é categoria 1 porque sua eficácia não é afetada.","-,-",""],
+["Lamotrigina","3,3,1,1,1,1,1,1,1,1","A recomendação não vale se a lamotrigina já é usada com fármacos que inibem (valproato) ou induzem (carbamazepina) seu metabolismo.","-,-",""],
+["Rifampicina ou rifabutina","3,2,3,1/2,2,1,1,1,1,1","A interação não é prejudicial, mas reduz a eficácia de COC, adesivo, anel, pílula de progestogênio e implante. Estimular outros métodos em uso prolongado. Se escolher COC, usar ≥ 30 µg de etinilestradiol. O DMPA é categoria 1 porque sua eficácia não é afetada.","-,-",""],
+["Antirretroviral: ITRN, ITRNN (exceto efavirenz), inibidores de protease ou de integrase","1,1,1,1,1,2/3>2,2/3>2,1,3,3","Espermicida e diafragma (com espermicida) podem lesar a mucosa cervical, aumentando a excreção viral e a transmissão do HIV a parceiros não infectados. Não há interação conhecida entre TARV e DIU.","-,-",""],
+["Antirretroviral: efavirenz","2,2,2,1/2,2,2/3>2,2/3>2,1,3,3","Há dados sugerindo interação do efavirenz com alguns hormonais, que pode reduzir a eficácia. Espermicida e diafragma (com espermicida) podem lesar a mucosa cervical, aumentando a excreção viral e a transmissão do HIV a parceiros não infectados.","-,-",""]]]
+];
+G.push(["Outras condições (relevantes para métodos de barreira)",[
+["Alergia a látex",".,.,.,.,.,.,.,3,1,3","Não se aplica a preservativos e diafragmas de plástico (poliuretano). Não consta na Tabela-resumo para os demais métodos.","-,-",""],["História de síndrome do choque tóxico",".,.,.,.,.,.,.,1,3,1","O uso de diafragma por quem já teve SCT pode aumentar o risco de recorrência. Foi relatada SCT associada ao uso de diafragma em qualquer mulher.","-,-",""],["Infecção urinária (ITU)",".,.,.,.,.,.,.,1,1,2","Há possível aumento do risco de ITU com diafragma e espermicida.","-,-",""]]]);
+G.push(["Reumatológicas e tireoide",[
+["Lúpus (LES) com anticorpos antifosfolípides positivos ou desconhecidos","4,4,3,3,3,1,3,1,1,1","Pessoas com LES têm maior risco de doença isquêmica, AVC e TEV; as categorias supõem ausência de outros fatores de risco cardiovascular.","S,-","Alto risco de complicações da anestesia e da cirurgia."],
+["Lúpus (LES) com trombocitopenia grave","2,2,2,3>2,2,3>2,2,1,1,1","Trombocitopenia grave aumenta o risco de sangramento: classificar pela gravidade e manifestações clínicas; em casos muito graves, consultar especialista.","S,-",""],
+["Lúpus (LES) em imunossupressão","2,2,2,2,2,2>1,2,1,1,1","","S,-",""],
+["Lúpus (LES) sem as condições acima","2,2,2,2,2,1,2,1,1,1","","C,-",""],
+["Hipertireoidismo","1,1,1,1,1,1,1,1,1,1","","S,-","Maior risco de complicações da anestesia e da cirurgia."],
+["Hipotireoidismo","1,1,1,1,1,1,1,1,1,1","","C,-","Maior risco de complicações da anestesia e da cirurgia."]]]);
+G.push(["Esterilização: gestação, pós-parto e aborto",[
+["Gestação atual",".,.,.,.,.,.,.,.,.,.","","D,-",""],
+["Idade jovem",".,.,.,.,.,.,.,.,.,.","","C,C","Aconselhar sobre a permanência e sobre métodos alternativos de longa duração. Homens que fizeram vasectomia jovens tiveram mais reversões do que os que fizeram mais velhos."],
+["Pós-parto < 7 dias",".,.,.,.,.,.,.,.,.,.","","A,-","Pode ser feita com segurança logo após o parto."],
+["Pós-parto de 7 a < 42 dias",".,.,.,.,.,.,.,.,.,.","","D,-","Maior risco de complicações enquanto o útero não involuiu totalmente."],
+["Pós-parto ≥ 42 dias",".,.,.,.,.,.,.,.,.,.","","A,-",""],
+["Pré-eclâmpsia leve (pós-parto)",".,.,.,.,.,.,.,.,.,.","","A,-",""],
+["Pré-eclâmpsia grave/eclâmpsia (pós-parto)",".,.,.,.,.,.,.,.,.,.","","D,-","Maior risco relacionado à anestesia."],
+["Ruptura de membranas ≥ 24 h",".,.,.,.,.,.,.,.,.,.","","D,-","Maior risco de infecção pós-operatória."],
+["Sepse ou febre puerperal",".,.,.,.,.,.,.,.,.,.","","D,-","Maior risco de infecção pós-operatória."],
+["Hemorragia grave ante ou pós-parto",".,.,.,.,.,.,.,.,.,.","","D,-","Pode haver anemia e intolerância a nova perda de sangue."],
+["Trauma grave do trato genital no parto",".,.,.,.,.,.,.,.,.,.","","D,-","Pode ter havido perda importante de sangue e anemia."],
+["Ruptura ou perfuração uterina (parto)",".,.,.,.,.,.,.,.,.,.","","S,-","Pode ter havido perda importante de sangue ou lesão de órgãos abdominais."],
+["Aborto sem complicações",".,.,.,.,.,.,.,.,.,.","","A,-",""],
+["Hemorragia grave pós-aborto",".,.,.,.,.,.,.,.,.,.","","D,-","Pode haver anemia e intolerância a nova perda de sangue."],
+["Trauma grave do trato genital no aborto",".,.,.,.,.,.,.,.,.,.","","D,-","Pode ter havido perda de sangue e anemia; o procedimento pode ser mais doloroso."],
+["Perfuração uterina (aborto)",".,.,.,.,.,.,.,.,.,.","","S,-",""],
+["Hematométrio agudo",".,.,.,.,.,.,.,.,.,.","","D,-","Pode haver anemia e intolerância a nova perda de sangue."]]]);
+G.push(["Esterilização: outras condições",[
+["Distúrbio de coagulação",".,.,.,.,.,.,.,.,.,.","","S,S","Maior risco de complicações hematológicas e, na vasectomia, de hematoma e infecção."],
+["Infecção sistêmica ou gastroenterite",".,.,.,.,.,.,.,.,.,.","","D,D","Maior risco de infecção pós-operatória, desidratação e complicações da anestesia."],
+["Infecção local (pele ou abdome)",".,.,.,.,.,.,.,.,.,.","","D,-",""],
+["Doença respiratória aguda (bronquite, pneumonia)",".,.,.,.,.,.,.,.,.,.","","D,-",""],
+["Doença respiratória crônica (asma, bronquite, enfisema)",".,.,.,.,.,.,.,.,.,.","","S,-",""],
+["Útero fixo por cirurgia ou infecção prévia",".,.,.,.,.,.,.,.,.,.","","S,-","Menor mobilidade de útero, tubas e alças dificulta laparoscopia e minilaparotomia."],
+["Hérnia de parede abdominal ou umbilical",".,.,.,.,.,.,.,.,.,.","","S,-",""],
+["Hérnia diafragmática",".,.,.,.,.,.,.,.,.,.","","C,-","Na laparoscopia, risco de complicações cardiorrespiratórias."],
+["Hérnia inguinal",".,.,.,.,.,.,.,.,.,.","","-,S","A vasectomia pode ser feita junto com a correção da hérnia."],
+["Doença renal",".,.,.,.,.,.,.,.,.,.","","C,-","Coagulação pode estar prejudicada; risco de infecção, choque hipovolêmico e alterações eletrolíticas."],
+["Deficiência nutricional grave",".,.,.,.,.,.,.,.,.,.","","C,-","Maior risco de infecção e má cicatrização."],
+["Cirurgia abdominal ou pélvica prévia",".,.,.,.,.,.,.,.,.,.","","C,-",""],
+["Junto com cirurgia abdominal eletiva",".,.,.,.,.,.,.,.,.,.","","C,-",""],
+["Junto com cirurgia de emergência (sem aconselhamento prévio)",".,.,.,.,.,.,.,.,.,.","","D,-",""],
+["Junto com cirurgia por condição infecciosa",".,.,.,.,.,.,.,.,.,.","","D,-",""],
+["Junto com cesariana",".,.,.,.,.,.,.,.,.,.","","A,-","Sem aumento de risco em paciente cirurgicamente estável."],
+["Hemoglobina < 7 g/dL",".,.,.,.,.,.,.,.,.,.","","D,-",""],
+["Hemoglobina de 7 a < 10 g/dL",".,.,.,.,.,.,.,.,.,.","","C,-",""],
+["Infecção genital masculina (pele escrotal, IST ativa, balanite, epididimite/orquite)",".,.,.,.,.,.,.,.,.,.","","-,D","Maior risco de infecção pós-operatória."],
+["Trauma escrotal prévio",".,.,.,.,.,.,.,.,.,.","","-,C",""],
+["Varicocele grande",".,.,.,.,.,.,.,.,.,.","","-,C","O canal deferente pode ser difícil de localizar; corrigir e fazer a vasectomia no mesmo ato reduz complicações."],
+["Hidrocele grande",".,.,.,.,.,.,.,.,.,.","","-,C","O canal deferente pode ser difícil de localizar; corrigir e fazer a vasectomia no mesmo ato reduz complicações."],
+["Filariose (elefantíase)",".,.,.,.,.,.,.,.,.,.","","-,D","Se atinge o escroto, pode ser impossível palpar cordão e testículo."],
+["Massa intraescrotal",".,.,.,.,.,.,.,.,.,.","","-,D","Pode indicar doença subjacente."],
+["Criptorquidia",".,.,.,.,.,.,.,.,.,.","","-,S",""]]]);
+G.push(["Emergência e métodos comportamentais",[
+["Uso de AE mais de uma vez no mesmo ciclo",".,.,.,.,.,.,.,.,.,.","","-,-","","1,1,1","-","Evidência de muito baixa certeza sobre uso repetido; um estudo observou mais gravidez ectópica com LNG 1,5 mg repetido, e outros não relataram eventos graves."],
+["Violência sexual (estupro)",".,.,.,.,.,.,.,.,.,.","","-,-","","1,1,1","-","Não há restrições ao uso de AE em sobreviventes de violência sexual."],
+["Indutor forte de CYP3A4 (rifampicina, fenitoína, fenobarbital, carbamazepina, efavirenz, oxcarbazepina, primidona, rifabutina, erva-de-são-joão)",".,.,.,.,.,.,.,.,.,.","","-,-","","1,1,1","-","Indutores fortes de CYP3A4 podem reduzir a eficácia da AE."],
+["Pós-menarca (adolescente)",".,.,.,.,.,.,.,.,.,.","","-,-","","-","C,C","Irregularidades menstruais são comuns na pós-menarca e podem complicar o uso."],
+["Perimenopausa",".,.,.,.,.,.,.,.,.,.","","-,-","","-","C,C","Irregularidades menstruais são comuns na perimenopausa e podem complicar o uso."],
+["Amamentando, após retorno da menstruação",".,.,.,.,.,.,.,.,.,.","","-,-","","1,1,2","C,C","Com sinais de fertilidade (sobretudo muco cervical) pode usar método baseado em sintomas; os primeiros ciclos variam muito em duração. Ulipristal (UPA): não amamentar por 1 semana após a dose, pois é excretado no leite; ordenhar e descartar o leite nesse período."],
+["Corrimento vaginal",".,.,.,.,.,.,.,.,.,.","","-,-","","-","D,A",""],
+["Fármaco que afeta regularidade do ciclo, hormônios ou sinais de fertilidade",".,.,.,.,.,.,.,.,.,.","","-,-","","-","C/D,C/D","Categoria C ou D conforme o fármaco e o efeito."],
+["Doença crônica que eleva a temperatura corporal",".,.,.,.,.,.,.,.,.,.","","-,-","","-","C,A",""],
+["Doença aguda que eleva a temperatura corporal",".,.,.,.,.,.,.,.,.,.","","-,-","","-","D,A",""]]]);
+const EF=[
+["Gestação atual","NA,NA,NA","NA,NA","AE não é indicada na gravidez conhecida ou suspeita, mas não há dano conhecido à mulher, à gestação ou ao feto se usada por engano. Métodos de conscientização da fertilidade não se aplicam na gravidez."],
+["Amamentando, < 6 semanas","1,1,2","D,D","Ulipristal (UPA): não amamentar por 1 semana após a dose, pois é excretado no leite; ordenhar e descartar o leite nesse período. Fertilidade: em amamentação exclusiva com amenorreia, é improvável haver função ovariana suficiente para sinais detectáveis nas primeiras 6 semanas."],
+["Amamentando, 6 semanas a","1,1,2","C,D","Ulipristal (UPA): não amamentar por 1 semana após a dose, pois é excretado no leite; ordenhar e descartar o leite nesse período. Método calendário só após ≥ 3 menstruações pós-parto com ciclos regulares (Dias Padrão: ≥ 4 menstruações e último ciclo de 26 a 32 dias). Até lá, oferecer outro método."],
+["Amamentando, ≥ 6 meses","1,1,2","C,D","Ulipristal (UPA): não amamentar por 1 semana após a dose, pois é excretado no leite; ordenhar e descartar o leite nesse período. Método calendário só após ≥ 3 menstruações pós-parto com ciclos regulares (Dias Padrão: ≥ 4 menstruações e último ciclo de 26 a 32 dias). Até lá, oferecer outro método."],
+["Pós-parto sem amamentar, < 21","-","D,D","Antes de 4 semanas, mulher que não amamenta provavelmente não tem função ovariana para exigir método de fertilidade nem sinais detectáveis; oferecer método adequado ao pós-parto."],
+["Pós-parto sem amamentar, 21 a 42","-","D/A,D","Sintomas: D antes de 4 semanas e A a partir de 4 semanas; calendário: D. Método calendário só após ≥ 3 menstruações pós-parto com ciclos regulares (Dias Padrão: ≥ 4 menstruações e último ciclo de 26 a 32 dias). Até lá, oferecer outro método."],
+["Pós-aborto de 2º","-","C,D","Calendário só após ao menos 1 menstruação pós-aborto (Dias Padrão se a maioria dos ciclos prévios tinha 26 a 32 dias). Antes disso, oferecer método adequado ao pós-aborto."],
+["Pós-aborto séptico","-","C,D","Calendário só após ao menos 1 menstruação pós-aborto. Antes disso, oferecer método adequado ao pós-aborto."],
+["Gravidez ectópica","1,1,1","-",""],
+["IMC ≥ 30","1,1,1","-","A AE pode ser menos eficaz com IMC ≥ 30 kg/m² do que com IMC < 25, sem preocupação de segurança."],
+["Menarca a < 18 anos e IMC","1,1,1","-","A AE pode ser menos eficaz com IMC ≥ 30 kg/m² do que com IMC < 25, sem preocupação de segurança."],
+["Histórico de TVP/TEP","2,2,2","-","A duração do uso de AE é menor que a do uso regular de COC ou pílula de progestogênio, por isso o risco esperado é menor."],
+["TVP/TEP agudo","2,2,2","-","A duração do uso de AE é menor que a do uso regular de COC ou pílula de progestogênio, por isso o risco esperado é menor."],
+["TVP/TEP em anticoagulação","2,2,2","-","A duração do uso de AE é menor que a do uso regular de COC ou pílula de progestogênio, por isso o risco esperado é menor."],
+["Doença cardíaca isquêmica","2,2,2","-","A duração do uso de AE é menor que a do uso regular de COC ou pílula de progestogênio, por isso o risco esperado é menor."],
+["AVC","2,2,2","-","A duração do uso de AE é menor que a do uso regular de COC ou pílula de progestogênio, por isso o risco esperado é menor."],
+["Enxaqueca","2,2,2","-","A duração do uso de AE é menor que a do uso regular de COC ou pílula de progestogênio, por isso o risco esperado é menor."],
+["Cirrose grave","2,2,2","-","Doença hepática grave (inclui icterícia). A duração do uso de AE é menor que a do uso regular de COC ou pílula de progestogênio, por isso o risco esperado é menor."],
+["Anticonvulsivante indutor","1,1,1","-","Indutores fortes de CYP3A4 podem reduzir a eficácia da AE."],
+["Rifampicina","1,1,1","-","Indutores fortes de CYP3A4 podem reduzir a eficácia da AE. Segundo a bula, a rifampicina reduz muito os níveis de UPA."],
+["Antirretroviral: efavirenz","1,1,1","-","Indutores fortes de CYP3A4 podem reduzir a eficácia da AE. Em estudo pequeno, o efavirenz reduziu em 56% os níveis de LNG com a dose de 1,5 mg; não há estudos de falha da AE."],
+["Sangramento irregular sem fluxo","-","D,D",""]
+];
+G.forEach(g=>g[1].forEach(c=>{if(c.length>5)return;const e=EF.find(x=>c[0].startsWith(x[0]));c[5]=e?e[1]:'-';c[6]=e?e[2]:'-';c[7]=e?e[3]:'';}));
+const sel=new Set(), $=id=>document.getElementById(id);
+const worst=s=>Math.max(...s.split('/').map(Number));
+const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function render(){
+  const q=$('busca').value.toLowerCase(); let h='',k=0;
+  G.forEach((g,gi)=>{
+    const its=g[1].map((c,ci)=>({c,id:gi+'-'+ci})).filter(x=>!q||x.c[0].toLowerCase().includes(q));
+    if(!its.length) return;
+    const n=g[1].filter((c,ci)=>sel.has(gi+'-'+ci)).length;
+    h+=`<details ${q||n?'open':''}><summary>${g[0]}${n?`<span class="n">${n}</span>`:''}</summary><div class="opts">`+
+      its.map(x=>`<label class="opt"><input type="checkbox" data-id="${x.id}" ${sel.has(x.id)?'checked':''}><span>${x.c[0]}</span></label>`).join('')+`</div></details>`;
+  });
+  $('grupos').innerHTML=h||'<p class="small">Nenhuma condição encontrada.</p>';
+  $('grupos').querySelectorAll('input').forEach(i=>i.onchange=()=>{i.checked?sel.add(i.dataset.id):sel.delete(i.dataset.id);render();calc();});
+}
+const LT={A:'Aceitar',C:'Cautela',D:'Adiar',S:'Especial'};
+const TX={A:'Sem razão médica para negar o procedimento.',C:'Procedimento em rotina, mas com preparo e precauções extras.',D:'Adiar até avaliar e/ou corrigir a condição; oferecer método temporário enquanto isso.',S:'Realizar com cirurgião experiente, equipe, anestesia geral e apoio clínico; oferecer método temporário se houver encaminhamento ou demora.'};
+const chip=x=>x==='-'?'<span class="small">sem categoria específica</span>':x.split('/').map(k=>`<span class="lt l${k}" title="${LT[k]}">${k}</span>`).join('');
+function renderSter(lists){
+  const rows=lists.filter(c=>c[3]&&c[3]!=='-,-'), F=new Set(), M=new Set();
+  rows.forEach(c=>{const [f,m]=c[3].split(',');if(f!=='-')f.split('/').forEach(k=>F.add(k));if(m!=='-')m.split('/').forEach(k=>M.add(k));});
+  const box=(t,S)=>{const ks=['D','S','C'].filter(k=>S.has(k)); const main=ks.length?ks:['A'];
+    return `<div class="box"><div class="l">${t}</div><div class="v">${main.map(k=>`<span class="lt l${k}">${k}</span>`).join(' ')}</div><div class="u">${main.map(k=>TX[k]).join(' ')}</div></div>`;};
+  $('sterRes').innerHTML=`<div class="res2">${box('Laqueadura (feminina)',F)}${box('Vasectomia (masculina)',M)}</div>`;
+  $('sterRows').innerHTML=rows.length?'<table class="st"><tr><th>Condição</th><th>Fem.</th><th>Masc.</th></tr>'+rows.map(c=>{const [f,m]=c[3].split(',');return `<tr><td>${esc(c[0])}${c[4]?`<div class="small">${esc(c[4])}</div>`:''}</td><td>${chip(f)}</td><td>${chip(m)}</td></tr>`;}).join('')+'</table>':'<p class="small">Nenhuma condição marcada com categoria de esterilização. Marque condições na lista acima (as de gestação, pós-parto, aborto, hérnias, coagulopatias etc. estão nos grupos "Esterilização").</p>';
+}
+const TXF={A:'Sem razão médica para negar o método.',C:'Método em rotina, com aconselhamento especial para o uso correto.',D:'Adiar o uso até avaliar/corrigir a condição; oferecer método temporário.',NA:'Não se aplica.'};
+LT.NA='Não se aplica';
+function renderEF(lists){
+  const ec=lists.filter(c=>c[5]&&c[5]!=='-'), N=['Pílula combinada (COC)','Levonorgestrel (LNG)','Ulipristal (UPA)'];
+  const cats=[0,1,2].map(j=>{const v=ec.map(c=>c[5].split(',')[j]); return v.includes('NA')?'NA':Math.max(1,...v.map(Number));});
+  $('ecRes').innerHTML=cats.map((k,j)=>`<div class="m ${k==='NA'?'kna':'k'+k}"><b>${N[j]}</b><div class="bd">${k}</div><div class="d">${k==='NA'?'Não se aplica (gravidez)':'Categoria MEC '+k}</div></div>`).join('');
+  $('ecRows').innerHTML=ec.length?'<table class="st"><tr><th>Condição</th><th>COC</th><th>LNG</th><th>UPA</th></tr>'+ec.map(c=>{const v=c[5].split(',');return `<tr><td>${esc(c[0])}${c[7]?`<div class="small">${esc(c[7])}</div>`:''}</td>${v.map(x=>`<td><b>${x}</b></td>`).join('')}</tr>`;}).join('')+'</table>':'<p class="small">Nenhuma condição marcada com categoria para AE: sem restrição listada (categoria 1).</p>';
+  const fb=lists.filter(c=>c[6]&&c[6]!=='-'), S=new Set(), C=new Set();
+  fb.forEach(c=>{const [a,b]=c[6].split(',');a.split('/').forEach(k=>S.add(k));b.split('/').forEach(k=>C.add(k));});
+  const box=(t,X)=>{const ks=X.has('NA')?['NA']:['D','C'].filter(k=>X.has(k)); const m=ks.length?ks:['A'];
+    return `<div class="box"><div class="l">${t}</div><div class="v">${m.map(k=>`<span class="lt l${k}">${k}</span>`).join(' ')}</div><div class="u">${m.map(k=>TXF[k]).join(' ')}</div></div>`;};
+  $('fabRes').innerHTML=`<div class="res2">${box('Baseados em sintomas',S)}${box('Baseados no calendário',C)}</div>`;
+  $('fabRows').innerHTML=fb.length?'<table class="st"><tr><th>Condição</th><th>Sint.</th><th>Cal.</th></tr>'+fb.map(c=>{const [a,b]=c[6].split(',');return `<tr><td>${esc(c[0])}${c[7]?`<div class="small">${esc(c[7])}</div>`:''}</td><td>${chip(a)}</td><td>${chip(b)}</td></tr>`;}).join('')+'</table>':'<p class="small">Nenhuma condição marcada com categoria para esses métodos.</p>';
+}
+function calc(){
+  const ag=AG[$('idade').value].split(','), rows=[];
+  const lists=[...sel].map(id=>{const [g,c]=id.split('-');return G[g][1][c];});
+  $('chips').innerHTML=lists.map(c=>`<span class="chip">${c[0].length>46?c[0].slice(0,44)+'…':c[0]}</span>`).join('');
+  M.forEach((m,j)=>{
+    const raw=[ag[j],...lists.map(c=>c[1].split(',')[j])].filter(t=>t&&t!=='.');
+    const na=raw.includes('NA');
+    const toks=raw.filter(t=>t!=='NA').map(t=>{const [i,c=i]=t.split('>');return{wi:worst(i),wc:worst(c),r:i.includes('/')};});
+    const I=Math.max(1,...toks.map(t=>t.wi)), C=Math.max(1,...toks.map(t=>t.wc)), rg=toks.some(t=>t.wi===I&&t.r);
+    rows.push({m,I:na?9:I,C,rg,na});
+  });
+  rows.sort((a,b)=>a.I-b.I||(a.m.e??99)-(b.m.e??99));
+  $('res').innerHTML=rows.map(r=>`<div class="m ${r.na?'kna':'k'+r.I}"><b>${r.m.n}</b><div class="bd">${r.na?'NA':r.I+(r.rg?'*':'')}</div>
+    <div class="d">${r.m.d} · falha no 1º ano (uso típico): ${r.m.e==null?'n/d':r.m.e+'%'}${r.na?' · <b>Não se aplica neste contexto</b>':''}${!r.na&&r.C!==r.I?` · <b>Continuação: categoria ${r.C}</b>`:''}</div></div>`).join('');
+  const ob=[]; if(AGN[$('idade').value]) ob.push(['Idade',AGN[$('idade').value]]);
+  lists.forEach(c=>{ if(c[2]) ob.push([c[0],c[2]]); });
+  $('obs').innerHTML=ob.length?ob.map(o=>`<div class="ob"><b>${esc(o[0])}</b><p>${esc(o[1])}</p></div>`).join(''):'<p class="small">Selecione condições para ver as observações da OMS. Nem toda condição tem observação na publicação.</p>';
+  renderSter(lists);renderEF(lists);
+  const ok=rows.filter(r=>r.I<=2).length;
+  $('alerta').innerHTML=(ok===0)?'<div class="alert">Nenhum dos métodos da Tabela-resumo tem categoria 1 ou 2 para este perfil. Veja a seção de esterilização abaixo, considere métodos não listados aqui e o cuidado compartilhado com especialista.</div>':'';
+}
+$('idade').onchange=calc; $('busca').oninput=render;
+$('limpar').onclick=()=>{sel.clear();$('busca').value='';render();calc();};
+render();calc();
+</script>
+</body>
+</html>
