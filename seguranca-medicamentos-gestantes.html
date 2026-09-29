@@ -55,6 +55,17 @@
             <p class="text-xs font-bold uppercase tracking-wide text-gray-500">Conduta / alternativas</p>
             <p id="res-conduta" class="text-sm text-gray-800 mt-1"></p>
         </div>
+
+        <div id="complementar" class="space-y-3">
+            <button id="btn-complementar" type="button" class="px-4 py-2 border-2 border-yellow-500 text-yellow-800 hover:bg-yellow-50 font-semibold rounded-xl">Complementar a pesquisa com IA</button>
+            <p id="ia-status" class="hidden text-sm font-semibold" role="status"></p>
+            <div id="ia-extra" class="hidden p-5 rounded-2xl border-2 border-dashed border-yellow-400 bg-yellow-50 text-yellow-900 space-y-3">
+                <p class="text-xs font-bold uppercase tracking-wide">Complemento gerado por IA (não verificado: confira em fonte de referência)</p>
+                <div><p class="text-xs font-bold uppercase">Gestação · <span id="ia-gest-nivel"></span></p><p id="ia-gest" class="text-sm"></p></div>
+                <div><p class="text-xs font-bold uppercase">Lactação · <span id="ia-lact-nivel"></span></p><p id="ia-lact" class="text-sm"></p></div>
+                <div id="ia-conduta-bloco"><p class="text-xs font-bold uppercase">Conduta / alternativas</p><p id="ia-conduta" class="text-sm"></p></div>
+            </div>
+        </div>
     </section>
 </main>
 <script src="assets/busca-medicamentos.js"></script>
@@ -70,7 +81,7 @@
     };
     const nivelValido = n => Object.prototype.hasOwnProperty.call(ROTULOS, n) ? n : 'cautela';
 
-    let base, indice;
+    let base, indice, atual = null;
     try {
         base = await (await fetch('data/medicamentos.json')).json();
         indice = BuscaMedicamentos.indexar(base.medicamentos);
@@ -105,6 +116,12 @@
         $('conduta-card').classList.toggle('hidden', !m.conduta);
         $('gest-card').className = 'p-5 rounded-2xl border-2 ' + CORES[g];
         $('lact-card').className = 'p-5 rounded-2xl border-2 ' + CORES[l];
+        // Opção de complementar com IA fica disponível após o resultado da base local
+        $('complementar').classList.toggle('hidden', ia);
+        $('ia-extra').classList.add('hidden');
+        $('ia-status').classList.add('hidden');
+        $('btn-complementar').disabled = false;
+        atual = m;
         $('resultado').classList.remove('hidden');
     }
 
@@ -141,6 +158,45 @@
         }
     }
 
+    // Consulta a IA e devolve os dados, ou null se o nome não for um medicamento válido
+    async function pedirIA(nome) {
+        const resp = await fetch('/.netlify/functions/medication-safety', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ medicationName: nome })
+        });
+        const result = await resp.json();
+        if (!resp.ok || result.error) throw new Error(result.error || 'Erro na consulta');
+        const d = JSON.parse(result.candidates[0].content.parts[0].text);
+        return d.isValid ? d : null;
+    }
+
+    async function complementarIA() {
+        if (!atual) return;
+        const st = $('ia-status');
+        $('btn-complementar').disabled = true;
+        $('ia-extra').classList.add('hidden');
+        st.textContent = 'Consultando a IA…';
+        st.classList.remove('hidden');
+        try {
+            const d = await pedirIA(atual.nome);
+            if (!d) throw new Error('nome não reconhecido');
+            $('ia-gest-nivel').textContent = ROTULOS[nivelValido(d.gestacaoNivel)];
+            $('ia-gest').textContent = String(d.gestacaoTexto || '');
+            $('ia-lact-nivel').textContent = ROTULOS[nivelValido(d.lactacaoNivel)];
+            $('ia-lact').textContent = String(d.lactacaoTexto || '');
+            $('ia-conduta').textContent = String(d.conduta || '');
+            $('ia-conduta-bloco').classList.toggle('hidden', !d.conduta);
+            $('ia-extra').classList.remove('hidden');
+            st.classList.add('hidden');
+        } catch (e) {
+            console.error(e);
+            st.textContent = 'Não foi possível consultar a IA no momento. Consulte uma fonte de referência (LactMed, bula).';
+        } finally {
+            $('btn-complementar').disabled = false;
+        }
+    }
+
     async function consultarIA() {
         const nome = $('med-input').value.trim();
         if (nome.length < 3) return;
@@ -148,15 +204,8 @@
         $('carregando-ia').classList.remove('hidden');
         $('btn-ia').disabled = true;
         try {
-            const resp = await fetch('/.netlify/functions/medication-safety', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ medicationName: nome })
-            });
-            const result = await resp.json();
-            if (!resp.ok || result.error) throw new Error(result.error || 'Erro na consulta');
-            const d = JSON.parse(result.candidates[0].content.parts[0].text);
-            if (!d.isValid) { mostrarErro(`"${nome}" não foi reconhecido como um medicamento válido.`); return; }
+            const d = await pedirIA(nome);
+            if (!d) { mostrarErro(`"${nome}" não foi reconhecido como um medicamento válido.`); return; }
             mostrar({
                 nome, classe: '', sinonimos: [],
                 gestacao: { nivel: d.gestacaoNivel, texto: String(d.gestacaoTexto || '') },
@@ -180,6 +229,7 @@
     });
     $('med-input').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('btn-buscar').click(); } });
     $('btn-ia').addEventListener('click', consultarIA);
+    $('btn-complementar').addEventListener('click', complementarIA);
 })();
 </script>
 <script src="assets/aviso.js" defer></script>
