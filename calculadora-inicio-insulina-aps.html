@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Início da Insulinização na APS | Calculadora</title>
+<style>
+/* ===== Ajuste as cores aqui para combinar com o seu site ===== */
+:root{
+  --bg:#f4f7f9; --card:#ffffff; --text:#1b2a33; --muted:#5f7280; --border:#dbe4ea;
+  --primary:#0f766e; --primary-dark:#0b5a54; --accent-bg:#e6f4f2;
+  --warn-bg:#fff6e0; --warn-bd:#f0c96a; --warn-tx:#7a5300;
+  --err-bg:#fdecec; --err-bd:#f1a9a9; --err-tx:#8a1f1f;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#10181d;--card:#182329;--text:#e6eef2;--muted:#9bb0bc;--border:#2a3a43;
+  --primary:#2fb5a8;--primary-dark:#4fd0c3;--accent-bg:#14312f;
+  --warn-bg:#33290f;--warn-bd:#7a5f1c;--warn-tx:#f3d68a;
+  --err-bg:#361a1a;--err-bd:#8a3a3a;--err-tx:#f5b5b5;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.5}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.5rem;margin:0 0 4px} h2{font-size:1.1rem;margin:0 0 10px}
+.sub{color:var(--muted);margin:0 0 18px;font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+label{display:block;font-weight:600;font-size:.9rem;margin-bottom:5px}
+.hint{font-weight:400;color:var(--muted);font-size:.8rem}
+input[type=number],select{width:100%;padding:11px 12px;font-size:1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);font-family:inherit}
+input:focus,select:focus{outline:2px solid var(--primary);border-color:transparent}
+.ck{display:flex;gap:9px;align-items:flex-start;font-weight:500;font-size:.92rem;margin:0 0 8px;cursor:pointer}
+.ck input{margin-top:4px;width:17px;height:17px;flex:none}
+button{width:100%;margin-top:14px;padding:13px;font-size:1rem;font-weight:700;border:0;border-radius:10px;background:var(--primary);color:#fff;cursor:pointer}
+button:hover{background:var(--primary-dark)}
+button.sec{background:transparent;color:var(--muted);border:1px solid var(--border);margin-top:8px;font-weight:600}
+.res{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:560px){.res{grid-template-columns:1fr}}
+.box{background:var(--accent-bg);border-radius:12px;padding:14px;text-align:center}
+.box .v{font-size:1.7rem;font-weight:800;color:var(--primary-dark);line-height:1.2}
+.box .u{font-size:.85rem;color:var(--muted)}
+.box .l{font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:2px}
+.alert{border-radius:10px;padding:10px 13px;margin-top:10px;font-size:.9rem;border:1px solid}
+.alert.w{background:var(--warn-bg);border-color:var(--warn-bd);color:var(--warn-tx)}
+.alert.e{background:var(--err-bg);border-color:var(--err-bd);color:var(--err-tx)}
+ul.d{margin:10px 0 0;padding-left:20px;font-size:.93rem}ul.d li{margin-bottom:5px}
+.small{font-size:.8rem;color:var(--muted)}
+a{color:var(--primary-dark)}
+details summary{cursor:pointer;font-weight:600}
+.hidden{display:none}
+.sep{border-top:1px solid var(--border);margin-top:18px;padding-top:14px}
+h3{font-size:1rem;margin:0 0 10px}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}
+th,td{text-align:left;padding:6px;border-bottom:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Início da Insulinização na APS</h1>
+  <p class="sub">Dose inicial e titulação de insulina basal (DM2) e esquema basal-bolus (DM1), conforme PCDT do Ministério da Saúde, Diretriz SBD 2026 e Notas Técnicas Conjuntas 32 e 169/2026.</p>
+
+  <div class="card">
+    <h2>1. Dados do paciente</h2>
+    <div class="grid">
+      <div><label for="tipo">Tipo de diabetes</label>
+        <select id="tipo"><option value="2">Diabetes tipo 2 (DM2)</option><option value="1">Diabetes tipo 1 (DM1)</option></select></div>
+      <div><label for="peso">Peso (kg)</label><input id="peso" type="number" inputmode="decimal" min="1" step="0.1" placeholder="Ex.: 78"></div>
+      <div><label for="idade">Idade (anos)</label><input id="idade" type="number" inputmode="numeric" min="0" max="120" placeholder="Ex.: 62"></div>
+      <div><label for="perfil">Perfil clínico <span class="hint">define as metas</span></label>
+        <select id="perfil">
+          <option value="adulto">Adulto</option>
+          <option value="idoso_s">Idoso saudável</option>
+          <option value="idoso_c">Idoso comprometido (frágil)</option>
+          <option value="idoso_m">Idoso muito comprometido</option>
+          <option value="crianca">Criança ou adolescente</option>
+        </select></div>
+
+      <div id="dm2a" class="full grid" style="padding:0">
+        <div><label for="fj">Glicemia de jejum atual (mg/dL) <span class="hint">opcional</span></label><input id="fj" type="number" inputmode="numeric" min="0" placeholder="Ex.: 240"></div>
+        <div style="align-self:end">
+          <label class="ck"><input type="checkbox" id="hipo"><span>Risco aumentado de hipoglicemia <span class="hint">(doença renal ou hepática, idoso frágil, hipoglicemias prévias, refeições irregulares)</span></span></label>
+          <label class="ck"><input type="checkbox" id="insp"><span>Sinais de insulinopenia <span class="hint">(poliúria, polidipsia, perda de peso)</span></span></label>
+          <label class="ck"><input type="checkbox" id="gest"><span>Gestante</span></label>
+        </div>
+      </div>
+
+      <div id="dm1a" class="full hidden">
+        <label for="fase">Situação do DM1</label>
+        <select id="fase">
+          <option value="pos">Adulto após remissão parcial (0,7 a 1,0 UI/kg/dia)</option>
+          <option value="rec">Diagnóstico recente ou pós-cetoacidose (0,5 a 1,0 UI/kg/dia)</option>
+          <option value="lua">Diagnóstico recente em remissão parcial – "lua de mel" (&lt; 0,5 UI/kg/dia)</option>
+          <option value="lac">Lactente (0,2 a 0,4 UI/kg/dia)</option>
+          <option value="pre">Pré-púbere (0,5 a 0,8 UI/kg/dia)</option>
+          <option value="pub">Púbere (0,8 a 2,0 UI/kg/dia)</option>
+        </select>
+      </div>
+    </div>
+    <button id="calc">Calcular</button>
+    <button id="clr" class="sec">Limpar</button>
+    <div id="erro"></div>
+  </div>
+
+  <div id="out" class="hidden">
+    <div class="card">
+      <h2>2. Resultado</h2>
+      <div class="res" id="boxes"></div>
+      <ul class="d" id="det"></ul>
+      <div id="glarg"></div>
+      <div id="alertas"></div>
+    </div>
+  </div>
+
+  <div class="card" id="titcard">
+    <h2>3. Ajuste da dose basal (DM2)</h2>
+    <p class="small" style="margin:0 0 10px">Use depois do início: informe a dose atual da insulina basal e a glicemia de jejum. Regra da Diretriz SBD 2026 / PCDT DM2.</p>
+    <div class="grid">
+      <div class="full"><label for="bas">Insulina basal em uso</label><select id="bas"><option value="nph">NPH (humana)</option><option value="gla">Glargina U100 (análogo de ação prolongada)</option></select></div>
+      <div><label for="dat">Dose basal atual (UI)</label><input id="dat" type="number" inputmode="numeric" min="1" placeholder="Ex.: 14"></div>
+      <div><label for="fj2">Glicemia de jejum (mg/dL)</label><input id="fj2" type="number" inputmode="numeric" min="1" placeholder="Ex.: 165"></div>
+    </div>
+    <button id="tit">Calcular ajuste</button>
+    <div id="titout"></div>
+  </div>
+
+  <div class="card">
+    <details>
+      <summary>Fontes e como foi calculado</summary>
+      <ul class="d">
+        <li><b>DM2, início:</b> insulina NPH ao deitar (cerca de 22 h), 10 UI ou 0,1 a 0,2 UI/kg/dia, mantendo os antidiabéticos orais. Dose total de NPH ≤ 0,5 UI/kg/dia (PCDT DM2 do MS). A Diretriz SBD 2026 cita 10 UI ou 0,2 UI/kg. Dose de análogo de ação prolongada e titulação são semelhantes às da NPH.</li>
+        <li><b>Hiperglicemia importante:</b> com glicemia de jejum &gt; 250 mg/dL, a dose pode ser maior, em geral até 0,3 UI/kg ou até 20 UI/dia (TelessaúdeRS-UFRGS, citando o PCDT e outras diretrizes; não consta assim no PCDT).</li>
+        <li><b>DM2, titulação:</b> glicemia de jejum acima da meta: +2 UI (podendo chegar a 2 a 4 UI); abaixo de 70 mg/dL: reduzir 4 UI ou 10%, o que for maior (SBD 2026). Metas de jejum: adulto e idoso saudável 80 a 130; idoso comprometido 90 a 150; idoso muito comprometido 100 a 180; criança/adolescente 70 a 130 mg/dL.</li>
+        <li><b>Intensificação:</b> ao acrescentar insulina regular, reduzir a NPH para 80% da dose (2/3 de manhã e 1/3 à noite); regular inicial de 4 UI ou 10% da dose de NPH, antes da refeição com maior glicemia pós-prandial.</li>
+        <li><b>DM1:</b> dose total diária e basal por faixa (Tabela 3 da SBD, adaptada de Tamborlane 2012 e PCDT DM1): basal &lt; 50% da dose total e bolus ≥ 50%, com a regular dividida nas três refeições principais. Fator de correção e relação carboidrato/insulina por idade: Tabela 5 (PCDT DM1).</li>
+        <li><b>Início com glargina:</b> mesma dose inicial e titulação da NPH no DM2 (PCDT DM2); no DM1, a dose basal segue a Tabela 3 (basal &lt; 50% da dose total). Tubetes: 300 UI, 28 dias de validade após aberto e escorva de 2 UI por aplicação (premissa deste cálculo).</li>
+        <li><b>Glargina, regras gerais:</b> elegibilidade pela NT 169/2026 (≥ 70 anos com DM1 ou DM2; DM1 de 2 a 17 anos), 1× ao dia em horário fixo, titulação em 3 a 4 dias pela glicemia de jejum (meta 80 a 130 mg/dL); evitar &gt; 0,5 UI/kg.</li>
+      </ul>
+    </details>
+  </div>
+
+  <p class="small">Ferramenta de apoio à decisão, sem substituir o julgamento clínico nem os protocolos locais. As doses iniciais são conservadoras e devem ser individualizadas por glicemia, função renal e hepática, idade, comorbidades e risco de hipoglicemia. Confirme sempre as versões vigentes do PCDT DM2 (2026), do PCDT DM1 e da Diretriz da SBD. Em gestantes, crianças, DM1 recém-diagnosticado e suspeita de cetoacidose, prefira encaminhar ou compartilhar o cuidado com a atenção especializada.</p>
+</div>
+
+<script>
+const $=id=>document.getElementById(id), f=(n,d=0)=>n.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const PF={adulto:{n:'adulto',fj:[80,130]},idoso_s:{n:'idoso saudável',fj:[80,130]},idoso_c:{n:'idoso comprometido',fj:[90,150]},idoso_m:{n:'idoso muito comprometido',fj:[100,180]},crianca:{n:'criança/adolescente',fj:[70,130]}};
+const D1={pos:[0.7,1.0,0.3,0.5],rec:[0.5,1.0,0,0.5],lua:[0,0.5,0,0.25],lac:[0.2,0.4,0.1,0.2],pre:[0.5,0.8,0.2,0.4],pub:[0.8,2.0,0.4,1.0]};
+const FC=[[2,'300 a 350','45 a 50'],[5,'200 a 250','40'],[8,'180','30'],[11,'100 a 150','20'],[13,'75 a 100','12 a 15'],[17,'25 a 75','10']];
+const A=(cls,t)=>`<div class="alert ${cls}">${t}</div>`;
+const tub=(d,dias=30)=>Math.ceil(dias/Math.min(28,300/(d+2))-1e-9);
+function glCard(tipo,peso,idade,lo,hi){
+  const one=lo===hi, e=idade===null?null:(idade>=70||(tipo==='1'&&idade>=2&&idade<18));
+  const dose=one?f(hi):(lo>0?f(lo)+' a '+f(hi):'até '+f(hi));
+  const kg=one?f(hi/peso,2):(lo>0?f(lo/peso,2)+' a '+f(hi/peso,2):'até '+f(hi/peso,2));
+  const tl=tub(Math.max(lo,1)), th=tub(hi), tb=tl===th?String(th):(lo>0?tl+' a '+th:'até '+th);
+  const li=[];
+  li.push('Aplicar <b>1× ao dia, em horário fixo (manhã ou noite)</b>, sem necessidade de segunda dose. '+(tipo==='2'?'Segundo o PCDT DM2, dose inicial e titulação são semelhantes às da NPH; mantenha os antidiabéticos orais.':'No DM1, a dose basal inicial segue a mesma tabela usada para NPH (basal &lt; 50% da dose total); a glargina pode ser aplicada 1 ou 2× ao dia.'));
+  li.push('Titulação pela glicemia de jejum, em intervalos de <b>3 a 4 dias</b> (SBD 2026; a NT 169/2026 cita até 3 dias), buscando 80 a 130 mg/dL ou a meta do perfil. '+(tipo==='2'?'Evitar dose &gt; <b>0,5 UI/kg</b> ('+f(peso*0.5,0)+' UI).':'A NT 169/2026 manda avaliar excesso de basal acima de 0,5 UI/kg; no DM1 púbere a faixa de referência chega a 1,0 UI/kg, então confira também se a basal passa de 50% da dose total e se há queda noturna &gt; 50 mg/dL ou hipoglicemia.'));
+  li.push('Tubetes: 3 mL a 100 UI/mL (300 UI), validade de 28 dias após aberto, considerando 2 UI de escorva por aplicação (premissa; para 30 dias).');
+  if(tipo==='2') li.push('Maior benefício da glargina: hipoglicemia noturna ou grave, grande variabilidade glicêmica, redução da função renal ou hepática, idosos, gestantes e dificuldade com várias doses (SBD 2026).');
+  else li.push('Se o paciente já usa NPH 2× ao dia, a migração reduz 20% da dose total diária (use a <a href="calculadora-insulina.html">calculadora de migração</a>). A troca da basal não implica troca automática do bolus.');
+  const al=e===null?A('w','Informe a idade para verificar a elegibilidade nacional (NT 169/2026).'):(e?A('w','<b>Faixa etária elegível</b> à glargina na APS pela NT 169/2026 (≥ 70 anos com DM1 ou DM2; DM1 de 2 a 17 anos). Confirme a disponibilidade e o fluxo locais.'):A('e','<b>Fora do público-alvo da NT 169/2026</b> (≥ 70 anos com DM1/DM2; DM1 de 2 a 17 anos). A dispensação pela APS pode não estar disponível: verifique o protocolo local.'));
+  $('glarg').innerHTML='<div class="sep"><h3>Opção: iniciar com insulina glargina (U100)</h3><div class="res">'+box('Glargina',dose,'UI, 1× ao dia')+box('Dose por peso',kg,'UI/kg/dia')+box('Tubetes (30 dias)',tb,'de 3 mL')+'</div><ul class="d">'+li.map(x=>'<li>'+x+'</li>').join('')+'</ul>'+al+'</div>';
+}
+function toggle(){const d1=$('tipo').value==='1';$('dm1a').classList.toggle('hidden',!d1);$('dm2a').classList.toggle('hidden',d1);$('titcard').classList.toggle('hidden',d1);}
+function box(l,v,u){return `<div class="box"><div class="l">${l}</div><div class="v">${v}</div><div class="u">${u}</div></div>`;}
+function calcular(){
+  $('erro').innerHTML='';
+  const tipo=$('tipo').value, peso=parseFloat($('peso').value), idade=$('idade').value===''?null:parseFloat($('idade').value), pf=PF[$('perfil').value];
+  if(!(peso>0)){$('out').classList.add('hidden');$('erro').innerHTML=A('e','Informe o peso do paciente.');return;}
+  const det=[],al=[];
+  if(idade!==null){
+    if(idade>=70) al.push(A('w','<b>≥ 70 anos:</b> público elegível à insulina glargina (NT 169/2026, inclusive novos diagnósticos). Se disponível, ela pode substituir a NPH, com a mesma dose inicial, 1× ao dia em horário fixo.'));
+    if(idade>=65 && $('perfil').value==='adulto') al.push(A('w','Idade ≥ 65 anos com perfil "adulto": revise o perfil clínico (idoso saudável, comprometido ou muito comprometido) para ajustar as metas.'));
+  }
+  if(tipo==='2'){
+    const fj=$('fj').value===''?null:parseFloat($('fj').value), hipo=$('hipo').checked;
+    const fator=hipo?0.1:0.2, dose=Math.max(10,Math.round(peso*fator));
+    const lo=Math.max(10,Math.round(peso*0.1)), hi=Math.max(10,Math.round(peso*0.2)), lim=Math.round(peso*0.5*10)/10;
+    $('boxes').innerHTML=box('NPH ao deitar',f(dose),'UI, 1× ao dia (~22 h)')+box('Dose por peso',f(dose/peso,2),'UI/kg/dia')+box('Faixa do PCDT',lo===hi?f(lo):f(lo)+' a '+f(hi),'UI (0,1 a 0,2 UI/kg, mín. 10)');
+    det.push(`Dose escolhida: ${hipo?'extremo inferior da faixa (risco aumentado de hipoglicemia)':'0,2 UI/kg, com mínimo de 10 UI'}. Aplicar ao deitar, <b>mantendo metformina e demais antidiabéticos orais</b>.`);
+    det.push(`Limite de referência: dose total de NPH ≤ <b>0,5 UI/kg/dia (${f(lim,0)} UI)</b>; doses próximas disso pedem reavaliação antes de subir mais.`);
+    det.push(`Meta de glicemia de jejum (${pf.n}): <b>${pf.fj[0]} a ${pf.fj[1]} mg/dL</b>. Monitorar a glicemia capilar em jejum todos os dias para ajustar a dose.`);
+    det.push('Titulação: jejum acima da meta → +2 UI (2 a 4 UI); jejum &lt; 70 mg/dL → reduzir 4 UI ou 10%, o que for maior. Use a seção 3 para calcular.');
+    if(10/peso>0.2) al.push(A('w','Com este peso, 10 UI corresponde a mais de 0,2 UI/kg. Avalie começar com dose menor conforme julgamento clínico.'));
+    if(fj!==null && fj>250) al.push(A('w',`Glicemia de jejum &gt; 250 mg/dL: a literatura de apoio (TelessaúdeRS) admite dose inicial maior, em geral até 0,3 UI/kg (≈ ${f(Math.round(peso*0.3))} UI) ou até 20 UI/dia. Pesa o risco de hipoglicemia antes de usar.`));
+    if(fj!==null && fj>250 || $('insp').checked) al.push(A('w','Com sinais de insulinopenia, a insulina está indicada em qualquer momento da evolução do DM2, mesmo sem tratamento prévio (SBD 2026). Descarte cetoacidose ou estado hiperosmolar se houver vômitos, desidratação, dor abdominal ou rebaixamento da consciência, e encaminhe se necessário.'));
+    if(hipo) al.push(A('w','Risco aumentado de hipoglicemia: a SBD prioriza análogos de ação prolongada e rápida em quem tem hipoglicemia grave ou não percebida, idosos, doença renal/hepática e gestantes. Verifique a elegibilidade local.'));
+    if($('gest').checked) al.push(A('e','<b>Gestante:</b> não use este cálculo isoladamente. Encaminhe ou compartilhe o cuidado com a atenção especializada (pré-natal de alto risco).'));
+    if(idade!==null && idade<18) al.push(A('w','DM2 em menor de 18 anos: individualize e compartilhe o cuidado com a atenção especializada.'));
+    al.push(A('w','Se a HbA1c seguir fora da meta com a basal bem titulada, considere insulina prandial e compartilhe o cuidado (seção 3). Oriente sobre sintomas e tratamento da hipoglicemia (15 g de carboidrato de ação rápida e nova medida em 15 min).'));
+    glCard('2',peso,idade,dose,dose);
+    $('dat').value=$('dat').value||dose;
+  } else {
+    const r=D1[$('fase').value], fase=$('fase').value;
+    const tl=r[0]*peso, th=r[1]*peso, bl=r[2]*peso, bh=r[3]*peso;
+    const rng=(a,b,d=0)=>a>0?`${f(Math.round(a))} a ${f(Math.round(b))}`:`&lt; ${f(Math.round(b))}`;
+    const bolL=tl*0.5/3, bolH=th*0.5/3;
+    $('boxes').innerHTML=box('Dose total diária',rng(tl,th),'UI/dia ('+(r[0]>0?f(r[0],1)+' a ':'&lt; ')+f(r[1],1)+' UI/kg)')+
+      box('Insulina basal',fase==='rec'?'&lt; '+f(Math.round(th*0.5)):rng(bl,bh),'UI/dia'+(fase==='rec'?' (< 50% da dose total)':''))+
+      box('Bolus por refeição',bolL>0?f(Math.round(bolL))+' a '+f(Math.round(bolH)):'até '+f(Math.round(bolH)),'UI de regular ou rápida × 3 refeições');
+    det.push('Basal (NPH ou análogo de ação prolongada) deve ser <b>&lt; 50%</b> da dose total; o bolus, <b>≥ 50%</b>, dividido nas 3 refeições principais (regular 30 min antes da refeição; análogo rápido logo antes).');
+    det.push('Esquema do SUS: NPH 2 a 3× ao dia (a última por volta de 22 h) associada à regular 3× ao dia. A distribuição da NPH ao longo do dia não é fixada pelo PCDT: ajuste pelas glicemias.');
+    det.push('Metas de glicemia: adulto pré-prandial 70 a 130 e pós-prandial &lt; 180 mg/dL; criança/adolescente pré-prandial 70 a 145. Automonitorização ≥ 3 a 4 vezes ao dia.');
+    det.push('Basal: com queda &gt; 30 mg/dL no sono ou hipoglicemia, reduzir a última dose de basal em 10 a 20%. Fator de correção do bolus: (glicemia atual − objetivo) ÷ FC.');
+    if(idade!==null){const row=idade>=18?['Adultos','40 a 60','10 a 20']:(FC.find(x=>idade<=x[0])||[0,'25 a 75','10']);det.push(`Referência por idade (PCDT DM1): fator de correção <b>${row[1]}</b> mg/dL por UI; relação carboidrato/insulina <b>${row[2]}</b> g por UI. Ajustar pelo perfil de glicemias.`);}
+    glCard('1',peso,idade,fase==='rec'?0:Math.round(bl),fase==='rec'?Math.round(th*0.5):Math.round(bh));
+    if(fase==='rec' || fase==='lac' || fase==='pre' || fase==='pub' || (idade!==null&&idade<18)) al.push(A('w','<b>DM1 em criança/adolescente ou recém-diagnosticado:</b> o PCDT DM1 recomenda acompanhamento por especialista (endocrinologista) e equipe multiprofissional. Encaminhe e mantenha o seguimento na APS.'));
+    al.push(A('e','Nunca suspender a insulina no DM1 (risco de cetoacidose). Sintomas de insulinopenia com cetonúria, vômitos ou desidratação: emergência.'));
+    al.push(A('w','Elegibilidade para análogos no DM1 depende dos critérios do PCDT DM1 (hipoglicemias graves, noturnas ou frequentes, ou controle inadequado persistente apesar de automonitorização). Na NT 169/2026, a glargina é indicada a crianças e adolescentes de 2 a 17 anos e a pessoas ≥ 70 anos: 1× ao dia, em horário fixo. Ao migrar de NPH 2× ao dia, reduzir 20% da dose total (use a <a href="calculadora-insulina.html">calculadora de migração</a>).'));
+  }
+  $('det').innerHTML=det.map(x=>'<li>'+x+'</li>').join('');
+  $('alertas').innerHTML=al.join('');
+  $('out').classList.remove('hidden');
+}
+function titular(){
+  const peso=parseFloat($('peso').value), atual=parseFloat($('dat').value), fj=parseFloat($('fj2').value), pf=PF[$('perfil').value], gl=$('bas').value==='gla';
+  if(!(atual>0)||!(fj>0)){$('titout').innerHTML=A('e','Informe a dose atual e a glicemia de jejum.');return;}
+  let nova=atual,msg='',cls='w';
+  if(fj<70){const red=Math.max(4,Math.round(atual*0.1));nova=Math.max(0,atual-red);msg=`Glicemia de jejum &lt; 70 mg/dL: reduzir <b>${red} UI</b> (4 UI ou 10%, o que for maior). Investigue a causa da hipoglicemia (refeições, atividade, outros fármacos).`;}
+  else if(fj>pf.fj[1]){nova=atual+2;msg=`Glicemia de jejum acima da meta (${pf.fj[0]} a ${pf.fj[1]} mg/dL): <b>aumentar 2 UI</b> (a SBD admite 2 a 4 UI). ${gl?'Reajuste a cada 3 a 4 dias pela glicemia de jejum (SBD 2026; NT 169/2026: até 3 dias).':'Repita a glicemia de jejum e reavalie em poucos dias (a NT 169/2026 usa intervalos de até 3 dias para glargina).'}`;}
+  else if(fj<pf.fj[0]){msg=`Glicemia de jejum entre 70 mg/dL e o limite inferior da meta (${pf.fj[0]}): <b>manter a dose</b> e avaliar risco de hipoglicemia antes de qualquer aumento.`;}
+  else{cls='w';msg=`Glicemia de jejum dentro da meta (${pf.fj[0]} a ${pf.fj[1]} mg/dL): <b>manter a dose</b>. Reavalie a HbA1c após pelo menos 3 meses com a dose estável.`;}
+  const bloq=peso>0&&nova>0.5*peso&&nova>atual, prop=nova;
+  if(bloq){nova=atual;msg=`Glicemia de jejum acima da meta (${pf.fj[0]} a ${pf.fj[1]} mg/dL), mas a dose já está no limite de referência de 0,5 UI/kg/dia.`;}
+  let h=`<div class="res" style="margin-top:12px;grid-template-columns:1fr 1fr">${box('Nova dose basal',f(nova),'UI/dia')}${peso>0?box('Por peso',f(nova/peso,2),'UI/kg/dia'):''}</div>`+A(cls,msg);
+  if(bloq) h+=A('e',`O ajuste levaria a ${f(prop/peso,2)} UI/kg/dia, acima de 0,5 UI/kg: <b>não aumente a basal</b>. Reavalie a técnica de aplicação, a adesão, a distribuição das doses e a necessidade de insulina prandial (PCDT DM2; a NT 169/2026 alerta para excesso de basal).`);
+  const r80=Math.round(atual*0.8), man=Math.round(r80*2/3), noi=r80-man, reg=Math.max(4,Math.round(atual*0.1));
+  h+=gl?`<details style="margin-top:12px"><summary>Se a HbA1c seguir fora da meta com a basal bem titulada</summary><ul class="d"><li>Manter a glargina 1× ao dia (sem segunda dose) e acrescentar insulina prandial (regular ou análogo rápido) antes da refeição de maior glicemia pós-prandial: <b>4 UI</b> ou 10% da dose basal (≈ ${f(Math.round(atual*0.1))} UI); a SBD cita início com 2 a 4 UI. Aumentar 1 a 2 UI (ou 10 a 15%) duas vezes por semana; se hipoglicemia, reduzir 10 a 20% ou 4 UI, o que for maior.</li><li>A troca da basal não implica troca automática do bolus. Compartilhe o cuidado com a atenção especializada ao introduzir bolus.</li></ul></details>`:`<details style="margin-top:12px"><summary>Se a HbA1c seguir fora da meta com a basal bem titulada</summary><ul class="d"><li>Dividir a NPH: 80% da dose (<b>${f(r80)} UI</b>), sendo cerca de 2/3 de manhã (<b>${f(man)} UI</b>) e 1/3 ao deitar (<b>${f(noi)} UI</b>); ou manter a basal única e acrescentar prandial.</li><li>Insulina regular (ou análogo rápido, na proporção 1:1) antes da refeição de maior glicemia pós-prandial: <b>4 UI</b> ou 10% da dose de NPH (≈ ${f(Math.round(atual*0.1))} UI). Aumentar 1 a 2 UI (ou 10 a 15%) duas vezes por semana; se hipoglicemia, reduzir 10 a 20% ou 4 UI, o que for maior.</li><li>A SBD 2026 recomenda compartilhar o cuidado com a atenção especializada ao introduzir insulina bolus ou quando a basal, bem titulada, não controla.</li></ul></details>`;
+  $('titout').innerHTML=h;
+}
+$('tipo').onchange=toggle;$('calc').onclick=calcular;$('tit').onclick=titular;
+$('clr').onclick=()=>{document.querySelectorAll('input[type=number]').forEach(i=>i.value='');document.querySelectorAll('input[type=checkbox]').forEach(i=>i.checked=false);$('tipo').value='2';$('perfil').value='adulto';$('bas').value='nph';$('glarg').innerHTML='';toggle();$('out').classList.add('hidden');$('titout').innerHTML='';$('erro').innerHTML='';};
+toggle();
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>

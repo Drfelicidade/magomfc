@@ -32,6 +32,7 @@
             border-radius: 9999px;
         }
     </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
@@ -562,7 +563,8 @@ Regras OBRIGATÓRIAS de formatação:
 
                     const payload = { contents: [{ role: "user", parts: partsPayload }] };
 
-                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    const idToken = await auth.currentUser.getIdToken();
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` }, body: JSON.stringify(payload) });
                     const result = await response.json();
 
                     if (!response.ok || result.error) throw new Error(result.error || "Erro na comunicação com a API Gemini.");
@@ -597,5 +599,6 @@ Regras OBRIGATÓRIAS de formatação:
             }
         });
     </script>
+<script src="assets/aviso.js" defer></script>
 </body>
 </html>
