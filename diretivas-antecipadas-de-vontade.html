@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diretivas Antecipadas de Vontade</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 1000px;
+        }
+
+        /* Linhas para escrita à mão quando o campo de texto livre é impresso em branco */
+        .linhas {
+            line-height: 2rem;
+            min-height: 6rem;
+            resize: vertical;
+            background-image: repeating-linear-gradient(transparent, transparent calc(2rem - 1px), #94a3b8 calc(2rem - 1px), #94a3b8 2rem);
+            background-attachment: local;
+        }
+
+        @media print {
+            @page { size: A4; margin: 14mm; }
+            body { background-color: white; display: block; padding: 0; min-height: 0; }
+            .no-print { display: none !important; }
+            .print-area { width: 100%; max-width: none; margin: 0; padding: 0; box-shadow: none; border: none; border-radius: 0; }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .page-break-inside-avoid { page-break-inside: avoid; }
+            .print-input {
+                border: none !important;
+                background-color: transparent !important;
+                border-bottom: 1px solid black !important;
+                border-radius: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                outline: none !important;
+                font-family: inherit;
+                font-size: inherit;
+                color: black !important;
+            }
+            .print-input::placeholder { color: transparent !important; }
+            textarea.print-input { border-bottom: none !important; resize: none; overflow: visible; }
+            .print-checkbox {
+                -webkit-appearance: none;
+                appearance: none;
+                background-color: transparent;
+                margin: 0;
+                width: 1.25rem;
+                height: 1.25rem;
+                border: 1px solid black !important;
+                border-radius: 0.125rem;
+                display: inline-grid;
+                place-content: center;
+            }
+            .print-checkbox::before {
+                content: "";
+                width: 0.65em;
+                height: 0.65em;
+                transform: scale(0);
+                box-shadow: inset 1em 1em black;
+                clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+            }
+            .print-checkbox:checked::before { transform: scale(1); }
+            .caixa-conforto { background: white !important; border-color: black !important; }
+            .caixa-conforto p { color: black !important; }
+        }
+
+        @media screen {
+            .print-input {
+                background-color: #f8fafc;
+                border: 1px solid #cbd5e1;
+                border-radius: 0.375rem;
+                padding: 0.25rem 0.5rem;
+                font-family: inherit;
+                transition: border-color 0.2s;
+            }
+            .print-input:focus { outline: none; border-color: #7c3aed; background-color: white; }
+            .print-checkbox { width: 1.25rem; height: 1.25rem; cursor: pointer; accent-color: #7c3aed; }
+        }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden print-area">
+
+        <div class="bg-purple-700 p-6 md:p-8 text-white text-center no-print">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Diretivas Antecipadas de Vontade</h1>
+            <p class="text-purple-100 text-sm md:text-base">Testamento vital e procurador de cuidados de saúde, para preencher e imprimir</p>
+            <div class="mt-6">
+                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-purple-800 hover:bg-purple-900 text-white text-sm font-medium rounded-full transition shadow-sm">
+                    &larr; Voltar ao Menu Principal
+                </a>
+            </div>
+        </div>
+
+        <!-- Orientações ao profissional (não saem na impressão) -->
+        <div class="p-6 md:p-8 no-print border-b border-gray-200 space-y-4">
+            <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                <div class="p-4 rounded-xl bg-purple-50 border border-purple-100">
+                    <p class="font-bold text-purple-900 mb-2">Como usar</p>
+                    <ol class="list-decimal pl-5 space-y-1">
+                        <li>Converse com o paciente sobre valores, prognóstico e o que cada opção significa.</li>
+                        <li>Preencha os campos e marque uma opção por linha (o formulário não deixa marcar duas).</li>
+                        <li>Imprima, colha as assinaturas e entregue uma via ao paciente e ao procurador.</li>
+                        <li>Registre o documento no prontuário e revise-o periodicamente.</li>
+                    </ol>
+                </div>
+                <div class="p-4 rounded-xl bg-amber-50 border border-amber-200">
+                    <p class="font-bold text-amber-900 mb-2">Pontos legais e éticos</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>A Resolução CFM nº 1.995/2012 manda o médico considerar as diretivas do paciente, que prevalecem sobre o desejo dos familiares, e registrá-las no prontuário.</li>
+                        <li>O médico não segue diretivas que contrariem o Código de Ética Médica.</li>
+                        <li>A resolução não exige cartório nem testemunhas; elas dão mais segurança ao documento, mas são opcionais.</li>
+                        <li>O paciente pode revogar ou alterar o documento a qualquer momento.</li>
+                        <li>Este modelo é um apoio: adapte-o ao caso e às normas locais.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-xs text-gray-500">Privacidade: o que você digita fica só neste navegador e não é enviado nem salvo. Feche a página ao terminar.</p>
+            <div class="flex flex-wrap gap-3 justify-between items-center">
+                <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar formulário</button>
+                <button type="button" onclick="window.print()" class="px-6 py-2 bg-purple-700 text-white font-bold rounded-lg shadow-sm hover:bg-purple-800 transition flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Imprimir documento
+                </button>
+            </div>
+        </div>
+
+        <form id="dav-form" class="p-8 md:p-12 text-gray-900 text-sm md:text-base leading-relaxed" onsubmit="return false">
+
+            <div class="text-center mb-8 border-b-2 border-black pb-4">
+                <h2 class="text-2xl font-black uppercase tracking-widest mb-1">Diretivas Antecipadas de Vontade</h2>
+                <p class="font-bold text-gray-600">(Testamento Vital e Procurador de Cuidados de Saúde)</p>
+            </div>
+
+            <p class="mb-4 text-justify leading-loose">
+                Eu, <input type="text" class="print-input font-bold w-full md:w-2/5" aria-label="Nome completo do paciente" placeholder="Nome completo do paciente">,
+                nascido(a) em <input type="text" class="print-input font-bold w-32" aria-label="Data de nascimento" placeholder="dd/mm/aaaa">,
+                portador(a) do RG nº <input type="text" class="print-input font-bold w-32" aria-label="Número do RG" placeholder="RG">
+                e inscrito(a) no CPF sob o nº <input type="text" class="print-input font-bold w-40" aria-label="Número do CPF" placeholder="000.000.000-00">,
+                residente em <input type="text" class="print-input font-bold w-full md:w-1/2" aria-label="Endereço" placeholder="Endereço">,
+                encontrando-me em pleno gozo de minhas faculdades mentais, de forma livre, consciente e informada, estabeleço por meio deste documento as minhas Diretivas Antecipadas de Vontade (DAV), conforme me faculta a Resolução CFM nº 1.995/2012.
+                Estas diretivas valem para o momento em que eu não puder mais decidir ou expressar minha vontade.
+            </p>
+
+            <h3 class="font-bold text-lg mt-8 mb-4 bg-gray-100 p-2 border-l-4 border-black page-break-inside-avoid">I. PROCURADOR DE CUIDADOS DE SAÚDE</h3>
+            <p class="mb-4 text-justify">
+                Nomeio a(s) pessoa(s) abaixo para tomar decisões de saúde em meu nome, seguindo o que declaro neste documento, caso eu me encontre incapaz de expressar minha vontade.
+            </p>
+
+            <div class="mb-4 space-y-3 page-break-inside-avoid">
+                <p class="font-bold mb-1">Procurador(a) principal:</p>
+                <div class="flex items-end gap-2">
+                    <span>Nome:</span> <input type="text" class="print-input flex-1" aria-label="Nome do procurador principal" placeholder="Nome do procurador principal">
+                    <span>Relação:</span> <input type="text" class="print-input w-32" aria-label="Relação com o paciente" placeholder="Ex.: filha">
+                </div>
+                <div class="flex items-end gap-4">
+                    <span class="flex-1 flex items-end gap-2">CPF: <input type="text" class="print-input flex-1" aria-label="CPF do procurador principal" placeholder="000.000.000-00"></span>
+                    <span class="flex-1 flex items-end gap-2">Telefone: <input type="text" class="print-input flex-1" aria-label="Telefone do procurador principal" placeholder="(00) 00000-0000"></span>
+                </div>
+            </div>
+
+            <div class="mb-6 space-y-3 mt-6 page-break-inside-avoid">
+                <p class="font-bold mb-1">Procurador(a) suplente (atua se o titular não puder ou não quiser):</p>
+                <div class="flex items-end gap-2">
+                    <span>Nome:</span> <input type="text" class="print-input flex-1" aria-label="Nome do procurador suplente" placeholder="Nome do procurador suplente">
+                    <span>Relação:</span> <input type="text" class="print-input w-32" aria-label="Relação com o paciente" placeholder="Ex.: filho">
+                </div>
+                <div class="flex items-end gap-4">
+                    <span class="flex-1 flex items-end gap-2">CPF: <input type="text" class="print-input flex-1" aria-label="CPF do procurador suplente" placeholder="000.000.000-00"></span>
+                    <span class="flex-1 flex items-end gap-2">Telefone: <input type="text" class="print-input flex-1" aria-label="Telefone do procurador suplente" placeholder="(00) 00000-0000"></span>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-lg mt-8 mb-4 bg-gray-100 p-2 border-l-4 border-black page-break-inside-avoid">II. SITUAÇÕES EM QUE ESTAS DIRETIVAS VALEM</h3>
+            <p class="mb-3 text-justify">
+                Estas escolhas valem se, após avaliação médica, eu me encontrar em uma das situações abaixo (marque as que se aplicam):
+            </p>
+            <div class="mb-6 space-y-2 page-break-inside-avoid">
+                <label class="flex items-start gap-3"><input type="checkbox" class="print-checkbox shrink-0 mt-1"> <span>Doença grave, incurável e em fase terminal.</span></label>
+                <label class="flex items-start gap-3"><input type="checkbox" class="print-checkbox shrink-0 mt-1"> <span>Estado vegetativo persistente ou coma irreversível.</span></label>
+                <label class="flex items-start gap-3"><input type="checkbox" class="print-checkbox shrink-0 mt-1"> <span>Demência avançada ou outra doença neurológica irreversível, com perda da capacidade de me comunicar e de reconhecer pessoas próximas.</span></label>
+                <label class="flex items-start gap-3"><input type="checkbox" class="print-checkbox shrink-0 mt-1"> <span>Doença crônica avançada em fase final (por exemplo, insuficiência cardíaca, respiratória, renal ou hepática), sem perspectiva de recuperação.</span></label>
+            </div>
+
+            <h3 class="font-bold text-lg mt-8 mb-4 bg-gray-100 p-2 border-l-4 border-black page-break-inside-avoid">III. PREFERÊNCIAS SOBRE TRATAMENTOS</h3>
+            <p class="mb-3 text-justify">
+                Para cada tratamento, marque <strong>uma</strong> opção. Se eu não tiver preferência, marque a última coluna: meu procurador decidirá com a equipe de saúde, segundo o que ele conhece de meus valores.
+            </p>
+
+            <div class="border border-black p-4 mb-6 page-break-inside-avoid">
+                <div class="grid grid-cols-12 gap-2 border-b border-gray-300 pb-2 mb-2 font-bold text-sm">
+                    <div class="col-span-6">Tratamento / intervenção</div>
+                    <div class="col-span-2 text-center text-green-700">Desejo</div>
+                    <div class="col-span-2 text-center text-red-700">Recuso</div>
+                    <div class="col-span-2 text-center">Procurador decide</div>
+                </div>
+                <div id="tabela-tratamentos"><!-- linhas geradas por JS --></div>
+            </div>
+
+            <div class="flex gap-3 mb-6 items-start bg-blue-50 p-4 border border-blue-200 rounded-lg caixa-conforto page-break-inside-avoid">
+                <input type="checkbox" class="print-checkbox shrink-0 mt-1" checked aria-label="Desejo cuidados paliativos e medidas de conforto">
+                <p class="text-justify font-bold text-blue-900">
+                    Independentemente das escolhas acima, DESEJO receber, de forma contínua, medidas de conforto e Cuidados Paliativos, incluindo analgesia adequada e, se necessária para aliviar sofrimento que não responda a outras medidas, sedação paliativa, garantindo a dignidade no processo de terminalidade da vida.
+                </p>
+            </div>
+
+            <h3 class="font-bold text-lg mt-8 mb-4 bg-gray-100 p-2 border-l-4 border-black page-break-inside-avoid">IV. MEUS VALORES E PREFERÊNCIAS DE CUIDADO</h3>
+
+            <div class="space-y-4 mb-6 page-break-inside-avoid">
+                <div>
+                    <p class="font-bold mb-2">Local em que prefiro receber cuidados no fim da vida:</p>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2">
+                        <label class="flex items-center gap-2"><input type="checkbox" class="print-checkbox" data-grupo="local"> Em casa</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="print-checkbox" data-grupo="local"> No hospital</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="print-checkbox" data-grupo="local"> Em instituição de longa permanência ou hospice</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="print-checkbox" data-grupo="local"> Sem preferência</label>
+                    </div>
+                </div>
+                <div class="flex items-end gap-2">
+                    <span class="font-bold shrink-0">Assistência espiritual ou religiosa desejada:</span>
+                    <input type="text" class="print-input flex-1" aria-label="Assistência espiritual ou religiosa desejada" placeholder="Ex.: visita do meu padre, pastor, capelão...">
+                </div>
+                <div>
+                    <p class="font-bold mb-2">O que é mais importante para mim e o que gostaria que a equipe e minha família soubessem:</p>
+                    <textarea class="print-input linhas w-full" rows="3" aria-label="Valores e preferências pessoais" placeholder="Ex.: estar consciente, não sentir dor, estar acompanhado(a) pela família, não depender de aparelhos..."></textarea>
+                </div>
+                <div>
+                    <p class="font-bold mb-2">Doação de órgãos e tecidos (ciente de que a lei brasileira exige a autorização da família):</p>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2">
+                        <label class="flex items-center gap-2"><input type="checkbox" class="print-checkbox" data-grupo="doacao"> Manifesto o desejo de doar</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="print-checkbox" data-grupo="doacao"> Não desejo doar</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="print-checkbox" data-grupo="doacao"> Decisão da minha família</label>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-lg mt-8 mb-4 bg-gray-100 p-2 border-l-4 border-black page-break-inside-avoid">V. DECLARAÇÕES FINAIS</h3>
+            <ul class="list-disc pl-6 space-y-2 mb-6 text-justify page-break-inside-avoid">
+                <li>Posso revogar ou alterar este documento a qualquer momento, por escrito ou verbalmente diante do médico, e a versão mais recente é a que vale.</li>
+                <li>Peço que uma cópia seja anexada ao meu prontuário e entregue ao meu procurador.</li>
+                <li>Peço que estas diretivas sejam respeitadas pelos profissionais de saúde, nos termos da Resolução CFM nº 1.995/2012 e desde que não contrariem o Código de Ética Médica.</li>
+            </ul>
+
+            <h3 class="font-bold text-lg mt-8 mb-6 bg-gray-100 p-2 border-l-4 border-black page-break-inside-avoid">VI. ASSINATURAS</h3>
+
+            <div class="flex items-end gap-2 mb-10">
+                Local e data: <input type="text" class="print-input flex-1" aria-label="Local e data" placeholder="Ex.: Blumenau - SC, 13 de agosto de 2026">
+            </div>
+
+            <div class="grid grid-cols-2 gap-8 page-break-inside-avoid mb-8">
+                <div class="text-center">
+                    <div class="border-b border-black w-full mb-2 h-10"></div>
+                    <p class="font-bold">Assinatura do(a) paciente</p>
+                    <p class="text-xs">(ou a rogo, se o paciente não puder assinar)</p>
+                </div>
+                <div class="text-center">
+                    <div class="border-b border-black w-full mb-2 h-10"></div>
+                    <p class="font-bold">Procurador(a) principal, ciente</p>
+                </div>
+            </div>
+
+            <div class="page-break-inside-avoid mb-8">
+                <label class="flex items-start gap-3 mb-6"><input type="checkbox" class="print-checkbox shrink-0 mt-1"> <span>Avaliei a capacidade de decisão do paciente no momento da assinatura, conversei com ele(a) sobre as opções e registrei este documento no prontuário nº <input type="text" class="print-input w-32" aria-label="Número do prontuário" placeholder="____"></span></label>
+                <div class="text-center w-1/2 mx-auto">
+                    <div class="border-b border-black w-full mb-2 h-10"></div>
+                    <p class="font-bold">Assinatura do(a) médico(a) assistente</p>
+                    <p class="text-xs">CRM: <input type="text" class="print-input w-28 text-center" aria-label="CRM" placeholder="____"></p>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-600 mb-4 page-break-inside-avoid">Testemunhas (opcionais, recomendadas para dar mais segurança ao documento):</p>
+            <div class="grid grid-cols-2 gap-8 page-break-inside-avoid">
+                <div class="text-center">
+                    <div class="border-b border-black w-full mb-2 h-10"></div>
+                    <p class="font-bold">Testemunha 1</p>
+                    <p class="text-xs flex items-center justify-center gap-1">CPF/RG: <input type="text" class="print-input w-32" aria-label="CPF ou RG da testemunha 1"></p>
+                </div>
+                <div class="text-center">
+                    <div class="border-b border-black w-full mb-2 h-10"></div>
+                    <p class="font-bold">Testemunha 2</p>
+                    <p class="text-xs flex items-center justify-center gap-1">CPF/RG: <input type="text" class="print-input w-32" aria-label="CPF ou RG da testemunha 2"></p>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-600 mt-8 text-justify">O registro em cartório é opcional e não é exigido pela Resolução CFM nº 1.995/2012. Recomenda-se revisar este documento periodicamente e sempre que houver mudança importante na saúde ou nos desejos do paciente.</p>
+        </form>
+    </div>
+
+    <script>
+        // Tratamentos da tabela (uma opção por linha)
+        const TRATAMENTOS = [
+            'Reanimação cardiopulmonar (RCP)',
+            'Ventilação mecânica invasiva (intubação)',
+            'Internação em unidade de terapia intensiva (UTI)',
+            'Nutrição artificial (sonda enteral ou parenteral)',
+            'Hidratação artificial por via venosa',
+            'Diálise (terapia de substituição renal)',
+            'Antibióticos para infecções na fase final da doença',
+            'Transfusão de sangue e hemoderivados',
+            'Internação hospitalar para tratar complicações (em vez de cuidar em casa)'
+        ];
+
+        function montarTabela() {
+            const alvo = document.getElementById('tabela-tratamentos');
+            alvo.innerHTML = '';
+            TRATAMENTOS.forEach((nome, i) => {
+                const linha = document.createElement('div');
+                linha.className = 'grid grid-cols-12 gap-2 py-3 items-center' + (i < TRATAMENTOS.length - 1 ? ' border-b border-gray-200' : '');
+                const rotulo = document.createElement('div');
+                rotulo.className = 'col-span-6 font-medium';
+                rotulo.textContent = nome;
+                linha.appendChild(rotulo);
+                ['Desejo', 'Recuso', 'Procurador decide'].forEach(op => {
+                    const cel = document.createElement('div');
+                    cel.className = 'col-span-2 text-center';
+                    const cb = document.createElement('input');
+                    cb.type = 'checkbox';
+                    cb.className = 'print-checkbox';
+                    cb.dataset.grupo = 'trat' + i;
+                    cb.setAttribute('aria-label', nome + ': ' + op);
+                    cel.appendChild(cb);
+                    linha.appendChild(cel);
+                });
+                alvo.appendChild(linha);
+            });
+        }
+
+        // Só uma caixa marcada por grupo (mesma linha ou mesma pergunta)
+        document.addEventListener('change', e => {
+            const cb = e.target;
+            if (!cb.matches || !cb.matches('input[type=checkbox][data-grupo]') || !cb.checked) return;
+            document.querySelectorAll('input[type=checkbox][data-grupo="' + cb.dataset.grupo + '"]').forEach(o => {
+                if (o !== cb) o.checked = false;
+            });
+        });
+
+        document.getElementById('btn-limpar').addEventListener('click', () => {
+            if (confirm('Limpar todos os campos do formulário?')) document.getElementById('dav-form').reset();
+        });
+
+        montarTabela();
+    </script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 /* GERADO por scripts/gerar-tema-escuro.py: não edite à mão.
-   Tema escuro automático para as páginas com Tailwind (CDN). */
+   Tema escuro automático (só em tela, não afeta a impressão) para as páginas com Tailwind (CDN). */
 :root{color-scheme:light dark}
-@media (prefers-color-scheme:dark){
+@media screen and (prefers-color-scheme:dark){
   body{background-color:#0f171b !important;color:#e6edf1}
   input,select,textarea{background-color:#10181d !important;color:#e6edf1 !important;border-color:#3a4d58 !important}
   input::placeholder,textarea::placeholder{color:#7d8f9b !important}
@@ -356,6 +356,8 @@
   .ring-rose-200{--tw-ring-color:hsl(350 25% 28%) !important}
   .border-rose-300{border-color:hsl(350 25% 34%) !important}
   .ring-rose-300{--tw-ring-color:hsl(350 25% 34%) !important}
+  .border-black{border-color:#64748b !important}
+  .bg-black{background-color:#64748b !important}
   [class*="bg-red-50/"]{background-color:hsl(0 30% 13% / .6) !important}
   [class*="bg-red-100/"]{background-color:hsl(0 32% 17% / .6) !important}
   [class*="bg-red-200/"]{background-color:hsl(0 32% 22% / .6) !important}

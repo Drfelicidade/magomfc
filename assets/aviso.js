@@ -4,6 +4,12 @@
   if (document.getElementById('aviso-clinico')) return;
   try { if (sessionStorage.getItem('aviso-clinico-oculto') === '1') return; } catch (e) {}
 
+  // A faixa não deve sair nas páginas impressas (formulários e termos)
+  var estilo = document.createElement('style');
+  estilo.id = 'aviso-clinico-print';
+  estilo.textContent = '@media print{#aviso-clinico{display:none !important}body{padding-bottom:0 !important}}';
+  document.head.appendChild(estilo);
+
   var barra = document.createElement('aside');
   barra.id = 'aviso-clinico';
   barra.setAttribute('role', 'note');
