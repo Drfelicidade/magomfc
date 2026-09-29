@@ -29,6 +29,8 @@ for h,deg in HUES.items():
     for t,(s,l) in BORD.items():
         rule(f'.border-{h}-{t}', 'border-color', hsl(deg,s,l))
         rule(f'.ring-{h}-{t}', '--tw-ring-color', hsl(deg,s,l))
+rule('.border-black', 'border-color', '#64748b')
+rule('.bg-black', 'background-color', '#64748b')
 # variantes translúcidas (bg-red-50/30, bg-white/60...) sobre fundos claros
 for h,deg in HUES.items():
     for t,(s,l) in BG.items():
@@ -38,9 +40,9 @@ for t in (50,100,200):
 rule('[class*="bg-white/"]', 'background-color', 'rgb(24 35 41 / .7)')
 rule('.border-black\\/10', 'border-color', 'rgb(255 255 255 / .12)')
 css = '''/* GERADO por scripts/gerar-tema-escuro.py: não edite à mão.
-   Tema escuro automático para as páginas com Tailwind (CDN). */
+   Tema escuro automático (só em tela, não afeta a impressão) para as páginas com Tailwind (CDN). */
 :root{color-scheme:light dark}
-@media (prefers-color-scheme:dark){
+@media screen and (prefers-color-scheme:dark){
   body{background-color:#0f171b !important;color:#e6edf1}
   input,select,textarea{background-color:#10181d !important;color:#e6edf1 !important;border-color:#3a4d58 !important}
   input::placeholder,textarea::placeholder{color:#7d8f9b !important}
