@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário Vacinal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-teal-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Calendário Vacinal</h1>
+        <p class="text-teal-100 text-sm md:text-base">Calendário Nacional de Vacinação 2026 (PNI/MS) por data de nascimento</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-teal-800 hover:bg-teal-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label for="nasc" class="block text-sm font-medium text-gray-700 mb-1">Data de nascimento</label>
+                <input type="date" id="nasc" class="w-full p-3 border border-gray-300 rounded-xl">
+            </div>
+            <div>
+                <label for="ref" class="block text-sm font-medium text-gray-700 mb-1">Data de referência</label>
+                <input type="date" id="ref" class="w-full p-3 border border-gray-300 rounded-xl">
+            </div>
+        </div>
+        <div id="bloco-gest" class="hidden space-y-3 p-4 bg-pink-50 border border-pink-100 rounded-2xl">
+            <label class="flex items-center gap-2 text-sm font-medium text-gray-800"><input type="checkbox" id="gest" class="w-4 h-4"> Gestante</label>
+            <div id="bloco-ig" class="hidden">
+                <label for="ig" class="block text-sm font-medium text-gray-700 mb-1">Idade gestacional na data de referência (semanas, opcional)</label>
+                <input type="number" id="ig" min="0" max="42" class="w-full sm:w-48 p-3 border border-gray-300 rounded-xl">
+            </div>
+        </div>
+        <div id="resultado" class="hidden space-y-4" role="status" aria-live="polite"></div>
+        <p class="text-xs text-gray-500">Mostra o esquema de rotina. Não considera a caderneta: confira as doses já aplicadas e, para esquemas atrasados, <strong>nunca reiniciar o esquema</strong> — completar respeitando os intervalos mínimos. Pessoas imunocomprometidas, com comorbidades ou pertencentes a grupos prioritários (profissionais de saúde, indígenas etc.) têm indicações adicionais (CRIE).</p>
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Ministério da Saúde. Calendário Nacional de Vacinação 2026 — Ciclo de Vida: Criança (atualizado em 30/01/2026), Adolescente e Jovem (04/02/2026), Adulto, Gestante e Idoso. gov.br/saude/pt-br/vacinacao/calendario.</li>
+                <li>Ministério da Saúde. Manual de Normas e Procedimentos para Vacinação, 2024; Manual dos Centros de Referência de Imunobiológicos Especiais (CRIE), 2023; Instrução Normativa do Calendário Nacional de Vacinação 2026.</li>
+                <li>O calendário é revisado anualmente e pode mudar por região ou por disponibilidade de produto; confirme com a secretaria de saúde local.</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+// [nome, [[meses, rótulo]...], observação]
+const CRIANCA = [
+ ["BCG", [[0, "dose única (ao nascer, até 30 dias de vida)"]], "Adiar se RN < 2 kg; contraindicada em imunodeficiência."],
+ ["Hepatite B", [[0, "ao nascer (até 30 dias)"]], "Se não recebida até 30 dias, iniciar com a penta aos 2 meses. RN de mãe HBsAg+: vacina + imunoglobulina anti-hepatite B, de preferência nas primeiras 12 h (máx. 7 dias para a imunoglobulina)."],
+ ["Penta (DTP + Hib + HB)", [[2, "1ª dose"], [4, "2ª dose"], [6, "3ª dose"]], "Idade mínima 6 semanas; intervalo 60 dias (mínimo 30)."],
+ ["VIP (poliomielite inativada)", [[2, "1ª dose"], [4, "2ª dose"], [6, "3ª dose"], [15, "reforço"]], "Intervalo 60 dias (mínimo 30); reforço 9 meses após a 3ª dose (mínimo 6)."],
+ ["Rotavírus humano (VORH)", [[2, "1ª dose (limite: 11 m 29 d)"], [4, "2ª dose (limite: 23 m 29 d)"]], "1ª dose só de 1 m 15 d a 11 m 29 d; se perder essa janela, perde também a 2ª."],
+ ["Pneumocócica 10-valente (VPC10)", [[2, "1ª dose"], [4, "2ª dose"], [12, "reforço"]], "Reforço 8 meses após a 2ª dose (mínimo 60 dias)."],
+ ["Meningocócica C / ACWY", [[3, "1ª dose (Men C)"], [5, "2ª dose (Men C)"], [12, "reforço (Men ACWY)"]], "Reforço 7 meses após a 2ª dose (mínimo 60 dias); sem esquema básico entre 12 meses e 4 a 11 m 29 d, dose única de MenACWY."],
+ ["COVID-19 (RNAm)", [[6, "1ª dose"], [7, "2ª dose"], [9, "3ª dose"]], "Esquema de 3 doses com Comirnaty (Pfizer); 2 doses (6 e 7 meses) com Spikevax na indisponibilidade da Pfizer."],
+ ["Influenza (trivalente)", [[6, "1ª dose (2 doses se sem histórico vacinal, intervalo de 30 dias); depois 1 dose por temporada até 5 a 11 m 29 d"]], "Idade a partir de 6 meses até 5 a 11 m 29 d na rotina (até 8 a 11 m 29 d em indígenas e com comorbidades)."],
+ ["Febre amarela", [[9, "1ª dose"], [48, "reforço"]], "Intervalo mínimo 30 dias. Antes dos 2 anos, não administrar junto com SCR/tetraviral (30 dias, mínimo 15)."],
+ ["Tríplice viral (SCR)", [[12, "1ª dose"], [15, "2ª dose"]], "Intervalo 30 dias (mínimo 15). O MS não recomenda a SCR do Serum Institute em alergia grave à proteína do leite de vaca."],
+ ["Hepatite A", [[15, "dose única"]], ""],
+ ["DTP", [[15, "1º reforço"], [48, "2º reforço"]], "Depois, dT a cada 10 anos (5 anos se risco de tétano/difteria)."],
+ ["Varicela", [[15, "1ª dose"], [48, "2ª dose"]], "Na indisponibilidade da varicela monovalente, tetraviral a partir de 12 meses."],
+ ["HPV4", [[108, "dose única (9 a 14 anos)"]], "1 dose. Faixa de 15 a 19 anos sem histórico: resgate com 1 dose, conforme organização do estado."]
+];
+const ADOLESC = [
+ ["Hepatite B", "Sem esquema completo: iniciar ou completar 3 doses (0, 1 e 6 meses; mínimo 1 mês entre a 1ª e a 2ª, 2 meses entre a 2ª e a 3ª, 4 meses entre a 1ª e a 3ª)."],
+ ["dT (dupla adulto)", "Esquema básico completo (≥ 3 doses): reforço a cada 10 anos (5 anos se risco). Sem esquema completo: completar 3 doses com dT (60 dias, mínimo 30). Nunca reiniciar o esquema."],
+ ["Febre amarela", "1 dose se sem histórico; 1 reforço se recebeu 1 dose antes de 5 anos ou apenas dose fracionada."],
+ ["Tríplice viral (SCR)", "Entre 5 e 29 anos: 2 doses se sem histórico (intervalo 30 dias, mínimo 15); 1 dose se já recebeu 1. Profissionais de saúde: 2 doses."],
+ ["HPV4", "9 a 14 anos: 1 dose. 15 a 19 anos sem histórico: 1 dose (resgate, conforme o estado). Também indicada para grupos prioritários (ver IN CNV 2026)."],
+ ["MenACWY", "11 a 14 anos: 1 dose (reforço da proteção se houve dose anterior)."],
+ ["Dengue (atenuada)", "10 a 14 anos: 2 doses com intervalo de 3 meses; sem intercambialidade entre produtores. Aguardar 6 meses após infecção pelo vírus da dengue. Também disponível para profissionais de saúde da APS até 59 anos (Butantan)."],
+ ["Varicela e pneumocócica 23-valente", "Nesta faixa etária apenas para população indígena e profissionais de saúde (varicela, sem história da doença; 2 doses)."]
+];
+const ADULTO = [
+ ["Hepatite B", "Sem esquema completo: iniciar ou completar 3 doses (garantir o mais breve possível)."],
+ ["dT (dupla adulto)", "Reforço a cada 10 anos após a última dose (5 anos se exposição a risco). Sem esquema completo: 3 doses com dT (60 dias, mínimo 30). Profissionais de saúde de neonatologia/maternidade: dTpa."],
+ ["Febre amarela", "1 dose se sem histórico; reforço se 1 dose antes dos 5 anos ou apenas fracionada. Viajantes: vacinar ≥ 10 dias antes."],
+ ["Tríplice viral (SCR)", "Até 29 anos: 2 doses se sem histórico, 1 dose se já recebeu 1. De 30 a 59 anos: 1 dose se sem histórico. Profissionais de saúde: 2 doses."],
+ ["Varicela e pneumocócica 23-valente", "Somente população indígena e profissionais de saúde (varicela: sem história pregressa da doença)."],
+ ["HPV4", "Grupos prioritários (ver IN CNV 2026)."]
+];
+const IDOSO = [
+ ["Influenza (trivalente)", "1 dose anual com a vacina da temporada, a partir dos 60 anos."],
+ ["COVID-19", "1 dose semestral (intervalo de 6 meses da última dose), independente das doses anteriores."],
+ ["Hepatite B", "Sem esquema completo: iniciar ou completar 3 doses."],
+ ["dT (dupla adulto)", "Reforço a cada 10 anos (5 anos se risco). Sem esquema completo: 3 doses com dT (60 dias, mínimo 30)."],
+ ["Pneumocócica 23-valente", "2 doses (intervalo de 5 anos) para acamados e/ou institucionalizados sem histórico de vacina pneumocócica conjugada; também indígenas."],
+ ["Febre amarela", "Somente não vacinados residentes ou que se deslocarão para área com transmissão ativa, ≥ 10 dias antes e após avaliação caso a caso (Nota Técnica 39/2025)."],
+ ["SCR e varicela", "Somente profissionais de saúde (SCR; varicela sem história pregressa) e população indígena."]
+];
+const GEST = [
+ ["dTpa", "1 dose a cada gestação a partir da 20ª semana (se ≥ 3 doses prévias com componente tetânico/diftérico). Com 2 doses: 1 dose de dTpa a partir da 20ª semana. Com 1 dose: 1 dT + 1 dTpa (esta a partir da 20ª semana). Sem doses prévias: iniciar o esquema com dT e completar com dTpa (a partir da 20ª semana), conforme o Manual de Normas e Procedimentos. Intervalo 60 dias (mínimo 30).", 20],
+ ["VSR (vírus sincicial respiratório A e B, recombinante)", "1 dose a cada gestação, a partir da 28ª semana.", 28],
+ ["Influenza (trivalente)", "1 dose com a vacina da temporada, em qualquer fase da gestação.", null],
+ ["COVID-19", "1 dose a cada gestação, em qualquer fase da gestação (intervalo mínimo de 6 meses da última dose).", null],
+ ["Hepatite B", "Sem esquema completo: atualizar desde a 1ª consulta de pré-natal; se não concluir, completar no puerpério (até 45 dias). Não revacinar quem já tem 3 doses.", null],
+ ["Febre amarela", "Somente se impossível adiar, residente/viajante em área de risco e após avaliação de risco-benefício.", null]
+];
+const DIA = 86400000;
+function fmt(d) { return d.toLocaleDateString('pt-BR'); }
+function addMeses(d, m) { const r = new Date(d.getTime()); const dia = r.getDate(); r.setMonth(r.getMonth() + m); if (r.getDate() !== dia) r.setDate(0); return r; }
+function idade(nasc, ref) {
+    let m = (ref.getFullYear() - nasc.getFullYear()) * 12 + ref.getMonth() - nasc.getMonth();
+    if (ref.getDate() < nasc.getDate()) m--;
+    return m;
+}
+function textoIdade(m) { return m < 24 ? m + ' meses' : Math.floor(m / 12) + ' anos' + (m % 12 ? ' e ' + (m % 12) + ' meses' : ''); }
+function lista(itens) {
+    return '<ul class="space-y-2">' + itens.map(i => '<li class="p-3 bg-gray-50 border border-gray-200 rounded-xl"><div class="font-semibold text-gray-800">' + i[0] + '</div><div class="text-sm text-gray-600">' + i[1] + (i[3] ? '<div class="mt-1 font-semibold text-pink-700">' + i[3] + '</div>' : '') + '</div></li>').join('') + '</ul>';
+}
+function atualizar() {
+    const n = $('nasc').value, r = $('ref').value, res = $('resultado');
+    $('bloco-ig').classList.toggle('hidden', !$('gest').checked);
+    if (!n || !r) { res.classList.add('hidden'); $('bloco-gest').classList.add('hidden'); return; }
+    const nasc = new Date(n + 'T12:00:00'), ref = new Date(r + 'T12:00:00');
+    if (nasc > ref) { res.classList.remove('hidden'); res.innerHTML = '<div class="p-4 bg-red-50 border border-red-300 rounded-xl text-red-800 text-sm">A data de nascimento é posterior à data de referência.</div>'; return; }
+    const meses = idade(nasc, ref);
+    const anos = Math.floor(meses / 12);
+    const podeGest = anos >= 10 && anos < 50;
+    $('bloco-gest').classList.toggle('hidden', !podeGest);
+    if (!podeGest) $('gest').checked = false;
+    $('bloco-ig').classList.toggle('hidden', !$('gest').checked);
+    let html = '<div class="p-4 bg-teal-50 border border-teal-200 rounded-xl text-teal-900 font-semibold">Idade na data de referência: ' + textoIdade(meses) + '</div>';
+    if ($('gest').checked && podeGest) {
+        const ig = parseFloat($('ig').value);
+        const itens = GEST.map(g => {
+            let extra = '';
+            if (g[2] && !isNaN(ig)) { const d = new Date(ref.getTime() + (g[2] - ig) * 7 * DIA); extra = ig >= g[2] ? 'Já elegível (IG ≥ ' + g[2] + ' semanas).' : 'Elegível a partir de ' + fmt(d) + ' (' + g[2] + ' semanas).'; }
+            return [g[0], g[1], 0, extra];
+        });
+        html += '<h2 class="text-lg font-bold text-gray-800">Gestante</h2>' + lista(itens) + '<p class="text-xs text-gray-600">Vacinas de vírus vivos atenuados (SCR, varicela, dengue) não devem ser aplicadas na gestação; atualizar antes da concepção ou no puerpério. Se não foi possível vacinar na gestação, vacinar no puerpério imediato (até 45 dias).</p>';
+    } else if (meses < 120) {
+        html += '<h2 class="text-lg font-bold text-gray-800">Criança (0 a 9 anos, 11 meses e 29 dias)</h2><div class="space-y-3">';
+        CRIANCA.forEach(v => {
+            if (v[0] === 'HPV4' && meses < 108) { html += '<div class="border border-gray-200 rounded-xl p-3"><div class="font-semibold text-gray-800">HPV4</div><div class="text-sm text-gray-600">Dose única a partir dos 9 anos (' + fmt(addMeses(nasc, 108)) + ').</div></div>'; return; }
+            let linhas = v[1].map(d => {
+                const data = addMeses(nasc, d[0]);
+                const passou = data <= ref;
+                const prox = !passou && data - ref <= 60 * DIA;
+                const cor = passou ? 'bg-gray-50 text-gray-700' : (prox ? 'bg-amber-50 border border-amber-300 text-amber-900 font-semibold' : 'bg-white border border-gray-200 text-gray-700');
+                const tag = passou ? 'já indicada' : (prox ? 'próximos 60 dias' : 'futura');
+                return '<li class="flex flex-wrap justify-between gap-2 p-2 rounded-lg ' + cor + '"><span>' + d[1] + '</span><span class="text-xs">' + fmt(data) + ' · ' + tag + '</span></li>';
+            }).join('');
+            html += '<div class="border border-gray-200 rounded-xl p-3"><div class="font-semibold text-gray-800 mb-1">' + v[0] + '</div><ul class="space-y-1 text-sm">' + linhas + '</ul>' + (v[2] ? '<p class="text-xs text-gray-500 mt-2">' + v[2] + '</p>' : '') + '</div>';
+        });
+        html += '</div><p class="text-xs text-gray-600">“Já indicada” = a idade recomendada já passou; verifique na caderneta se foi aplicada. Se atrasada, completar o esquema sem reiniciá-lo, respeitando os intervalos mínimos.</p>';
+    } else if (anos < 25) {
+        html += '<h2 class="text-lg font-bold text-gray-800">' + (anos < 20 ? 'Adolescente (10 a 19 anos)' : 'Jovem (20 a 24 anos)') + '</h2>' + lista(ADOLESC.filter(x => {
+            if (x[0] === 'HPV4') return anos < 20;
+            if (x[0] === 'MenACWY') return anos >= 11 && anos < 15;
+            if (x[0].indexOf('Dengue') === 0) return anos < 15;
+            return true;
+        }));
+    } else if (anos < 60) {
+        html += '<h2 class="text-lg font-bold text-gray-800">Adulto (25 a 59 anos)</h2>' + lista(ADULTO);
+    } else {
+        html += '<h2 class="text-lg font-bold text-gray-800">Idoso (60 anos ou mais)</h2>' + lista(IDOSO);
+    }
+    res.innerHTML = html; res.classList.remove('hidden');
+}
+(function () {
+    const h = new Date(); $('ref').value = h.getFullYear() + '-' + String(h.getMonth() + 1).padStart(2, '0') + '-' + String(h.getDate()).padStart(2, '0');
+    ['nasc', 'ref', 'ig'].forEach(i => $(i).addEventListener('input', atualizar));
+    $('gest').addEventListener('change', atualizar);
+})();
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>
