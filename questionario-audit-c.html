@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário AUDIT-C</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-orange-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Questionário AUDIT-C</h1>
+        <p class="text-orange-100 text-sm md:text-base">Triagem breve de uso de risco de álcool</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-orange-800 hover:bg-orange-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">Sexo</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="sexo" value="M" class="w-5 h-5 shrink-0"> <span>Masculino</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="sexo" value="F" class="w-5 h-5 shrink-0"> <span>Feminino</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">1. Com que frequência o(a) paciente consome bebidas que contêm álcool?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="0" class="w-5 h-5 shrink-0"> <span>Nunca</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="1" class="w-5 h-5 shrink-0"> <span>Uma vez por mês ou menos</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="2" class="w-5 h-5 shrink-0"> <span>2 a 4 vezes por mês</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="3" class="w-5 h-5 shrink-0"> <span>2 a 3 vezes por semana</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="4" class="w-5 h-5 shrink-0"> <span>4 ou mais vezes por semana</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">2. Quantas doses contendo álcool consome em um dia normal?</legend>
+            <p class="text-sm text-gray-500">Uma dose equivale a cerca de 10 a 12 g de álcool: uma lata de cerveja (350 mL), uma taça pequena de vinho (100 a 150 mL) ou uma dose de destilado (30 a 40 mL).</p>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="0" class="w-5 h-5 shrink-0"> <span>1 ou 2</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="1" class="w-5 h-5 shrink-0"> <span>3 ou 4</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="2" class="w-5 h-5 shrink-0"> <span>5 ou 6</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="3" class="w-5 h-5 shrink-0"> <span>7 a 9</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="4" class="w-5 h-5 shrink-0"> <span>10 ou mais</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">3. Com que frequência consome seis ou mais doses em uma única ocasião?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="0" class="w-5 h-5 shrink-0"> <span>Nunca</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="1" class="w-5 h-5 shrink-0"> <span>Menos de uma vez por mês</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="2" class="w-5 h-5 shrink-0"> <span>Mensalmente</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="3" class="w-5 h-5 shrink-0"> <span>Semanalmente</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="4" class="w-5 h-5 shrink-0"> <span>Todos ou quase todos os dias</span></label>
+        </fieldset>
+        <p class="text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">Triagem, não diagnóstico. Se o paciente relata que nunca bebe (pergunta 1), as demais perguntas valem zero.</p>
+        <div class="flex flex-wrap gap-3">
+            <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar</button>
+        </div>
+        <div id="resultado" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Bush K et al. Arch Intern Med 1998;158:1789-95 (AUDIT-C).</li>
+                <li>Pontos de corte: 4 para homens e 3 para mulheres (Bradley KA et al. Alcohol Clin Exp Res 2007;31:1208-17).</li>
+                <li>AUDIT completo: Babor TF et al., OMS. Versão brasileira validada por Lima CT et al. (2005).</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const CORES = {
+    verde: 'bg-green-50 border-green-500 text-green-800',
+    amarelo: 'bg-yellow-50 border-yellow-400 text-yellow-800',
+    laranja: 'bg-orange-50 border-orange-500 text-orange-800',
+    vermelho: 'bg-red-50 border-red-500 text-red-800',
+    azul: 'bg-blue-50 border-blue-500 text-blue-800',
+    cinza: 'bg-gray-50 border-gray-300 text-gray-800'
+};
+function valorRadio(nome) {
+    const el = document.querySelector('input[name="' + nome + '"]:checked');
+    return el ? Number(el.value) : null;
+}
+function numero(id) {
+    const v = $(id).value;
+    return v === '' ? null : Number(v);
+}
+// Mostra o resultado; "linhas" são parágrafos (texto simples, sem HTML de terceiros)
+function mostrar(cor, titulo, linhas, extras) {
+    const r = $('resultado');
+    r.className = 'p-5 rounded-2xl border-2 space-y-2 ' + CORES[cor];
+    r.textContent = '';
+    const h = document.createElement('p');
+    h.className = 'text-2xl font-black';
+    h.textContent = titulo;
+    r.appendChild(h);
+    (linhas || []).forEach(t => { const p = document.createElement('p'); p.className = 'text-sm font-medium'; p.textContent = t; r.appendChild(p); });
+    (extras || []).forEach(x => {
+        const p = document.createElement('p');
+        p.className = 'text-sm font-bold mt-2 p-3 rounded-lg bg-red-100 text-red-900 border border-red-300';
+        p.textContent = x; r.appendChild(p);
+    });
+}
+function ocultar() { $('resultado').className = 'hidden'; }
+function aviso(texto) {
+    const r = $('resultado');
+    r.className = 'p-4 rounded-2xl border-2 ' + CORES.cinza;
+    r.textContent = texto;
+}
+$('form').addEventListener('input', () => atualizar());
+$('form').addEventListener('change', () => atualizar());
+$('btn-limpar').addEventListener('click', () => { $('form').reset(); ocultar(); });
+
+function atualizar() {
+    const sexo = document.querySelector('input[name="sexo"]:checked');
+    const q1 = valorRadio('q1'), q2 = valorRadio('q2'), q3 = valorRadio('q3');
+    if (q1 === null && q2 === null && q3 === null) { ocultar(); return; }
+    if (q1 === null || q2 === null || q3 === null || !sexo) { aviso('Responda o sexo e as 3 perguntas para ver o resultado.'); return; }
+    const total = q1 + q2 + q3;
+    const corte = sexo.value === 'M' ? 4 : 3;
+    if (total >= corte) {
+        mostrar(total >= 8 ? 'vermelho' : 'laranja', 'AUDIT-C: ' + total + ' de 12. Triagem positiva', [
+            'Ponto de corte para ' + (sexo.value === 'M' ? 'homens: 4 ou mais' : 'mulheres: 3 ou mais') + '.',
+            'Conduta: aplicar o AUDIT completo (10 perguntas), avaliar padrão de uso, dependência e danos, e oferecer intervenção breve. Investigar comorbidades, medicações e sinais de abstinência.',
+            total >= 8 ? 'Pontuação de 8 ou mais sugere uso de risco elevado: avaliar dependência e necessidade de tratamento especializado (CAPS-AD).' : 'Reavaliar em consulta de seguimento.']);
+    } else {
+        mostrar('verde', 'AUDIT-C: ' + total + ' de 12. Triagem negativa', [
+            'Abaixo do ponto de corte (' + corte + ') para ' + (sexo.value === 'M' ? 'homens' : 'mulheres') + '.',
+            'Reforçar o consumo de baixo risco e repetir a triagem periodicamente. Gestantes, adolescentes e pessoas em uso de medicações que interagem com álcool devem evitar qualquer consumo.']);
+    }
+}
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>

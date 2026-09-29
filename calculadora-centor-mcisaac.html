@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centor modificado (McIsaac)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-amber-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Centor modificado (McIsaac)</h1>
+        <p class="text-amber-100 text-sm md:text-base">Probabilidade de faringoamigdalite estreptocócica em pacientes com dor de garganta</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-amber-800 hover:bg-amber-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="exsudato" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Exsudato ou edema nas amígdalas</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="linfonodo" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Linfonodos cervicais anteriores dolorosos ou aumentados</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="febre" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Febre (história de temperatura acima de 38 °C)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="semtosse" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Ausência de tosse</span></span>
+        </label>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">Faixa etária</legend>
+            <p class="text-sm text-gray-500">O escore não se aplica a menores de 3 anos.</p>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="idade" value="1" class="w-5 h-5 shrink-0"> <span>3 a 14 anos (+1)</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="idade" value="0" class="w-5 h-5 shrink-0"> <span>15 a 44 anos (0)</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="idade" value="-1" class="w-5 h-5 shrink-0"> <span>45 anos ou mais (−1)</span></label>
+        </fieldset>
+        <p class="text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">Aplicar em pacientes com dor de garganta aguda. Não use para quem tem sinais de infecção viral evidente (coriza, rouquidão, conjuntivite, úlceras orais) como decisão isolada, nem para suspeita de abscesso ou complicação.</p>
+        <div class="flex flex-wrap gap-3">
+            <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar</button>
+        </div>
+        <div id="resultado" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>McIsaac WJ et al. CMAJ 1998;158:75-83 e JAMA 2004;291:1587-95 (probabilidades por escore).</li>
+                <li>IDSA (Shulman 2012): não tratar empiricamente sem teste positivo, quando o teste está disponível.</li>
+                <li>Faringite estreptocócica é autolimitada; o tratamento reduz a duração dos sintomas e previne febre reumática.</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const CORES = {
+    verde: 'bg-green-50 border-green-500 text-green-800',
+    amarelo: 'bg-yellow-50 border-yellow-400 text-yellow-800',
+    laranja: 'bg-orange-50 border-orange-500 text-orange-800',
+    vermelho: 'bg-red-50 border-red-500 text-red-800',
+    azul: 'bg-blue-50 border-blue-500 text-blue-800',
+    cinza: 'bg-gray-50 border-gray-300 text-gray-800'
+};
+function valorRadio(nome) {
+    const el = document.querySelector('input[name="' + nome + '"]:checked');
+    return el ? Number(el.value) : null;
+}
+function numero(id) {
+    const v = $(id).value;
+    return v === '' ? null : Number(v);
+}
+// Mostra o resultado; "linhas" são parágrafos (texto simples, sem HTML de terceiros)
+function mostrar(cor, titulo, linhas, extras) {
+    const r = $('resultado');
+    r.className = 'p-5 rounded-2xl border-2 space-y-2 ' + CORES[cor];
+    r.textContent = '';
+    const h = document.createElement('p');
+    h.className = 'text-2xl font-black';
+    h.textContent = titulo;
+    r.appendChild(h);
+    (linhas || []).forEach(t => { const p = document.createElement('p'); p.className = 'text-sm font-medium'; p.textContent = t; r.appendChild(p); });
+    (extras || []).forEach(x => {
+        const p = document.createElement('p');
+        p.className = 'text-sm font-bold mt-2 p-3 rounded-lg bg-red-100 text-red-900 border border-red-300';
+        p.textContent = x; r.appendChild(p);
+    });
+}
+function ocultar() { $('resultado').className = 'hidden'; }
+function aviso(texto) {
+    const r = $('resultado');
+    r.className = 'p-4 rounded-2xl border-2 ' + CORES.cinza;
+    r.textContent = texto;
+}
+$('form').addEventListener('input', () => atualizar());
+$('form').addEventListener('change', () => atualizar());
+$('btn-limpar').addEventListener('click', () => { $('form').reset(); ocultar(); });
+
+function atualizar() {
+    const idade = valorRadio('idade');
+    if (idade === null) { aviso('Selecione a faixa etária para calcular.'); return; }
+    const total = ['exsudato', 'linfonodo', 'febre', 'semtosse'].filter(id => $(id).checked).length + idade;
+    let cor, prob, conduta;
+    if (total <= 0) { cor = 'verde'; prob = '1 a 2,5%'; conduta = 'Não testar nem prescrever antibiótico.'; }
+    else if (total === 1) { cor = 'verde'; prob = '5 a 10%'; conduta = 'Não testar nem prescrever antibiótico.'; }
+    else if (total === 2) { cor = 'amarelo'; prob = '11 a 17%'; conduta = 'Testar (teste rápido ou cultura) e tratar apenas se positivo.'; }
+    else if (total === 3) { cor = 'laranja'; prob = '28 a 35%'; conduta = 'Testar e tratar se positivo; considerar tratamento empírico se o teste não estiver disponível.'; }
+    else { cor = 'vermelho'; prob = '51 a 53%'; conduta = 'Testar; considerar antibiótico empírico se o teste não estiver disponível.'; }
+    mostrar(cor, 'Escore ' + total + ': probabilidade de estreptococo de ' + prob, [conduta,
+        'Se tratar, a penicilina benzatina intramuscular em dose única ou a amoxicilina por via oral por 10 dias são as opções habituais; evite antibiótico para dor de garganta sem indicação.']);
+}
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>

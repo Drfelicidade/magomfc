@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora CURB-65</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-sky-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Calculadora CURB-65</h1>
+        <p class="text-sky-100 text-sm md:text-base">Gravidade da pneumonia adquirida na comunidade e local de tratamento</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-sky-800 hover:bg-sky-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="conf" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Confusão mental (desorientação nova no tempo, no espaço ou na pessoa)</span></span>
+        </label>
+        <div>
+            <label for="ureia" class="block font-semibold text-gray-800 mb-1">Ureia (mg/dL)</label>
+            <input type="number" id="ureia" inputmode="decimal" min="0" class="w-full p-3 border border-gray-300 rounded-xl text-lg">
+            <p class="text-sm text-gray-500 mt-1">Ponto se acima de 50 mg/dL (critério das diretrizes brasileiras). O critério original é ureia acima de 7 mmol/L (cerca de 42 mg/dL), o que equivale a BUN acima de 19 mg/dL.</p>
+        </div>
+        <div>
+            <label for="fr" class="block font-semibold text-gray-800 mb-1">Frequência respiratória (irpm)</label>
+            <input type="number" id="fr" inputmode="decimal" min="0" class="w-full p-3 border border-gray-300 rounded-xl text-lg">
+            <p class="text-sm text-gray-500 mt-1">Ponto se 30 ou mais.</p>
+        </div>
+        <div>
+            <label for="pas" class="block font-semibold text-gray-800 mb-1">Pressão arterial sistólica (mmHg)</label>
+            <input type="number" id="pas" inputmode="decimal" min="0" class="w-full p-3 border border-gray-300 rounded-xl text-lg">
+            <p class="text-sm text-gray-500 mt-1">Ponto se sistólica abaixo de 90 mmHg ou diastólica igual ou abaixo de 60 mmHg.</p>
+        </div>
+        <div>
+            <label for="pad" class="block font-semibold text-gray-800 mb-1">Pressão arterial diastólica (mmHg)</label>
+            <input type="number" id="pad" inputmode="decimal" min="0" class="w-full p-3 border border-gray-300 rounded-xl text-lg">
+        </div>
+        <div>
+            <label for="idade" class="block font-semibold text-gray-800 mb-1">Idade (anos)</label>
+            <input type="number" id="idade" inputmode="decimal" min="0" max="120" class="w-full p-3 border border-gray-300 rounded-xl text-lg">
+            <p class="text-sm text-gray-500 mt-1">Ponto se 65 anos ou mais.</p>
+        </div>
+        <p class="text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">Uso em pneumonia adquirida na comunidade confirmada ou suspeita, em adultos. O escore ajuda, mas não substitui o julgamento clínico: saturação de O₂ abaixo de 90%, comorbidade descompensada, incapacidade de usar via oral e fatores sociais também pesam na decisão de internar.</p>
+        <div class="flex flex-wrap gap-3">
+            <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar</button>
+        </div>
+        <div id="resultado" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Lim WS et al. Thorax 2003;58:377-82 (escore original) e diretrizes da British Thoracic Society.</li>
+                <li>Diretrizes brasileiras para pneumonia adquirida na comunidade em adultos imunocompetentes (SBPT, 2009): ureia acima de 50 mg/dL.</li>
+                <li>As taxas de mortalidade são aproximadas e vêm da validação original; variam entre populações.</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const CORES = {
+    verde: 'bg-green-50 border-green-500 text-green-800',
+    amarelo: 'bg-yellow-50 border-yellow-400 text-yellow-800',
+    laranja: 'bg-orange-50 border-orange-500 text-orange-800',
+    vermelho: 'bg-red-50 border-red-500 text-red-800',
+    azul: 'bg-blue-50 border-blue-500 text-blue-800',
+    cinza: 'bg-gray-50 border-gray-300 text-gray-800'
+};
+function valorRadio(nome) {
+    const el = document.querySelector('input[name="' + nome + '"]:checked');
+    return el ? Number(el.value) : null;
+}
+function numero(id) {
+    const v = $(id).value;
+    return v === '' ? null : Number(v);
+}
+// Mostra o resultado; "linhas" são parágrafos (texto simples, sem HTML de terceiros)
+function mostrar(cor, titulo, linhas, extras) {
+    const r = $('resultado');
+    r.className = 'p-5 rounded-2xl border-2 space-y-2 ' + CORES[cor];
+    r.textContent = '';
+    const h = document.createElement('p');
+    h.className = 'text-2xl font-black';
+    h.textContent = titulo;
+    r.appendChild(h);
+    (linhas || []).forEach(t => { const p = document.createElement('p'); p.className = 'text-sm font-medium'; p.textContent = t; r.appendChild(p); });
+    (extras || []).forEach(x => {
+        const p = document.createElement('p');
+        p.className = 'text-sm font-bold mt-2 p-3 rounded-lg bg-red-100 text-red-900 border border-red-300';
+        p.textContent = x; r.appendChild(p);
+    });
+}
+function ocultar() { $('resultado').className = 'hidden'; }
+function aviso(texto) {
+    const r = $('resultado');
+    r.className = 'p-4 rounded-2xl border-2 ' + CORES.cinza;
+    r.textContent = texto;
+}
+$('form').addEventListener('input', () => atualizar());
+$('form').addEventListener('change', () => atualizar());
+$('btn-limpar').addEventListener('click', () => { $('form').reset(); ocultar(); });
+
+function atualizar() {
+    const conf = $('conf').checked ? 1 : 0;
+    const ureia = numero('ureia'), fr = numero('fr'), pas = numero('pas'), pad = numero('pad'), idade = numero('idade');
+    const u = ureia !== null && ureia > 50 ? 1 : 0;
+    const r = fr !== null && fr >= 30 ? 1 : 0;
+    const b = (pas !== null && pas < 90) || (pad !== null && pad <= 60) ? 1 : 0;
+    const i = idade !== null && idade >= 65 ? 1 : 0;
+    const faltam = [];
+    if (ureia === null) faltam.push('ureia');
+    if (fr === null) faltam.push('frequência respiratória');
+    if (pas === null && pad === null) faltam.push('pressão arterial');
+    if (idade === null) faltam.push('idade');
+    if (faltam.length === 4 && !conf) { ocultar(); return; }
+    const crb = conf + r + b + i;
+    const total = crb + u;
+    let cor, titulo, txt;
+    if (total <= 1) { cor = 'verde'; titulo = 'CURB-65: ' + total + ' ponto(s), baixo risco'; txt = 'Mortalidade em 30 dias de cerca de 1,5%. Em geral, tratamento ambulatorial, se não houver hipoxemia, comorbidade descompensada, fatores sociais desfavoráveis ou incapacidade de usar via oral.'; }
+    else if (total === 2) { cor = 'amarelo'; titulo = 'CURB-65: 2 pontos, risco intermediário'; txt = 'Mortalidade de cerca de 9%. Considerar internação (mesmo que curta) ou seguimento hospitalar.'; }
+    else { cor = 'vermelho'; titulo = 'CURB-65: ' + total + ' pontos, alto risco'; txt = 'Mortalidade de cerca de 22% ou mais. Indicar internação; com 4 ou 5 pontos, avaliar UTI.'; }
+    const linhas = [txt, 'Critérios: confusão ' + conf + ', ureia ' + u + ', FR ' + r + ', PA ' + b + ', idade ' + i + '.',
+        'CRB-65 (sem ureia, útil quando não há exame): ' + crb + ' ponto(s). ' + (crb === 0 ? 'Baixo risco, tratamento domiciliar provável.' : crb <= 2 ? 'Considerar encaminhamento hospitalar.' : 'Risco alto, encaminhar com urgência.')];
+    if (faltam.length) linhas.push('Campos não preenchidos (contam como zero): ' + faltam.join(', ') + '.');
+    mostrar(cor, titulo, linhas);
+}
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>

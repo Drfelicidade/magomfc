@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regras de Ottawa do tornozelo e do pé</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-teal-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Regras de Ottawa do tornozelo e do pé</h1>
+        <p class="text-teal-100 text-sm md:text-base">Quando pedir radiografia após trauma de tornozelo ou médio-pé</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-teal-800 hover:bg-teal-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <div class="p-4 rounded-xl bg-red-50 border border-red-200 text-red-900 space-y-2"><p class="font-bold">Antes de aplicar, confirme que não há nenhum destes fatores (as regras não valem):</p>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="ex1" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Intoxicação, rebaixamento da consciência ou déficit neurológico</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="ex2" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Lesões dolorosas associadas que distraiam a atenção (múltiplas lesões)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="ex3" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Gestante, ou lesão com mais de 10 dias</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="ex4" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Menor de 5 anos, ou suspeita de fratura exposta, luxação ou fratura já conhecida</span></span>
+        </label>
+        </div>
+        <p class="font-semibold text-gray-800">Região da dor</p>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">Onde está a dor?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="zona" value="tornozelo" class="w-5 h-5 shrink-0"> <span>Zona maleolar (tornozelo)</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="zona" value="pe" class="w-5 h-5 shrink-0"> <span>Zona do médio-pé</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="zona" value="ambas" class="w-5 h-5 shrink-0"> <span>As duas regiões</span></label>
+        </fieldset>
+        <div id="crit-tornozelo" class="space-y-3"><p class="font-semibold text-gray-800">Tornozelo</p>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="t1" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Dor à palpação óssea na borda posterior ou na ponta do maléolo lateral (últimos 6 cm distais)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="t2" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Dor à palpação óssea na borda posterior ou na ponta do maléolo medial (últimos 6 cm distais)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="t3" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Incapacidade de dar 4 passos, logo após a lesão e no exame</span><span class="block text-sm text-gray-500">Passos com carga: mesmo mancando conta como capaz de andar.</span></span>
+        </label>
+        </div>
+        <div id="crit-pe" class="space-y-3"><p class="font-semibold text-gray-800">Médio-pé</p>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="p1" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Dor à palpação óssea na base do 5º metatarso</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="p2" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Dor à palpação óssea do osso navicular</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="p3" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Incapacidade de dar 4 passos, logo após a lesão e no exame</span></span>
+        </label>
+        </div>
+        <div class="flex flex-wrap gap-3">
+            <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar</button>
+        </div>
+        <div id="resultado" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Stiell IG et al. JAMA 1994;271:827-32 e Ann Emerg Med 1992;21:384-90 (regras de Ottawa).</li>
+                <li>Bachmann LM et al. BMJ 2003;326:417 (revisão sistemática: sensibilidade próxima de 100% e redução de radiografias em cerca de 30 a 40%).</li>
+                <li>Validada em adultos; há adaptações para crianças a partir de 5 anos, que exigem cuidado adicional.</li>
+                <li>Não substitui o exame físico completo (palpação da fíbula proximal, sinais de lesão ligamentar, vascular e neurológica).</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const CORES = {
+    verde: 'bg-green-50 border-green-500 text-green-800',
+    amarelo: 'bg-yellow-50 border-yellow-400 text-yellow-800',
+    laranja: 'bg-orange-50 border-orange-500 text-orange-800',
+    vermelho: 'bg-red-50 border-red-500 text-red-800',
+    azul: 'bg-blue-50 border-blue-500 text-blue-800',
+    cinza: 'bg-gray-50 border-gray-300 text-gray-800'
+};
+function valorRadio(nome) {
+    const el = document.querySelector('input[name="' + nome + '"]:checked');
+    return el ? Number(el.value) : null;
+}
+function numero(id) {
+    const v = $(id).value;
+    return v === '' ? null : Number(v);
+}
+// Mostra o resultado; "linhas" são parágrafos (texto simples, sem HTML de terceiros)
+function mostrar(cor, titulo, linhas, extras) {
+    const r = $('resultado');
+    r.className = 'p-5 rounded-2xl border-2 space-y-2 ' + CORES[cor];
+    r.textContent = '';
+    const h = document.createElement('p');
+    h.className = 'text-2xl font-black';
+    h.textContent = titulo;
+    r.appendChild(h);
+    (linhas || []).forEach(t => { const p = document.createElement('p'); p.className = 'text-sm font-medium'; p.textContent = t; r.appendChild(p); });
+    (extras || []).forEach(x => {
+        const p = document.createElement('p');
+        p.className = 'text-sm font-bold mt-2 p-3 rounded-lg bg-red-100 text-red-900 border border-red-300';
+        p.textContent = x; r.appendChild(p);
+    });
+}
+function ocultar() { $('resultado').className = 'hidden'; }
+function aviso(texto) {
+    const r = $('resultado');
+    r.className = 'p-4 rounded-2xl border-2 ' + CORES.cinza;
+    r.textContent = texto;
+}
+$('form').addEventListener('input', () => atualizar());
+$('form').addEventListener('change', () => atualizar());
+$('btn-limpar').addEventListener('click', () => { $('form').reset(); ocultar(); });
+
+function atualizar() {
+    const zona = document.querySelector('input[name="zona"]:checked');
+    if (!zona) { aviso('Selecione a região da dor.'); return; }
+    $('crit-tornozelo').classList.toggle('hidden', zona.value === 'pe');
+    $('crit-pe').classList.toggle('hidden', zona.value === 'tornozelo');
+    if (['ex1', 'ex2', 'ex3', 'ex4'].some(id => $(id).checked)) {
+        mostrar('amarelo', 'Regras de Ottawa não se aplicam', ['Há um fator de exclusão marcado. Avalie a necessidade de radiografia por julgamento clínico.']);
+        return;
+    }
+    const tornozelo = zona.value !== 'pe' && ['t1', 't2', 't3'].some(id => $(id).checked);
+    const pe = zona.value !== 'tornozelo' && ['p1', 'p2', 'p3'].some(id => $(id).checked);
+    const series = [];
+    if (tornozelo) series.push('tornozelo (AP, perfil e incidência de mortise)');
+    if (pe) series.push('pé (AP, oblíqua e perfil)');
+    if (series.length) {
+        mostrar('vermelho', 'Radiografia indicada', ['Solicitar série radiográfica de: ' + series.join(' e ') + '.',
+            'Imobilizar, orientar não apoiar e encaminhar conforme o resultado.']);
+    } else {
+        mostrar('verde', 'Radiografia não indicada pela regra', ['Nenhum critério positivo. A regra tem sensibilidade próxima de 100% para fraturas do tornozelo e do médio-pé, então fratura clinicamente importante é muito improvável.',
+            'Tratar como entorse (repouso relativo, gelo, compressão, elevação, analgesia e retorno progressivo às atividades) e reavaliar em 5 a 7 dias se persistir dor ou incapacidade de apoiar.']);
+    }
+}
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>
