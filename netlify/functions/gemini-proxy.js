@@ -14,15 +14,20 @@ exports.handler = async function(event, context) {
     };
   }
 
+  // Limita o tamanho do corpo para reduzir abuso da cota da API
+  if ((event.body || "").length > 20 * 1024 * 1024) {
+    return { statusCode: 413, body: "Payload Too Large" };
+  }
+
   try {
     const payload = JSON.parse(event.body);
     
     // CORREÇÃO FINAL: Adicionado o sufixo "-latest" ao modelo
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
 
     const response = await fetch(apiUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify(payload)
     });
 
