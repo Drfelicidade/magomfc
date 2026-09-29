@@ -1,6 +1,6 @@
 {
- "aviso": "Conteúdo compilado e revisado com apoio de IA, sem validação por comissão médica/farmacêutica e sem conferência automática em bases externas. Confirme em LactMed, Briggs, bulas e protocolos do Ministério da Saúde antes de decidir.",
- "versao": "v1 (revisão assistida por IA)",
+ "aviso": "Conteúdo compilado com apoio de IA e conferido em 29/09/2026, quando havia dado, no LactMed e no MotherToBaby (via PubChem/NCBI) e nos manuais do Ministério da Saúde. Não passou por validação de comissão médica/farmacêutica, e o Briggs não foi consultado. Onde não há fonte indicada, o item não foi conferido. Confirme em bula e protocolos antes de decidir.",
+ "versao": "v2 (conferência parcial em fontes, 29/09/2026)",
  "niveis": {
   "compativel": "Compatível",
   "cautela": "Usar com cautela",
@@ -17,14 +17,20 @@
    "classe": "Contraceptivo injetável",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Sem indicação na gestação."
+    "texto": "Sem indicação na gestação.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Aceito na lactação; ver critérios MEC para o pós-parto imediato."
+    "texto": "Método hormonal de escolha na lactação segundo o LactMed; o MS orienta iniciar após 6 semanas do parto.",
+    "fontes": [
+     "LactMed",
+     "MS"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Acetilcisteína",
@@ -35,14 +41,17 @@
    "classe": "Mucolítico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito."
+    "texto": "Uso aceito.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "compativel",
-    "texto": "Compatível."
+    "nivel": "cautela",
+    "texto": "Sem dados com uso sistêmico (oral ou endovenoso); por via inalada a absorção é mínima e não são necessárias precauções.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Aciclovir",
@@ -52,14 +61,17 @@
    "classe": "Antiviral",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Aceito; indicado em herpes genital e outras infecções."
+    "texto": "Aceito; indicado em herpes genital e outras infecções.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Ácido acetilsalicílico",
@@ -71,14 +83,20 @@
    "classe": "Antiagregante/AINE",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dose baixa (75-150 mg/dia) é indicada na profilaxia de pré-eclâmpsia em gestantes de risco. Doses analgésicas ou anti-inflamatórias devem ser evitadas, sobretudo no 3º trimestre."
+    "texto": "Dose baixa é indicada na profilaxia de pré-eclâmpsia em gestantes de risco (o MS cita 100 mg/dia, iniciada entre a 12ª e a 14ª semana). Doses analgésicas ou anti-inflamatórias devem ser evitadas, sobretudo no 3º trimestre.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Dose baixa é aceita. Doses analgésicas repetidas devem ser evitadas (risco de Reye e sangramento no lactente)."
+    "texto": "Dose baixa (75 a 325 mg/dia) resulta em níveis muito baixos no leite e é aceita. Evitar doses altas contínuas (risco de acidose e, teoricamente, síndrome de Reye).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Paracetamol como analgésico.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Paracetamol como analgésico."
   },
   {
    "nome": "Ácido fólico",
@@ -89,14 +107,18 @@
    "classe": "Vitamina",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Recomendado antes e durante a gestação (prevenção de defeitos do tubo neural)."
+    "texto": "Recomendado antes e durante a gestação (prevenção de defeitos do tubo neural). O MS cita 5 mg/dia por 60 a 90 dias antes da concepção em mulheres com antecedente de defeito do tubo neural.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Ácido tranexâmico",
@@ -106,14 +128,15 @@
    "classe": "Antifibrinolítico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; usar apenas com indicação obstétrica."
+    "texto": "Dados limitados; usar apenas com indicação obstétrica.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Ácido valproico",
@@ -126,14 +149,19 @@
    "classe": "Anticonvulsivante",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicado: alto risco de malformações e efeitos no neurodesenvolvimento."
+    "texto": "Contraindicado: alto risco de malformações e efeitos no neurodesenvolvimento.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem baixa; usar com acompanhamento."
+    "texto": "Passagem baixa; usar com acompanhamento.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Lamotrigina ou levetiracetam."
   },
   {
    "nome": "Acitretina",
@@ -143,14 +171,17 @@
    "classe": "Retinoide",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: teratogenicidade grave e prolongada (efeito por até 3 anos)."
+    "texto": "Contraindicada: teratogenicidade grave e prolongada (efeito por até 3 anos).",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada."
+    "texto": "Contraindicada.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Albendazol",
@@ -160,14 +191,17 @@
    "classe": "Antiparasitário",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar no 1º trimestre; usar depois apenas se necessário."
+    "texto": "Evitar no 1º trimestre; usar depois apenas se necessário.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Absorção baixa; compatível."
+    "texto": "Absorção baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Adiar tratamento para depois do 1º trimestre.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Adiar tratamento para depois do 1º trimestre."
   },
   {
    "nome": "Alopurinol",
@@ -177,14 +211,17 @@
    "classe": "Hipouricemiante",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; reservar para casos com indicação."
+    "texto": "Dados limitados; reservar para casos com indicação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem baixa."
+    "texto": "Em um caso, a dose de 300 mg/dia produziu nível próximo do terapêutico em um lactente exclusivo, e o fabricante recomenda evitar. Se necessário, não é motivo para suspender a amamentação, mas monitorar o lactente (exantema, hemograma).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Alprazolam",
@@ -194,14 +231,19 @@
    "classe": "Benzodiazepínico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Evitar uso contínuo, se possível."
+    "texto": "Evitar uso contínuo, se possível.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode causar sedação no lactente."
+    "texto": "Pode causar sedação no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Reavaliar indicação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Reavaliar indicação."
   },
   {
    "nome": "Ambroxol",
@@ -211,14 +253,15 @@
    "classe": "Mucolítico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Evitar no 1º trimestre por falta de dados."
+    "texto": "Evitar no 1º trimestre por falta de dados.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Poucos dados."
+    "texto": "Poucos dados.",
+    "fontes": []
    },
-   "conduta": "Hidratação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Hidratação."
   },
   {
    "nome": "Amitriptilina",
@@ -229,14 +272,19 @@
    "classe": "Antidepressivo tricíclico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso aceito quando necessário; pode causar sintomas neonatais de retirada."
+    "texto": "Uso aceito quando necessário; pode causar sintomas neonatais de retirada.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Doses baixas costumam ser compatíveis; observar sedação no lactente."
+    "texto": "Doses baixas costumam ser compatíveis; observar sedação no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Reavaliar indicação e menor dose.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Reavaliar indicação e menor dose."
   },
   {
    "nome": "Amoxicilina",
@@ -247,14 +295,17 @@
    "classe": "Antibiótico betalactâmico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Segura; antibiótico de escolha em muitas infecções."
+    "texto": "Segura; antibiótico de escolha em muitas infecções.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; pode causar diarreia ou candidíase no lactente."
+    "texto": "Passagem baixa; pode causar diarreia ou candidíase no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Amoxicilina com clavulanato",
@@ -266,14 +317,17 @@
    "classe": "Antibiótico betalactâmico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito quando indicado."
+    "texto": "Uso aceito quando indicado.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; observar diarreia no lactente."
+    "texto": "Compatível; observar diarreia no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Ampicilina",
@@ -283,14 +337,17 @@
    "classe": "Antibiótico betalactâmico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Segura."
+    "texto": "Segura.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Anlodipino",
@@ -300,14 +357,20 @@
    "classe": "Bloqueador de canal de cálcio",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; nifedipino é mais estudado."
+    "texto": "Dados limitados, mas os bloqueadores de canal de cálcio como grupo não sugerem aumento de malformações (o MS o cita como alternativa ao nifedipino).",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa para o leite, sem efeitos relatados no lactente; não é motivo para suspender a amamentação.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Nifedipino.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Nifedipino."
   },
   {
    "nome": "Anticoncepcional oral combinado",
@@ -318,14 +381,17 @@
    "classe": "Contraceptivo hormonal",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Sem indicação na gestação. Se usado sem saber da gestação, não há risco teratogênico importante conhecido."
+    "texto": "Sem indicação na gestação. Se usado sem saber da gestação, não há risco teratogênico importante conhecido.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Evitar nas primeiras 6 semanas do pós-parto e, em geral, até 6 meses com amamentação exclusiva (pode reduzir o leite); ver critérios MEC."
+    "texto": "Evitar nas primeiras 6 semanas do pós-parto e, em geral, até 6 meses com amamentação exclusiva (pode reduzir o leite); ver critérios MEC.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Métodos apenas com progestagênio ou não hormonais.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Métodos apenas com progestagênio ou não hormonais."
   },
   {
    "nome": "Atenolol",
@@ -334,15 +400,21 @@
    ],
    "classe": "Betabloqueador",
    "gestacao": {
-    "nivel": "evitar",
-    "texto": "Associado a restrição de crescimento fetal; evitar."
+    "nivel": "cautela",
+    "texto": "Associado a menor crescimento fetal; evitar quando houver alternativa (o MS o classifica como moderadamente seguro).",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Concentra-se no leite e pode causar bradicardia no lactente."
+    "texto": "Passa ao leite em quantidade relativamente alta no período neonatal; evitar em recém-nascidos e prematuros e com doses altas. Após 3 meses o risco é baixo.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Metildopa, nifedipino, labetalol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metildopa, nifedipino, labetalol."
   },
   {
    "nome": "Atorvastatina",
@@ -353,14 +425,17 @@
    "classe": "Estatina",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Suspender na gestação em geral; reavaliar apenas em risco muito alto."
+    "texto": "Suspender na gestação em geral; reavaliar apenas em risco muito alto.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "O consenso é evitar (possível interferência no metabolismo lipídico do lactente), embora a passagem para o leite seja muito baixa em alguns estudos."
+    "texto": "O consenso é evitar (possível interferência no metabolismo lipídico do lactente), embora a passagem para o leite seja muito baixa em alguns estudos.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Manter mudanças de estilo de vida.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Manter mudanças de estilo de vida."
   },
   {
    "nome": "Azatioprina",
@@ -370,14 +445,17 @@
    "classe": "Imunossupressor",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso aceito quando necessário, com acompanhamento especializado."
+    "texto": "Uso aceito quando necessário, com acompanhamento especializado.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem baixa; acompanhamento especializado."
+    "texto": "Passagem baixa; acompanhamento especializado.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Azitromicina",
@@ -388,14 +466,19 @@
    "classe": "Macrolídeo",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Considerada segura."
+    "texto": "Considerada segura.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Beclometasona",
@@ -405,14 +488,15 @@
    "classe": "Corticosteroide inalatório",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito."
+    "texto": "Uso aceito.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Betametasona",
@@ -422,14 +506,17 @@
    "classe": "Corticosteroide",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Indicada para maturação pulmonar fetal entre 24 e 34 semanas nos casos de risco de parto prematuro."
+    "texto": "Indicada para maturação pulmonar fetal entre 24 e 34 semanas nos casos de risco de parto prematuro.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Uso curto é aceito."
+    "texto": "Uso curto é aceito.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Bisacodil",
@@ -439,14 +526,17 @@
    "classe": "Laxante estimulante",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso curto aceito quando medidas iniciais falham."
+    "texto": "Uso curto aceito quando medidas iniciais falham.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Absorção mínima; compatível."
+    "texto": "Absorção mínima; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Fibras, lactulose.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Fibras, lactulose."
   },
   {
    "nome": "Bromocriptina",
@@ -456,14 +546,18 @@
    "classe": "Agonista dopaminérgico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita com acompanhamento especializado."
+    "texto": "Aceita com acompanhamento especializado.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: inibe a produção de leite."
+    "texto": "Contraindicada para inibir a lactação (suprime o leite; a indicação foi retirada por risco de AVC, convulsão e eventos cardiovasculares, como alerta o MS).",
+    "fontes": [
+     "LactMed",
+     "MS"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Bromoprida",
@@ -473,14 +567,17 @@
    "classe": "Procinético",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; preferir metoclopramida, mais estudada."
+    "texto": "O MS cita a bromoprida entre os antieméticos para náuseas da gestação, mas os dados de segurança são limitados. Preferir metoclopramida, mais estudada.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Poucos dados; preferir alternativas."
+    "texto": "Poucos dados; preferir alternativas.",
+    "fontes": []
    },
-   "conduta": "Metoclopramida.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metoclopramida."
   },
   {
    "nome": "Budesonida",
@@ -491,14 +588,17 @@
    "classe": "Corticosteroide inalatório",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Corticoide inalatório de escolha na gestação."
+    "texto": "Corticoide inalatório de escolha na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Bupropiona",
@@ -509,14 +609,19 @@
    "classe": "Antidepressivo",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; aceita quando necessário (inclusive para cessação do tabagismo)."
+    "texto": "Dados limitados; aceita quando necessário (inclusive para cessação do tabagismo).",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Poucos dados; observar o lactente."
+    "texto": "Doses de até 300 mg/dia geram níveis baixos no leite, mas há pouca experiência em recém-nascidos e dois relatos de convulsão em lactentes de 6 meses. Observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Sertralina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Sertralina."
   },
   {
    "nome": "Butilescopolamina",
@@ -527,14 +632,15 @@
    "classe": "Antiespasmódico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; uso pontual é aceito."
+    "texto": "Dados limitados; uso pontual é aceito.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Absorção oral baixa; compatível."
+    "texto": "Absorção oral baixa; compatível.",
+    "fontes": []
    },
-   "conduta": "Medidas não farmacológicas.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Medidas não farmacológicas."
   },
   {
    "nome": "Cabergolina",
@@ -544,14 +650,18 @@
    "classe": "Agonista dopaminérgico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita se prolactinoma com desejo de engravidar, com acompanhamento especializado."
+    "texto": "Aceita se prolactinoma com desejo de engravidar, com acompanhamento especializado.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: inibe a produção de leite."
+    "texto": "Suprime a lactação: usar apenas quando se deseja inibir o leite (o MS a recomenda para inibir a lactação em mães com HIV). A FDA não a indica para essa finalidade.",
+    "fontes": [
+     "LactMed",
+     "MS"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Captopril",
@@ -561,14 +671,17 @@
    "classe": "Inibidor da ECA",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicado: fetotoxicidade renal no 2º e 3º trimestres."
+    "texto": "Contraindicado: fetotoxicidade renal no 2º e 3º trimestres.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem muito baixa; compatível. Evitar nas primeiras semanas de vida e em prematuros (risco de hipotensão neonatal)."
+    "texto": "Passagem muito baixa; compatível. Evitar nas primeiras semanas de vida e em prematuros (risco de hipotensão neonatal).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Metildopa ou nifedipino na gestação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metildopa ou nifedipino na gestação."
   },
   {
    "nome": "Carbamazepina",
@@ -578,14 +691,19 @@
    "classe": "Anticonvulsivante",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Risco de defeitos do tubo neural; usar apenas com acompanhamento especializado e ácido fólico."
+    "texto": "Risco de defeitos do tubo neural; usar apenas com acompanhamento especializado e ácido fólico.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível, observar o lactente."
+    "texto": "Passagem baixa; compatível, observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Lamotrigina ou levetiracetam."
   },
   {
    "nome": "Carbonato de cálcio",
@@ -597,14 +715,17 @@
    "classe": "Suplemento de cálcio",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Aceito; indicado em populações de baixa ingestão e na prevenção de pré-eclâmpsia."
+    "texto": "Aceito; indicado em populações de baixa ingestão e na prevenção de pré-eclâmpsia.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Carvedilol",
@@ -615,14 +736,17 @@
    "classe": "Betabloqueador",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados."
+    "texto": "Dados limitados.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Poucos dados; preferir metoprolol ou propranolol."
+    "texto": "Poucos dados; preferir metoprolol ou propranolol.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Labetalol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Labetalol."
   },
   {
    "nome": "Cefalexina",
@@ -632,14 +756,19 @@
    "classe": "Cefalosporina",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Segura."
+    "texto": "Segura.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; observar diarreia no lactente."
+    "texto": "Níveis baixos no leite; aceitável (alternativa para mastite). Observar diarreia, candidíase e, raramente, reação alérgica no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Ceftriaxona",
@@ -649,14 +778,17 @@
    "classe": "Cefalosporina",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Segura."
+    "texto": "Segura.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; evitar em recém-nascidos com icterícia ou em uso de cálcio endovenoso."
+    "texto": "Compatível; evitar em recém-nascidos com icterícia ou em uso de cálcio endovenoso.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Cefuroxima",
@@ -666,14 +798,17 @@
    "classe": "Cefalosporina",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Segura."
+    "texto": "Segura.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Cetirizina",
@@ -683,14 +818,19 @@
    "classe": "Anti-histamínico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito."
+    "texto": "Uso aceito.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Pode causar sonolência no lactente."
+    "nivel": "compativel",
+    "texto": "Doses pequenas e ocasionais são aceitáveis; doses maiores ou uso prolongado podem causar sonolência no lactente e reduzir o leite. Diretrizes internacionais a recomendam quando um anti-histamínico é necessário.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Loratadina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Loratadina."
   },
   {
    "nome": "Cetoconazol",
@@ -699,15 +839,20 @@
    ],
    "classe": "Antifúngico azólico",
    "gestacao": {
-    "nivel": "evitar",
-    "texto": "Uso oral deve ser evitado (dados de teratogenicidade em altas doses)."
+    "nivel": "contraindicado",
+    "texto": "O MS contraindica o uso oral de cetoconazol (assim como fluconazol e itraconazol) na gestação. Preferir tratamento tópico.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Poucos dados; uso tópico é aceito."
+    "nivel": "evitar",
+    "texto": "Poucos dados e risco de toxicidade hepática; os fabricantes recomendam evitar a amamentação durante o tratamento e por 1 dia após a última dose. O uso tópico na pele (exceto mamilos) tem risco baixo.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Clotrimazol, nistatina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Clotrimazol, nistatina."
   },
   {
    "nome": "Cetoprofeno",
@@ -717,14 +862,17 @@
    "classe": "AINE",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar; mesmos riscos dos AINEs, sobretudo após 20 semanas e no 3º trimestre."
+    "texto": "Evitar; mesmos riscos dos AINEs, sobretudo após 20 semanas e no 3º trimestre.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Poucos dados. Uso curto costuma ser aceito; preferir ibuprofeno."
+    "texto": "A passagem para o leite é baixa, mas um centro relatou efeitos renais e gastrointestinais em lactentes; outros fármacos são preferidos, sobretudo em recém-nascidos e prematuros.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Paracetamol na gestação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Paracetamol na gestação."
   },
   {
    "nome": "Ciclobenzaprina",
@@ -734,14 +882,17 @@
    "classe": "Relaxante muscular",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; usar apenas se benefício superar risco."
+    "texto": "Dados limitados; usar apenas se benefício superar risco.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Poucos dados; preferir alternativas."
+    "nivel": "compativel",
+    "texto": "As quantidades no leite parecem muito pequenas e dois lactentes toleraram bem; não é motivo para suspender a amamentação. Monitorar sonolência, ganho de peso e desenvolvimento, sobretudo em neonatos.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Medidas físicas e paracetamol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Medidas físicas e paracetamol."
   },
   {
    "nome": "Ciprofloxacino",
@@ -751,14 +902,20 @@
    "classe": "Quinolona",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar; usar apenas se não houver alternativa."
+    "texto": "O MS não recomenda quinolonas na gestação (efeito teratogênico em animais), embora estudos em humanos com uso no 1º trimestre não tenham mostrado aumento de malformações. Usar apenas se não houver alternativa.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Uso curto é geralmente aceito; preferir outras classes."
+    "nivel": "compativel",
+    "texto": "Níveis baixos no leite; uso aceitável com monitoramento do lactente (diarreia, candidíase).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Amoxicilina, cefalosporinas.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Amoxicilina, cefalosporinas."
   },
   {
    "nome": "Citalopram",
@@ -768,14 +925,17 @@
    "classe": "Antidepressivo ISRS",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso aceito quando necessário."
+    "texto": "Uso aceito quando necessário.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem moderada; observar o lactente."
+    "texto": "Passagem moderada; observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Sertralina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Sertralina."
   },
   {
    "nome": "Claritromicina",
@@ -785,14 +945,17 @@
    "classe": "Macrolídeo",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; usar somente se necessário."
+    "texto": "Dados limitados; usar somente se necessário.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Passagem baixa; observar diarreia no lactente."
+    "nivel": "compativel",
+    "texto": "Níveis baixos no leite e uso seguro direto em lactentes: aceitável. Monitorar a flora intestinal (diarreia, candidíase). Há evidência não confirmada de risco de estenose pilórica com macrolídeos nas 2 primeiras semanas de amamentação.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Azitromicina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Azitromicina."
   },
   {
    "nome": "Clindamicina",
@@ -802,14 +965,19 @@
    "classe": "Lincosamida",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Aceita quando indicada."
+    "texto": "Aceita quando indicada.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; observar diarreia no lactente."
+    "texto": "Compatível; observar diarreia no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Clomifeno",
@@ -819,14 +987,17 @@
    "classe": "Indutor de ovulação",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicado na gestação."
+    "texto": "Contraindicado na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Pode reduzir a produção de leite; evitar."
+    "texto": "Pode reduzir a produção de leite; evitar.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Clonazepam",
@@ -836,14 +1007,19 @@
    "classe": "Benzodiazepínico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Evitar uso contínuo, se possível; risco de sintomas neonatais próximo ao parto."
+    "texto": "Evitar uso contínuo, se possível; risco de sintomas neonatais próximo ao parto.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode causar sedação no lactente; usar com cautela."
+    "texto": "Pode causar sedação no lactente; usar com cautela.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Reavaliar indicação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Reavaliar indicação."
   },
   {
    "nome": "Clonidina",
@@ -853,14 +1029,19 @@
    "classe": "Anti-hipertensivo central",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; usar se outras opções falharem."
+    "texto": "Dados limitados; usar se outras opções falharem.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode reduzir a produção de leite e causar sedação no lactente."
+    "texto": "Níveis séricos elevados em alguns lactentes, possíveis efeitos adversos e redução da lactação: preferir outros anti-hipertensivos, sobretudo em recém-nascidos e prematuros.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Metildopa.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metildopa."
   },
   {
    "nome": "Clopidogrel",
@@ -870,14 +1051,19 @@
    "classe": "Antiagregante",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; usar se indicação forte."
+    "texto": "Dados limitados; usar se indicação forte.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Sem dados suficientes."
+    "nivel": "compativel",
+    "texto": "Quantidades mínimas no leite, sem efeitos adversos relatados; não é motivo para suspender a amamentação, mas observar hematomas ou sangramento no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Clorfeniramina",
@@ -888,14 +1074,19 @@
    "classe": "Anti-histamínico sedativo",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito em doses habituais."
+    "texto": "Uso aceito em doses habituais.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode causar sonolência no lactente e reduzir o leite."
+    "texto": "Doses pequenas (2 a 4 mg) e ocasionais são aceitáveis; doses maiores ou uso prolongado podem causar sonolência no lactente e reduzir o leite. Os anti-histamínicos não sedativos são preferíveis.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Loratadina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Loratadina."
   },
   {
    "nome": "Cloroquina",
@@ -903,14 +1094,17 @@
    "classe": "Antimalárico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Segura nas doses de profilaxia e tratamento da malária."
+    "texto": "Segura nas doses de profilaxia e tratamento da malária.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Clotrimazol",
@@ -920,14 +1114,19 @@
    "classe": "Antifúngico tópico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Preferido no tratamento de candidíase vaginal na gestação."
+    "texto": "Preferido no tratamento de candidíase vaginal na gestação.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Codeína",
@@ -938,14 +1137,19 @@
    "classe": "Opioide",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso pontual é aceito quando necessário; uso prolongado pode causar abstinência neonatal."
+    "texto": "Uso pontual é aceito quando necessário; uso prolongado pode causar abstinência neonatal.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
-    "nivel": "evitar",
-    "texto": "Risco de depressão respiratória no lactente (metabolizadoras ultrarrápidas). Evitar."
+    "nivel": "cautela",
+    "texto": "FDA, EMA e várias agências recomendam evitar (risco de depressão respiratória em lactentes de metabolizadoras ultrarrápidas). O LactMed considera que essa recomendação se apoia em um relato de caso questionado e que estudos populacionais não mostram risco maior que o de outros opioides. Se necessário, menor dose pelo menor tempo e observar sonolência no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Paracetamol; se necessário, outro analgésico.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Paracetamol; se necessário, outro analgésico."
   },
   {
    "nome": "Colchicina",
@@ -955,14 +1159,17 @@
    "classe": "Antigotoso",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; usar apenas se benefício superar risco."
+    "texto": "Dados limitados; usar apenas se benefício superar risco.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Passagem baixa; uso aceito."
+    "nivel": "compativel",
+    "texto": "O lactente recebe menos de 10% da dose materna ajustada ao peso; sem efeitos adversos relatados e considerada segura por muitos especialistas e diretrizes. Tomar a dose logo após a mamada reduz a exposição.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Colecalciferol",
@@ -974,14 +1181,15 @@
    "classe": "Vitamina",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Aceito nas doses de suplementação habituais."
+    "texto": "Aceito nas doses de suplementação habituais.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Dapagliflozina",
@@ -991,14 +1199,17 @@
    "classe": "Inibidor de SGLT2",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar: dados animais mostram efeitos renais no 2º e 3º trimestres."
+    "texto": "Evitar: dados animais mostram efeitos renais no 2º e 3º trimestres.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Sem dados; evitar."
+    "texto": "Pouco provável que passe ao leite em quantidade importante (91% ligada a proteínas), mas o fabricante não recomenda pelo risco teórico ao rim em desenvolvimento do lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Insulina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Insulina."
   },
   {
    "nome": "Desloratadina",
@@ -1008,14 +1219,17 @@
    "classe": "Anti-histamínico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados menos extensos; preferir loratadina."
+    "texto": "Dados menos extensos; preferir loratadina.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Loratadina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Loratadina."
   },
   {
    "nome": "Dexametasona",
@@ -1025,14 +1239,17 @@
    "classe": "Corticosteroide",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Atravessa a placenta; uso aceito para maturação pulmonar fetal e outras indicações."
+    "texto": "Atravessa a placenta; uso aceito para maturação pulmonar fetal e outras indicações.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Uso curto é aceito; monitorar."
+    "texto": "Uso curto é aceito; monitorar.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Dextrometorfano",
@@ -1040,14 +1257,19 @@
    "classe": "Antitussígeno",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; uso pontual aceito."
+    "texto": "Dados limitados; uso pontual aceito.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Poucos dados; uso pontual aceito."
+    "nivel": "compativel",
+    "texto": "Como xarope para tosse, os níveis no leite são muito baixos e não se esperam efeitos no lactente. Evitar produtos com muito álcool. A combinação com bupropiona (Auvelity) exige evitar amamentar.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Hidratação e medidas não farmacológicas para tosse leve.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Hidratação e medidas não farmacológicas para tosse leve."
   },
   {
    "nome": "Diazepam",
@@ -1058,14 +1280,19 @@
    "classe": "Benzodiazepínico",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar uso contínuo; uso próximo ao parto pode causar hipotonia e sintomas de retirada no recém-nascido."
+    "texto": "Evitar uso contínuo; uso próximo ao parto pode causar hipotonia e sintomas de retirada no recém-nascido.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Meia-vida longa e acúmulo no lactente; evitar."
+    "texto": "Meia-vida longa e acúmulo no lactente; evitar.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Medidas não farmacológicas; reavaliar indicação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Medidas não farmacológicas; reavaliar indicação."
   },
   {
    "nome": "Diclofenaco",
@@ -1076,14 +1303,19 @@
    "classe": "AINE",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar, principalmente após 20 semanas e no 3º trimestre (mesmos riscos dos demais AINEs)."
+    "texto": "Evitar, principalmente após 20 semanas e no 3º trimestre (mesmos riscos dos demais AINEs).",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa para o leite; uso curto é aceito."
+    "texto": "Passagem baixa para o leite; uso curto é aceito.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Paracetamol na gestação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Paracetamol na gestação."
   },
   {
    "nome": "Dimenidrinato",
@@ -1093,14 +1325,17 @@
    "classe": "Antiemético/antivertiginoso",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito em doses habituais."
+    "texto": "Uso aceito em doses habituais.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode causar sedação no lactente e reduzir a produção de leite."
+    "texto": "Doses pequenas e ocasionais não devem causar efeitos; doses maiores ou uso prolongado podem causar sonolência no lactente e reduzir o leite. Uma dose à noite, após a última mamada, minimiza os efeitos.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Dipirona",
@@ -1112,14 +1347,19 @@
    "classe": "Analgésico/antitérmico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados. Evitar no 1º trimestre e após 30 semanas; uso pontual no 2º trimestre é aceito quando o paracetamol não basta."
+    "texto": "O MS cita paracetamol ou dipirona como antitérmicos/analgésicos na gestação (por exemplo, em gripe e dengue), mas há dados limitados de segurança fetal, e a dipirona não é aprovada nos EUA, no Canadá e em vários países europeus (risco de agranulocitose). Preferir paracetamol.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Passa ao leite. Dose única ocasional é aceita; evitar uso prolongado e observar o lactente."
+    "nivel": "evitar",
+    "texto": "Passa ao leite em quantidades relativamente grandes e pode ter efeito farmacológico no lactente (um caso de episódios de cianose). A EMA recomenda não usar em lactantes, e um fabricante orienta suspender a amamentação por 48 horas após a dose. Há alternativas mais seguras.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Preferir paracetamol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Preferir paracetamol."
   },
   {
    "nome": "Domperidona",
@@ -1130,14 +1370,17 @@
    "classe": "Procinético",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; usar se benefício superar risco."
+    "texto": "Dados limitados; usar se benefício superar risco.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem muito baixa; compatível (usada como galactagogo, atenção ao QT prolongado)."
+    "texto": "Passagem muito baixa; compatível (usada como galactagogo, atenção ao QT prolongado).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Metoclopramida.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metoclopramida."
   },
   {
    "nome": "Doxiciclina",
@@ -1147,14 +1390,17 @@
    "classe": "Tetraciclina",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: afeta ossos e dentes fetais."
+    "texto": "Contraindicada na gestação (o MS a contraindica, inclusive para clamídia; usar azitromicina): afeta ossos e dentes fetais.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Uso curto (até 3 semanas) é aceito; evitar uso prolongado."
+    "texto": "Uso curto (até 3 semanas) é aceito; evitar uso prolongado.",
+    "fontes": []
    },
-   "conduta": "Azitromicina ou amoxicilina conforme o caso.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Azitromicina ou amoxicilina conforme o caso."
   },
   {
    "nome": "Doxilamina e piridoxina",
@@ -1165,14 +1411,17 @@
    "classe": "Antiemético",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Combinação de primeira linha para náuseas e vômitos da gestação."
+    "texto": "Combinação de primeira linha para náuseas e vômitos da gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Doxilamina pode causar sonolência no lactente; usar com observação."
+    "texto": "Doses pequenas e ocasionais não devem causar efeitos; doses maiores ou uso prolongado podem causar sonolência no lactente e reduzir o leite.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Empagliflozina",
@@ -1182,14 +1431,17 @@
    "classe": "Inibidor de SGLT2",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar: mesmos riscos da classe."
+    "texto": "Evitar: mesmos riscos da classe.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Sem dados; evitar."
+    "texto": "Pouco provável que passe ao leite em quantidade importante (86% ligada a proteínas), mas o fabricante não recomenda pelo risco teórico ao rim em desenvolvimento do lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Insulina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Insulina."
   },
   {
    "nome": "Enalapril",
@@ -1199,14 +1451,17 @@
    "classe": "Inibidor da ECA",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicado: fetotoxicidade renal no 2º e 3º trimestres."
+    "texto": "Contraindicado: fetotoxicidade renal no 2º e 3º trimestres.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem muito baixa; compatível. Evitar nas primeiras semanas de vida e em prematuros (risco de hipotensão neonatal); depois, monitorar a pressão do lactente."
+    "texto": "Passagem muito baixa; compatível. Evitar nas primeiras semanas de vida e em prematuros (risco de hipotensão neonatal); depois, monitorar a pressão do lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Metildopa ou nifedipino na gestação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metildopa ou nifedipino na gestação."
   },
   {
    "nome": "Enoxaparina",
@@ -1216,14 +1471,15 @@
    "classe": "Anticoagulante",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Anticoagulante de escolha na gestação (não atravessa a placenta)."
+    "texto": "Anticoagulante de escolha na gestação (não atravessa a placenta).",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Não é absorvida por via oral; compatível."
+    "texto": "Não é absorvida por via oral; compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Eritromicina",
@@ -1231,14 +1487,20 @@
    "classe": "Macrolídeo",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita (evitar a forma estolato pelo risco de hepatotoxicidade materna)."
+    "texto": "Aceita quando necessário (o MS usa o estearato de eritromicina na gestação). Alguns estudos sugerem pequeno aumento de defeitos cardíacos e estenose pilórica com uso no 1º trimestre; evitar a forma estolato (hepatotoxicidade materna).",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; observar risco de estenose pilórica no lactente nas primeiras semanas."
+    "texto": "Compatível; observar risco de estenose pilórica no lactente nas primeiras semanas.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Azitromicina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Azitromicina."
   },
   {
    "nome": "Escitalopram",
@@ -1248,14 +1510,17 @@
    "classe": "Antidepressivo ISRS",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso aceito quando necessário."
+    "texto": "Uso aceito quando necessário.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem moderada; observar o lactente."
+    "texto": "Passagem moderada; observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Sertralina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Sertralina."
   },
   {
    "nome": "Espironolactona",
@@ -1265,14 +1530,20 @@
    "classe": "Diurético poupador de potássio",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar: efeito antiandrogênico no feto masculino em estudos animais."
+    "texto": "Evitar: o MS a inclui entre os fármacos associados a malformações e alterações fetais (efeito antiandrogênico no feto masculino em estudos animais).",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Estradiol",
@@ -1282,14 +1553,17 @@
    "classe": "Estrogênio",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicado na gestação."
+    "texto": "Contraindicado na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Pode reduzir a produção de leite; evitar."
+    "texto": "O estrogênio pode reduzir a produção de leite, sobretudo se iniciado antes de cerca de 6 semanas do parto. Adesivos transdérmicos não elevam o estradiol no leite; a via vaginal sim. Evitar nas primeiras semanas, quando o leite ainda não está estabelecido.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Ezetimiba",
@@ -1299,14 +1573,17 @@
    "classe": "Hipolipemiante",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Dados insuficientes; evitar."
+    "texto": "Dados insuficientes; evitar.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "evitar",
-    "texto": "Sem dados; evitar."
+    "nivel": "compativel",
+    "texto": "Níveis muito baixos no leite e no soro dos lactentes; aceitável. A combinação com estatina deve ser evitada em lactantes.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Famotidina",
@@ -1316,14 +1593,19 @@
    "classe": "Antagonista H2",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Dados favoráveis."
+    "texto": "Dados favoráveis.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Fenitoína",
@@ -1334,14 +1616,17 @@
    "classe": "Anticonvulsivante",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Risco de síndrome fetal por hidantoína."
+    "texto": "Risco de síndrome fetal por hidantoína.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Lamotrigina ou levetiracetam."
   },
   {
    "nome": "Fenobarbital",
@@ -1351,14 +1636,18 @@
    "classe": "Anticonvulsivante",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Risco de malformações e sintomas neonatais de retirada."
+    "texto": "Risco de malformações e sintomas neonatais de retirada.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode causar sedação no lactente."
+    "texto": "Passagem muito variável para o leite; pode reduzir a abstinência neonatal, mas causa sonolência em alguns lactentes, sobretudo com outros sedativos. O MS não contraindica a amamentação, mas pede cuidado especial. Observar sedação, sucção e ganho de peso; às vezes é preciso limitar ou suspender.",
+    "fontes": [
+     "LactMed",
+     "MS"
+    ]
    },
-   "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Lamotrigina ou levetiracetam."
   },
   {
    "nome": "Fenofibrato",
@@ -1368,14 +1657,17 @@
    "classe": "Fibrato",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Dados insuficientes; evitar."
+    "texto": "Dados insuficientes; evitar.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Sem dados; evitar."
+    "texto": "Sem dados; evitar.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Fexofenadina",
@@ -1385,14 +1677,19 @@
    "classe": "Anti-histamínico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Menos dados que loratadina."
+    "texto": "Menos dados que loratadina.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Loratadina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Loratadina."
   },
   {
    "nome": "Fluconazol",
@@ -1403,14 +1700,20 @@
    "classe": "Antifúngico azólico",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Preferir azólicos tópicos. Doses altas ou prolongadas no 1º trimestre estão associadas a malformações, e mesmo a dose única pode se associar a maior risco de aborto espontâneo."
+    "texto": "O MS contraindica o fluconazol oral (assim como itraconazol e cetoconazol) para candidíase na gestação; preferir azólicos tópicos. Doses altas ou prolongadas no 1º trimestre se associam a malformações, e os estudos sobre aborto espontâneo são divergentes.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Antifúngicos tópicos (clotrimazol, nistatina).",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Antifúngicos tópicos (clotrimazol, nistatina)."
   },
   {
    "nome": "Fluoxetina",
@@ -1421,14 +1724,19 @@
    "classe": "Antidepressivo ISRS",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso aceito quando necessário; meia-vida longa."
+    "texto": "Uso aceito quando necessário; meia-vida longa.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passa ao leite em quantidade maior que a sertralina; observar o lactente."
+    "texto": "Passa ao leite em quantidade maior que a sertralina; observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Sertralina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Sertralina."
   },
   {
    "nome": "Formoterol",
@@ -1438,14 +1746,20 @@
    "classe": "Beta-2 agonista de longa duração",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; uso aceito se necessário."
+    "texto": "Dados limitados: estudos com agonistas de longa ação não excluem pequeno aumento de defeitos cardíacos no 1º trimestre. O MS sugere preferir o salmeterol, que está disponível há mais tempo.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Poucos dados."
+    "nivel": "compativel",
+    "texto": "Sem dados publicados, mas broncodilatadores inalatórios são considerados aceitáveis na lactação pela baixa biodisponibilidade.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Salbutamol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Salbutamol."
   },
   {
    "nome": "Fosfomicina",
@@ -1455,14 +1769,17 @@
    "classe": "Antibiótico urinário",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Dose única aceita em cistite não complicada."
+    "texto": "Dose única aceita em cistite não complicada.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Furosemida",
@@ -1472,29 +1789,37 @@
    "classe": "Diurético de alça",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Usar somente se houver indicação clara (edema pulmonar, insuficiência cardíaca)."
+    "texto": "Usar somente se houver indicação clara (edema pulmonar, insuficiência cardíaca).",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode reduzir a produção de leite."
+    "texto": "Doses baixas (20 mg/dia) não suprimem a lactação; doses altas, com diurese intensa, podem reduzir o leite. Preferir outro fármaco em recém-nascidos e prematuros.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Gentamicina",
    "sinonimos": [],
    "classe": "Aminoglicosídeo",
    "gestacao": {
-    "nivel": "evitar",
-    "texto": "Risco de ototoxicidade fetal; reservar para infecções graves."
+    "nivel": "cautela",
+    "texto": "O MS a inclui em esquemas para infecções graves (endometrite, corioamnionite, aborto infectado), em que o benefício supera o risco. Há risco de ototoxicidade fetal com uso prolongado; evitar fora dessas indicações.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Absorção oral mínima; compatível."
+    "texto": "Absorção oral mínima; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Cefalosporinas quando possível.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Cefalosporinas quando possível."
   },
   {
    "nome": "Glibenclamida",
@@ -1503,15 +1828,20 @@
    ],
    "classe": "Sulfonilureia",
    "gestacao": {
-    "nivel": "cautela",
-    "texto": "Alternativa quando a insulina não é possível; risco de hipoglicemia neonatal."
+    "nivel": "evitar",
+    "texto": "O MS informa que os antidiabéticos orais (metformina e glibenclamida) não estão liberados na gestação, por falta de evidência sobre efeitos a longo prazo nas crianças; atravessam a placenta e há risco de hipoglicemia neonatal. A insulina é o padrão.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Risco de hipoglicemia no lactente; preferir metformina."
+    "nivel": "compativel",
+    "texto": "Níveis no leite desprezíveis; observar sinais de hipoglicemia no lactente (tremores, sonolência excessiva, má sucção).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Insulina ou metformina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Insulina ou metformina."
   },
   {
    "nome": "Gliclazida",
@@ -1521,14 +1851,15 @@
    "classe": "Sulfonilureia",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; risco de hipoglicemia neonatal."
+    "texto": "Dados limitados; risco de hipoglicemia neonatal.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Poucos dados; preferir metformina."
+    "texto": "Poucos dados; preferir metformina.",
+    "fontes": []
    },
-   "conduta": "Insulina ou metformina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Insulina ou metformina."
   },
   {
    "nome": "Haloperidol",
@@ -1538,14 +1869,20 @@
    "classe": "Antipsicótico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceito quando necessário; sintomas extrapiramidais neonatais possíveis."
+    "texto": "O MS o considera a melhor opção entre os antipsicóticos na gestação, por ser o mais antigo e com mais experiência. Sintomas extrapiramidais neonatais são possíveis.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem baixa a moderada; observar o lactente."
+    "texto": "Passagem baixa a moderada; observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Heparina",
@@ -1555,14 +1892,15 @@
    "classe": "Anticoagulante",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Não atravessa a placenta; uso aceito."
+    "texto": "Não atravessa a placenta; uso aceito.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Hidralazina",
@@ -1572,14 +1910,17 @@
    "classe": "Vasodilatador",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Usada em crises hipertensivas na gestação."
+    "texto": "Usada em crises hipertensivas na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Hidroclorotiazida",
@@ -1589,14 +1930,18 @@
    "classe": "Diurético tiazídico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Não iniciar na gestação; pode reduzir o volume plasmático. Continuação em hipertensas crônicas é possível com acompanhamento."
+    "texto": "Não iniciar na gestação; pode reduzir o volume plasmático. Continuação em hipertensas crônicas é possível com acompanhamento.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Doses baixas costumam ser aceitas; doses altas podem reduzir a produção de leite."
+    "nivel": "compativel",
+    "texto": "Doses de até 50 mg/dia são aceitáveis (o MS a classifica como segura na lactação); doses altas com diurese intensa podem reduzir a produção de leite.",
+    "fontes": [
+     "LactMed",
+     "MS"
+    ]
    },
-   "conduta": "Nifedipino ou metildopa.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Nifedipino ou metildopa."
   },
   {
    "nome": "Hidrocortisona",
@@ -1606,14 +1951,17 @@
    "classe": "Corticosteroide",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Metabolizada pela placenta em grande parte; uso aceito."
+    "texto": "Metabolizada pela placenta em grande parte; uso aceito.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "O cortisol é componente normal do leite e é improvável que cheguem quantidades perigosas ao lactente; um corticoide mais estudado (prednisona) pode ser preferido. Enemas e injeções locais não devem causar efeitos.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Hidroxicloroquina",
@@ -1624,14 +1972,19 @@
    "classe": "Antimalárico/imunomodulador",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Compatível; mantida em gestantes com lúpus ou artrite reumatoide."
+    "texto": "Compatível; mantida em gestantes com lúpus ou artrite reumatoide.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Hidróxido de alumínio e magnésio",
@@ -1644,14 +1997,19 @@
    "classe": "Antiácido",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito em doses habituais; evitar uso excessivo e prolongado."
+    "texto": "Antiácidos com sais de magnésio, alumínio e cálcio podem ser usados nas doses habituais (MS); evitar uso excessivo e prolongado.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Absorção mínima; compatível."
+    "texto": "Sem efeitos adversos relatados em lactentes; a absorção oral do magnésio pelo lactente é baixa. Suplementação de hidróxido de magnésio na gestação pode retardar o início da lactação.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Medidas posturais e dietéticas.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Medidas posturais e dietéticas."
   },
   {
    "nome": "Hidroxizina",
@@ -1661,14 +2019,20 @@
    "classe": "Anti-histamínico sedativo",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar no 1º trimestre."
+    "texto": "A bula a contraindica no início da gestação, embora estudos com mais de 200 gestantes não tenham mostrado aumento de malformações. O MS cita seu uso como terapia complementar no prurido gestacional. Evitar no 1º trimestre.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode causar sedação no lactente."
+    "texto": "Doses pequenas e ocasionais não devem causar efeitos; doses maiores ou uso prolongado podem causar sonolência, irritabilidade e redução do leite. Outros fármacos são preferidos, sobretudo em recém-nascidos.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Loratadina ou cetirizina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Loratadina ou cetirizina."
   },
   {
    "nome": "Ibuprofeno",
@@ -1679,14 +2043,17 @@
    "classe": "AINE",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar. Após 20 semanas há risco de oligoidrâmnio e lesão renal fetal; contraindicado no 3º trimestre pelo risco de fechamento precoce do ducto arterioso."
+    "texto": "Evitar. Após 20 semanas há risco de oligoidrâmnio e lesão renal fetal; contraindicado no 3º trimestre pelo risco de fechamento precoce do ducto arterioso.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem muito baixa; é o AINE preferido na lactação."
+    "texto": "Passagem muito baixa; é o AINE preferido na lactação.",
+    "fontes": []
    },
-   "conduta": "Na gestação, usar paracetamol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Na gestação, usar paracetamol."
   },
   {
    "nome": "Insulina asparte",
@@ -1696,14 +2063,17 @@
    "classe": "Insulina análoga",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito."
+    "texto": "Uso aceito.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Insulina detemir",
@@ -1713,14 +2083,15 @@
    "classe": "Insulina análoga",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito."
+    "texto": "Uso aceito.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Insulina glargina",
@@ -1731,14 +2102,17 @@
    "classe": "Insulina análoga",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito; dados favoráveis."
+    "texto": "Uso aceito; dados favoráveis.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Insulina lispro",
@@ -1748,14 +2122,15 @@
    "classe": "Insulina análoga",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito."
+    "texto": "Uso aceito.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Insulina NPH",
@@ -1766,14 +2141,17 @@
    "classe": "Insulina",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Insulina de escolha na gestação."
+    "texto": "Insulina de escolha na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Insulina regular",
@@ -1784,14 +2162,17 @@
    "classe": "Insulina",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Insulina de escolha na gestação."
+    "texto": "Insulina de escolha na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Ipratrópio",
@@ -1801,15 +2182,18 @@
    ],
    "classe": "Anticolinérgico inalatório",
    "gestacao": {
-    "nivel": "compativel",
-    "texto": "Uso aceito."
+    "nivel": "cautela",
+    "texto": "O MS (Caderno 32) não recomenda anticolinérgicos inalatórios na gestação, por falta de estudos; usar apenas se necessário e sob acompanhamento.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Absorção mínima; compatível."
+    "texto": "Sem dados publicados; a absorção sistêmica por via inalatória é mínima e o risco esperado é baixo.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Isoniazida",
@@ -1817,14 +2201,17 @@
    "classe": "Antituberculoso",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito com piridoxina."
+    "texto": "Uso aceito com piridoxina.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; manter piridoxina e observar o lactente."
+    "texto": "Níveis baixos no leite; improvável causar reações, mas observar icterícia rara no lactente. Tomar a dose antes do maior período de sono do lactente reduz a exposição. Manter piridoxina na mãe.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Isotretinoína",
@@ -1835,14 +2222,19 @@
    "classe": "Retinoide",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: teratogenicidade grave. Exige contracepção eficaz e testes de gravidez."
+    "texto": "Contraindicada: malformações em 35% ou mais dos expostos e aborto espontâneo em até 40% no início da gestação. Exige contracepção eficaz e testes de gravidez antes e durante o tratamento.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada."
+    "texto": "Sem informações publicadas; a bula contraindica a amamentação durante o tratamento. Preferir agentes tópicos.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Tratamentos tópicos compatíveis.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Tratamentos tópicos compatíveis."
   },
   {
    "nome": "Ivermectina",
@@ -1852,14 +2244,15 @@
    "classe": "Antiparasitário",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; usar se benefício superar risco (escabiose grave)."
+    "texto": "Dados limitados; usar se benefício superar risco (escabiose grave).",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem baixa; evitar na primeira semana de vida do lactente."
+    "texto": "Passagem baixa; evitar na primeira semana de vida do lactente.",
+    "fontes": []
    },
-   "conduta": "Permetrina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Permetrina."
   },
   {
    "nome": "Labetalol",
@@ -1867,14 +2260,20 @@
    "classe": "Betabloqueador",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Opção de primeira linha para hipertensão na gestação."
+    "texto": "Opção de primeira linha para hipertensão na gestação (o Manual do MS informa que ainda não estava disponível no Brasil; hidralazina e nifedipino são as alternativas).",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Lactulose",
@@ -1884,14 +2283,17 @@
    "classe": "Laxante osmótico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Não é absorvida; laxante de escolha na gestação."
+    "texto": "Não é absorvida; laxante de escolha na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Não é absorvida; compatível."
+    "texto": "Não é absorvida; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Fibras e hidratação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Fibras e hidratação."
   },
   {
    "nome": "Lamotrigina",
@@ -1901,14 +2303,20 @@
    "classe": "Anticonvulsivante",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Um dos mais seguros entre os anticonvulsivantes; a dose pode precisar de ajuste."
+    "texto": "O MS indica lamotrigina, gabapentina, levetiracetam e primidona como preferidas entre os antiepilépticos na gestação, com neurologista. Estudo isolado sugeriu pequeno aumento de fenda oral (< 1%), não confirmado; a dose pode precisar de ajuste.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem moderada; observar o lactente."
+    "texto": "Amamentação em monoterapia parece não prejudicar o crescimento e o desenvolvimento. Ocorrem raras reações no lactente (apneia, exantema, sonolência, má sucção): observar, e dosar o nível sérico se houver dúvida.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Levetiracetam",
@@ -1918,14 +2326,17 @@
    "classe": "Anticonvulsivante",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados favoráveis, aceito quando necessário."
+    "texto": "Dados favoráveis, aceito quando necessário.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem moderada; observar o lactente."
+    "texto": "Os níveis no leite podem ser altos em algumas mulheres e ocasionalmente causar sedação; não é necessariamente motivo para suspender a amamentação. Observar sonolência, ganho de peso e desenvolvimento, e ajustar a dose materna no pós-parto.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Levofloxacino",
@@ -1936,14 +2347,19 @@
    "classe": "Quinolona",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar; usar apenas se não houver alternativa."
+    "texto": "O MS não recomenda quinolonas na gestação (efeito teratogênico em animais). Usar apenas se não houver alternativa.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Poucos dados; preferir outras classes."
+    "nivel": "compativel",
+    "texto": "Níveis no leite bem abaixo da dose do lactente; uso aceitável com monitoramento (diarreia, candidíase).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Amoxicilina, cefalosporinas.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Amoxicilina, cefalosporinas."
   },
   {
    "nome": "Levonorgestrel",
@@ -1953,14 +2369,20 @@
    "classe": "Contracepção de emergência",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Não é teratogênico nem interrompe uma gestação estabelecida."
+    "texto": "Não é teratogênico nem interrompe uma gestação estabelecida.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Progestagênio isolado é o hormonal de escolha na lactação (o MS aconselha DIU com levonorgestrel ou progestágeno isolado). Na contracepção de emergência, esperar 3 a 4 horas para amamentar reduz a exposição.",
+    "fontes": [
+     "LactMed",
+     "MS"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Levotiroxina",
@@ -1972,14 +2394,17 @@
    "classe": "Hormônio tireoidiano",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Segura e necessária; a dose costuma precisar de aumento na gestação."
+    "texto": "Segura e necessária; a dose costuma precisar de aumento na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Lidocaína (uso tópico)",
@@ -1991,14 +2416,19 @@
    "classe": "Anestésico local",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito nas doses habituais, incluindo odontológico."
+    "texto": "Uso aceito nas doses habituais, incluindo odontológico.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Lítio",
@@ -2009,14 +2439,20 @@
    "classe": "Estabilizador de humor",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar no 1º trimestre (risco de malformação cardíaca); manter apenas com acompanhamento especializado."
+    "texto": "O MS o classifica como categoria D, com aumento de risco de malformação (anomalia de Ebstein). Algumas condutas suspendem o lítio no 1º trimestre; a exposição no fim da gestação pode causar letargia e hipotonia (bebê floppy) no recém-nascido. Manter só com acompanhamento especializado.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Passa em quantidade importante; evitar ou acompanhar de perto."
+    "texto": "Passa ao leite em quantidade importante; a Academia Americana de Pediatria o classifica como incompatível, e o MS considera a conduta controversa. Evitar ou acompanhar de perto com dosagem sérica do lactente.",
+    "fontes": [
+     "MS"
+    ]
    },
-   "conduta": "Acompanhamento psiquiátrico.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Acompanhamento psiquiátrico."
   },
   {
    "nome": "Loperamida",
@@ -2026,14 +2462,17 @@
    "classe": "Antidiarreico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Evitar no 1º trimestre; uso curto depois é aceito. Hidratação é a base do tratamento."
+    "texto": "Evitar no 1º trimestre; uso curto depois é aceito. Hidratação é a base do tratamento.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Absorção mínima; compatível em doses habituais."
+    "texto": "Absorção mínima; compatível em doses habituais.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Hidratação oral.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Hidratação oral."
   },
   {
    "nome": "Loratadina",
@@ -2043,14 +2482,19 @@
    "classe": "Anti-histamínico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Anti-histamínico não sedativo de escolha."
+    "texto": "Anti-histamínico não sedativo de escolha.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Lorazepam",
@@ -2060,14 +2504,20 @@
    "classe": "Benzodiazepínico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Evitar uso contínuo, se possível."
+    "texto": "Quando um benzodiazepínico é necessário, o MS orienta preferir os de meia-vida curta, como lorazepam e alprazolam, em vez do clonazepam. Evitar uso contínuo, sobretudo perto do parto.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Uso ocasional é aceito; observar sedação."
+    "nivel": "compativel",
+    "texto": "Níveis baixos no leite e meia-vida curta; sem efeitos adversos relatados com doses habituais. Observar sedação, sucção e ganho de peso.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Reavaliar indicação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Reavaliar indicação."
   },
   {
    "nome": "Losartana",
@@ -2077,14 +2527,19 @@
    "classe": "Bloqueador do receptor de angiotensina",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: fetotoxicidade (mesmos riscos dos IECA)."
+    "texto": "Contraindicada: fetotoxicidade (mesmos riscos dos IECA).",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Dados insuficientes; preferir enalapril ou captopril na lactação."
+    "texto": "Dados insuficientes; preferir enalapril ou captopril na lactação.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Metildopa ou nifedipino na gestação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metildopa ou nifedipino na gestação."
   },
   {
    "nome": "Mebendazol",
@@ -2093,15 +2548,20 @@
    ],
    "classe": "Antiparasitário",
    "gestacao": {
-    "nivel": "evitar",
-    "texto": "Evitar no 1º trimestre; dados limitados."
+    "nivel": "cautela",
+    "texto": "O MS lista o mebendazol entre os anti-helmínticos usados na gestação (ancilostomíase, ascaridíase, tricuríase), mas os dados são limitados; evitar no 1º trimestre quando possível.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Absorção baixa; compatível."
+    "texto": "Pouco excretado no leite e mal absorvido; sem reações adversas relatadas. Raros relatos de redução do leite, sem evidência convincente. Sem precauções especiais.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Adiar tratamento se possível.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Adiar tratamento se possível."
   },
   {
    "nome": "Melatonina",
@@ -2109,14 +2569,19 @@
    "classe": "Hormônio",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados."
+    "texto": "Dados limitados.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem baixa; dados limitados."
+    "texto": "Passagem baixa; dados limitados.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Higiene do sono.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Higiene do sono."
   },
   {
    "nome": "Metformina",
@@ -2126,15 +2591,21 @@
    ],
    "classe": "Antidiabético oral",
    "gestacao": {
-    "nivel": "compativel",
-    "texto": "Uso aceito em diabetes gestacional e DM2 quando insulina não é possível ou como adjuvante."
+    "nivel": "cautela",
+    "texto": "O MS informa que os antidiabéticos orais não estão liberados na gestação, por falta de evidência a longo prazo; a metformina pode ser admitida como alternativa no diabetes gestacional em condições específicas (difícil acesso à insulina, incapacidade de autoaplicação, estresse exacerbado). Não se espera aumento de malformações.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Excreção baixa; compatível."
+    "texto": "Níveis baixos no leite (o lactente recebe menos de 0,5% da dose materna); estudo prospectivo sem efeitos adversos. Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Insulina segue como padrão.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Insulina segue como padrão."
   },
   {
    "nome": "Metildopa",
@@ -2144,14 +2615,19 @@
    "classe": "Anti-hipertensivo central",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uma das primeiras escolhas para hipertensão na gestação."
+    "texto": "O MS a indica como droga preferida na hipertensão da gestação, por ser a mais bem estudada e sem evidência de efeitos deletérios ao feto.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Metilergometrina",
@@ -2161,14 +2637,17 @@
    "classe": "Uterotônico",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada durante a gestação (uso restrito ao pós-parto imediato)."
+    "texto": "Contraindicada durante a gestação (uso restrito ao pós-parto imediato).",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Uso curto (poucos dias) é aceito; pode reduzir o leite."
+    "texto": "Níveis baixos no leite. A bula nos EUA recomenda evitar amamentar por pelo menos 12 horas após a última dose e descartar o leite; cursos curtos no pós-parto imediato (colostro) não devem transferir quantidade relevante. Pode reduzir o leite.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Metilfenidato",
@@ -2179,14 +2658,19 @@
    "classe": "Psicoestimulante",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; reavaliar a necessidade."
+    "texto": "Dados limitados; reavaliar a necessidade.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Passagem baixa; observar o lactente."
+    "nivel": "compativel",
+    "texto": "Níveis no leite muito baixos, não detectados no soro do lactente; não é motivo para suspender a amamentação. Doses altas podem reduzir a prolactina e o leite, sobretudo quando a lactação ainda não está estabelecida.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Metimazol",
@@ -2196,14 +2680,19 @@
    "classe": "Antitireoidiano",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar no 1º trimestre (embriopatia); usar propiltiouracil nesse período."
+    "texto": "Evitar no 1º trimestre (embriopatia); usar propiltiouracil nesse período.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível em doses até 20 a 30 mg/dia."
+    "texto": "Doses de até 20 mg/dia não afetam a função tireoidiana nem o desenvolvimento do lactente; alguns especialistas o consideram o antitireoidiano de escolha na lactação. Tomar logo após a mamada e esperar 3 a 4 horas reduz a exposição.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Propiltiouracil no 1º trimestre.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Propiltiouracil no 1º trimestre."
   },
   {
    "nome": "Metoclopramida",
@@ -2213,14 +2702,20 @@
    "classe": "Antiemético/procinético",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito para náuseas e vômitos na gestação."
+    "texto": "Uso aceito para náuseas e vômitos na gestação; o MS a cita entre os antieméticos (10 mg a cada 4 h, via oral ou injetável).",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode aumentar a prolactina e causar sonolência ou sintomas gastrointestinais; uso curto é aceito."
+    "texto": "Pode aumentar a prolactina e causar sonolência ou sintomas gastrointestinais; uso curto é aceito.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Piridoxina e doxilamina como primeira linha.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Piridoxina e doxilamina como primeira linha."
   },
   {
    "nome": "Metoprolol",
@@ -2230,14 +2725,19 @@
    "classe": "Betabloqueador",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceito quando necessário; monitorar o crescimento fetal."
+    "texto": "Aceito quando necessário; monitorar o crescimento fetal.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Níveis baixos no leite, sem reações adversas relatadas. Observar sinais de betabloqueio no lactente (bradicardia, sonolência por hipoglicemia).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Labetalol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Labetalol."
   },
   {
    "nome": "Metotrexato",
@@ -2247,14 +2747,20 @@
    "classe": "Imunossupressor",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicado: teratogênico e abortivo."
+    "texto": "Contraindicado: padrão de malformações de cabeça, face, membros e ossos, e aumento de aborto. O MS restringe seu uso à gravidez ectópica.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
-    "nivel": "contraindicado",
-    "texto": "Contraindicado."
+    "nivel": "evitar",
+    "texto": "A bula contraindica. O LactMed cita que diretrizes recentes aceitam doses baixas semanais (até 25 mg) na lactação, esperando 24 horas após a dose para reduzir a exposição em cerca de 40%; opiniões antigas desaconselham. Decisão com especialista.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Metronidazol",
@@ -2264,14 +2770,20 @@
    "classe": "Antimicrobiano",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceito nas infecções em que há indicação (vaginose, tricomoníase); dados atuais não mostram aumento de malformações."
+    "texto": "O MS orienta evitar no 1º trimestre; estudos com mais de 5.000 gestantes não mostraram aumento de malformações. Usar quando indicado (vaginose bacteriana, tricomoníase).",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passa ao leite; dose única é aceita, e em uso prolongado observar o lactente."
+    "texto": "Passa ao leite; o lactente recebe menos que a dose terapêutica, mas há relatos de candidíase e diarreia. Preferir cursos curtos ou dose única e observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Miconazol",
@@ -2281,14 +2793,19 @@
    "classe": "Antifúngico tópico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Aceito por via tópica ou vaginal."
+    "texto": "Aceito por via tópica ou vaginal.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Mirtazapina",
@@ -2298,14 +2815,19 @@
    "classe": "Antidepressivo",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; aceita quando necessário."
+    "texto": "Dados limitados; aceita quando necessário.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Passagem baixa; observar sedação no lactente."
+    "nivel": "compativel",
+    "texto": "Doses de até 120 mg/dia geram níveis baixos no leite; não é motivo para suspender a amamentação. Monitorar comportamento e crescimento do lactente exclusivo.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Sertralina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Sertralina."
   },
   {
    "nome": "Misoprostol",
@@ -2315,14 +2837,19 @@
    "classe": "Prostaglandina",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicado na gestação, exceto sob indicação obstétrica (aborto retido, indução do parto)."
+    "texto": "Contraindicado na gestação, exceto sob indicação obstétrica (aborto retido, indução do parto, hemorragia pós-parto). No Brasil, é de uso exclusivamente hospitalar. Pode causar malformações de membros e outras por interrupção vascular no início da gestação.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem para o leite trivial; sem precauções especiais (LactMed)."
+    "texto": "Passagem para o leite trivial; sem precauções especiais (LactMed).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Montelucaste",
@@ -2332,14 +2859,20 @@
    "classe": "Antileucotrieno",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; manter se já usava e estava controlada."
+    "texto": "O MS o classifica como categoria B, mas ainda pouco estudado na gestação: considerar como terceira linha no tratamento da asma. Estudos com milhares de gestações não mostraram aumento de malformações.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Poucos dados."
+    "nivel": "compativel",
+    "texto": "Níveis muito baixos no leite, bem abaixo das doses usadas em lactentes; diretrizes internacionais aceitam o uso na lactação.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Morfina",
@@ -2349,14 +2882,19 @@
    "classe": "Opioide",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso quando necessário; risco de abstinência neonatal se uso prolongado."
+    "texto": "Uso quando necessário; risco de abstinência neonatal se uso prolongado.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Uso curto em dose baixa é aceito, com observação de sonolência no lactente."
+    "texto": "Morfina epidural gera quantidades desprezíveis no leite; via oral ou venosa geram níveis maiores. Pode causar sonolência e, raramente, depressão do sistema nervoso central no lactente; a dose baixa pode ser preferível a outros opioides. Uso curto (2 a 3 dias) com observação do lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Reavaliar necessidade e menor dose eficaz.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Reavaliar necessidade e menor dose eficaz."
   },
   {
    "nome": "Naproxeno",
@@ -2366,14 +2904,19 @@
    "classe": "AINE",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar; mesmos riscos dos AINEs, sobretudo após 20 semanas e no 3º trimestre."
+    "texto": "Evitar; mesmos riscos dos AINEs, sobretudo após 20 semanas e no 3º trimestre.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Meia-vida longa, com possível acúmulo no lactente. Preferir ibuprofeno."
+    "texto": "Meia-vida longa, com possível acúmulo no lactente. Preferir ibuprofeno.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Paracetamol na gestação; ibuprofeno na lactação.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Paracetamol na gestação; ibuprofeno na lactação."
   },
   {
    "nome": "Nicotina (reposição)",
@@ -2384,14 +2927,17 @@
    "classe": "Auxiliar de cessação do tabagismo",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Preferir formas de curta duração (goma, pastilha) quando o aconselhamento falhou."
+    "texto": "Preferir formas de curta duração (goma, pastilha) quando o aconselhamento falhou.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Melhor que fumar; preferir formas de curta duração."
+    "texto": "Melhor que fumar; preferir formas de curta duração.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Nifedipino",
@@ -2401,14 +2947,20 @@
    "classe": "Bloqueador de canal de cálcio",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Primeira escolha para hipertensão na gestação (formulação de liberação prolongada)."
+    "texto": "Alternativa à metildopa segundo o MS e opção de primeira linha em crise hipertensiva (com hidralazina e labetalol). Alguns estudos sugerem pequeno aumento de defeitos congênitos com bloqueadores de canal de cálcio, sem confirmação.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Nistatina",
@@ -2418,14 +2970,17 @@
    "classe": "Antifúngico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Segura (uso tópico ou oral não absorvido)."
+    "texto": "Segura (uso tópico ou oral não absorvido).",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Nitazoxanida",
@@ -2435,14 +2990,17 @@
    "classe": "Antiparasitário",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; usar somente se necessário."
+    "texto": "Dados limitados; usar somente se necessário.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Sem dados suficientes."
+    "texto": "Uma dose de 500 mg gera níveis baixos do metabólito no leite e não deve causar efeitos, mas, até haver mais dados, outro fármaco pode ser preferível, sobretudo em recém-nascidos e prematuros.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Nitrofurantoína",
@@ -2453,14 +3011,21 @@
    "classe": "Antibiótico urinário",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita no 1º e 2º trimestres quando não há alternativa; evitar próximo ao termo (risco de hemólise neonatal)."
+    "texto": "Boa opção para infecção urinária na gestação (categoria B), mas o MS não recomenda o uso após a 36ª semana pelo risco de anemia hemolítica no recém-nascido com deficiência de G6PD.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Evitar nas primeiras semanas de vida e em lactentes com deficiência de G6PD."
+    "texto": "Níveis baixos no leite; pode ser usada com lactentes maiores, mas preferir outro fármaco se o lactente tiver menos de 8 dias ou deficiência de G6PD, e a bula não recomenda antes de 1 mês. O MS não recomenda durante a lactação. Observar diarreia.",
+    "fontes": [
+     "LactMed",
+     "MS"
+    ]
    },
-   "conduta": "Cefalexina, fosfomicina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Cefalexina, fosfomicina."
   },
   {
    "nome": "Noretisterona",
@@ -2470,14 +3035,17 @@
    "classe": "Progestagênio",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar na gestação."
+    "texto": "Evitar na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Métodos apenas com progestagênio são aceitos na lactação; ver critérios MEC para o pós-parto imediato."
+    "texto": "Métodos apenas com progestagênio são aceitos na lactação; ver critérios MEC para o pós-parto imediato.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Nortriptilina",
@@ -2487,14 +3055,19 @@
    "classe": "Antidepressivo tricíclico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita quando necessário."
+    "texto": "Aceita quando necessário.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Olanzapina",
@@ -2504,14 +3077,18 @@
    "classe": "Antipsicótico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita quando necessário; risco de diabetes gestacional e ganho de peso."
+    "texto": "Estudos com mais de 2.500 expostos não sugerem aumento de malformações. O MS considera o haloperidol a melhor opção na gravidez; a olanzapina aumenta o risco de diabetes gestacional e ganho de peso.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem moderada; observar o lactente."
+    "texto": "Passagem moderada; observar o lactente.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Omeprazol",
@@ -2522,14 +3099,17 @@
    "classe": "Inibidor de bomba de prótons",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Dados de segurança favoráveis; uso aceito quando indicado."
+    "texto": "Dados de segurança favoráveis; uso aceito quando indicado.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Medidas dietéticas e antiácidos como primeiro passo.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Medidas dietéticas e antiácidos como primeiro passo."
   },
   {
    "nome": "Ondansetrona",
@@ -2540,14 +3120,20 @@
    "classe": "Antiemético",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados sobre risco de fenda oral no 1º trimestre são conflitantes; reservar para casos em que outras opções falharam."
+    "texto": "O MS a descreve como muito efetiva e com poucos efeitos colaterais. Alguns estudos mostraram aumento de defeitos cardíacos e orofaciais (< 1%) com uso precoce, outros não, e o risco absoluto é baixo; antes de 10 semanas, individualizar risco e benefício.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Piridoxina, doxilamina, metoclopramida.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Piridoxina, doxilamina, metoclopramida."
   },
   {
    "nome": "Orlistate",
@@ -2557,14 +3143,17 @@
    "classe": "Antiobesidade",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Sem indicação na gestação."
+    "texto": "Sem indicação na gestação.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Sem dados."
+    "nivel": "compativel",
+    "texto": "Mal absorvido, com pequena quantidade detectada no leite de uma mulher; improvável afetar o lactente. Tomar um polivitamínico à noite, pois reduz a absorção de vitaminas lipossolúveis.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Orientação nutricional.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Orientação nutricional."
   },
   {
    "nome": "Oseltamivir",
@@ -2574,14 +3163,17 @@
    "classe": "Antiviral",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Indicado em gestantes com síndrome gripal e fatores de risco; iniciar precocemente."
+    "texto": "Indicado em gestantes com síndrome gripal e fatores de risco; iniciar precocemente.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Pantoprazol",
@@ -2591,14 +3183,17 @@
    "classe": "Inibidor de bomba de prótons",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Menos dados que o omeprazol; uso aceito se necessário."
+    "texto": "Menos dados que o omeprazol; uso aceito se necessário.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Poucos dados; omeprazol é preferido."
+    "nivel": "compativel",
+    "texto": "Doses de 40 mg/dia geram níveis baixos no leite e não devem causar efeitos no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Omeprazol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Omeprazol."
   },
   {
    "nome": "Paracetamol",
@@ -2609,14 +3204,17 @@
    "classe": "Analgésico/antitérmico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Analgésico e antitérmico de primeira escolha na gestação, nas doses habituais e pelo menor tempo possível."
+    "texto": "Analgésico e antitérmico de primeira escolha na gestação, nas doses habituais e pelo menor tempo possível.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem mínima para o leite; compatível com a amamentação."
+    "texto": "Passagem mínima para o leite; compatível com a amamentação.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Primeira escolha para dor e febre.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Primeira escolha para dor e febre."
   },
   {
    "nome": "Paroxetina",
@@ -2627,14 +3225,20 @@
    "classe": "Antidepressivo ISRS",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar no 1º trimestre: associada a malformações cardíacas."
+    "texto": "Evitar no 1º trimestre: alguns estudos associam a paroxetina a pequeno aumento de malformações cardíacas (o MS a classifica como categoria D). Preferir a sertralina.",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Sertralina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Sertralina."
   },
   {
    "nome": "Penicilina benzatina",
@@ -2645,14 +3249,15 @@
    "classe": "Antibiótico betalactâmico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Segura; tratamento de escolha da sífilis na gestação."
+    "texto": "Segura; tratamento de escolha da sífilis na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Permetrina",
@@ -2662,14 +3267,17 @@
    "classe": "Antiparasitário tópico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Tratamento de escolha para escabiose e pediculose na gestação."
+    "texto": "Tratamento de escolha para escabiose e pediculose na gestação.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Absorção mínima; compatível."
+    "texto": "Absorção mínima; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Piridoxina",
@@ -2679,14 +3287,19 @@
    "classe": "Vitamina",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Indicada para náuseas da gestação."
+    "texto": "Usada, isolada ou com antieméticos, para náuseas e vômitos da gestação (o MS cita os antieméticos associados ou não à vitamina B6). O MS não a recomenda como suplemento de rotina na gravidez.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível em doses habituais."
+    "texto": "Compatível em doses habituais.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Prednisolona",
@@ -2696,14 +3309,17 @@
    "classe": "Corticosteroide",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso aceito quando necessário."
+    "texto": "Uso aceito quando necessário.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; com doses altas, esperar 4 h após a dose."
+    "texto": "Níveis muito baixos no leite, sem efeitos adversos relatados; esperar 4 horas após a dose não é necessário. Doses médias a altas sistêmicas ou injetadas podem reduzir temporariamente a lactação.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Prednisona",
@@ -2713,29 +3329,40 @@
    "classe": "Corticosteroide",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso aceito quando necessário; risco baixo de fenda oral no 1º trimestre."
+    "texto": "Uso aceito quando necessário (o MS a usa em asma, lúpus e outras doenças da gestação); risco baixo de fenda oral no 1º trimestre.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; com doses acima de 20 mg, esperar 4 h após a dose."
+    "texto": "Níveis muito baixos no leite, sem efeitos adversos relatados; esperar 4 horas após a dose não é necessário. Doses médias a altas podem reduzir temporariamente a lactação.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Primaquina",
    "sinonimos": [],
    "classe": "Antimalárico",
    "gestacao": {
-    "nivel": "evitar",
-    "texto": "Evitar durante a gestação."
+    "nivel": "contraindicado",
+    "texto": "O MS contraindica a primaquina na gestação pelo alto risco de hemólise; gestantes com malária por P. vivax/P. ovale usam cloroquina e profilaxia semanal.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Evitar, principalmente se lactente com deficiência de G6PD ou sem teste."
+    "texto": "O MS orienta não usar durante a amamentação por até 6 meses. O LactMed indica excreção muito baixa e risco pequeno de hemólise no lactente, mesmo com deficiência de G6PD acima de 28 dias de vida; decisão com especialista.",
+    "fontes": [
+     "LactMed",
+     "MS"
+    ]
    },
-   "conduta": "Orientação especializada.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Orientação especializada."
   },
   {
    "nome": "Progesterona micronizada",
@@ -2747,14 +3374,17 @@
    "classe": "Progestagênio",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito quando indicado (prevenção de parto prematuro, suporte de fase lútea)."
+    "texto": "Uso aceito quando indicado (prevenção de parto prematuro, suporte de fase lútea).",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Prometazina",
@@ -2764,14 +3394,20 @@
    "classe": "Anti-histamínico sedativo",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso pontual aceito; evitar uso prolongado próximo ao parto."
+    "texto": "O MS a inclui, com a levomepromazina, entre as opções mais seguras (classe C) para náuseas, quadros alérgicos e distúrbios hipertensivos; evitar uso prolongado perto do parto (depressão respiratória do recém-nascido).",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode causar sedação no lactente."
+    "texto": "Pode causar sedação no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Metoclopramida ou doxilamina para náuseas.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metoclopramida ou doxilamina para náuseas."
   },
   {
    "nome": "Propiltiouracil",
@@ -2781,14 +3417,19 @@
    "classe": "Antitireoidiano",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Preferido no 1º trimestre; monitorar função hepática."
+    "texto": "Preferido no 1º trimestre; monitorar função hepática.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Já foi o antitireoidiano de escolha na lactação, mas pelo maior risco de lesão hepática alguns especialistas preferem hoje o metimazol. Limitar a dose a 450 mg/dia; suspender se houver suspeita de toxicidade hepática.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Propranolol",
@@ -2798,14 +3439,19 @@
    "classe": "Betabloqueador",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceito quando necessário; monitorar o crescimento fetal."
+    "texto": "Aceito quando necessário; monitorar o crescimento fetal.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Labetalol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Labetalol."
   },
   {
    "nome": "Pseudoefedrina",
@@ -2813,14 +3459,19 @@
    "classe": "Descongestionante sistêmico",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar no 1º trimestre (risco de gastrosquise)."
+    "texto": "Evitar no 1º trimestre (risco de gastrosquise).",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Pode reduzir a produção de leite e causar irritabilidade no lactente."
+    "texto": "Pode reduzir a produção de leite e causar irritabilidade no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Soro nasal.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Soro nasal."
   },
   {
    "nome": "Quetiapina",
@@ -2830,14 +3481,19 @@
    "classe": "Antipsicótico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita quando necessário."
+    "texto": "Aceita quando necessário.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Rifampicina",
@@ -2847,14 +3503,17 @@
    "classe": "Antituberculoso",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito no tratamento da tuberculose."
+    "texto": "Uso aceito no tratamento da tuberculose.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível; pode dar coloração alaranjada ao leite."
+    "texto": "Compatível; pode dar coloração alaranjada ao leite.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Risperidona",
@@ -2864,14 +3523,19 @@
    "classe": "Antipsicótico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita quando necessário."
+    "texto": "Aceita quando necessário.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem baixa; observar o lactente."
+    "texto": "Passagem baixa; observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Rivaroxabana",
@@ -2881,14 +3545,17 @@
    "classe": "Anticoagulante oral direto",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: atravessa a placenta e há risco de sangramento."
+    "texto": "Contraindicada: atravessa a placenta e há risco de sangramento.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "evitar",
-    "texto": "Sem dados suficientes; evitar."
+    "nivel": "cautela",
+    "texto": "Doses maternas de 15 a 30 mg/dia geram níveis baixos no leite (7% ou menos da dose anticoagulante do lactente) e níveis indetectáveis no plasma de dois lactentes; o LactMed considera que não é motivo para suspender a amamentação, embora a bula recomende cautela.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Heparina de baixo peso molecular.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Heparina de baixo peso molecular."
   },
   {
    "nome": "Rosuvastatina",
@@ -2898,14 +3565,17 @@
    "classe": "Estatina",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Suspender na gestação em geral; reavaliar apenas em risco muito alto."
+    "texto": "Suspender na gestação em geral; reavaliar apenas em risco muito alto.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "O consenso é evitar (possível interferência no metabolismo lipídico do lactente), embora a passagem para o leite seja muito baixa em alguns estudos."
+    "texto": "O consenso é evitar (possível interferência no metabolismo lipídico do lactente), embora a passagem para o leite seja muito baixa em alguns estudos.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Manter mudanças de estilo de vida.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Manter mudanças de estilo de vida."
   },
   {
    "nome": "Salbutamol",
@@ -2915,14 +3585,19 @@
    "classe": "Beta-2 agonista",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Uso aceito; tratamento de crises de asma."
+    "texto": "Uso aceito; tratamento de crises de asma.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Secnidazol",
@@ -2930,14 +3605,19 @@
    "classe": "Antimicrobiano",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; evitar no 1º trimestre."
+    "texto": "O MS orienta evitar o metronidazol e suas alternativas (tinidazol e secnidazol) no 1º trimestre e informa que não há plena segurança para o uso de secnidazol na gestação.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passa ao leite; considerar suspender a amamentação por 24 h após a dose."
+    "texto": "Sem estudos; efeitos presumivelmente semelhantes aos do metronidazol (candidíase) e preocupação teórica com mutagenicidade. Pela meia-vida de cerca de 17 horas, o fabricante recomenda evitar a amamentação por 96 horas após uma dose única; há alternativas vaginais para vaginose.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Metronidazol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metronidazol."
   },
   {
    "nome": "Sertralina",
@@ -2948,14 +3628,19 @@
    "classe": "Antidepressivo ISRS",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "ISRS mais estudado na gestação; pesar risco e benefício e manter se necessário."
+    "texto": "ISRS mais estudado na gestação; pesar risco e benefício e manter se necessário.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Excreção baixa; compatível (ISRS preferido na lactação)."
+    "texto": "Excreção baixa; compatível (ISRS preferido na lactação).",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Sibutramina",
@@ -2965,14 +3650,17 @@
    "classe": "Antiobesidade",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada."
+    "texto": "Contraindicada.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada."
+    "texto": "Sem experiência publicada e retirada do mercado nos EUA; a bula contraindica na lactação.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Simeticona",
@@ -2982,14 +3670,15 @@
    "classe": "Antiflatulento",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Não é absorvida; uso aceito."
+    "texto": "Não é absorvida; uso aceito.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Não é absorvida; compatível."
+    "texto": "Não é absorvida; compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Sinvastatina",
@@ -2999,14 +3688,17 @@
    "classe": "Estatina",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Suspender na gestação em geral; reavaliar apenas em risco muito alto."
+    "texto": "Suspender na gestação em geral; reavaliar apenas em risco muito alto.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "O consenso é evitar (possível interferência no metabolismo lipídico do lactente), embora a passagem para o leite seja muito baixa em alguns estudos."
+    "texto": "O consenso é evitar (possível interferência no metabolismo lipídico do lactente), embora a passagem para o leite seja muito baixa em alguns estudos.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Manter mudanças de estilo de vida.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Manter mudanças de estilo de vida."
   },
   {
    "nome": "Sitagliptina",
@@ -3016,14 +3708,17 @@
    "classe": "Inibidor de DPP-4",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Dados insuficientes; evitar."
+    "texto": "Dados insuficientes; evitar.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Sem dados; evitar."
+    "texto": "Sem dados; evitar.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Insulina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Insulina."
   },
   {
    "nome": "Soro fisiológico nasal",
@@ -3034,14 +3729,15 @@
    "classe": "Descongestionante tópico",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Seguro."
+    "texto": "Seguro.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Seguro."
+    "texto": "Seguro.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Sulfametoxazol e trimetoprima",
@@ -3053,14 +3749,19 @@
    "classe": "Antibiótico",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Evitar no 1º trimestre (antagonista do folato) e próximo ao parto (icterícia neonatal)."
+    "texto": "O MS orienta evitar no 1º trimestre (potencial teratogênico da trimetoprima) e no 3º trimestre (risco de kernicterus, sobretudo em prematuros).",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Evitar em recém-nascidos, prematuros, com icterícia ou deficiência de G6PD."
+    "texto": "Aceitável em lactentes a termo, saudáveis, após o período neonatal (o maior risco de hemólise ocorre nos primeiros dias). Evitar em lactentes ictéricos, doentes, prematuros ou com deficiência de G6PD.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Cefalexina, amoxicilina, fosfomicina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Cefalexina, amoxicilina, fosfomicina."
   },
   {
    "nome": "Sulfato ferroso",
@@ -3071,14 +3772,17 @@
    "classe": "Suplemento de ferro",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Recomendado na gestação para prevenção e tratamento de anemia."
+    "texto": "Recomendado na gestação para prevenção e tratamento de anemia.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": []
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Sumatriptano",
@@ -3089,14 +3793,19 @@
    "classe": "Antienxaquecoso",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Registros de gestação não mostram aumento importante de malformações; usar quando outros tratamentos falham."
+    "texto": "Registros de gestação não mostram aumento importante de malformações; usar quando outros tratamentos falham.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível (pode-se esperar 8 h para reduzir exposição)."
+    "texto": "Níveis baixos no leite e baixa biodisponibilidade oral; não deve causar efeitos no lactente. O fabricante recomenda esperar 12 horas após a dose, o que pode ser útil só em casos extremos, como mães de prematuros.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Paracetamol e metoclopramida como primeira linha.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Paracetamol e metoclopramida como primeira linha."
   },
   {
    "nome": "Teofilina",
@@ -3104,14 +3813,17 @@
    "classe": "Broncodilatador",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita com monitoramento do nível sérico."
+    "texto": "Aceita com monitoramento do nível sérico.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Pode causar irritabilidade no lactente."
+    "nivel": "compativel",
+    "texto": "Considerada aceitável na lactação por especialistas; pode causar irritabilidade e sono agitado, sobretudo em recém-nascidos e prematuros. Manter o nível materno na parte baixa da faixa terapêutica e observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Salbutamol.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Salbutamol."
   },
   {
    "nome": "Terbinafina",
@@ -3121,14 +3833,17 @@
    "classe": "Antifúngico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Uso oral com dados limitados; postergar até depois da gestação se possível."
+    "texto": "Uso oral com dados limitados; postergar até depois da gestação se possível.",
+    "fontes": []
    },
    "lactacao": {
-    "nivel": "evitar",
-    "texto": "Passa ao leite; evitar uso oral."
+    "nivel": "cautela",
+    "texto": "Doses orais de 500 mg/dia geram níveis baixos no leite e não se esperam efeitos, sobretudo em lactentes acima de 2 meses; algumas fontes recomendam evitar o uso oral. Observar icterícia ou sinais de toxicidade hepática no lactente. Por via tópica a absorção é cerca de 1%: risco baixo, evitando a aplicação no mamilo.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Tratamento tópico ou adiamento.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Tratamento tópico ou adiamento."
   },
   {
    "nome": "Tetraciclina",
@@ -3136,14 +3851,17 @@
    "classe": "Tetraciclina",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: afeta ossos e dentes fetais."
+    "texto": "Contraindicada na gestação (o MS não recomenda tetraciclinas pelos efeitos tóxicos no feto, incluindo pigmentação dos dentes da criança).",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Uso curto é aceito; evitar uso prolongado."
+    "texto": "Uso curto é aceito; evitar uso prolongado.",
+    "fontes": []
    },
-   "conduta": "Azitromicina ou amoxicilina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Azitromicina ou amoxicilina."
   },
   {
    "nome": "Topiramato",
@@ -3153,14 +3871,20 @@
    "classe": "Anticonvulsivante",
    "gestacao": {
     "nivel": "evitar",
-    "texto": "Risco de fenda oral e restrição de crescimento."
+    "texto": "Evitar: o MS o classifica como categoria D e de alto índice teratogênico entre os antiepilépticos mais novos (risco de fenda oral, hipospádia e restrição de crescimento).",
+    "fontes": [
+     "MotherToBaby",
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Pode causar sonolência e diarreia no lactente."
+    "texto": "Pode causar sonolência e diarreia no lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Lamotrigina ou levetiracetam.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Lamotrigina ou levetiracetam."
   },
   {
    "nome": "Tramadol",
@@ -3170,14 +3894,19 @@
    "classe": "Opioide",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados. Uso prolongado no fim da gestação pode causar abstinência neonatal."
+    "texto": "Dados limitados. Uso prolongado no fim da gestação pode causar abstinência neonatal.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "FDA e fabricante desaconselham. A excreção no leite é baixa, mas há risco de sedação e depressão respiratória no lactente, sobretudo em recém-nascidos e metabolizadoras rápidas. Se for indispensável, usar pelo menor tempo e observar o lactente."
+    "texto": "FDA e fabricante desaconselham. A excreção no leite é baixa, mas há risco de sedação e depressão respiratória em recém-nascidos. Se a mãe de um recém-nascido precisar dele, não é motivo para suspender a amamentação, mas, após a descida do leite, preferir outros meios de controle da dor.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Paracetamol; discutir opioide se dor intensa.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Paracetamol; discutir opioide se dor intensa."
   },
   {
    "nome": "Valaciclovir",
@@ -3187,14 +3916,17 @@
    "classe": "Antiviral",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Aceito quando indicado."
+    "texto": "Aceito quando indicado.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem baixa; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Valsartana",
@@ -3204,14 +3936,17 @@
    "classe": "Bloqueador do receptor de angiotensina",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: fetotoxicidade (mesmos riscos dos IECA)."
+    "texto": "Contraindicada: fetotoxicidade (mesmos riscos dos IECA).",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Dados insuficientes; preferir enalapril ou captopril."
+    "texto": "Níveis muito baixos no leite com a combinação valsartana/sacubitril; é improvável afetar o lactente, mas os dados são limitados: preferir enalapril ou captopril em recém-nascidos e prematuros.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Metildopa ou nifedipino.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Metildopa ou nifedipino."
   },
   {
    "nome": "Vareniclina",
@@ -3221,14 +3956,17 @@
    "classe": "Auxiliar de cessação do tabagismo",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados; reservar para casos em que outros métodos falharam."
+    "texto": "Dados limitados; reservar para casos em que outros métodos falharam.",
+    "fontes": []
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Poucos dados; evitar."
+    "texto": "Poucos dados; evitar.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Aconselhamento; reposição de nicotina se necessário.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Aconselhamento; reposição de nicotina se necessário."
   },
   {
    "nome": "Varfarina",
@@ -3239,14 +3977,19 @@
    "classe": "Anticoagulante",
    "gestacao": {
     "nivel": "contraindicado",
-    "texto": "Contraindicada: embriopatia e sangramento fetal."
+    "texto": "Contraindicada em geral: embriopatia e sangramento fetal (o MS a inclui entre os anticoagulantes orais associados a malformações). Em cardiopatias selecionadas pode ser usada após o 1º trimestre, sob acompanhamento especializado; a heparina é a alternativa.",
+    "fontes": [
+     "MS"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Excreção mínima; compatível."
+    "texto": "Excreção mínima; compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Heparina de baixo peso molecular.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Heparina de baixo peso molecular."
   },
   {
    "nome": "Venlafaxina",
@@ -3256,14 +3999,19 @@
    "classe": "Antidepressivo IRSN",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Aceita quando necessário; risco de hipertensão materna e sintomas neonatais."
+    "texto": "Aceita quando necessário; risco de hipertensão materna e sintomas neonatais.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem moderada; observar o lactente."
+    "texto": "Passagem moderada; observar o lactente.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Sertralina.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Sertralina."
   },
   {
    "nome": "Vitamina B12",
@@ -3275,14 +4023,19 @@
    "classe": "Vitamina",
    "gestacao": {
     "nivel": "compativel",
-    "texto": "Aceita nas doses fisiológicas."
+    "texto": "Aceita nas doses fisiológicas.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Compatível."
+    "texto": "Compatível.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "",
-   "revisao": "revisao-assistida-ia"
+   "conduta": ""
   },
   {
    "nome": "Zolpidem",
@@ -3292,14 +4045,19 @@
    "classe": "Hipnótico",
    "gestacao": {
     "nivel": "cautela",
-    "texto": "Dados limitados."
+    "texto": "Dados limitados.",
+    "fontes": [
+     "MotherToBaby"
+    ]
    },
    "lactacao": {
     "nivel": "cautela",
-    "texto": "Passagem baixa; observar sedação."
+    "texto": "Níveis baixos no leite e eliminação rápida; improvável causar efeitos em lactentes maiores que não mamam à noite após a dose. O fabricante cita sedação excessiva em lactentes; alguns especialistas desaconselham. Observar sedação, sucção e ganho de peso.",
+    "fontes": [
+     "LactMed"
+    ]
    },
-   "conduta": "Higiene do sono.",
-   "revisao": "revisao-assistida-ia"
+   "conduta": "Higiene do sono."
   }
  ]
 }
