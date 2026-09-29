@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desmame de Benzodiazepínicos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+        @media print {
+            @page { size: A4; margin: 14mm; }
+            body { background: white; padding: 0; }
+            .no-print { display: none !important; }
+            .so-impressao { display: block !important; }
+            main { box-shadow: none !important; border-radius: 0 !important; max-width: none !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+        .so-impressao { display: none; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-indigo-700 p-6 md:p-8 text-white text-center no-print">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Desmame de Benzodiazepínicos</h1>
+        <p class="text-indigo-100 text-sm md:text-base">Plano de redução gradual da dose, com equivalência em diazepam</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-indigo-800 hover:bg-indigo-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <div class="p-4 rounded-xl bg-red-50 border border-red-200 text-red-900 text-sm no-print">
+            <p class="font-bold mb-1">Nunca suspender de uma vez em uso prolongado</p>
+            <p>A retirada abrupta pode causar abstinência grave, com convulsões e delirium. Esta ferramenta sugere um ritmo inicial; ajuste sempre pela resposta do paciente.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 no-print">
+            <div>
+                <label for="droga" class="block font-semibold text-gray-800 mb-1">Medicamento em uso</label>
+                <select id="droga" class="w-full p-3 border border-gray-300 rounded-xl"></select>
+            </div>
+            <div>
+                <label for="dose" class="block font-semibold text-gray-800 mb-1">Dose diária total atual (mg)</label>
+                <input id="dose" type="number" min="0" step="0.05" inputmode="decimal" class="w-full p-3 border border-gray-300 rounded-xl" placeholder="Ex.: 2">
+            </div>
+            <div>
+                <label for="tempo" class="block font-semibold text-gray-800 mb-1">Tempo de uso contínuo</label>
+                <select id="tempo" class="w-full p-3 border border-gray-300 rounded-xl">
+                    <option value="curto">Menos de 3 meses</option>
+                    <option value="medio" selected>3 meses a 1 ano</option>
+                    <option value="longo">Mais de 1 ano</option>
+                </select>
+            </div>
+            <div>
+                <label for="inc" class="block font-semibold text-gray-800 mb-1">Menor ajuste de dose possível (mg)</label>
+                <input id="inc" type="number" min="0.01" step="0.005" inputmode="decimal" class="w-full p-3 border border-gray-300 rounded-xl">
+                <p id="inc-ajuda" class="text-xs text-gray-500 mt-1"></p>
+            </div>
+            <div>
+                <label for="pct" class="block font-semibold text-gray-800 mb-1">Redução por etapa</label>
+                <select id="pct" class="w-full p-3 border border-gray-300 rounded-xl">
+                    <option value="5">5% da dose atual</option>
+                    <option value="10" selected>10% da dose atual</option>
+                    <option value="15">15% da dose atual</option>
+                    <option value="25">25% da dose atual</option>
+                </select>
+            </div>
+            <div>
+                <label for="sem" class="block font-semibold text-gray-800 mb-1">Intervalo entre reduções</label>
+                <select id="sem" class="w-full p-3 border border-gray-300 rounded-xl">
+                    <option value="1">1 semana</option>
+                    <option value="2" selected>2 semanas</option>
+                    <option value="3">3 semanas</option>
+                    <option value="4">4 semanas</option>
+                </select>
+            </div>
+            <div class="md:col-span-2">
+                <label for="nome" class="block font-semibold text-gray-800 mb-1">Nome do paciente (só para a impressão, opcional)</label>
+                <input id="nome" type="text" class="w-full p-3 border border-gray-300 rounded-xl">
+            </div>
+        </div>
+
+        <div id="avisos" class="space-y-2 no-print"></div>
+
+        <section id="resultado" class="hidden space-y-4">
+            <h2 class="so-impressao text-xl font-bold border-b-2 border-black pb-1">Plano de redução gradual: <span id="p-droga"></span> <span id="p-nome"></span></h2>
+            <div id="resumo" class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-900 text-sm space-y-1"></div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead><tr class="border-b-2 border-gray-300"><th class="py-2 pr-2">Etapa</th><th class="py-2 pr-2">Semanas</th><th class="py-2 pr-2">Dose diária (mg)</th><th class="py-2">% da dose inicial</th></tr></thead>
+                    <tbody id="tabela"></tbody>
+                </table>
+            </div>
+            <p class="text-xs text-gray-600">Se surgirem sintomas de abstinência (ansiedade intensa, insônia, tremor, sudorese, taquicardia, náuseas), mantenha ou volte à dose anterior e retome a redução mais devagar. Não é preciso seguir uma tabela rígida: o ritmo é do paciente.</p>
+            <p class="so-impressao text-xs">Plano sugerido a partir de diretriz clínica; deve ser acompanhado por profissional de saúde. Data: ____/____/______ Assinatura: ______________________________</p>
+            <button type="button" onclick="window.print()" class="no-print px-6 py-2 bg-indigo-700 text-white font-bold rounded-lg hover:bg-indigo-800 transition">Imprimir plano</button>
+        </section>
+
+        <details class="text-sm text-gray-700 no-print" open>
+            <summary class="cursor-pointer font-semibold">Cuidados antes e durante o desmame</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Combine o plano com o paciente e ofereça psicoterapia (terapia cognitivo-comportamental), higiene do sono e tratamento da condição de base.</li>
+                <li>Verifique uso de álcool, opioides e outros sedativos, e tratamento de insônia ou ansiedade que motivou o início.</li>
+                <li>Se o benzodiazepínico é usado como antiepiléptico (clonazepam, clobazam), o desmame deve ser conduzido com o neurologista.</li>
+                <li>Gestantes, idosos frágeis e pessoas com transtorno psiquiátrico grave ou dependência de múltiplas substâncias podem precisar de acompanhamento especializado.</li>
+                <li>Com doses altas, medicamentos de meia-vida curta ou dificuldade de reduzir, considere passar para um benzodiazepínico de ação longa (como o diazepam) usando a dose equivalente e reduzir a partir dele.</li>
+                <li>Doses baixas e uso curto podem permitir redução mais rápida; uso por muitos anos pode exigir mais de 1 ano de desmame, com pausas.</li>
+            </ul>
+        </details>
+
+        <details class="text-sm text-gray-600 no-print">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Joint Clinical Practice Guideline on Benzodiazepine Tapering (ASAM e outras 9 sociedades, 2025; J Gen Intern Med): iniciar com reduções de 5% a 10% da dose diária a cada 2 a 4 semanas, sem passar de 25% a cada 2 semanas, ajustando pela tolerância; pausas são aceitáveis.</li>
+                <li>Equivalências aproximadas a 10 mg de diazepam: Ashton Manual (2002/2007) e VA/DoD SUD CPG (2021), reunidas no material da ASAM. As fontes divergem (por exemplo, alprazolam 0,5 ou 1 mg, clonazepam 0,5 ou 1 mg, lorazepam 1 ou 2 mg): trate como guia, não como regra. Bromazepam, clobazam, flunitrazepam, nitrazepam e zolpidem constam apenas no Ashton.</li>
+                <li>Zolpidem não é benzodiazepínico, mas atua no mesmo receptor e tem desmame semelhante; sua equivalência é pouco confiável e não é convertida aqui.</li>
+                <li>Os ajustes mínimos sugeridos consideram metades de comprimidos e gotas; ajuste-os à apresentação disponível ao paciente.</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+// eq: mg equivalentes a 10 mg de diazepam [Ashton, VA/DoD]; inc: menor ajuste prático
+const DROGAS = {
+    alprazolam:   { nome: 'Alprazolam',   eq: [0.5, 1],   inc: 0.125, ajuda: 'Metade do comprimido de 0,25 mg.' },
+    bromazepam:   { nome: 'Bromazepam',   eq: [6, null],  inc: 1.5,   ajuda: 'Metade do comprimido de 3 mg.' },
+    clobazam:     { nome: 'Clobazam',     eq: [20, null], inc: 5,     ajuda: 'Metade do comprimido de 10 mg.' },
+    clonazepam:   { nome: 'Clonazepam',   eq: [0.5, 1],   inc: 0.1,   ajuda: 'Uma gota da solução de 2,5 mg/mL equivale a cerca de 0,1 mg.' },
+    diazepam:     { nome: 'Diazepam',     eq: [10, 10],   inc: 2.5,   ajuda: 'Metade do comprimido de 5 mg.' },
+    flunitrazepam:{ nome: 'Flunitrazepam',eq: [1, null],  inc: 0.5,   ajuda: 'Metade do comprimido de 1 mg.' },
+    lorazepam:    { nome: 'Lorazepam',    eq: [1, 2],     inc: 0.5,   ajuda: 'Metade do comprimido de 1 mg.' },
+    nitrazepam:   { nome: 'Nitrazepam',   eq: [10, null], inc: 2.5,   ajuda: 'Metade do comprimido de 5 mg.' },
+    zolpidem:     { nome: 'Zolpidem (não benzodiazepínico)', eq: [null, null], inc: 5, ajuda: 'Metade do comprimido de 10 mg.' }
+};
+const RITMO = { curto: [10, 2], medio: [10, 2], longo: [5, 4] };   // % e semanas sugeridos ao trocar o tempo de uso
+
+const sel = $('droga');
+Object.entries(DROGAS).forEach(([k, v]) => { const o = document.createElement('option'); o.value = k; o.textContent = v.nome; sel.appendChild(o); });
+function aplicarDroga() { const d = DROGAS[sel.value]; $('inc').value = d.inc; $('inc-ajuda').textContent = d.ajuda; }
+function aplicarTempo() { const [p, s] = RITMO[$('tempo').value]; $('pct').value = p; $('sem').value = s; }
+const fmt = n => (Math.round(n * 1000) / 1000).toString().replace('.', ',');
+
+function calcular() {
+    const dose = Number($('dose').value), inc = Number($('inc').value);
+    const pct = Number($('pct').value), sem = Number($('sem').value);
+    const d = DROGAS[sel.value];
+    const avisos = [];
+    const alvo = $('avisos'); alvo.textContent = '';
+    const add = (t, tipo) => { const p = document.createElement('p'); p.className = 'p-3 rounded-xl text-sm border ' + (tipo === 'alerta' ? 'bg-yellow-50 border-yellow-300 text-yellow-900' : 'bg-blue-50 border-blue-200 text-blue-900'); p.textContent = t; alvo.appendChild(p); };
+    if (!(dose > 0) || !(inc > 0)) { $('resultado').classList.add('hidden'); return; }
+    if (inc > dose) { add('O menor ajuste possível é maior que a dose atual: o plano tem uma única etapa antes de suspender.', 'alerta'); }
+
+    // ritmo por 2 semanas (limite da diretriz: 25%)
+    const porDuasSemanas = pct * 2 / sem;
+    if (porDuasSemanas > 25) add('Este ritmo passa de 25% de redução a cada 2 semanas, acima do limite sugerido pela diretriz (ASAM 2025). Prefira reduzir menos ou espaçar as etapas.', 'alerta');
+    if ($('tempo').value === 'longo' && porDuasSemanas > 12.5) add('Uso por mais de 1 ano costuma exigir ritmo mais lento (por exemplo, 5% a cada 4 semanas). Observe a tolerância a cada etapa.', 'info');
+
+    // A primeira redução já começa na semana 1; a dose atual aparece como ponto de partida
+    const reduzir = x => { let n = Math.round((x - x * pct / 100) / inc) * inc; if (n >= x - 1e-9) n = x - inc; return n > 1e-9 ? Math.round(n * 1000) / 1000 : 0; };
+    const passos = []; let atual = dose, semana = 0, guarda = 0;
+    while (guarda++ < 300) {
+        const nova = reduzir(atual);
+        if (nova === 0) break;
+        passos.push({ de: semana + 1, ate: semana + sem, dose: nova });
+        semana += sem; atual = nova;
+    }
+    const linhas = [`<tr class="border-b border-gray-200 text-gray-600"><td class="py-2 pr-2">Início</td><td class="py-2 pr-2">Dose atual</td><td class="py-2 pr-2 font-semibold">${fmt(dose)}</td><td class="py-2">100%</td></tr>`];
+    passos.forEach((p, i) => linhas.push(`<tr class="border-b border-gray-200"><td class="py-2 pr-2">${i + 1}</td><td class="py-2 pr-2">${p.de === p.ate ? 'Semana ' + p.de : 'Semanas ' + p.de + ' a ' + p.ate}</td><td class="py-2 pr-2 font-semibold">${fmt(p.dose)}</td><td class="py-2">${Math.round(p.dose / dose * 100)}%</td></tr>`));
+    linhas.push(`<tr><td class="py-2 pr-2">${passos.length + 1}</td><td class="py-2 pr-2">${semana === 0 ? 'Semana 1' : 'Semana ' + (semana + 1)}</td><td class="py-2 pr-2 font-semibold">Suspender</td><td class="py-2">0%</td></tr>`);
+    $('tabela').innerHTML = linhas.join('');
+    if (passos.length === 0) add('A dose atual é igual ou menor que o menor ajuste possível: a próxima etapa já é suspender. Considere uma apresentação com dose menor (por exemplo, gotas) para reduzir aos poucos.', 'alerta');
+
+    // resumo e equivalência em diazepam
+    const semanas = semana;
+    const meses = semanas / 4.345;
+    const resumo = $('resumo'); resumo.textContent = '';
+    const linha = t => { const p = document.createElement('p'); p.textContent = t; resumo.appendChild(p); };
+    linha(passos.length + (passos.length === 1 ? ' etapa' : ' etapas') + ' de ' + sem + ' semana(s) antes de suspender; duração estimada de ' + (semanas || 0) + ' semanas' + (semanas ? ' (cerca de ' + (meses < 1.5 ? '1 mês' : Math.round(meses) + ' meses') + ')' : '') + '.');
+    linha('Cada etapa reduz cerca de ' + pct + '% da dose atual, arredondando para múltiplos de ' + fmt(inc) + ' mg. A primeira redução começa já na semana 1.');
+    if (sel.value === 'diazepam') linha('O diazepam é a referência das equivalências.');
+    else if (d.eq[0] || d.eq[1]) {
+        const partes = [];
+        if (d.eq[0]) partes.push(fmt(dose / d.eq[0] * 10) + ' mg (Ashton)');
+        if (d.eq[1] && d.eq[1] !== d.eq[0]) partes.push(fmt(dose / d.eq[1] * 10) + ' mg (VA/DoD)');
+        linha('Equivalente aproximado em diazepam: ' + partes.join(' ou ') + '.' + (partes.length > 1 ? ' As tabelas divergem; use como guia.' : ' Fonte única (Ashton); use como guia.'));
+    } else linha('Sem equivalência confiável em diazepam para este medicamento.');
+    $('p-droga').textContent = d.nome; $('p-nome').textContent = $('nome').value ? '(' + $('nome').value + ')' : '';
+    $('resultado').classList.remove('hidden');
+}
+
+sel.addEventListener('change', () => { aplicarDroga(); calcular(); });
+$('tempo').addEventListener('change', () => { aplicarTempo(); calcular(); });
+['dose', 'inc', 'pct', 'sem', 'nome'].forEach(id => $(id).addEventListener('input', calcular));
+$('pct').addEventListener('change', calcular); $('sem').addEventListener('change', calcular);
+aplicarDroga(); aplicarTempo();
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>
