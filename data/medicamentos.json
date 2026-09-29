@@ -357,7 +357,7 @@
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Sem dados de segurança; evitar."
+    "texto": "O consenso é evitar (possível interferência no metabolismo lipídico do lactente), embora a passagem para o leite seja muito baixa em alguns estudos."
    },
    "conduta": "Manter mudanças de estilo de vida.",
    "revisao": "revisao-assistida-ia"
@@ -565,7 +565,7 @@
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem muito baixa; compatível. Evitar nas primeiras semanas de vida e em prematuros (risco de hipotensão neonatal)."
    },
    "conduta": "Metildopa ou nifedipino na gestação.",
    "revisao": "revisao-assistida-ia"
@@ -1203,7 +1203,7 @@
    },
    "lactacao": {
     "nivel": "compativel",
-    "texto": "Passagem baixa; compatível."
+    "texto": "Passagem muito baixa; compatível. Evitar nas primeiras semanas de vida e em prematuros (risco de hipotensão neonatal); depois, monitorar a pressão do lactente."
    },
    "conduta": "Metildopa ou nifedipino na gestação.",
    "revisao": "revisao-assistida-ia"
@@ -2318,8 +2318,8 @@
     "texto": "Contraindicado na gestação, exceto sob indicação obstétrica (aborto retido, indução do parto)."
    },
    "lactacao": {
-    "nivel": "cautela",
-    "texto": "Pode causar diarreia no lactente; dose única é aceita."
+    "nivel": "compativel",
+    "texto": "Passagem para o leite trivial; sem precauções especiais (LactMed)."
    },
    "conduta": "",
    "revisao": "revisao-assistida-ia"
@@ -2902,7 +2902,7 @@
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Sem dados de segurança; evitar."
+    "texto": "O consenso é evitar (possível interferência no metabolismo lipídico do lactente), embora a passagem para o leite seja muito baixa em alguns estudos."
    },
    "conduta": "Manter mudanças de estilo de vida.",
    "revisao": "revisao-assistida-ia"
@@ -3003,7 +3003,7 @@
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Sem dados de segurança; evitar."
+    "texto": "O consenso é evitar (possível interferência no metabolismo lipídico do lactente), embora a passagem para o leite seja muito baixa em alguns estudos."
    },
    "conduta": "Manter mudanças de estilo de vida.",
    "revisao": "revisao-assistida-ia"
@@ -3174,7 +3174,7 @@
    },
    "lactacao": {
     "nivel": "evitar",
-    "texto": "Risco de sedação e depressão respiratória no lactente, sobretudo em metabolizadoras rápidas. Evitar."
+    "texto": "FDA e fabricante desaconselham. A excreção no leite é baixa, mas há risco de sedação e depressão respiratória no lactente, sobretudo em recém-nascidos e metabolizadoras rápidas. Se for indispensável, usar pelo menor tempo e observar o lactente."
    },
    "conduta": "Paracetamol; discutir opioide se dor intensa.",
    "revisao": "revisao-assistida-ia"
