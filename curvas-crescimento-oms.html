@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curvas de Crescimento (OMS)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-pink-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Curvas de Crescimento (OMS)</h1>
+        <p class="text-pink-100 text-sm md:text-base">Escore z, percentil e classificação nutricional de 0 a 19 anos, com o gráfico da criança</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-pink-800 hover:bg-pink-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <div class="grid md:grid-cols-2 gap-4">
+            <fieldset>
+                <legend class="font-semibold text-gray-800 mb-1">Sexo</legend>
+                <div class="flex gap-4">
+                    <label class="flex items-center gap-2"><input type="radio" name="sexo" value="boys" class="w-5 h-5"> Menino</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="sexo" value="girls" class="w-5 h-5"> Menina</label>
+                </div>
+            </fieldset>
+            <div>
+                <label for="ig" class="block font-semibold text-gray-800 mb-1">Idade gestacional ao nascer (semanas, opcional)</label>
+                <input id="ig" type="number" min="22" max="44" step="1" class="w-full p-3 border border-gray-300 rounded-xl" placeholder="Ex.: 40">
+                <p class="text-xs text-gray-500 mt-1">Abaixo de 37 semanas, usa-se a idade corrigida até 2 anos.</p>
+            </div>
+            <div>
+                <label for="nasc" class="block font-semibold text-gray-800 mb-1">Data de nascimento</label>
+                <input id="nasc" type="date" class="w-full p-3 border border-gray-300 rounded-xl">
+            </div>
+            <div>
+                <label for="aval" class="block font-semibold text-gray-800 mb-1">Data da avaliação</label>
+                <input id="aval" type="date" class="w-full p-3 border border-gray-300 rounded-xl">
+            </div>
+            <div>
+                <label for="peso" class="block font-semibold text-gray-800 mb-1">Peso (kg)</label>
+                <input id="peso" type="number" min="0" step="0.001" inputmode="decimal" class="w-full p-3 border border-gray-300 rounded-xl" placeholder="Ex.: 9.8">
+            </div>
+            <div>
+                <label for="alt" class="block font-semibold text-gray-800 mb-1">Comprimento ou estatura (cm)</label>
+                <input id="alt" type="number" min="0" step="0.1" inputmode="decimal" class="w-full p-3 border border-gray-300 rounded-xl" placeholder="Ex.: 75.5">
+            </div>
+            <fieldset>
+                <legend class="font-semibold text-gray-800 mb-1">Como foi medido</legend>
+                <div class="flex flex-wrap gap-4">
+                    <label class="flex items-center gap-2"><input type="radio" name="pos" value="auto" class="w-5 h-5" checked> Conforme a idade</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="pos" value="deitado" class="w-5 h-5"> Deitado</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="pos" value="em-pe" class="w-5 h-5"> Em pé</label>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Abaixo de 2 anos mede-se deitado (comprimento); a partir de 2 anos, em pé. Se foi diferente, aplica-se o ajuste de 0,7 cm da OMS.</p>
+            </fieldset>
+            <div>
+                <label for="pc" class="block font-semibold text-gray-800 mb-1">Perímetro cefálico (cm, até 5 anos)</label>
+                <input id="pc" type="number" min="0" step="0.1" inputmode="decimal" class="w-full p-3 border border-gray-300 rounded-xl" placeholder="Ex.: 46.0">
+            </div>
+        </div>
+        <div class="flex gap-3">
+            <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar</button>
+        </div>
+
+        <p id="aviso" class="hidden p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-sm" role="status"></p>
+
+        <section id="resultado" class="hidden space-y-4" aria-live="polite">
+            <p id="idade-txt" class="text-gray-700 font-medium"></p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead><tr class="border-b-2 border-gray-300"><th class="py-2 pr-2">Índice</th><th class="py-2 pr-2">Valor</th><th class="py-2 pr-2">Escore z</th><th class="py-2 pr-2">Percentil</th><th class="py-2">Classificação (MS/SISVAN)</th></tr></thead>
+                    <tbody id="tabela"></tbody>
+                </table>
+            </div>
+            <div>
+                <label for="grafico-sel" class="font-semibold text-gray-800 mr-2">Gráfico:</label>
+                <select id="grafico-sel" class="p-2 border border-gray-300 rounded-lg"></select>
+            </div>
+            <div id="grafico" class="w-full overflow-x-auto"></div>
+            <p class="text-xs text-gray-500">Linhas do gráfico: escores z −3, −2, 0 (mediana), +2 e +3.</p>
+        </section>
+
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>OMS. Padrões de crescimento infantil (0 a 5 anos, 2006) e Referência de crescimento de 5 a 19 anos (2007): tabelas LMS oficiais, com interpolação linear entre os pontos. Pode haver diferença de até cerca de 0,05 no escore z em relação ao software WHO Anthro.</li>
+                <li>Pontos de corte: Ministério da Saúde, Orientações para a coleta e análise de dados antropométricos em serviços de saúde (SISVAN, 2011). Peso para idade vale de 0 a 10 anos; acima disso, use IMC para idade e estatura para idade.</li>
+                <li>Escores z abaixo de −3 ou acima de +3 em peso para idade e IMC para idade usam a correção da OMS para valores extremos.</li>
+                <li>Perímetro cefálico: valores abaixo de −2 ou acima de +2 merecem investigação (microcefalia ou macrocefalia); confira o perímetro dos pais e a curva ao longo do tempo. Uma única medida não define crescimento: avalie a trajetória.</li>
+                <li>Classificações entre os escores z −2 e −1 e entre +1 e +2 (percentis 3 a 15 e 85 a 97) pedem atenção à evolução, mesmo quando adequadas.</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let DADOS = null;
+const DIAS_MES = 30.4375;
+
+// ---------- estatística ----------
+function erf(x) {
+    const s = Math.sign(x); x = Math.abs(x);
+    const t = 1 / (1 + 0.3275911 * x);
+    const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
+    return s * y;
+}
+const cdf = z => 0.5 * (1 + erf(z / Math.SQRT2));
+const zLMS = (y, L, M, S) => L === 0 ? Math.log(y / M) / S : (Math.pow(y / M, L) - 1) / (L * S);
+const valorSD = (k, L, M, S) => L === 0 ? M * Math.exp(S * k) : M * Math.pow(1 + L * S * k, 1 / L);
+
+function lms(tab, x) {
+    const xs = tab.x;
+    if (x < xs[0] || x > xs[xs.length - 1]) return null;
+    let i = 0, j = xs.length - 1;
+    while (j - i > 1) { const m = (i + j) >> 1; if (xs[m] <= x) i = m; else j = m; }
+    const f = xs[j] === xs[i] ? 0 : (x - xs[i]) / (xs[j] - xs[i]);
+    const mix = k => tab[k][i] + f * (tab[k][j] - tab[k][i]);
+    return { L: mix('L'), M: mix('M'), S: mix('S') };
+}
+// Escore z; peso e IMC usam a correção da OMS para |z| > 3
+function escoreZ(y, p, corrigir) {
+    let z = zLMS(y, p.L, p.M, p.S);
+    if (corrigir && Math.abs(z) > 3) {
+        if (z > 3) { const s3 = valorSD(3, p.L, p.M, p.S), s2 = valorSD(2, p.L, p.M, p.S); z = 3 + (y - s3) / (s3 - s2); }
+        else { const s3 = valorSD(-3, p.L, p.M, p.S), s2 = valorSD(-2, p.L, p.M, p.S); z = -3 + (y - s3) / (s2 - s3); }
+    }
+    return z;
+}
+function percentil(z) {
+    if (z > 3) return '> 99,9';
+    if (z < -3) return '< 0,1';
+    const p = cdf(z) * 100;
+    return (p < 10 ? p.toFixed(1) : p.toFixed(0)).replace('.', ',');
+}
+const f2 = n => n.toFixed(2).replace('.', ',').replace('-', '−');
+
+// ---------- classificações (SISVAN, MS 2011) ----------
+function classePeso(z) { return z < -3 ? ['Muito baixo peso para a idade', 'vermelho'] : z < -2 ? ['Baixo peso para a idade', 'laranja'] : z <= 2 ? ['Peso adequado para a idade', 'verde'] : ['Peso elevado para a idade', 'amarelo']; }
+function classeEstatura(z) { return z < -3 ? ['Muito baixa estatura para a idade', 'vermelho'] : z < -2 ? ['Baixa estatura para a idade', 'laranja'] : ['Estatura adequada para a idade', 'verde']; }
+function classeImc(z, menor5) {
+    if (z < -3) return ['Magreza acentuada', 'vermelho'];
+    if (z < -2) return ['Magreza', 'laranja'];
+    if (z <= 1) return ['Eutrofia', 'verde'];
+    if (z <= 2) return [menor5 ? 'Risco de sobrepeso' : 'Sobrepeso', 'amarelo'];
+    if (z <= 3) return [menor5 ? 'Sobrepeso' : 'Obesidade', 'laranja'];
+    return [menor5 ? 'Obesidade' : 'Obesidade grave', 'vermelho'];
+}
+function classePc(z) { return z < -3 ? ['Perímetro cefálico muito reduzido (investigar microcefalia grave)', 'vermelho'] : z < -2 ? ['Perímetro cefálico reduzido (investigar microcefalia)', 'laranja'] : z <= 2 ? ['Perímetro cefálico adequado', 'verde'] : ['Perímetro cefálico aumentado (investigar macrocefalia)', 'laranja']; }
+const COR_TXT = { verde: 'text-green-700', amarelo: 'text-yellow-700', laranja: 'text-orange-700', vermelho: 'text-red-700' };
+
+// ---------- cálculo ----------
+function aviso(t) { const a = $('aviso'); if (t) { a.textContent = t; a.classList.remove('hidden'); } else a.classList.add('hidden'); $('resultado').classList.add('hidden'); }
+function num(id) { const v = $(id).value; return v === '' ? null : Number(v); }
+
+let ULTIMO = null;
+function atualizar() {
+    if (!DADOS) return;
+    const sexo = document.querySelector('input[name="sexo"]:checked');
+    const nasc = $('nasc').value, aval = $('aval').value;
+    if (!sexo || !nasc || !aval) { aviso('Informe o sexo, a data de nascimento e a data da avaliação.'); return; }
+    let dias = Math.round((new Date(aval + 'T12:00:00') - new Date(nasc + 'T12:00:00')) / 86400000);
+    if (dias < 0) { aviso('A data da avaliação é anterior ao nascimento.'); return; }
+    if (dias > 19 * 365.25 + 30) { aviso('A referência da OMS vai até 19 anos. Para adultos, use o IMC.'); return; }
+    const ig = num('ig');
+    let corrigida = false;
+    if (ig !== null && ig < 37 && dias < 730) { dias = Math.max(0, dias - Math.round((40 - ig) * 7)); corrigida = true; }
+    const meses = dias / DIAS_MES;
+    const menor5 = dias <= 1856;
+    const peso = num('peso'); let alt = num('alt'); const pc = num('pc');
+    const s = sexo.value;
+    const T = menor5 ? DADOS.menor5[s] : DADOS.maior5[s];
+    const x = menor5 ? dias : meses;
+    const linhas = [];
+    ULTIMO = { s, menor5, dias, meses, itens: {} };
+
+    // ajuste de posição da medida (OMS): +0,7 cm se em pé com menos de 2 anos; −0,7 cm se deitado com 2 anos ou mais
+    let notaAlt = '';
+    if (alt !== null) {
+        const pos = document.querySelector('input[name="pos"]:checked').value;
+        if (pos === 'em-pe' && dias < 731) { alt += 0.7; notaAlt = ' (+0,7 cm: medida em pé antes de 2 anos)'; }
+        if (pos === 'deitado' && dias >= 731) { alt -= 0.7; notaAlt = ' (−0,7 cm: medida deitado após 2 anos)'; }
+    }
+
+    function linha(chave, nome, valorTxt, y, tab, corrigir, classe) {
+        const p = lms(tab, x);
+        if (!p) return;
+        const z = escoreZ(y, p, corrigir);
+        const [txt, cor] = classe(z);
+        linhas.push(`<tr class="border-b border-gray-200"><th scope="row" class="py-2 pr-2 font-semibold">${nome}</th><td class="py-2 pr-2">${valorTxt}</td><td class="py-2 pr-2">${f2(z)}</td><td class="py-2 pr-2">${percentil(z)}</td><td class="py-2 font-semibold ${COR_TXT[cor]}">${txt}</td></tr>`);
+        ULTIMO.itens[chave] = { nome, y, tab, z };
+    }
+    if (peso !== null && peso > 0) {
+        const tab = menor5 ? T.wfa : (meses <= 120 ? T.wfa : null);
+        if (tab) linha('wfa', 'Peso para idade', peso.toString().replace('.', ',') + ' kg', peso, tab, true, classePeso);
+        else linhas.push('<tr class="border-b border-gray-200"><th scope="row" class="py-2 pr-2 font-semibold">Peso para idade</th><td colspan="4" class="py-2 text-gray-600">A OMS só define peso para idade até 10 anos; use o IMC.</td></tr>');
+    }
+    if (alt !== null && alt > 0) linha('hfa', 'Estatura para idade', alt.toFixed(1).replace('.', ',') + ' cm' + notaAlt, alt, menor5 ? T.lhfa : T.hfa, false, classeEstatura);
+    if (peso !== null && peso > 0 && alt !== null && alt > 0) {
+        const imc = peso / Math.pow(alt / 100, 2);
+        linha('bfa', 'IMC para idade', imc.toFixed(1).replace('.', ',') + ' kg/m²', imc, menor5 ? T.bfa : T.bfa, true, z => classeImc(z, menor5));
+    }
+    if (pc !== null && pc > 0) {
+        if (menor5) linha('hcfa', 'Perímetro cefálico para idade', pc.toFixed(1).replace('.', ',') + ' cm', pc, T.hcfa, false, classePc);
+        else linhas.push('<tr class="border-b border-gray-200"><th scope="row" class="py-2 pr-2 font-semibold">Perímetro cefálico</th><td colspan="4" class="py-2 text-gray-600">A curva da OMS vai até 5 anos.</td></tr>');
+    }
+    if (!linhas.length) { aviso('Informe ao menos uma medida (peso, comprimento/estatura ou perímetro cefálico).'); return; }
+    $('aviso').classList.add('hidden');
+    const anos = Math.floor(meses / 12), m = Math.floor(meses - anos * 12);
+    $('idade-txt').textContent = 'Idade' + (corrigida ? ' corrigida' : '') + ': ' + (anos ? anos + ' ano(s) e ' : '') + m + ' mês(es) (' + Math.round(dias) + ' dias). ' + (menor5 ? 'Padrão OMS 2006 (0 a 5 anos).' : 'Referência OMS 2007 (5 a 19 anos).');
+    $('tabela').innerHTML = linhas.join('');
+    const sel = $('grafico-sel'); const atual = sel.value;
+    sel.innerHTML = '';
+    Object.entries(ULTIMO.itens).forEach(([k, v]) => { const o = document.createElement('option'); o.value = k; o.textContent = v.nome; sel.appendChild(o); });
+    if (atual && ULTIMO.itens[atual]) sel.value = atual;
+    $('resultado').classList.remove('hidden');
+    desenhar();
+}
+
+// ---------- gráfico ----------
+function desenhar() {
+    const chave = $('grafico-sel').value;
+    const alvo = $('grafico');
+    if (!ULTIMO || !ULTIMO.itens[chave]) { alvo.textContent = ''; return; }
+    const it = ULTIMO.itens[chave];
+    const tab = it.tab;
+    const unidadeMes = !ULTIMO.menor5 ? 1 : 1 / DIAS_MES;   // converte o eixo da tabela para meses
+    const xsMeses = tab.x.map(v => v * unidadeMes);
+    const W = 640, H = 360, ml = 48, mr = 16, mt = 12, mb = 40;
+    const x0 = xsMeses[0], x1 = xsMeses[xsMeses.length - 1];
+    const ks = [-3, -2, 0, 2, 3];
+    const curvas = ks.map(k => tab.x.map((_, i) => valorSD(k, tab.L[i], tab.M[i], tab.S[i])));
+    const ys = curvas.flat().concat([it.y]);
+    let y0 = Math.min(...ys), y1 = Math.max(...ys);
+    const pad = (y1 - y0) * 0.05; y0 -= pad; y1 += pad;
+    const X = v => ml + (v - x0) / (x1 - x0) * (W - ml - mr);
+    const Y = v => H - mb - (v - y0) / (y1 - y0) * (H - mt - mb);
+    const cores = { '-3': '#dc2626', '-2': '#f59e0b', '0': '#16a34a', '2': '#f59e0b', '3': '#dc2626' };
+    let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full min-w-[420px]" role="img" aria-label="Gráfico de ${it.nome}">`;
+    // eixo x em anos (ou meses, no padrão de 0 a 5 anos)
+    const passoAnos = (x1 - x0) > 100 ? 2 : 1;
+    for (let a = Math.ceil(x0 / 12); a * 12 <= x1; a += passoAnos) {
+        svg += `<line x1="${X(a * 12)}" y1="${mt}" x2="${X(a * 12)}" y2="${H - mb}" stroke="currentColor" stroke-opacity=".12"/><text x="${X(a * 12)}" y="${H - mb + 16}" text-anchor="middle" font-size="11" fill="currentColor">${a}</text>`;
+    }
+    svg += `<text x="${(ml + W - mr) / 2}" y="${H - 6}" text-anchor="middle" font-size="11" fill="currentColor">Idade (anos)</text>`;
+    const nT = 5;
+    for (let i = 0; i <= nT; i++) {
+        const v = y0 + (y1 - y0) * i / nT;
+        svg += `<line x1="${ml}" y1="${Y(v)}" x2="${W - mr}" y2="${Y(v)}" stroke="currentColor" stroke-opacity=".12"/><text x="${ml - 6}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="currentColor">${v.toFixed(v < 30 ? 1 : 0)}</text>`;
+    }
+    curvas.forEach((c, i) => {
+        const d = c.map((v, j) => (j ? 'L' : 'M') + X(xsMeses[j]).toFixed(1) + ' ' + Y(v).toFixed(1)).join('');
+        const k = ks[i];
+        svg += `<path d="${d}" fill="none" stroke="${cores[String(k)]}" stroke-width="${k === 0 ? 2.2 : 1.4}" ${Math.abs(k) === 3 ? 'stroke-dasharray="5 3"' : ''}/>`;
+        const ult = c.length - 1;
+        svg += `<text x="${W - mr - 2}" y="${Y(c[ult]) - 3}" text-anchor="end" font-size="10" fill="${cores[String(k)]}">${k > 0 ? '+' + k : k === 0 ? '0' : '−' + Math.abs(k)}</text>`;
+    });
+    const px = X(Math.min(Math.max(ULTIMO.meses, x0), x1));
+    svg += `<circle cx="${px}" cy="${Y(it.y)}" r="6" fill="#2563eb" stroke="#fff" stroke-width="2"/></svg>`;
+    alvo.innerHTML = svg;
+}
+
+// ---------- inicialização ----------
+$('aval').value = new Date().toISOString().slice(0, 10);
+$('form').addEventListener('input', atualizar);
+$('form').addEventListener('change', atualizar);
+$('grafico-sel').addEventListener('change', desenhar);
+$('btn-limpar').addEventListener('click', () => { $('form').reset(); $('aval').value = new Date().toISOString().slice(0, 10); aviso(''); $('aviso').classList.add('hidden'); });
+fetch('data/oms-lms.json').then(r => r.json()).then(d => { DADOS = d; atualizar(); })
+    .catch(() => aviso('Não foi possível carregar as tabelas da OMS. Abra a página pelo site (não como arquivo local).'));
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>

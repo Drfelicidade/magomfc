@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora CHA₂DS₂-VASc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-rose-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Calculadora CHA₂DS₂-VASc</h1>
+        <p class="text-rose-100 text-sm md:text-base">Risco de AVC em fibrilação atrial não valvar e indicação de anticoagulação</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-rose-800 hover:bg-rose-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">Sexo</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="sexo" value="M" class="w-5 h-5 shrink-0"> <span>Masculino</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="sexo" value="F" class="w-5 h-5 shrink-0"> <span>Feminino (+1)</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">Idade</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="idade" value="0" class="w-5 h-5 shrink-0"> <span>Menos de 65 anos (0)</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="idade" value="1" class="w-5 h-5 shrink-0"> <span>65 a 74 anos (+1)</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="idade" value="2" class="w-5 h-5 shrink-0"> <span>75 anos ou mais (+2)</span></label>
+        </fieldset>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="icc" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Insuficiência cardíaca ou disfunção ventricular esquerda (+1)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="has" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Hipertensão arterial (+1)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="dm" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Diabetes mellitus (+1)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="avc" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">AVC, AIT ou tromboembolismo prévio (+2)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="vasc" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Doença vascular (infarto prévio, doença arterial periférica ou placa aórtica) (+1)</span></span>
+        </label>
+        <p class="text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">Vale para fibrilação atrial não valvar. Com estenose mitral moderada a grave ou prótese valvar mecânica, a anticoagulação com varfarina está indicada independentemente do escore. Veja também a <a class="underline" href="calculadora-has-bled.html">calculadora HAS-BLED</a>.</p>
+        <div class="flex flex-wrap gap-3">
+            <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar</button>
+        </div>
+        <div id="resultado" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Lip GYH et al. Chest 2010;137:263-72 (escore original).</li>
+                <li>Diretriz de Fibrilação Atrial da ESC 2020 (recomendação por escore e sexo) e Diretriz Brasileira de Fibrilação Atrial (SBC).</li>
+                <li>A ESC 2024 propõe o CHA₂DS₂-VA (sem o critério de sexo); nesta calculadora o critério de decisão já desconta o ponto do sexo.</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const CORES = {
+    verde: 'bg-green-50 border-green-500 text-green-800',
+    amarelo: 'bg-yellow-50 border-yellow-400 text-yellow-800',
+    laranja: 'bg-orange-50 border-orange-500 text-orange-800',
+    vermelho: 'bg-red-50 border-red-500 text-red-800',
+    azul: 'bg-blue-50 border-blue-500 text-blue-800',
+    cinza: 'bg-gray-50 border-gray-300 text-gray-800'
+};
+function valorRadio(nome) {
+    const el = document.querySelector('input[name="' + nome + '"]:checked');
+    return el ? Number(el.value) : null;
+}
+function numero(id) {
+    const v = $(id).value;
+    return v === '' ? null : Number(v);
+}
+// Mostra o resultado; "linhas" são parágrafos (texto simples, sem HTML de terceiros)
+function mostrar(cor, titulo, linhas, extras) {
+    const r = $('resultado');
+    r.className = 'p-5 rounded-2xl border-2 space-y-2 ' + CORES[cor];
+    r.textContent = '';
+    const h = document.createElement('p');
+    h.className = 'text-2xl font-black';
+    h.textContent = titulo;
+    r.appendChild(h);
+    (linhas || []).forEach(t => { const p = document.createElement('p'); p.className = 'text-sm font-medium'; p.textContent = t; r.appendChild(p); });
+    (extras || []).forEach(x => {
+        const p = document.createElement('p');
+        p.className = 'text-sm font-bold mt-2 p-3 rounded-lg bg-red-100 text-red-900 border border-red-300';
+        p.textContent = x; r.appendChild(p);
+    });
+}
+function ocultar() { $('resultado').className = 'hidden'; }
+function aviso(texto) {
+    const r = $('resultado');
+    r.className = 'p-4 rounded-2xl border-2 ' + CORES.cinza;
+    r.textContent = texto;
+}
+$('form').addEventListener('input', () => atualizar());
+$('form').addEventListener('change', () => atualizar());
+$('btn-limpar').addEventListener('click', () => { $('form').reset(); ocultar(); });
+
+function atualizar() {
+    const sexo = document.querySelector('input[name="sexo"]:checked');
+    const idade = valorRadio('idade');
+    if (!sexo || idade === null) { aviso('Selecione o sexo e a idade para calcular.'); return; }
+    const fem = sexo.value === 'F' ? 1 : 0;
+    const comorb = ($('icc').checked ? 1 : 0) + ($('has').checked ? 1 : 0) + ($('dm').checked ? 1 : 0) + ($('avc').checked ? 2 : 0) + ($('vasc').checked ? 1 : 0);
+    const semSexo = comorb + idade;
+    const total = semSexo + fem;
+    let cor, titulo, txt;
+    if (semSexo === 0) { cor = 'verde'; titulo = 'Baixo risco'; txt = 'Anticoagulação não é recomendada (sem fatores de risco além do sexo).'; }
+    else if (semSexo === 1) { cor = 'amarelo'; titulo = 'Risco intermediário'; txt = 'Considerar anticoagulação oral, avaliando risco de sangramento e a preferência do paciente.'; }
+    else { cor = 'vermelho'; titulo = 'Alto risco'; txt = 'Anticoagulação oral recomendada, salvo contraindicação. Os anticoagulantes diretos são preferidos à varfarina na FA não valvar.'; }
+    mostrar(cor, 'CHA₂DS₂-VASc: ' + total + ' ponto(s). ' + titulo, [txt,
+        'O sexo feminino conta ponto, mas isoladamente não indica anticoagulação: a decisão usa o escore sem o ponto do sexo (' + semSexo + ').',
+        'Antes de iniciar, calcule o risco de sangramento (HAS-BLED) e corrija os fatores modificáveis (pressão, álcool, AINEs).']);
+}
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>

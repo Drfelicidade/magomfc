@@ -167,6 +167,114 @@
         </div>
     </div>
 
+
+    <div class="container mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden mt-8">
+        <div class="bg-blue-50 border-b border-blue-100 p-6">
+            <h2 class="text-2xl font-bold text-blue-900">Ajuste de dose por função renal</h2>
+            <p class="text-sm text-blue-800">Consulta de faixas de ajuste para fármacos comuns na APS, usando o valor calculado acima. Somente adultos.</p>
+        </div>
+        <div class="p-6 md:p-10 space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="rd-busca" class="block text-sm font-medium text-gray-700 mb-1">Buscar fármaco</label>
+                    <input id="rd-busca" type="text" autocomplete="off" placeholder="Ex: gabapentina, enoxaparina…" class="w-full p-3 border border-gray-300 rounded-xl">
+                </div>
+                <div>
+                    <label for="rd-classe" class="block text-sm font-medium text-gray-700 mb-1">Classe</label>
+                    <select id="rd-classe" class="w-full p-3 border border-gray-300 rounded-xl bg-white"><option value="">Todas</option></select>
+                </div>
+            </div>
+            <div id="rd-estado" class="p-3 rounded-xl border border-yellow-200 bg-yellow-50 text-yellow-800 text-sm"></div>
+            <div id="rd-lista" class="space-y-3"></div>
+            <div class="p-4 bg-indigo-50 rounded-xl border border-indigo-100 text-xs text-indigo-800 leading-relaxed">
+                <strong>Como usar:</strong> a maioria das bulas usa o clearance de creatinina de Cockcroft-Gault (informe o peso acima); metformina, sitagliptina, dapagliflozina e alopurinol usam a TFG estimada (CKD-EPI). Quando o peso não é informado, a TFG estimada é usada como aproximação, o que pode divergir em idosos, obesos e pessoas muito magras. A lista é <strong>parcial</strong>: a ausência de um fármaco não significa que dispensa ajuste. Confirme na bula e, em casos de janela terapêutica estreita (lítio, digoxina, aminoglicosídeos), use dosagem sérica.
+                <br><strong>Fontes:</strong> bulas aprovadas pela FDA (DailyMed) para as faixas de dose; KDIGO 2012/2024 (AINEs, metformina); ADA Standards of Care (metformina); AGS Beers Criteria 2023 (nitrofurantoína, glibenclamida, opioides). Adaptado por conferência do autor do site; não substitui a bula brasileira vigente.
+            </div>
+        </div>
+    </div>
+    <script>
+    (function () {
+        // f: 'cg' = clearance de creatinina (Cockcroft-Gault), 'e' = TFG estimada.
+        // faixas: [limite inferior (inclusive), conduta], da maior função para a menor.
+        var D = [
+          ['Metformina','Diabetes',{f:'e',x:[[45,'Sem ajuste pela bula.'],[30,'Não iniciar; se já em uso, reavaliar risco/benefício (KDIGO/ADA sugerem reduzir para no máx. 1.000 mg/dia).'],[0,'Contraindicada.']],n:'Suspender temporariamente em situações de hipoperfusão, desidratação ou contraste iodado.'}],
+          ['Sitagliptina','Diabetes',{f:'e',x:[[45,'100 mg/dia.'],[30,'50 mg/dia.'],[0,'25 mg/dia.']]}],
+          ['Dapagliflozina','Diabetes',{f:'e',x:[[45,'Sem ajuste.'],[0,'Não recomendada para controle glicêmico (efeito reduzido); benefício cardiorrenal em DRC/IC segue indicações próprias — consulte a bula.']]}],
+          ['Glibenclamida','Diabetes',{f:'cg',x:[[60,'Sem ajuste específico; evitar em idosos (Beers).'],[0,'Evitar: risco de hipoglicemia prolongada por metabólitos ativos. Preferir gliclazida, insulina ou outra classe.']]}],
+          ['Enalapril','Cardiovascular',{f:'cg',x:[[30,'Dose usual.'],[0,'Iniciar com 2,5 mg/dia e titular conforme resposta (máx. 40 mg/dia).']],n:'Monitorar creatinina e potássio 1–2 semanas após início ou aumento.'}],
+          ['Lisinopril','Cardiovascular',{f:'cg',x:[[30,'Dose usual.'],[10,'Metade da dose inicial usual (ex.: 5 mg em hipertensão) e titular.'],[0,'Iniciar com 2,5 mg/dia e titular.']]}],
+          ['Captopril','Cardiovascular',{f:'cg',x:[[60,'Dose usual.'],[0,'Reduzir a dose inicial e titular lentamente; monitorar potássio e creatinina.']]}],
+          ['Losartana','Cardiovascular',{f:'cg',x:[[0,'Sem ajuste de dose pela bula; monitorar creatinina e potássio.']]}],
+          ['Espironolactona','Cardiovascular',{f:'e',x:[[50,'IC: 25 mg/dia se K ≤ 5,0 mEq/L.'],[30,'IC: 25 mg em dias alternados; monitorar K com frequência.'],[0,'Evitar (risco de hipercalemia).']],n:'Orientação clínica de IC (bula); checar potássio basal e em 1 semana.'}],
+          ['Atenolol','Cardiovascular',{f:'cg',x:[[35,'Sem ajuste.'],[15,'Máximo 50 mg/dia.'],[0,'Máximo 25 mg/dia.']]}],
+          ['Digoxina','Cardiovascular',{f:'cg',x:[[60,'Dose de manutenção usual, guiada por nível sérico.'],[0,'Reduzir a dose de manutenção proporcionalmente ao clearance e monitorar nível sérico (janela estreita); risco de toxicidade.']]}],
+          ['Rivaroxabana','Anticoagulantes',{f:'cg',x:[[51,'FA: 20 mg/dia com refeição. TEV: dose usual.'],[15,'FA: 15 mg/dia com a refeição da noite. TEV: dose usual (cautela se <30).'],[0,'Evitar.']]}],
+          ['Apixabana','Anticoagulantes',{f:'cg',x:[[0,'FA: sem ajuste pelo clearance; reduzir para 2,5 mg 2×/dia se ≥ 2 de: idade ≥ 80 anos, peso ≤ 60 kg, creatinina ≥ 1,5 mg/dL.']]}],
+          ['Dabigatrana','Anticoagulantes',{f:'cg',x:[[31,'FA: 150 mg 2×/dia.'],[15,'FDA: 75 mg 2×/dia. Na bula brasileira/europeia é contraindicada com ClCr < 30 — seguir a bula local.'],[0,'Sem recomendação/contraindicada.']]}],
+          ['Enoxaparina','Anticoagulantes',{f:'cg',x:[[30,'Sem ajuste.'],[0,'Profilaxia: 30 mg 1×/dia. Tratamento: 1 mg/kg 1×/dia. Considerar heparina não fracionada se muito baixo ou instável.']]}],
+          ['Alopurinol','Gota',{f:'e',x:[[60,'Sem ajuste inicial; titular até o alvo de urato.'],[30,'Iniciar 50 mg/dia; titular lentamente.'],[15,'Iniciar 50 mg em dias alternados.'],[5,'50 mg 2×/semana.'],[0,'50 mg 1×/semana.']],n:'Faixas para dose inicial (bula); ACR recomenda iniciar ≤ 100 mg/dia (menos na DRC) e titular acima do teto se necessário, com monitoramento.'}],
+          ['Colchicina','Gota',{f:'cg',x:[[80,'Profilaxia: sem ajuste.'],[30,'Profilaxia: sem ajuste, com monitoramento de efeitos adversos.'],[0,'Profilaxia: iniciar 0,3 mg/dia; diálise 0,3 mg 2×/semana. Crise: evitar repetir o tratamento em intervalo < 2 semanas.']],n:'Interações com claritromicina, verapamil, diltiazem e estatinas aumentam a toxicidade.'}],
+          ['Rosuvastatina','Dislipidemia',{f:'cg',x:[[30,'Sem ajuste.'],[0,'Iniciar 5 mg/dia; máximo 10 mg/dia.']]}],
+          ['Atorvastatina','Dislipidemia',{f:'cg',x:[[0,'Sem ajuste de dose.']]}],
+          ['Gabapentina','Neurologia',{f:'cg',x:[[60,'900–3.600 mg/dia em 3 tomadas.'],[30,'400–1.400 mg/dia em 2 tomadas.'],[15,'200–700 mg/dia em 1 tomada.'],[0,'100–300 mg/dia em 1 tomada (reduzir proporcionalmente ao clearance).']]}],
+          ['Pregabalina','Neurologia',{f:'cg',x:[[60,'150–600 mg/dia em 2–3 tomadas.'],[30,'75–300 mg/dia em 2–3 tomadas.'],[15,'25–150 mg/dia em 1–2 tomadas.'],[0,'25–75 mg/dia em 1 tomada.']]}],
+          ['Levetiracetam','Neurologia',{f:'cg',x:[[80,'500–1.500 mg 12/12 h.'],[50,'500–1.000 mg 12/12 h.'],[30,'250–750 mg 12/12 h.'],[0,'250–500 mg 12/12 h.']]}],
+          ['Topiramato','Neurologia',{f:'cg',x:[[70,'Sem ajuste.'],[0,'Usar metade da dose usual; titular lentamente.']]}],
+          ['Lítio','Saúde mental',{f:'e',x:[[90,'Dose guiada por litemia.'],[30,'Iniciar com dose menor, titular com litemia frequente; risco de toxicidade maior.'],[0,'Não recomendado.']],n:'Evitar AINEs, IECA/BRA e tiazídicos sem monitorar litemia.'}],
+          ['Memantina','Neurologia',{f:'cg',x:[[30,'Sem ajuste.'],[5,'Dose-alvo 5 mg 2×/dia.'],[0,'Sem dados; evitar.']]}],
+          ['Baclofeno','Neurologia',{f:'cg',x:[[60,'Sem ajuste.'],[0,'Reduzir a dose e titular com cautela (risco de encefalopatia); sem tabela de bula. Evitar se muito baixo.']]}],
+          ['Tramadol','Analgésicos',{f:'cg',x:[[30,'Dose usual.'],[0,'Intervalo de 12 h; máximo 200 mg/dia.']]}],
+          ['Morfina / Codeína','Analgésicos',{f:'cg',x:[[60,'Dose usual.'],[30,'Iniciar com dose menor e titular lentamente.'],[0,'Evitar (metabólitos ativos acumulam); preferir outro opioide (ex.: fentanil, metadona com cautela).']]}],
+          ['AINEs (ibuprofeno, diclofenaco…)','Analgésicos',{f:'e',x:[[60,'Usar a menor dose pelo menor tempo.'],[30,'Uso prolongado não recomendado (KDIGO 2012); evitar associar a IECA/BRA + diurético.'],[0,'Evitar.']]}],
+          ['Famotidina','Gastro',{f:'cg',x:[[60,'Dose usual.'],[30,'Máximo 20 mg/dia (ou 40 mg em dias alternados).'],[0,'10 mg/dia (ou 20 mg em dias alternados).']]}],
+          ['Metoclopramida','Gastro',{f:'cg',x:[[60,'Dose usual.'],[15,'Metade da dose usual.'],[0,'Um quarto da dose usual (doença renal terminal).']]}],
+          ['Alendronato','Osteoporose',{f:'cg',x:[[35,'Sem ajuste.'],[0,'Não recomendado.']]}],
+          ['Amoxicilina','Antibióticos',{f:'cg',x:[[30,'Sem ajuste (evitar comprimido de 875 mg se < 30).'],[10,'250–500 mg 12/12 h.'],[0,'250–500 mg 24/24 h.']]}],
+          ['Amoxicilina + clavulanato','Antibióticos',{f:'cg',x:[[30,'Sem ajuste.'],[10,'250–500 mg 12/12 h (não usar 875 mg).'],[0,'250–500 mg 24/24 h.']]}],
+          ['Cefalexina','Antibióticos',{f:'cg',x:[[60,'Sem ajuste.'],[30,'Máximo 1 g/dia.'],[15,'250 mg 8/8 h ou 12/12 h.'],[5,'250 mg 24/24 h.'],[0,'250 mg a cada 48–60 h.']]}],
+          ['Ciprofloxacino','Antibióticos',{f:'cg',x:[[51,'Dose usual.'],[30,'250–500 mg 12/12 h.'],[5,'250–500 mg 18/18 h.'],[0,'Consultar bula (diálise).']]}],
+          ['Levofloxacino','Antibióticos',{f:'cg',x:[[50,'Dose usual.'],[20,'750 mg: 750 mg a cada 48 h. 500 mg: 500 mg na 1ª dose, depois 250 mg a cada 24 h.'],[10,'750 mg: 750 mg 1ª dose, depois 500 mg a cada 48 h. 500 mg: 500 mg 1ª dose, depois 250 mg a cada 48 h.'],[0,'Consultar bula (diálise).']]}],
+          ['Sulfametoxazol + trimetoprima','Antibióticos',{f:'cg',x:[[31,'Dose usual.'],[15,'Metade da dose usual.'],[0,'Não recomendado.']],n:'Risco de hipercalemia e aumento de creatinina sem queda real da TFG.'}],
+          ['Nitrofurantoína','Antibióticos',{f:'cg',x:[[60,'Dose usual.'],[30,'Bula: contraindicada abaixo de 60. Curso curto pode ser aceito se não houver alternativa (Beers).'],[0,'Evitar (ineficaz e tóxica).']]}],
+          ['Claritromicina','Antibióticos',{f:'cg',x:[[30,'Dose usual.'],[0,'Reduzir a dose em 50%.']]}],
+          ['Fluconazol','Antifúngicos',{f:'cg',x:[[51,'Dose usual.'],[0,'Dose única: sem ajuste. Doses múltiplas: 50% da dose usual.']]}],
+          ['Oseltamivir','Antivirais',{f:'cg',x:[[61,'Tratamento 75 mg 12/12 h; profilaxia 75 mg/dia.'],[31,'Tratamento 30 mg 12/12 h; profilaxia 30 mg/dia.'],[11,'Tratamento 30 mg/dia; profilaxia 30 mg em dias alternados.'],[0,'Consultar bula.']]}],
+          ['Valaciclovir (herpes-zóster)','Antivirais',{f:'cg',x:[[50,'1 g 8/8 h.'],[30,'1 g 12/12 h.'],[10,'1 g 24/24 h.'],[0,'500 mg 24/24 h.']],n:'Outras indicações (herpes labial/genital) têm tabela própria na bula.'}]
+        ];
+        var $ = function (id) { return document.getElementById(id); };
+        function norm(t) { return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+        var classes = D.map(function (d) { return d[1]; }).filter(function (v, i, a) { return a.indexOf(v) === i; }).sort();
+        classes.forEach(function (c) { var o = document.createElement('option'); o.value = c; o.textContent = c; $('rd-classe').appendChild(o); });
+        function esc(t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+        function render() {
+            var fr = window.funcaoRenal, est = $('rd-estado');
+            if (!fr) { est.textContent = 'Preencha idade, sexo e creatinina acima para ver a faixa que se aplica ao paciente.'; est.className = 'p-3 rounded-xl border border-yellow-200 bg-yellow-50 text-yellow-800 text-sm'; }
+            else if (!fr.adulto) { est.textContent = 'Ajuste de dose por função renal disponível somente para adultos. Em crianças, consulte a bula e o farmacêutico clínico.'; est.className = 'p-3 rounded-xl border border-red-200 bg-red-50 text-red-800 text-sm'; fr = null; }
+            else {
+                var cgTxt = fr.cg !== null ? 'ClCr (Cockcroft-Gault) ' + fr.cg.toFixed(0) + ' mL/min' : 'peso não informado: usando a TFG estimada no lugar do ClCr';
+                est.textContent = 'TFG (CKD-EPI) ' + fr.egfr.toFixed(0) + ' mL/min/1,73 m² · ' + cgTxt + '.';
+                est.className = 'p-3 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 text-sm';
+            }
+            var q = norm($('rd-busca').value.trim()), cl = $('rd-classe').value;
+            var html = D.filter(function (d) { return (!cl || d[1] === cl) && (!q || norm(d[0]).indexOf(q) >= 0); }).map(function (d) {
+                var info = d[2], val = null, medida = '';
+                if (fr) { if (info.f === 'cg' && fr.cg !== null) { val = fr.cg; medida = 'ClCr ' + val.toFixed(0); } else { val = fr.egfr; medida = (info.f === 'cg' ? 'TFG (sem peso) ' : 'TFG ') + val.toFixed(0); } }
+                var linhas = info.x.map(function (b, i) {
+                    var sup = i === 0 ? null : info.x[i - 1][0];
+                    var rot = sup === null ? '≥ ' + b[0] : (b[0] === 0 ? '< ' + sup : b[0] + '–' + (sup - 1));
+                    var ativa = val !== null && val >= b[0] && (sup === null || val < sup);
+                    return '<li class="p-2 rounded-lg ' + (ativa ? 'bg-blue-100 border border-blue-300 font-semibold' : 'bg-gray-50') + '"><span class="text-xs font-bold text-blue-700 mr-2">' + rot + '</span>' + esc(b[1]) + '</li>';
+                }).join('');
+                return '<div class="border border-gray-200 rounded-2xl p-4"><div class="flex flex-wrap justify-between gap-2 mb-2"><h3 class="font-bold text-gray-800">' + esc(d[0]) + ' <span class="text-xs font-normal text-gray-500">' + esc(d[1]) + '</span></h3><span class="text-xs text-gray-500">' + (info.f === 'cg' ? 'Faixas em mL/min (Cockcroft-Gault)' : 'Faixas em mL/min/1,73 m² (TFG)') + (medida ? ' · paciente: ' + medida : '') + '</span></div><ul class="space-y-1 text-sm text-gray-700">' + linhas + '</ul>' + (info.n ? '<p class="text-xs text-gray-500 mt-2">' + esc(info.n) + '</p>' : '') + '</div>';
+            }).join('');
+            $('rd-lista').innerHTML = html || '<p class="text-sm text-gray-500">Nenhum fármaco encontrado nesta lista parcial. Consulte a bula.</p>';
+        }
+        $('rd-busca').addEventListener('input', render);
+        $('rd-classe').addEventListener('change', render);
+        window.addEventListener('funcao-renal', render);
+        render();
+    })();
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Inputs
@@ -214,6 +322,8 @@
                     valMsg.classList.remove('hidden');
                     resPlaceholder.classList.remove('hidden');
                     resContent.classList.add('hidden');
+                    window.funcaoRenal = null;
+                    window.dispatchEvent(new Event('funcao-renal'));
                     return;
                 }
 
@@ -223,6 +333,8 @@
                     valMsg.classList.remove('hidden');
                     resPlaceholder.classList.remove('hidden');
                     resContent.classList.add('hidden');
+                    window.funcaoRenal = null;
+                    window.dispatchEvent(new Event('funcao-renal'));
                     return;
                 }
 
@@ -283,6 +395,9 @@
                         document.getElementById('card-cg').classList.add('hidden');
                     }
                 }
+
+                window.funcaoRenal = { egfr: primaryVal, cg: cg, adulto: age >= 18 };
+                window.dispatchEvent(new Event('funcao-renal'));
 
                 recValue.textContent = primaryVal.toFixed(1);
                 
