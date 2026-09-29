@@ -4,290 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Segurança de Medicamentos na Gestação e Lactação</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-        }
-        .container {
-            max-width: 900px;
-        }
-        .section-title {
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background-color: #8b5cf6; /* Violet-500 */
-            border-radius: 9999px;
-        }
-    </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
-    <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
-        
-        <!-- Cabeçalho -->
-        <div class="bg-violet-700 p-6 md:p-8 text-white text-center relative">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">Medicamentos na Gestação e Lactação</h1>
-            <p class="text-violet-100 text-sm md:text-base">Análise de risco fetal (Classificação FDA/Ministério da Saúde) e passagem para o leite materno.</p>
-            <div class="mt-6">
-                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-violet-800 hover:bg-violet-900 text-white text-sm font-medium rounded-full transition shadow-sm">
-                    &larr; Voltar ao Menu Principal
-                </a>
-            </div>
+<body class="bg-gray-100 min-h-screen p-4">
+<main class="max-w-3xl mx-auto p-6 bg-white rounded-3xl shadow-xl space-y-6">
+    <header>
+        <a href="index.html" class="text-sm text-violet-700 underline">← Início</a>
+        <h1 class="text-3xl font-bold text-gray-800 mt-2">Segurança de Medicamentos na Gestação e Lactação</h1>
+        <p class="text-gray-600">Consulta primeiro na base local; se o medicamento não estiver nela, é possível consultar a IA.</p>
+        <p id="aviso-base" class="mt-2 text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900"></p>
+    </header>
+
+    <div>
+        <label for="med-input" class="block font-semibold text-gray-700 mb-1">Medicamento (nome genérico ou comercial)</label>
+        <div class="flex gap-2">
+            <input id="med-input" type="search" autocomplete="off" placeholder="Ex.: paracetamol, Tylenol, metformna…"
+                   class="flex-1 p-3 border border-gray-300 rounded-xl text-lg focus:ring-2 focus:ring-violet-500">
+            <button id="btn-buscar" type="button" class="px-5 py-3 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl">Buscar</button>
         </div>
-
-        <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- Coluna de Formulário -->
-            <div class="lg:col-span-5 space-y-6">
-                <div class="bg-violet-50/50 p-6 rounded-2xl border border-violet-100 shadow-sm">
-                    <h2 class="section-title text-xl font-bold text-violet-900 mb-6">Pesquisar Princípio Ativo</h2>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Nome do Medicamento</label>
-                            <input type="text" id="med-input" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 font-bold bg-white text-gray-800" placeholder="Ex: Ibuprofeno, Fluoxetina...">
-                        </div>
-                        
-                        <button id="search-btn" class="w-full py-3 bg-violet-600 text-white font-bold rounded-xl hover:bg-violet-700 shadow-lg transition flex items-center justify-center gap-2">
-                            <span>Analisar Segurança</span>
-                            <svg id="search-spinner" class="animate-spin h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="text-left p-4 bg-gray-50 rounded-xl border border-gray-200">
-                    <p class="text-xs text-gray-600 leading-relaxed">
-                        <strong>Lembrete:</strong> A classificação da FDA (A, B, C, D, X) foi atualizada para o sistema PLLR (Pregnancy and Lactation Labeling Rule), mas as letras ainda são amplamente usadas na prática clínica rápida.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Coluna de Resultados -->
-            <div class="lg:col-span-7 relative">
-                <div class="sticky top-6">
-                    <!-- Placeholder Inicial -->
-                    <div id="result-placeholder" class="h-full flex flex-col items-center justify-center text-gray-400 border-2 border-dashed border-gray-200 rounded-3xl p-10 text-center bg-gray-50 min-h-[400px]">
-                        <svg class="w-16 h-16 mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        <p class="text-base font-medium">Digite o nome do medicamento para ver os riscos na gravidez e amamentação.</p>
-                    </div>
-
-                    <div id="error-container" class="hidden p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl mb-4 text-sm font-medium text-center"></div>
-
-                    <!-- Resultados Reais -->
-                    <div id="result-content" class="hidden w-full space-y-4">
-                        
-                        <!-- Card Gestação -->
-                        <div id="gestation-card" class="p-6 rounded-3xl shadow-md border-2 transition-all duration-300">
-                            <div class="flex items-center justify-between mb-4 border-b pb-2">
-                                <div>
-                                    <span class="text-xs font-bold uppercase tracking-widest block mb-1 opacity-70">Risco na Gestação (FDA)</span>
-                                    <h3 id="res-category" class="text-4xl font-black tracking-tight">--</h3>
-                                </div>
-                            </div>
-                            <p id="res-gestation-text" class="text-sm font-medium leading-relaxed"></p>
-                        </div>
-
-                        <!-- Card Lactação (NOVO) -->
-                        <div id="lactation-card" class="p-6 rounded-3xl shadow-md border-2 transition-all duration-300">
-                            <div class="flex items-center justify-between mb-4 border-b pb-2">
-                                <div>
-                                    <span class="text-xs font-bold uppercase tracking-widest block mb-1 opacity-70">Risco na Lactação</span>
-                                    <h3 id="res-lactation-status" class="text-xl font-black tracking-tight">--</h3>
-                                </div>
-                            </div>
-                            <p id="res-lactation-text" class="text-sm font-medium leading-relaxed"></p>
-                        </div>
-
-                        <!-- Card Alternativas -->
-                        <div class="bg-gray-50 border border-gray-200 rounded-3xl p-6 shadow-sm">
-                            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                Conduta e Alternativas Seguras
-                            </h3>
-                            <p id="res-alternatives" class="text-sm text-gray-700 leading-relaxed"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <footer class="bg-gray-50 p-6 text-center border-t border-gray-100">
-            <p class="text-gray-500 text-xs leading-relaxed max-w-3xl mx-auto">
-                <strong>Atenção:</strong> Esta é uma ferramenta de apoio gerada por IA. Consulte sempre a literatura oficial (ex: e-Lactancia, Bula da ANVISA) antes de prescrever medicamentos a gestantes e lactantes.
-            </p>
-        </footer>
+        <ul id="sugestoes" class="mt-2 divide-y border rounded-xl hidden"></ul>
     </div>
 
-    <!-- ========================================== -->
-    <!-- LÓGICA DA IA (GEMINI API)                  -->
-    <!-- ========================================== -->
-    <script>
-        async function fetchWithRetry(url, options, maxRetries = 3) {
-            const delays = [1000, 2000, 4000];
-            for (let i = 0; i <= maxRetries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok) {
-                        throw new Error(`Erro API: ${response.status} ${response.statusText}`);
-                    }
-                    return await response.json();
-                } catch (error) {
-                    if (i === maxRetries) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delays[i]));
-                }
-            }
-        }
+    <div id="nao-encontrado" class="hidden p-4 bg-yellow-50 border border-yellow-200 text-yellow-900 rounded-xl space-y-2" role="status">
+        <p id="nao-encontrado-msg"></p>
+        <button id="btn-ia" type="button" class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg">Consultar IA</button>
+    </div>
+    <p id="carregando-ia" class="hidden text-violet-700 font-semibold animate-pulse" role="status">Consultando a IA…</p>
+    <p id="erro" class="hidden p-3 bg-red-50 border border-red-200 text-red-800 rounded-xl" role="alert"></p>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchBtn = document.getElementById('search-btn');
-            const medInput = document.getElementById('med-input');
-            const spinner = document.getElementById('search-spinner');
-            
-            const resPlaceholder = document.getElementById('result-placeholder');
-            const resContent = document.getElementById('result-content');
-            const errorContainer = document.getElementById('error-container');
-            
-            const gestCard = document.getElementById('gestation-card');
-            const resCategory = document.getElementById('res-category');
-            const resGestText = document.getElementById('res-gestation-text');
-            
-            const lactCard = document.getElementById('lactation-card');
-            const resLactStatus = document.getElementById('res-lactation-status');
-            const resLactText = document.getElementById('res-lactation-text');
-            
-            const resAlts = document.getElementById('res-alternatives');
+    <section id="resultado" class="hidden space-y-4" aria-live="polite">
+        <div>
+            <h2 id="res-nome" class="text-2xl font-bold text-gray-800"></h2>
+            <p id="res-classe" class="text-gray-500 text-sm"></p>
+            <p id="res-origem" class="inline-block mt-2 text-xs font-semibold px-2 py-1 rounded-full"></p>
+        </div>
+        <div id="gest-card" class="p-5 rounded-2xl border-2">
+            <p class="text-xs font-bold uppercase tracking-wide">Gestação</p>
+            <p id="res-gest-nivel" class="text-2xl font-black"></p>
+            <p id="res-gest" class="text-sm font-medium mt-1"></p>
+        </div>
+        <div id="lact-card" class="p-5 rounded-2xl border-2">
+            <p class="text-xs font-bold uppercase tracking-wide">Lactação</p>
+            <p id="res-lact-nivel" class="text-2xl font-black"></p>
+            <p id="res-lact" class="text-sm font-medium mt-1"></p>
+        </div>
+        <div id="conduta-card" class="p-5 rounded-2xl bg-gray-50 border">
+            <p class="text-xs font-bold uppercase tracking-wide text-gray-500">Conduta / alternativas</p>
+            <p id="res-conduta" class="text-sm text-gray-800 mt-1"></p>
+        </div>
+    </section>
+</main>
+<script src="assets/busca-medicamentos.js"></script>
+<script>
+(async function () {
+    const $ = id => document.getElementById(id);
+    const ROTULOS = { compativel: 'Compatível', cautela: 'Usar com cautela', evitar: 'Evitar', contraindicado: 'Contraindicado' };
+    const CORES = {
+        compativel: 'bg-green-50 border-green-500 text-green-800',
+        cautela: 'bg-yellow-50 border-yellow-400 text-yellow-800',
+        evitar: 'bg-orange-50 border-orange-500 text-orange-800',
+        contraindicado: 'bg-red-50 border-red-500 text-red-800',
+    };
+    const nivelValido = n => Object.prototype.hasOwnProperty.call(ROTULOS, n) ? n : 'cautela';
 
-            searchBtn.addEventListener('click', async () => {
-                const medName = medInput.value.trim();
-                
-                if (!medName) {
-                    showError("Por favor, digite o nome do medicamento.");
-                    return;
-                }
+    let base, indice;
+    try {
+        base = await (await fetch('data/medicamentos.json')).json();
+        indice = BuscaMedicamentos.indexar(base.medicamentos);
+        $('aviso-base').textContent = `${base.medicamentos.length} medicamentos na base local (${base.versao}). ${base.aviso}`;
+    } catch (e) {
+        base = null;
+        $('aviso-base').textContent = 'Não foi possível carregar a base local; apenas a consulta por IA está disponível.';
+    }
 
-                // UI de Carregamento
-                searchBtn.disabled = true;
-                spinner.classList.remove('hidden');
-                resPlaceholder.classList.add('hidden');
-                resContent.classList.add('hidden');
-                errorContainer.classList.add('hidden');
+    function ocultarTudo() {
+        ['sugestoes', 'nao-encontrado', 'carregando-ia', 'erro', 'resultado'].forEach(id => $(id).classList.add('hidden'));
+    }
 
-                // O prompt fica no servidor; aqui só enviamos o nome do medicamento
-                const apiUrl = `/.netlify/functions/medication-safety`;
-                const payload = { medicationName: medName };
+    function mostrar(m, origem) {
+        ocultarTudo();
+        $('res-nome').textContent = m.nome;
+        $('res-classe').textContent = m.classe
+            ? m.classe + (m.sinonimos && m.sinonimos.length ? ' · também: ' + m.sinonimos.join(', ') : '') : '';
+        const ia = origem === 'ia';
+        $('res-origem').textContent = ia ? 'Gerado por IA, não verificado: confira em fonte de referência' : 'Base local (rascunho em revisão)';
+        $('res-origem').className = 'inline-block mt-2 text-xs font-semibold px-2 py-1 rounded-full ' +
+            (ia ? 'bg-yellow-100 text-yellow-900' : 'bg-gray-100 text-gray-700');
+        const g = nivelValido(m.gestacao.nivel), l = nivelValido(m.lactacao.nivel);
+        $('res-gest-nivel').textContent = ROTULOS[g];
+        $('res-gest').textContent = m.gestacao.texto;
+        $('res-lact-nivel').textContent = ROTULOS[l];
+        $('res-lact').textContent = m.lactacao.texto;
+        $('res-conduta').textContent = m.conduta || '';
+        $('conduta-card').classList.toggle('hidden', !m.conduta);
+        $('gest-card').className = 'p-5 rounded-2xl border-2 ' + CORES[g];
+        $('lact-card').className = 'p-5 rounded-2xl border-2 ' + CORES[l];
+        $('resultado').classList.remove('hidden');
+    }
 
-                try {
-                    const result = await fetchWithRetry(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
+    function mostrarErro(msg) {
+        ocultarTudo();
+        $('erro').textContent = msg;
+        $('erro').classList.remove('hidden');
+    }
 
-                    if (result.error) {
-                        const googleErrorMsg = result.details && result.details.error ? result.details.error.message : "";
-                        throw new Error(`Erro na comunicação: ${googleErrorMsg}`);
-                    }
-
-                    const jsonText = result.candidates[0].content.parts[0].text;
-                    const medData = JSON.parse(jsonText);
-
-                    if (!medData.isValid) {
-                        showError(`"${medName}" não foi reconhecido como um medicamento válido.`);
-                        return;
-                    }
-
-                    // ==============================
-                    // UI: Gestação
-                    // ==============================
-                    resCategory.textContent = `Categoria ${medData.fdaCategory}`;
-                    resGestText.textContent = medData.gestationRiskText;
-                    
-                    gestCard.className = "p-6 rounded-3xl shadow-md border-2 transition-all duration-300 ";
-                    resCategory.className = "text-4xl font-black tracking-tight ";
-                    resGestText.className = "text-sm font-medium leading-relaxed ";
-
-                    if (medData.fdaCategory.includes('A') || medData.fdaCategory.includes('B')) {
-                        gestCard.classList.add('bg-green-50', 'border-green-500');
-                        resCategory.classList.add('text-green-700');
-                        resGestText.classList.add('text-green-800');
-                    } else if (medData.fdaCategory.includes('C')) {
-                        gestCard.classList.add('bg-yellow-50', 'border-yellow-400');
-                        resCategory.classList.add('text-yellow-700');
-                        resGestText.classList.add('text-yellow-800');
-                    } else { // D ou X
-                        gestCard.classList.add('bg-red-50', 'border-red-500');
-                        resCategory.classList.add('text-red-700');
-                        resGestText.classList.add('text-red-800');
-                    }
-
-                    // ==============================
-                    // UI: Lactação
-                    // ==============================
-                    resLactStatus.textContent = medData.lactationStatus;
-                    resLactText.textContent = medData.lactationRiskText;
-                    
-                    lactCard.className = "p-6 rounded-3xl shadow-md border-2 transition-all duration-300 ";
-                    resLactStatus.className = "text-xl font-black tracking-tight ";
-                    resLactText.className = "text-sm font-medium leading-relaxed ";
-
-                    const lactStat = medData.lactationStatus.toLowerCase();
-                    if (lactStat.includes('seguro') || lactStat.includes('baixo')) {
-                        lactCard.classList.add('bg-green-50', 'border-green-500');
-                        resLactStatus.classList.add('text-green-700');
-                        resLactText.classList.add('text-green-800');
-                    } else if (lactStat.includes('moderado')) {
-                        lactCard.classList.add('bg-yellow-50', 'border-yellow-400');
-                        resLactStatus.classList.add('text-yellow-700');
-                        resLactText.classList.add('text-yellow-800');
-                    } else { // Contraindicado
-                        lactCard.classList.add('bg-red-50', 'border-red-500');
-                        resLactStatus.classList.add('text-red-700');
-                        resLactText.classList.add('text-red-800');
-                    }
-
-                    // ==============================
-                    // Alternativas
-                    // ==============================
-                    resAlts.textContent = medData.alternatives;
-                    
-                    resContent.classList.remove('hidden');
-
-                } catch (error) {
-                    showError("Não foi possível analisar este medicamento no momento. O servidor pode estar indisponível.");
-                    console.error(error);
-                } finally {
-                    searchBtn.disabled = false;
-                    spinner.classList.add('hidden');
-                }
-            });
-
-            // Permite usar a tecla "Enter" no input
-            medInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    searchBtn.click();
-                }
-            });
-
-            function showError(msg) {
-                errorContainer.textContent = msg;
-                errorContainer.classList.remove('hidden');
-                resPlaceholder.classList.remove('hidden');
-                resContent.classList.add('hidden');
-            }
+    function atualizar() {
+        const q = $('med-input').value.trim();
+        ocultarTudo();
+        if (!q) return;
+        const { exato, sugestoes } = base ? BuscaMedicamentos.buscar(indice, q) : { exato: null, sugestoes: [] };
+        if (exato) { mostrar(exato, 'local'); return; }
+        const lista = $('sugestoes');
+        lista.textContent = '';
+        sugestoes.forEach(m => {
+            const li = document.createElement('li');
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'w-full text-left p-3 hover:bg-violet-50';
+            b.textContent = m.nome + ' (' + m.classe + ')';
+            b.addEventListener('click', () => { $('med-input').value = m.nome; mostrar(m, 'local'); });
+            li.appendChild(b);
+            lista.appendChild(li);
         });
-    </script>
+        if (sugestoes.length) lista.classList.remove('hidden');
+        if (q.length >= 3) {
+            $('nao-encontrado-msg').textContent = sugestoes.length
+                ? 'Não é nenhum destes? Você pode consultar a IA (resultado não verificado).'
+                : `"${q}" não foi encontrado na base local. Você pode consultar a IA (resultado não verificado).`;
+            $('nao-encontrado').classList.remove('hidden');
+        }
+    }
+
+    async function consultarIA() {
+        const nome = $('med-input').value.trim();
+        if (nome.length < 3) return;
+        ocultarTudo();
+        $('carregando-ia').classList.remove('hidden');
+        $('btn-ia').disabled = true;
+        try {
+            const resp = await fetch('/.netlify/functions/medication-safety', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ medicationName: nome })
+            });
+            const result = await resp.json();
+            if (!resp.ok || result.error) throw new Error(result.error || 'Erro na consulta');
+            const d = JSON.parse(result.candidates[0].content.parts[0].text);
+            if (!d.isValid) { mostrarErro(`"${nome}" não foi reconhecido como um medicamento válido.`); return; }
+            mostrar({
+                nome, classe: '', sinonimos: [],
+                gestacao: { nivel: d.gestacaoNivel, texto: String(d.gestacaoTexto || '') },
+                lactacao: { nivel: d.lactacaoNivel, texto: String(d.lactacaoTexto || '') },
+                conduta: String(d.conduta || ''),
+            }, 'ia');
+        } catch (e) {
+            console.error(e);
+            mostrarErro('Não foi possível consultar a IA no momento. Consulte uma fonte de referência (LactMed, bula).');
+        } finally {
+            $('btn-ia').disabled = false;
+            $('carregando-ia').classList.add('hidden');
+        }
+    }
+
+    $('med-input').addEventListener('input', atualizar);
+    $('btn-buscar').addEventListener('click', () => {
+        atualizar();
+        // Sem correspondência nenhuma na base local: consulta a IA automaticamente
+        if (!$('nao-encontrado').classList.contains('hidden') && $('sugestoes').classList.contains('hidden')) consultarIA();
+    });
+    $('med-input').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('btn-buscar').click(); } });
+    $('btn-ia').addEventListener('click', consultarIA);
+})();
+</script>
 <script src="assets/aviso.js" defer></script>
 </body>
 </html>

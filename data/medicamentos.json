@@ -1,25 +1,1674 @@
 {
- "aviso": "Base de EXEMPLO para testar o formato. Conteúdo NÃO validado; revisar cada item com fontes (Briggs, LactMed, bulas) antes de uso.",
- "versao": "prototipo-0.1",
+ "aviso": "Rascunho compilado a partir de conhecimento geral, ainda sem revisão médica/farmacêutica formal. Confirme em LactMed, Briggs, bulas e protocolos do Ministério da Saúde antes de decidir.",
+ "versao": "rascunho-1",
+ "niveis": {
+  "compativel": "Compatível",
+  "cautela": "Usar com cautela",
+  "evitar": "Evitar",
+  "contraindicado": "Contraindicado"
+ },
  "medicamentos": [
   {
-   "nome": "Paracetamol",
+   "nome": "Acetato de medroxiprogesterona",
    "sinonimos": [
-    "acetaminofeno",
-    "tylenol"
+    "depo-provera",
+    "depo provera"
+   ],
+   "classe": "Contraceptivo injetável",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Sem indicação na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Acetilcisteína",
+   "sinonimos": [
+    "fluimucil",
+    "acetilcisteina"
+   ],
+   "classe": "Mucolítico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Aciclovir",
+   "sinonimos": [
+    "zovirax"
+   ],
+   "classe": "Antiviral",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Aceito; indicado em herpes genital e outras infecções."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ácido acetilsalicílico",
+   "sinonimos": [
+    "aas",
+    "aspirina",
+    "aspirina prevent"
+   ],
+   "classe": "Antiagregante/AINE",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dose baixa (75-150 mg/dia) é indicada na profilaxia de pré-eclâmpsia em gestantes de risco. Doses analgésicas ou anti-inflamatórias devem ser evitadas, sobretudo no 3º trimestre."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Dose baixa é aceita. Doses analgésicas repetidas devem ser evitadas (risco de Reye e sangramento no lactente)."
+   },
+   "conduta": "Paracetamol como analgésico.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ácido fólico",
+   "sinonimos": [
+    "folico",
+    "acido folico"
+   ],
+   "classe": "Vitamina",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Recomendado antes e durante a gestação (prevenção de defeitos do tubo neural)."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ácido tranexâmico",
+   "sinonimos": [
+    "transamin"
+   ],
+   "classe": "Antifibrinolítico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; usar apenas com indicação obstétrica."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ácido valproico",
+   "sinonimos": [
+    "depakene",
+    "depakote",
+    "valproato",
+    "acido valproico"
+   ],
+   "classe": "Anticonvulsivante",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicado: alto risco de malformações e efeitos no neurodesenvolvimento."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa; usar com acompanhamento."
+   },
+   "conduta": "Lamotrigina ou levetiracetam.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Acitretina",
+   "sinonimos": [
+    "neotigason"
+   ],
+   "classe": "Retinoide",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: teratogenicidade grave e prolongada (efeito por até 3 anos)."
+   },
+   "lactacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Albendazol",
+   "sinonimos": [
+    "zentel"
+   ],
+   "classe": "Antiparasitário",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar no 1º trimestre; usar depois apenas se necessário."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Absorção baixa; compatível."
+   },
+   "conduta": "Adiar tratamento para depois do 1º trimestre.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Alopurinol",
+   "sinonimos": [
+    "zyloric"
+   ],
+   "classe": "Hipouricemiante",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; reservar para casos com indicação."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Alprazolam",
+   "sinonimos": [
+    "frontal"
+   ],
+   "classe": "Benzodiazepínico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Evitar uso contínuo, se possível."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar sedação no lactente."
+   },
+   "conduta": "Reavaliar indicação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ambroxol",
+   "sinonimos": [
+    "mucosolvan"
+   ],
+   "classe": "Mucolítico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Evitar no 1º trimestre por falta de dados."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados."
+   },
+   "conduta": "Hidratação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Amitriptilina",
+   "sinonimos": [
+    "tryptanol",
+    "amytril"
+   ],
+   "classe": "Antidepressivo tricíclico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso aceito quando necessário; pode causar sintomas neonatais de retirada."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Doses baixas costumam ser compatíveis; observar sedação no lactente."
+   },
+   "conduta": "Reavaliar indicação e menor dose.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Amoxicilina",
+   "sinonimos": [
+    "amoxil",
+    "novocilin"
+   ],
+   "classe": "Antibiótico betalactâmico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Segura; antibiótico de escolha em muitas infecções."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; pode causar diarreia ou candidíase no lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Amoxicilina com clavulanato",
+   "sinonimos": [
+    "clavulin",
+    "augmentin",
+    "amoxicilina clavulanato"
+   ],
+   "classe": "Antibiótico betalactâmico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito quando indicado."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; observar diarreia no lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ampicilina",
+   "sinonimos": [
+    "binotal"
+   ],
+   "classe": "Antibiótico betalactâmico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Segura."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Anlodipino",
+   "sinonimos": [
+    "norvasc"
+   ],
+   "classe": "Bloqueador de canal de cálcio",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; nifedipino é mais estudado."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Nifedipino.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Anticoncepcional oral combinado",
+   "sinonimos": [
+    "pílula combinada",
+    "etinilestradiol"
+   ],
+   "classe": "Contraceptivo hormonal",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Sem indicação na gestação. Se usado sem saber da gestação, não há risco teratogênico importante conhecido."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Evitar nas primeiras 6 semanas e enquanto a amamentação estiver estabelecida (pode reduzir o leite)."
+   },
+   "conduta": "Métodos apenas com progestagênio ou não hormonais.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Atenolol",
+   "sinonimos": [
+    "atenol"
+   ],
+   "classe": "Betabloqueador",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Associado a restrição de crescimento fetal; evitar."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Concentra-se no leite e pode causar bradicardia no lactente."
+   },
+   "conduta": "Metildopa, nifedipino, labetalol.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Atorvastatina",
+   "sinonimos": [
+    "lipitor",
+    "citalor"
+   ],
+   "classe": "Estatina",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Suspender na gestação em geral; reavaliar apenas em risco muito alto."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Sem dados de segurança; evitar."
+   },
+   "conduta": "Manter mudanças de estilo de vida.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Azatioprina",
+   "sinonimos": [
+    "imuran"
+   ],
+   "classe": "Imunossupressor",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso aceito quando necessário, com acompanhamento especializado."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa; acompanhamento especializado."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Azitromicina",
+   "sinonimos": [
+    "zitromax",
+    "azi"
+   ],
+   "classe": "Macrolídeo",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Considerada segura."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Beclometasona",
+   "sinonimos": [
+    "clenil"
+   ],
+   "classe": "Corticosteroide inalatório",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Betametasona",
+   "sinonimos": [
+    "celestone"
+   ],
+   "classe": "Corticosteroide",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Indicada para maturação pulmonar fetal entre 24 e 34 semanas nos casos de risco de parto prematuro."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Uso curto é aceito."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Bisacodil",
+   "sinonimos": [
+    "dulcolax"
+   ],
+   "classe": "Laxante estimulante",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso curto aceito quando medidas iniciais falham."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Absorção mínima; compatível."
+   },
+   "conduta": "Fibras, lactulose.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Bromocriptina",
+   "sinonimos": [
+    "parlodel"
+   ],
+   "classe": "Agonista dopaminérgico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita com acompanhamento especializado."
+   },
+   "lactacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: inibe a produção de leite."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Bromoprida",
+   "sinonimos": [
+    "digesan"
+   ],
+   "classe": "Procinético",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; preferir metoclopramida, mais estudada."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados; preferir alternativas."
+   },
+   "conduta": "Metoclopramida.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Budesonida",
+   "sinonimos": [
+    "pulmicort",
+    "busonid"
+   ],
+   "classe": "Corticosteroide inalatório",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Corticoide inalatório de escolha na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Bupropiona",
+   "sinonimos": [
+    "zyban",
+    "wellbutrin"
+   ],
+   "classe": "Antidepressivo",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; aceita quando necessário (inclusive para cessação do tabagismo)."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados; observar o lactente."
+   },
+   "conduta": "Sertralina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Butilescopolamina",
+   "sinonimos": [
+    "buscopan",
+    "escopolamina"
+   ],
+   "classe": "Antiespasmódico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; uso pontual é aceito."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Absorção oral baixa; compatível."
+   },
+   "conduta": "Medidas não farmacológicas.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Cabergolina",
+   "sinonimos": [
+    "dostinex"
+   ],
+   "classe": "Agonista dopaminérgico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita se prolactinoma com desejo de engravidar, com acompanhamento especializado."
+   },
+   "lactacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: inibe a produção de leite."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Captopril",
+   "sinonimos": [
+    "capoten"
+   ],
+   "classe": "Inibidor da ECA",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicado: fetotoxicidade renal no 2º e 3º trimestres."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Metildopa ou nifedipino na gestação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Carbamazepina",
+   "sinonimos": [
+    "tegretol"
+   ],
+   "classe": "Anticonvulsivante",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Risco de defeitos do tubo neural; usar apenas com acompanhamento especializado e ácido fólico."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível, observar o lactente."
+   },
+   "conduta": "Lamotrigina ou levetiracetam.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Carbonato de cálcio",
+   "sinonimos": [
+    "calcio",
+    "caltrate",
+    "carbonato de calcio"
+   ],
+   "classe": "Suplemento de cálcio",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Aceito; indicado em populações de baixa ingestão e na prevenção de pré-eclâmpsia."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Carvedilol",
+   "sinonimos": [
+    "divelol",
+    "coreg"
+   ],
+   "classe": "Betabloqueador",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados; preferir metoprolol ou propranolol."
+   },
+   "conduta": "Labetalol.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Cefalexina",
+   "sinonimos": [
+    "keflex"
+   ],
+   "classe": "Cefalosporina",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Segura."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; observar diarreia no lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ceftriaxona",
+   "sinonimos": [
+    "rocefin"
+   ],
+   "classe": "Cefalosporina",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Segura."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; evitar em recém-nascidos com icterícia ou em uso de cálcio endovenoso."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Cefuroxima",
+   "sinonimos": [
+    "zinnat"
+   ],
+   "classe": "Cefalosporina",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Segura."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Cetirizina",
+   "sinonimos": [
+    "zyrtec"
+   ],
+   "classe": "Anti-histamínico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar sonolência no lactente."
+   },
+   "conduta": "Loratadina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Cetoconazol",
+   "sinonimos": [
+    "nizoral"
+   ],
+   "classe": "Antifúngico azólico",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Uso oral deve ser evitado (dados de teratogenicidade em altas doses)."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados; uso tópico é aceito."
+   },
+   "conduta": "Clotrimazol, nistatina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Cetoprofeno",
+   "sinonimos": [
+    "profenid"
+   ],
+   "classe": "AINE",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar; mesmos riscos dos AINEs, sobretudo após 20 semanas e no 3º trimestre."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados. Uso curto costuma ser aceito; preferir ibuprofeno."
+   },
+   "conduta": "Paracetamol na gestação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ciclobenzaprina",
+   "sinonimos": [
+    "miosan"
+   ],
+   "classe": "Relaxante muscular",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; usar apenas se benefício superar risco."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados; preferir alternativas."
+   },
+   "conduta": "Medidas físicas e paracetamol.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ciprofloxacino",
+   "sinonimos": [
+    "cipro"
+   ],
+   "classe": "Quinolona",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar; usar apenas se não houver alternativa."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Uso curto é geralmente aceito; preferir outras classes."
+   },
+   "conduta": "Amoxicilina, cefalosporinas.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Citalopram",
+   "sinonimos": [
+    "cipramil"
+   ],
+   "classe": "Antidepressivo ISRS",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso aceito quando necessário."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem moderada; observar o lactente."
+   },
+   "conduta": "Sertralina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Claritromicina",
+   "sinonimos": [
+    "klaricid"
+   ],
+   "classe": "Macrolídeo",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; usar somente se necessário."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa; observar diarreia no lactente."
+   },
+   "conduta": "Azitromicina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Clindamicina",
+   "sinonimos": [
+    "dalacin"
+   ],
+   "classe": "Lincosamida",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Aceita quando indicada."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; observar diarreia no lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Clomifeno",
+   "sinonimos": [
+    "clomid"
+   ],
+   "classe": "Indutor de ovulação",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicado na gestação."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Pode reduzir a produção de leite; evitar."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Clonazepam",
+   "sinonimos": [
+    "rivotril"
+   ],
+   "classe": "Benzodiazepínico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Evitar uso contínuo, se possível; risco de sintomas neonatais próximo ao parto."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar sedação no lactente; usar com cautela."
+   },
+   "conduta": "Reavaliar indicação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Clonidina",
+   "sinonimos": [
+    "atensina"
+   ],
+   "classe": "Anti-hipertensivo central",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; usar se outras opções falharem."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode reduzir a produção de leite e causar sedação no lactente."
+   },
+   "conduta": "Metildopa.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Clopidogrel",
+   "sinonimos": [
+    "plavix"
+   ],
+   "classe": "Antiagregante",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; usar se indicação forte."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Sem dados suficientes."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Clorfeniramina",
+   "sinonimos": [
+    "polaramine",
+    "dexclorfeniramina"
+   ],
+   "classe": "Anti-histamínico sedativo",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito em doses habituais."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar sonolência no lactente e reduzir o leite."
+   },
+   "conduta": "Loratadina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Cloroquina",
+   "sinonimos": [],
+   "classe": "Antimalárico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Segura nas doses de profilaxia e tratamento da malária."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Clotrimazol",
+   "sinonimos": [
+    "canesten"
+   ],
+   "classe": "Antifúngico tópico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Preferido no tratamento de candidíase vaginal na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Codeína",
+   "sinonimos": [
+    "codeina",
+    "tylex"
+   ],
+   "classe": "Opioide",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso pontual é aceito quando necessário; uso prolongado pode causar abstinência neonatal."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Risco de depressão respiratória no lactente (metabolizadoras ultrarrápidas). Evitar."
+   },
+   "conduta": "Paracetamol; se necessário, outro analgésico.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Colchicina",
+   "sinonimos": [
+    "colchis"
+   ],
+   "classe": "Antigotoso",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; usar apenas se benefício superar risco."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa; uso aceito."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Colecalciferol",
+   "sinonimos": [
+    "vitamina d",
+    "addera",
+    "depura"
+   ],
+   "classe": "Vitamina",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Aceito nas doses de suplementação habituais."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Dapagliflozina",
+   "sinonimos": [
+    "forxiga"
+   ],
+   "classe": "Inibidor de SGLT2",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar: dados animais mostram efeitos renais no 2º e 3º trimestres."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Sem dados; evitar."
+   },
+   "conduta": "Insulina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Desloratadina",
+   "sinonimos": [
+    "desalex"
+   ],
+   "classe": "Anti-histamínico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados menos extensos; preferir loratadina."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Loratadina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Dexametasona",
+   "sinonimos": [
+    "decadron"
+   ],
+   "classe": "Corticosteroide",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Atravessa a placenta; uso aceito para maturação pulmonar fetal e outras indicações."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Uso curto é aceito; monitorar."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Dextrometorfano",
+   "sinonimos": [],
+   "classe": "Antitussígeno",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; uso pontual aceito."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados; uso pontual aceito."
+   },
+   "conduta": "Mel e hidratação (se lactente com mais de 1 ano).",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Diazepam",
+   "sinonimos": [
+    "valium",
+    "dienpax"
+   ],
+   "classe": "Benzodiazepínico",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar uso contínuo; uso próximo ao parto pode causar hipotonia e sintomas de retirada no recém-nascido."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Meia-vida longa e acúmulo no lactente; evitar."
+   },
+   "conduta": "Medidas não farmacológicas; reavaliar indicação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Diclofenaco",
+   "sinonimos": [
+    "voltaren",
+    "cataflam"
+   ],
+   "classe": "AINE",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar, principalmente após 20 semanas e no 3º trimestre (mesmos riscos dos demais AINEs)."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa para o leite; uso curto é aceito."
+   },
+   "conduta": "Paracetamol na gestação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Dimenidrinato",
+   "sinonimos": [
+    "dramin"
+   ],
+   "classe": "Antiemético/antivertiginoso",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito em doses habituais."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar sedação no lactente e reduzir a produção de leite."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Dipirona",
+   "sinonimos": [
+    "metamizol",
+    "novalgina",
+    "dipirona sódica"
    ],
    "classe": "Analgésico/antitérmico",
    "gestacao": {
-    "categoria": "B",
-    "texto": "Considerado o analgésico/antitérmico de escolha na gestação nas doses habituais."
+    "nivel": "cautela",
+    "texto": "Dados limitados. Evitar no 1º trimestre e após 30 semanas; uso pontual no 2º trimestre é aceito quando o paracetamol não basta."
    },
    "lactacao": {
-    "status": "Seguro",
-    "texto": "Passagem mínima para o leite; compatível com a amamentação."
+    "nivel": "cautela",
+    "texto": "Passa ao leite. Dose única ocasional é aceita; evitar uso prolongado e observar o lactente."
    },
-   "alternativas": "Manter como primeira escolha para dor e febre.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "Preferir paracetamol.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Domperidona",
+   "sinonimos": [
+    "motilium",
+    "peridal"
+   ],
+   "classe": "Procinético",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; usar se benefício superar risco."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem muito baixa; compatível (usada como galactagogo, atenção ao QT prolongado)."
+   },
+   "conduta": "Metoclopramida.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Doxiciclina",
+   "sinonimos": [
+    "vibramicina"
+   ],
+   "classe": "Tetraciclina",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: afeta ossos e dentes fetais."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Uso curto (até 3 semanas) é aceito; evitar uso prolongado."
+   },
+   "conduta": "Azitromicina ou amoxicilina conforme o caso.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Doxilamina e piridoxina",
+   "sinonimos": [
+    "diclegis",
+    "doxilamina"
+   ],
+   "classe": "Antiemético",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Combinação de primeira linha para náuseas e vômitos da gestação."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Doxilamina pode causar sonolência no lactente; usar com observação."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Empagliflozina",
+   "sinonimos": [
+    "jardiance"
+   ],
+   "classe": "Inibidor de SGLT2",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar: mesmos riscos da classe."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Sem dados; evitar."
+   },
+   "conduta": "Insulina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Enalapril",
+   "sinonimos": [
+    "renitec"
+   ],
+   "classe": "Inibidor da ECA",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicado: fetotoxicidade renal no 2º e 3º trimestres."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Metildopa ou nifedipino na gestação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Enoxaparina",
+   "sinonimos": [
+    "clexane"
+   ],
+   "classe": "Anticoagulante",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Anticoagulante de escolha na gestação (não atravessa a placenta)."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Não é absorvida por via oral; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Eritromicina",
+   "sinonimos": [],
+   "classe": "Macrolídeo",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita (evitar a forma estolato pelo risco de hepatotoxicidade materna)."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; observar risco de estenose pilórica no lactente nas primeiras semanas."
+   },
+   "conduta": "Azitromicina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Escitalopram",
+   "sinonimos": [
+    "lexapro"
+   ],
+   "classe": "Antidepressivo ISRS",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso aceito quando necessário."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem moderada; observar o lactente."
+   },
+   "conduta": "Sertralina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Espironolactona",
+   "sinonimos": [
+    "aldactone"
+   ],
+   "classe": "Diurético poupador de potássio",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar: efeito antiandrogênico no feto masculino em estudos animais."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Estradiol",
+   "sinonimos": [
+    "estrofem"
+   ],
+   "classe": "Estrogênio",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicado na gestação."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Pode reduzir a produção de leite; evitar."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ezetimiba",
+   "sinonimos": [
+    "zetia"
+   ],
+   "classe": "Hipolipemiante",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Dados insuficientes; evitar."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Sem dados; evitar."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Famotidina",
+   "sinonimos": [
+    "pepcid"
+   ],
+   "classe": "Antagonista H2",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Dados favoráveis."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Fenitoína",
+   "sinonimos": [
+    "hidantal",
+    "fenitoina"
+   ],
+   "classe": "Anticonvulsivante",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Risco de síndrome fetal por hidantoína."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Lamotrigina ou levetiracetam.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Fenobarbital",
+   "sinonimos": [
+    "gardenal"
+   ],
+   "classe": "Anticonvulsivante",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Risco de malformações e sintomas neonatais de retirada."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar sedação no lactente."
+   },
+   "conduta": "Lamotrigina ou levetiracetam.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Fenofibrato",
+   "sinonimos": [
+    "lipanon"
+   ],
+   "classe": "Fibrato",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Dados insuficientes; evitar."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Sem dados; evitar."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Fexofenadina",
+   "sinonimos": [
+    "allegra"
+   ],
+   "classe": "Anti-histamínico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Menos dados que loratadina."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Loratadina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Fluconazol",
+   "sinonimos": [
+    "zoltec",
+    "diflucan"
+   ],
+   "classe": "Antifúngico azólico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dose única (150 mg) para candidíase é aceita; doses altas ou prolongadas no 1º trimestre estão associadas a malformações."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "Antifúngicos tópicos (clotrimazol, nistatina).",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Fluoxetina",
+   "sinonimos": [
+    "prozac",
+    "daforin"
+   ],
+   "classe": "Antidepressivo ISRS",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso aceito quando necessário; meia-vida longa."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passa ao leite em quantidade maior que a sertralina; observar o lactente."
+   },
+   "conduta": "Sertralina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Formoterol",
+   "sinonimos": [
+    "foradil"
+   ],
+   "classe": "Beta-2 agonista de longa duração",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; uso aceito se necessário."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados."
+   },
+   "conduta": "Salbutamol.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Fosfomicina",
+   "sinonimos": [
+    "monuril"
+   ],
+   "classe": "Antibiótico urinário",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Dose única aceita em cistite não complicada."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Furosemida",
+   "sinonimos": [
+    "lasix"
+   ],
+   "classe": "Diurético de alça",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Usar somente se houver indicação clara (edema pulmonar, insuficiência cardíaca)."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode reduzir a produção de leite."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Gentamicina",
+   "sinonimos": [],
+   "classe": "Aminoglicosídeo",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Risco de ototoxicidade fetal; reservar para infecções graves."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Absorção oral mínima; compatível."
+   },
+   "conduta": "Cefalosporinas quando possível.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Glibenclamida",
+   "sinonimos": [
+    "daonil"
+   ],
+   "classe": "Sulfonilureia",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Alternativa quando a insulina não é possível; risco de hipoglicemia neonatal."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Risco de hipoglicemia no lactente; preferir metformina."
+   },
+   "conduta": "Insulina ou metformina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Gliclazida",
+   "sinonimos": [
+    "diamicron"
+   ],
+   "classe": "Sulfonilureia",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; risco de hipoglicemia neonatal."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados; preferir metformina."
+   },
+   "conduta": "Insulina ou metformina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Haloperidol",
+   "sinonimos": [
+    "haldol"
+   ],
+   "classe": "Antipsicótico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceito quando necessário; sintomas extrapiramidais neonatais possíveis."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa a moderada; observar o lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Heparina",
+   "sinonimos": [
+    "liquemine"
+   ],
+   "classe": "Anticoagulante",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Não atravessa a placenta; uso aceito."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Hidralazina",
+   "sinonimos": [
+    "apresolina"
+   ],
+   "classe": "Vasodilatador",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Usada em crises hipertensivas na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Hidroclorotiazida",
+   "sinonimos": [
+    "clorana"
+   ],
+   "classe": "Diurético tiazídico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Não iniciar na gestação; pode reduzir o volume plasmático. Continuação em hipertensas crônicas é possível com acompanhamento."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Doses baixas costumam ser aceitas; doses altas podem reduzir a produção de leite."
+   },
+   "conduta": "Nifedipino ou metildopa.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Hidrocortisona",
+   "sinonimos": [
+    "solu-cortef"
+   ],
+   "classe": "Corticosteroide",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Metabolizada pela placenta em grande parte; uso aceito."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Hidroxicloroquina",
+   "sinonimos": [
+    "plaquenil",
+    "reuquinol"
+   ],
+   "classe": "Antimalárico/imunomodulador",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; mantida em gestantes com lúpus ou artrite reumatoide."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Hidróxido de alumínio e magnésio",
+   "sinonimos": [
+    "maalox",
+    "mylanta",
+    "antiácido",
+    "hidroxido de aluminio"
+   ],
+   "classe": "Antiácido",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito em doses habituais; evitar uso excessivo e prolongado."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Absorção mínima; compatível."
+   },
+   "conduta": "Medidas posturais e dietéticas.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Hidroxizina",
+   "sinonimos": [
+    "hixizine"
+   ],
+   "classe": "Anti-histamínico sedativo",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar no 1º trimestre."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar sedação no lactente."
+   },
+   "conduta": "Loratadina ou cetirizina.",
+   "revisao": "rascunho"
   },
   {
    "nome": "Ibuprofeno",
@@ -29,52 +1678,463 @@
    ],
    "classe": "AINE",
    "gestacao": {
-    "categoria": "C",
-    "texto": "Evitar, sobretudo após 20 semanas (risco de oligoidrâmnio e fechamento precoce do ducto arterioso); contraindicado no 3º trimestre."
+    "nivel": "evitar",
+    "texto": "Evitar. Após 20 semanas há risco de oligoidrâmnio e lesão renal fetal; contraindicado no 3º trimestre pelo risco de fechamento precoce do ducto arterioso."
    },
    "lactacao": {
-    "status": "Seguro",
-    "texto": "Baixa passagem para o leite; é o AINE preferido na lactação."
+    "nivel": "compativel",
+    "texto": "Passagem muito baixa; é o AINE preferido na lactação."
    },
-   "alternativas": "Na gestação, preferir paracetamol.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "Na gestação, usar paracetamol.",
+   "revisao": "rascunho"
   },
   {
-   "nome": "Enalapril",
+   "nome": "Insulina asparte",
    "sinonimos": [
-    "renitec"
+    "novorapid"
    ],
-   "classe": "IECA",
+   "classe": "Insulina análoga",
    "gestacao": {
-    "categoria": "D",
-    "texto": "Contraindicado: fetotoxicidade renal no 2º/3º trimestres."
+    "nivel": "compativel",
+    "texto": "Uso aceito."
    },
    "lactacao": {
-    "status": "Risco Muito Baixo",
-    "texto": "Baixa excreção no leite; uso aceito em lactantes com recém-nascido a termo."
+    "nivel": "compativel",
+    "texto": "Compatível."
    },
-   "alternativas": "Metildopa ou nifedipino na gestação.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Insulina detemir",
+   "sinonimos": [
+    "levemir"
+   ],
+   "classe": "Insulina análoga",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Insulina glargina",
+   "sinonimos": [
+    "lantus",
+    "basaglar"
+   ],
+   "classe": "Insulina análoga",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito; dados favoráveis."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Insulina lispro",
+   "sinonimos": [
+    "humalog"
+   ],
+   "classe": "Insulina análoga",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Insulina NPH",
+   "sinonimos": [
+    "humulin n",
+    "novolin n"
+   ],
+   "classe": "Insulina",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Insulina de escolha na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Insulina regular",
+   "sinonimos": [
+    "humulin r",
+    "novolin r"
+   ],
+   "classe": "Insulina",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Insulina de escolha na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ipratrópio",
+   "sinonimos": [
+    "atrovent",
+    "ipratropio"
+   ],
+   "classe": "Anticolinérgico inalatório",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Absorção mínima; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Isoniazida",
+   "sinonimos": [],
+   "classe": "Antituberculoso",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito com piridoxina."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; manter piridoxina e observar o lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Isotretinoína",
+   "sinonimos": [
+    "roacutan",
+    "isotretinoina"
+   ],
+   "classe": "Retinoide",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: teratogenicidade grave. Exige contracepção eficaz e testes de gravidez."
+   },
+   "lactacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada."
+   },
+   "conduta": "Tratamentos tópicos compatíveis.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ivermectina",
+   "sinonimos": [
+    "revectina"
+   ],
+   "classe": "Antiparasitário",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; usar se benefício superar risco (escabiose grave)."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa; evitar na primeira semana de vida do lactente."
+   },
+   "conduta": "Permetrina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Labetalol",
+   "sinonimos": [],
+   "classe": "Betabloqueador",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Opção de primeira linha para hipertensão na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Lactulose",
+   "sinonimos": [
+    "lactulona"
+   ],
+   "classe": "Laxante osmótico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Não é absorvida; laxante de escolha na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Não é absorvida; compatível."
+   },
+   "conduta": "Fibras e hidratação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Lamotrigina",
+   "sinonimos": [
+    "lamictal"
+   ],
+   "classe": "Anticonvulsivante",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Um dos mais seguros entre os anticonvulsivantes; a dose pode precisar de ajuste."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem moderada; observar o lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Levetiracetam",
+   "sinonimos": [
+    "keppra"
+   ],
+   "classe": "Anticonvulsivante",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados favoráveis, aceito quando necessário."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem moderada; observar o lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Levofloxacino",
+   "sinonimos": [
+    "levaquin",
+    "tavanic"
+   ],
+   "classe": "Quinolona",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar; usar apenas se não houver alternativa."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados; preferir outras classes."
+   },
+   "conduta": "Amoxicilina, cefalosporinas.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Levonorgestrel",
+   "sinonimos": [
+    "postinor"
+   ],
+   "classe": "Contracepção de emergência",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Não é teratogênico nem interrompe uma gestação estabelecida."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Levotiroxina",
+   "sinonimos": [
+    "puran t4",
+    "euthyrox",
+    "synthroid"
+   ],
+   "classe": "Hormônio tireoidiano",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Segura e necessária; a dose costuma precisar de aumento na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Lidocaína (uso tópico)",
+   "sinonimos": [
+    "xylocaina",
+    "lidocaína",
+    "lidocaina"
+   ],
+   "classe": "Anestésico local",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito nas doses habituais, incluindo odontológico."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Lítio",
+   "sinonimos": [
+    "carbolitium",
+    "litio"
+   ],
+   "classe": "Estabilizador de humor",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar no 1º trimestre (risco de malformação cardíaca); manter apenas com acompanhamento especializado."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Passa em quantidade importante; evitar ou acompanhar de perto."
+   },
+   "conduta": "Acompanhamento psiquiátrico.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Loperamida",
+   "sinonimos": [
+    "imosec"
+   ],
+   "classe": "Antidiarreico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Evitar no 1º trimestre; uso curto depois é aceito. Hidratação é a base do tratamento."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Absorção mínima; compatível em doses habituais."
+   },
+   "conduta": "Hidratação oral.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Loratadina",
+   "sinonimos": [
+    "claritin"
+   ],
+   "classe": "Anti-histamínico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Anti-histamínico não sedativo de escolha."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Lorazepam",
+   "sinonimos": [
+    "lorax"
+   ],
+   "classe": "Benzodiazepínico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Evitar uso contínuo, se possível."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Uso ocasional é aceito; observar sedação."
+   },
+   "conduta": "Reavaliar indicação.",
+   "revisao": "rascunho"
   },
   {
    "nome": "Losartana",
    "sinonimos": [
     "cozaar"
    ],
-   "classe": "BRA",
+   "classe": "Bloqueador do receptor de angiotensina",
    "gestacao": {
-    "categoria": "D",
-    "texto": "Contraindicada: fetotoxicidade, como os IECA."
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: fetotoxicidade (mesmos riscos dos IECA)."
    },
    "lactacao": {
-    "status": "Risco Moderado",
+    "nivel": "cautela",
     "texto": "Dados insuficientes; preferir enalapril ou captopril na lactação."
    },
-   "alternativas": "Metildopa ou nifedipino na gestação.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "Metildopa ou nifedipino na gestação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Mebendazol",
+   "sinonimos": [
+    "vermox"
+   ],
+   "classe": "Antiparasitário",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar no 1º trimestre; dados limitados."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Absorção baixa; compatível."
+   },
+   "conduta": "Adiar tratamento se possível.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Melatonina",
+   "sinonimos": [],
+   "classe": "Hormônio",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa; dados limitados."
+   },
+   "conduta": "Higiene do sono.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Metformina",
+   "sinonimos": [
+    "glifage",
+    "glucoformin"
+   ],
+   "classe": "Antidiabético oral",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito em diabetes gestacional e DM2 quando insulina não é possível ou como adjuvante."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Excreção baixa; compatível."
+   },
+   "conduta": "Insulina segue como padrão.",
+   "revisao": "rascunho"
   },
   {
    "nome": "Metildopa",
@@ -83,215 +2143,169 @@
    ],
    "classe": "Anti-hipertensivo central",
    "gestacao": {
-    "categoria": "B",
-    "texto": "Uma das opções de primeira linha para hipertensão na gestação."
+    "nivel": "compativel",
+    "texto": "Uma das primeiras escolhas para hipertensão na gestação."
    },
    "lactacao": {
-    "status": "Seguro",
-    "texto": "Excreção baixa; compatível com a amamentação."
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
    },
-   "alternativas": "-",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "",
+   "revisao": "rascunho"
   },
   {
-   "nome": "Atenolol",
+   "nome": "Metilergometrina",
    "sinonimos": [
-    "atenol"
+    "methergin"
+   ],
+   "classe": "Uterotônico",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada durante a gestação (uso restrito ao pós-parto imediato)."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Uso curto (poucos dias) é aceito; pode reduzir o leite."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Metilfenidato",
+   "sinonimos": [
+    "ritalina",
+    "concerta"
+   ],
+   "classe": "Psicoestimulante",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; reavaliar a necessidade."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa; observar o lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Metimazol",
+   "sinonimos": [
+    "tapazol"
+   ],
+   "classe": "Antitireoidiano",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar no 1º trimestre (embriopatia); usar propiltiouracil nesse período."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível em doses até 20 a 30 mg/dia."
+   },
+   "conduta": "Propiltiouracil no 1º trimestre.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Metoclopramida",
+   "sinonimos": [
+    "plasil"
+   ],
+   "classe": "Antiemético/procinético",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito para náuseas e vômitos na gestação."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode aumentar a prolactina e causar sonolência ou sintomas gastrointestinais; uso curto é aceito."
+   },
+   "conduta": "Piridoxina e doxilamina como primeira linha.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Metoprolol",
+   "sinonimos": [
+    "seloken"
    ],
    "classe": "Betabloqueador",
    "gestacao": {
-    "categoria": "D",
-    "texto": "Associado a restrição de crescimento fetal; evitar quando possível."
+    "nivel": "cautela",
+    "texto": "Aceito quando necessário; monitorar o crescimento fetal."
    },
    "lactacao": {
-    "status": "Risco Moderado",
-    "texto": "Concentra-se no leite; pode causar bradicardia no lactente. Monitorar."
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
    },
-   "alternativas": "Metildopa, nifedipino ou labetalol.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "Labetalol.",
+   "revisao": "rascunho"
   },
   {
-   "nome": "Metformina",
+   "nome": "Metotrexato",
    "sinonimos": [
-    "glifage"
+    "methotrexate"
    ],
-   "classe": "Antidiabético oral",
+   "classe": "Imunossupressor",
    "gestacao": {
-    "categoria": "B",
-    "texto": "Uso aceito em diabetes gestacional e DM2 quando insulina não é possível."
+    "nivel": "contraindicado",
+    "texto": "Contraindicado: teratogênico e abortivo."
    },
    "lactacao": {
-    "status": "Seguro",
-    "texto": "Excreção baixa no leite; compatível com a amamentação."
+    "nivel": "contraindicado",
+    "texto": "Contraindicado."
    },
-   "alternativas": "Insulina segue como padrão na gestação.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "",
+   "revisao": "rascunho"
   },
   {
-   "nome": "Levotiroxina",
+   "nome": "Metronidazol",
    "sinonimos": [
-    "puran t4",
-    "euthyrox"
+    "flagyl"
    ],
-   "classe": "Hormônio tireoidiano",
+   "classe": "Antimicrobiano",
    "gestacao": {
-    "categoria": "A",
-    "texto": "Segura e necessária; a dose costuma precisar de aumento na gestação."
+    "nivel": "cautela",
+    "texto": "Aceito nas infecções em que há indicação (vaginose, tricomoníase); dados atuais não mostram aumento de malformações."
    },
    "lactacao": {
-    "status": "Seguro",
-    "texto": "Hormônio endógeno; compatível."
+    "nivel": "cautela",
+    "texto": "Passa ao leite; dose única é aceita, e em uso prolongado observar o lactente."
    },
-   "alternativas": "-",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "",
+   "revisao": "rascunho"
   },
   {
-   "nome": "Amoxicilina",
+   "nome": "Miconazol",
    "sinonimos": [
-    "amoxil"
+    "daktarin"
    ],
-   "classe": "Antibiótico betalactâmico",
+   "classe": "Antifúngico tópico",
    "gestacao": {
-    "categoria": "B",
-    "texto": "Segura."
+    "nivel": "compativel",
+    "texto": "Aceito por via tópica ou vaginal."
    },
    "lactacao": {
-    "status": "Seguro",
-    "texto": "Passagem baixa; observar diarreia ou candidíase no lactente."
-   },
-   "alternativas": "-",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
-  },
-  {
-   "nome": "Azitromicina",
-   "sinonimos": [
-    "zitromax"
-   ],
-   "classe": "Macrolídeo",
-   "gestacao": {
-    "categoria": "B",
-    "texto": "Considerada segura."
-   },
-   "lactacao": {
-    "status": "Seguro",
-    "texto": "Passagem baixa; compatível com a amamentação."
-   },
-   "alternativas": "-",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
-  },
-  {
-   "nome": "Ciprofloxacino",
-   "sinonimos": [
-    "cipro"
-   ],
-   "classe": "Quinolona",
-   "gestacao": {
-    "categoria": "C",
-    "texto": "Evitar; usar apenas se não houver alternativa."
-   },
-   "lactacao": {
-    "status": "Risco Moderado",
-    "texto": "Uso curto é geralmente aceito; preferir outras classes."
-   },
-   "alternativas": "Amoxicilina ou cefalosporinas conforme o caso.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
-  },
-  {
-   "nome": "Sertralina",
-   "sinonimos": [
-    "zoloft"
-   ],
-   "classe": "ISRS",
-   "gestacao": {
-    "categoria": "C",
-    "texto": "Um dos ISRS mais estudados na gestação; pesar risco e benefício."
-   },
-   "lactacao": {
-    "status": "Seguro",
-    "texto": "Excreção baixa; ISRS de preferência na lactação."
-   },
-   "alternativas": "-",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
-  },
-  {
-   "nome": "Omeprazol",
-   "sinonimos": [
-    "losec"
-   ],
-   "classe": "IBP",
-   "gestacao": {
-    "categoria": "C",
-    "texto": "Dados de segurança favoráveis; uso aceito quando indicado."
-   },
-   "lactacao": {
-    "status": "Seguro",
-    "texto": "Excreção baixa."
-   },
-   "alternativas": "Medidas dietéticas e antiácidos primeiro.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
-  },
-  {
-   "nome": "Ácido fólico",
-   "sinonimos": [
-    "folico"
-   ],
-   "classe": "Vitamina",
-   "gestacao": {
-    "categoria": "A",
-    "texto": "Recomendado antes e durante a gestação para prevenir defeitos do tubo neural."
-   },
-   "lactacao": {
-    "status": "Seguro",
+    "nivel": "compativel",
     "texto": "Compatível."
    },
-   "alternativas": "-",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "",
+   "revisao": "rascunho"
   },
   {
-   "nome": "Varfarina",
+   "nome": "Mirtazapina",
    "sinonimos": [
-    "marevan"
+    "remeron"
    ],
-   "classe": "Anticoagulante",
+   "classe": "Antidepressivo",
    "gestacao": {
-    "categoria": "X",
-    "texto": "Contraindicada: embriopatia e sangramento fetal."
+    "nivel": "cautela",
+    "texto": "Dados limitados; aceita quando necessário."
    },
    "lactacao": {
-    "status": "Seguro",
-    "texto": "Excreção mínima; compatível com a amamentação."
+    "nivel": "cautela",
+    "texto": "Passagem baixa; observar sedação no lactente."
    },
-   "alternativas": "Heparina de baixo peso molecular.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
-  },
-  {
-   "nome": "Isotretinoína",
-   "sinonimos": [
-    "roacutan"
-   ],
-   "classe": "Retinoide",
-   "gestacao": {
-    "categoria": "X",
-    "texto": "Contraindicada: teratogenicidade grave."
-   },
-   "lactacao": {
-    "status": "Contraindicado",
-    "texto": "Contraindicada."
-   },
-   "alternativas": "Tratamentos tópicos compatíveis.",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "Sertralina.",
+   "revisao": "rascunho"
   },
   {
    "nome": "Misoprostol",
@@ -300,34 +2314,992 @@
    ],
    "classe": "Prostaglandina",
    "gestacao": {
-    "categoria": "X",
-    "texto": "Contraindicado na gestação, exceto sob indicação obstétrica."
+    "nivel": "contraindicado",
+    "texto": "Contraindicado na gestação, exceto sob indicação obstétrica (aborto retido, indução do parto)."
    },
    "lactacao": {
-    "status": "Risco Moderado",
-    "texto": "Pode causar diarreia no lactente."
+    "nivel": "cautela",
+    "texto": "Pode causar diarreia no lactente; dose única é aceita."
    },
-   "alternativas": "-",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "",
+   "revisao": "rascunho"
   },
   {
-   "nome": "Fluconazol",
+   "nome": "Montelucaste",
    "sinonimos": [
-    "zoltec"
+    "singulair"
    ],
-   "classe": "Antifúngico azólico",
+   "classe": "Antileucotrieno",
    "gestacao": {
-    "categoria": "D",
-    "texto": "Doses altas ou prolongadas associadas a malformações; evitar."
+    "nivel": "cautela",
+    "texto": "Dados limitados; manter se já usava e estava controlada."
    },
    "lactacao": {
-    "status": "Seguro",
-    "texto": "Dose única é compatível."
+    "nivel": "cautela",
+    "texto": "Poucos dados."
    },
-   "alternativas": "Antifúngicos tópicos (clotrimazol, nistatina).",
-   "fonte": "EXEMPLO - conferir antes de uso clínico",
-   "revisado": "0000-00-00"
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Morfina",
+   "sinonimos": [
+    "dimorf"
+   ],
+   "classe": "Opioide",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso quando necessário; risco de abstinência neonatal se uso prolongado."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Uso curto em dose baixa é aceito, com observação de sonolência no lactente."
+   },
+   "conduta": "Reavaliar necessidade e menor dose eficaz.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Naproxeno",
+   "sinonimos": [
+    "flanax"
+   ],
+   "classe": "AINE",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar; mesmos riscos dos AINEs, sobretudo após 20 semanas e no 3º trimestre."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Meia-vida longa, com possível acúmulo no lactente. Preferir ibuprofeno."
+   },
+   "conduta": "Paracetamol na gestação; ibuprofeno na lactação.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Nicotina (reposição)",
+   "sinonimos": [
+    "nicorette",
+    "adesivo de nicotina"
+   ],
+   "classe": "Auxiliar de cessação do tabagismo",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Preferir formas de curta duração (goma, pastilha) quando o aconselhamento falhou."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Melhor que fumar; preferir formas de curta duração."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Nifedipino",
+   "sinonimos": [
+    "adalat"
+   ],
+   "classe": "Bloqueador de canal de cálcio",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Primeira escolha para hipertensão na gestação (formulação de liberação prolongada)."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Nistatina",
+   "sinonimos": [
+    "micostatin"
+   ],
+   "classe": "Antifúngico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Segura (uso tópico ou oral não absorvido)."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Nitazoxanida",
+   "sinonimos": [
+    "annita"
+   ],
+   "classe": "Antiparasitário",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; usar somente se necessário."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Sem dados suficientes."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Nitrofurantoína",
+   "sinonimos": [
+    "macrodantina",
+    "nitrofurantoina"
+   ],
+   "classe": "Antibiótico urinário",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita no 1º e 2º trimestres quando não há alternativa; evitar próximo ao termo (risco de hemólise neonatal)."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Evitar nas primeiras semanas de vida e em lactentes com deficiência de G6PD."
+   },
+   "conduta": "Cefalexina, fosfomicina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Noretisterona",
+   "sinonimos": [
+    "micronor"
+   ],
+   "classe": "Progestagênio",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; método apenas com progestagênio aceito na lactação."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Nortriptilina",
+   "sinonimos": [
+    "pamelor"
+   ],
+   "classe": "Antidepressivo tricíclico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita quando necessário."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Olanzapina",
+   "sinonimos": [
+    "zyprexa"
+   ],
+   "classe": "Antipsicótico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita quando necessário; risco de diabetes gestacional e ganho de peso."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem moderada; observar o lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Omeprazol",
+   "sinonimos": [
+    "losec",
+    "peprazol"
+   ],
+   "classe": "Inibidor de bomba de prótons",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Dados de segurança favoráveis; uso aceito quando indicado."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Medidas dietéticas e antiácidos como primeiro passo.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Ondansetrona",
+   "sinonimos": [
+    "vonau",
+    "zofran"
+   ],
+   "classe": "Antiemético",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados sobre risco de fenda oral no 1º trimestre são conflitantes; reservar para casos em que outras opções falharam."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Piridoxina, doxilamina, metoclopramida.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Orlistate",
+   "sinonimos": [
+    "xenical"
+   ],
+   "classe": "Antiobesidade",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Sem indicação na gestação."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Sem dados."
+   },
+   "conduta": "Orientação nutricional.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Oseltamivir",
+   "sinonimos": [
+    "tamiflu"
+   ],
+   "classe": "Antiviral",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Indicado em gestantes com síndrome gripal e fatores de risco; iniciar precocemente."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Pantoprazol",
+   "sinonimos": [
+    "pantozol"
+   ],
+   "classe": "Inibidor de bomba de prótons",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Menos dados que o omeprazol; uso aceito se necessário."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Poucos dados; omeprazol é preferido."
+   },
+   "conduta": "Omeprazol.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Paracetamol",
+   "sinonimos": [
+    "acetaminofeno",
+    "tylenol"
+   ],
+   "classe": "Analgésico/antitérmico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Analgésico e antitérmico de primeira escolha na gestação, nas doses habituais e pelo menor tempo possível."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem mínima para o leite; compatível com a amamentação."
+   },
+   "conduta": "Primeira escolha para dor e febre.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Paroxetina",
+   "sinonimos": [
+    "paxil",
+    "aropax"
+   ],
+   "classe": "Antidepressivo ISRS",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar no 1º trimestre: associada a malformações cardíacas."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Sertralina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Penicilina benzatina",
+   "sinonimos": [
+    "benzetacil",
+    "penicilina g benzatina"
+   ],
+   "classe": "Antibiótico betalactâmico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Segura; tratamento de escolha da sífilis na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Permetrina",
+   "sinonimos": [
+    "kwell"
+   ],
+   "classe": "Antiparasitário tópico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Tratamento de escolha para escabiose e pediculose na gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Absorção mínima; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Piridoxina",
+   "sinonimos": [
+    "vitamina b6"
+   ],
+   "classe": "Vitamina",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Indicada para náuseas da gestação."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível em doses habituais."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Prednisolona",
+   "sinonimos": [
+    "prelone"
+   ],
+   "classe": "Corticosteroide",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso aceito quando necessário."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; com doses altas, esperar 4 h após a dose."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Prednisona",
+   "sinonimos": [
+    "meticorten"
+   ],
+   "classe": "Corticosteroide",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso aceito quando necessário; risco baixo de fenda oral no 1º trimestre."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; com doses acima de 20 mg, esperar 4 h após a dose."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Primaquina",
+   "sinonimos": [],
+   "classe": "Antimalárico",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar durante a gestação."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Evitar, principalmente se lactente com deficiência de G6PD ou sem teste."
+   },
+   "conduta": "Orientação especializada.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Progesterona micronizada",
+   "sinonimos": [
+    "utrogestan",
+    "evocanil",
+    "progesterona"
+   ],
+   "classe": "Progestagênio",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito quando indicado (prevenção de parto prematuro, suporte de fase lútea)."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Prometazina",
+   "sinonimos": [
+    "fenergan"
+   ],
+   "classe": "Anti-histamínico sedativo",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso pontual aceito; evitar uso prolongado próximo ao parto."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar sedação no lactente."
+   },
+   "conduta": "Metoclopramida ou doxilamina para náuseas.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Propiltiouracil",
+   "sinonimos": [
+    "ptu"
+   ],
+   "classe": "Antitireoidiano",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Preferido no 1º trimestre; monitorar função hepática."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Propranolol",
+   "sinonimos": [
+    "inderal"
+   ],
+   "classe": "Betabloqueador",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceito quando necessário; monitorar o crescimento fetal."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "Labetalol.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Pseudoefedrina",
+   "sinonimos": [],
+   "classe": "Descongestionante sistêmico",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar no 1º trimestre (risco de gastrosquise)."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Pode reduzir a produção de leite e causar irritabilidade no lactente."
+   },
+   "conduta": "Soro nasal.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Quetiapina",
+   "sinonimos": [
+    "seroquel"
+   ],
+   "classe": "Antipsicótico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita quando necessário."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Rifampicina",
+   "sinonimos": [
+    "rifaldin"
+   ],
+   "classe": "Antituberculoso",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito no tratamento da tuberculose."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível; pode dar coloração alaranjada ao leite."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Risperidona",
+   "sinonimos": [
+    "risperdal"
+   ],
+   "classe": "Antipsicótico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita quando necessário."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa; observar o lactente."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Rivaroxabana",
+   "sinonimos": [
+    "xarelto"
+   ],
+   "classe": "Anticoagulante oral direto",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: atravessa a placenta e há risco de sangramento."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Sem dados suficientes; evitar."
+   },
+   "conduta": "Heparina de baixo peso molecular.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Rosuvastatina",
+   "sinonimos": [
+    "crestor"
+   ],
+   "classe": "Estatina",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Suspender na gestação em geral; reavaliar apenas em risco muito alto."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Sem dados de segurança; evitar."
+   },
+   "conduta": "Manter mudanças de estilo de vida.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Salbutamol",
+   "sinonimos": [
+    "aerolin"
+   ],
+   "classe": "Beta-2 agonista",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Uso aceito; tratamento de crises de asma."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Secnidazol",
+   "sinonimos": [],
+   "classe": "Antimicrobiano",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; evitar no 1º trimestre."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passa ao leite; considerar suspender a amamentação por 24 h após a dose."
+   },
+   "conduta": "Metronidazol.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Sertralina",
+   "sinonimos": [
+    "zoloft",
+    "serenata"
+   ],
+   "classe": "Antidepressivo ISRS",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "ISRS mais estudado na gestação; pesar risco e benefício e manter se necessário."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Excreção baixa; compatível (ISRS preferido na lactação)."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Sibutramina",
+   "sinonimos": [
+    "reductil"
+   ],
+   "classe": "Antiobesidade",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada."
+   },
+   "lactacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Simeticona",
+   "sinonimos": [
+    "luftal"
+   ],
+   "classe": "Antiflatulento",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Não é absorvida; uso aceito."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Não é absorvida; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Sinvastatina",
+   "sinonimos": [
+    "zocor"
+   ],
+   "classe": "Estatina",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Suspender na gestação em geral; reavaliar apenas em risco muito alto."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Sem dados de segurança; evitar."
+   },
+   "conduta": "Manter mudanças de estilo de vida.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Sitagliptina",
+   "sinonimos": [
+    "januvia"
+   ],
+   "classe": "Inibidor de DPP-4",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Dados insuficientes; evitar."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Sem dados; evitar."
+   },
+   "conduta": "Insulina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Soro fisiológico nasal",
+   "sinonimos": [
+    "soro nasal",
+    "cloreto de sodio nasal"
+   ],
+   "classe": "Descongestionante tópico",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Seguro."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Seguro."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Sulfametoxazol e trimetoprima",
+   "sinonimos": [
+    "bactrim",
+    "septra",
+    "sulfametoxazol trimetoprima"
+   ],
+   "classe": "Antibiótico",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Evitar no 1º trimestre (antagonista do folato) e próximo ao parto (icterícia neonatal)."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Evitar em recém-nascidos, prematuros, com icterícia ou deficiência de G6PD."
+   },
+   "conduta": "Cefalexina, amoxicilina, fosfomicina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Sulfato ferroso",
+   "sinonimos": [
+    "noripurum",
+    "ferro"
+   ],
+   "classe": "Suplemento de ferro",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Recomendado na gestação para prevenção e tratamento de anemia."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Sumatriptano",
+   "sinonimos": [
+    "sumax",
+    "imigran"
+   ],
+   "classe": "Antienxaquecoso",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Registros de gestação não mostram aumento importante de malformações; usar quando outros tratamentos falham."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível (pode-se esperar 8 h para reduzir exposição)."
+   },
+   "conduta": "Paracetamol e metoclopramida como primeira linha.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Teofilina",
+   "sinonimos": [],
+   "classe": "Broncodilatador",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita com monitoramento do nível sérico."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar irritabilidade no lactente."
+   },
+   "conduta": "Salbutamol.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Terbinafina",
+   "sinonimos": [
+    "lamisil"
+   ],
+   "classe": "Antifúngico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Uso oral com dados limitados; postergar até depois da gestação se possível."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Passa ao leite; evitar uso oral."
+   },
+   "conduta": "Tratamento tópico ou adiamento.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Tetraciclina",
+   "sinonimos": [],
+   "classe": "Tetraciclina",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: afeta ossos e dentes fetais."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Uso curto é aceito; evitar uso prolongado."
+   },
+   "conduta": "Azitromicina ou amoxicilina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Topiramato",
+   "sinonimos": [
+    "topamax"
+   ],
+   "classe": "Anticonvulsivante",
+   "gestacao": {
+    "nivel": "evitar",
+    "texto": "Risco de fenda oral e restrição de crescimento."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Pode causar sonolência e diarreia no lactente."
+   },
+   "conduta": "Lamotrigina ou levetiracetam.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Tramadol",
+   "sinonimos": [
+    "tramal"
+   ],
+   "classe": "Opioide",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados. Uso prolongado no fim da gestação pode causar abstinência neonatal."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Risco de sedação e depressão respiratória no lactente, sobretudo em metabolizadoras rápidas. Evitar."
+   },
+   "conduta": "Paracetamol; discutir opioide se dor intensa.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Valaciclovir",
+   "sinonimos": [
+    "valtrex"
+   ],
+   "classe": "Antiviral",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Aceito quando indicado."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Passagem baixa; compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Valsartana",
+   "sinonimos": [
+    "diovan"
+   ],
+   "classe": "Bloqueador do receptor de angiotensina",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: fetotoxicidade (mesmos riscos dos IECA)."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Dados insuficientes; preferir enalapril ou captopril."
+   },
+   "conduta": "Metildopa ou nifedipino.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Vareniclina",
+   "sinonimos": [
+    "champix"
+   ],
+   "classe": "Auxiliar de cessação do tabagismo",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados; reservar para casos em que outros métodos falharam."
+   },
+   "lactacao": {
+    "nivel": "evitar",
+    "texto": "Poucos dados; evitar."
+   },
+   "conduta": "Aconselhamento; reposição de nicotina se necessário.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Varfarina",
+   "sinonimos": [
+    "marevan",
+    "coumadin"
+   ],
+   "classe": "Anticoagulante",
+   "gestacao": {
+    "nivel": "contraindicado",
+    "texto": "Contraindicada: embriopatia e sangramento fetal."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Excreção mínima; compatível."
+   },
+   "conduta": "Heparina de baixo peso molecular.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Venlafaxina",
+   "sinonimos": [
+    "efexor"
+   ],
+   "classe": "Antidepressivo IRSN",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Aceita quando necessário; risco de hipertensão materna e sintomas neonatais."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem moderada; observar o lactente."
+   },
+   "conduta": "Sertralina.",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Vitamina B12",
+   "sinonimos": [
+    "cianocobalamina",
+    "citoneurin",
+    "b12"
+   ],
+   "classe": "Vitamina",
+   "gestacao": {
+    "nivel": "compativel",
+    "texto": "Aceita nas doses fisiológicas."
+   },
+   "lactacao": {
+    "nivel": "compativel",
+    "texto": "Compatível."
+   },
+   "conduta": "",
+   "revisao": "rascunho"
+  },
+  {
+   "nome": "Zolpidem",
+   "sinonimos": [
+    "stilnox"
+   ],
+   "classe": "Hipnótico",
+   "gestacao": {
+    "nivel": "cautela",
+    "texto": "Dados limitados."
+   },
+   "lactacao": {
+    "nivel": "cautela",
+    "texto": "Passagem baixa; observar sedação."
+   },
+   "conduta": "Higiene do sono.",
+   "revisao": "rascunho"
   }
  ]
 }

@@ -5,13 +5,12 @@ const assert = require('assert');
 const { indexar, buscar, norm } = require('../assets/busca-medicamentos.js');
 
 const base = JSON.parse(fs.readFileSync(__dirname + '/../data/medicamentos.json', 'utf8'));
-const cats = ['A', 'B', 'C', 'D', 'X', 'Não classificado'];
-const lacts = ['Seguro', 'Risco Muito Baixo', 'Risco Moderado', 'Contraindicado'];
+const niveis = ['compativel', 'cautela', 'evitar', 'contraindicado'];
 const nomes = new Set();
 for (const m of base.medicamentos) {
   assert(m.nome && m.classe, `campos obrigatórios: ${m.nome}`);
-  assert(cats.includes(m.gestacao.categoria), `categoria inválida: ${m.nome}`);
-  assert(lacts.includes(m.lactacao.status), `status de lactação inválido: ${m.nome}`);
+  assert(niveis.includes(m.gestacao.nivel) && m.gestacao.texto, `gestação inválida: ${m.nome}`);
+  assert(niveis.includes(m.lactacao.nivel) && m.lactacao.texto, `lactação inválida: ${m.nome}`);
   assert(!nomes.has(norm(m.nome)), `duplicado: ${m.nome}`);
   nomes.add(norm(m.nome));
 }
@@ -20,7 +19,7 @@ console.log(`Esquema OK: ${base.medicamentos.length} medicamentos.`);
 const idx = indexar(base.medicamentos);
 const casos = [
   ['paracetamol', 'Paracetamol'], ['PARACETAMOL', 'Paracetamol'], ['tylenol', 'Paracetamol'],
-  ['isotretinoina', 'Isotretinoína'], ['metformna', 'Metformina'], ['acido folico', 'Ácido fólico'],
+  ['isotretinoina', 'Isotretinoína'], ['metformna', 'Metformina'], ['acido folico', 'Ácido fólico'], ['aas', 'Ácido acetilsalicílico'], ['Roacutan', 'Isotretinoína'], ['insulina nph', 'Insulina NPH'],
 ];
 for (const [q, esperado] of casos) {
   const r = buscar(idx, q);
@@ -34,8 +33,8 @@ console.log('Casos de busca OK (acento, caixa, nome comercial, erro de digitaç�
 const n = Number(process.argv[2]) || 5000;
 const sim = Array.from({ length: n }, (_, i) => ({
   nome: 'Medicamento' + i.toString(36) + 'xil', sinonimos: ['Marca' + i, 'Generico' + i],
-  classe: 'x', gestacao: { categoria: 'C', texto: 'x'.repeat(200) }, lactacao: { status: 'Seguro', texto: 'x'.repeat(200) },
-  alternativas: 'x'.repeat(100),
+  classe: 'x', gestacao: { nivel: 'cautela', texto: 'x'.repeat(200) }, lactacao: { nivel: 'compativel', texto: 'x'.repeat(200) },
+  conduta: 'x'.repeat(100),
 }));
 const bytes = Buffer.byteLength(JSON.stringify(sim));
 const t0 = process.hrtime.bigint();

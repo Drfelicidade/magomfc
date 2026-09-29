@@ -1,0 +1,193 @@
+# nome|sinônimos (;)|classe|nível gestação|texto gestação|nível lactação|texto lactação|conduta/alternativas
+# níveis: c=compatível  a=cautela  e=evitar  x=contraindicado
+Paracetamol|acetaminofeno;tylenol;paracetamol|Analgésico/antitérmico|c|Analgésico e antitérmico de primeira escolha na gestação, nas doses habituais e pelo menor tempo possível.|c|Passagem mínima para o leite; compatível com a amamentação.|Primeira escolha para dor e febre.
+Dipirona|metamizol;novalgina;dipirona sódica|Analgésico/antitérmico|a|Dados limitados. Evitar no 1º trimestre e após 30 semanas; uso pontual no 2º trimestre é aceito quando o paracetamol não basta.|a|Passa ao leite. Dose única ocasional é aceita; evitar uso prolongado e observar o lactente.|Preferir paracetamol.
+Ibuprofeno|advil;alivium;ibuprofeno|AINE|e|Evitar. Após 20 semanas há risco de oligoidrâmnio e lesão renal fetal; contraindicado no 3º trimestre pelo risco de fechamento precoce do ducto arterioso.|c|Passagem muito baixa; é o AINE preferido na lactação.|Na gestação, usar paracetamol.
+Diclofenaco|voltaren;cataflam;diclofenaco|AINE|e|Evitar, principalmente após 20 semanas e no 3º trimestre (mesmos riscos dos demais AINEs).|c|Passagem baixa para o leite; uso curto é aceito.|Paracetamol na gestação.
+Naproxeno|flanax;naproxeno|AINE|e|Evitar; mesmos riscos dos AINEs, sobretudo após 20 semanas e no 3º trimestre.|a|Meia-vida longa, com possível acúmulo no lactente. Preferir ibuprofeno.|Paracetamol na gestação; ibuprofeno na lactação.
+Cetoprofeno|profenid;cetoprofeno|AINE|e|Evitar; mesmos riscos dos AINEs, sobretudo após 20 semanas e no 3º trimestre.|a|Poucos dados. Uso curto costuma ser aceito; preferir ibuprofeno.|Paracetamol na gestação.
+Ácido acetilsalicílico|aas;aspirina;aspirina prevent|Antiagregante/AINE|a|Dose baixa (75-150 mg/dia) é indicada na profilaxia de pré-eclâmpsia em gestantes de risco. Doses analgésicas ou anti-inflamatórias devem ser evitadas, sobretudo no 3º trimestre.|a|Dose baixa é aceita. Doses analgésicas repetidas devem ser evitadas (risco de Reye e sangramento no lactente).|Paracetamol como analgésico.
+Tramadol|tramal;tramadol|Opioide|a|Dados limitados. Uso prolongado no fim da gestação pode causar abstinência neonatal.|e|Risco de sedação e depressão respiratória no lactente, sobretudo em metabolizadoras rápidas. Evitar.|Paracetamol; discutir opioide se dor intensa.
+Codeína|codeina;tylex;codeína|Opioide|a|Uso pontual é aceito quando necessário; uso prolongado pode causar abstinência neonatal.|e|Risco de depressão respiratória no lactente (metabolizadoras ultrarrápidas). Evitar.|Paracetamol; se necessário, outro analgésico.
+Morfina|dimorf;morfina|Opioide|a|Uso quando necessário; risco de abstinência neonatal se uso prolongado.|a|Uso curto em dose baixa é aceito, com observação de sonolência no lactente.|Reavaliar necessidade e menor dose eficaz.
+Sumatriptano|sumax;imigran;sumatriptano|Antienxaquecoso|a|Registros de gestação não mostram aumento importante de malformações; usar quando outros tratamentos falham.|c|Passagem baixa; compatível (pode-se esperar 8 h para reduzir exposição).|Paracetamol e metoclopramida como primeira linha.
+Amitriptilina|tryptanol;amytril;amitriptilina|Antidepressivo tricíclico|a|Uso aceito quando necessário; pode causar sintomas neonatais de retirada.|a|Doses baixas costumam ser compatíveis; observar sedação no lactente.|Reavaliar indicação e menor dose.
+Ciclobenzaprina|miosan;ciclobenzaprina|Relaxante muscular|a|Dados limitados; usar apenas se benefício superar risco.|a|Poucos dados; preferir alternativas.|Medidas físicas e paracetamol.
+Butilescopolamina|buscopan;escopolamina;butilescopolamina|Antiespasmódico|a|Dados limitados; uso pontual é aceito.|c|Absorção oral baixa; compatível.|Medidas não farmacológicas.
+Metoclopramida|plasil;metoclopramida|Antiemético/procinético|c|Uso aceito para náuseas e vômitos na gestação.|a|Pode aumentar a prolactina e causar sonolência ou sintomas gastrointestinais; uso curto é aceito.|Piridoxina e doxilamina como primeira linha.
+Ondansetrona|vonau;zofran;ondansetrona|Antiemético|a|Dados sobre risco de fenda oral no 1º trimestre são conflitantes; reservar para casos em que outras opções falharam.|c|Passagem baixa; compatível.|Piridoxina, doxilamina, metoclopramida.
+Domperidona|motilium;peridal;domperidona|Procinético|a|Dados limitados; usar se benefício superar risco.|c|Passagem muito baixa; compatível (usada como galactagogo, atenção ao QT prolongado).|Metoclopramida.
+Bromoprida|digesan;bromoprida|Procinético|a|Dados limitados; preferir metoclopramida, mais estudada.|a|Poucos dados; preferir alternativas.|Metoclopramida.
+Omeprazol|losec;peprazol;omeprazol|Inibidor de bomba de prótons|c|Dados de segurança favoráveis; uso aceito quando indicado.|c|Passagem baixa; compatível.|Medidas dietéticas e antiácidos como primeiro passo.
+Pantoprazol|pantozol;pantoprazol|Inibidor de bomba de prótons|a|Menos dados que o omeprazol; uso aceito se necessário.|a|Poucos dados; omeprazol é preferido.|Omeprazol.
+Famotidina|pepcid;famotidina|Antagonista H2|c|Dados favoráveis.|c|Passagem baixa; compatível.|-
+Hidróxido de alumínio e magnésio|maalox;mylanta;antiácido;hidroxido de aluminio|Antiácido|c|Uso aceito em doses habituais; evitar uso excessivo e prolongado.|c|Absorção mínima; compatível.|Medidas posturais e dietéticas.
+Simeticona|luftal;simeticona|Antiflatulento|c|Não é absorvida; uso aceito.|c|Não é absorvida; compatível.|-
+Loperamida|imosec;loperamida|Antidiarreico|a|Evitar no 1º trimestre; uso curto depois é aceito. Hidratação é a base do tratamento.|c|Absorção mínima; compatível em doses habituais.|Hidratação oral.
+Lactulose|lactulona;lactulose|Laxante osmótico|c|Não é absorvida; laxante de escolha na gestação.|c|Não é absorvida; compatível.|Fibras e hidratação.
+Bisacodil|dulcolax;bisacodil|Laxante estimulante|c|Uso curto aceito quando medidas iniciais falham.|c|Absorção mínima; compatível.|Fibras, lactulose.
+Sulfato ferroso|noripurum;ferro;sulfato ferroso|Suplemento de ferro|c|Recomendado na gestação para prevenção e tratamento de anemia.|c|Compatível.|-
+Ácido fólico|folico;acido folico;ácido fólico|Vitamina|c|Recomendado antes e durante a gestação (prevenção de defeitos do tubo neural).|c|Compatível.|-
+Colecalciferol|vitamina d;addera;depura;colecalciferol|Vitamina|c|Aceito nas doses de suplementação habituais.|c|Compatível.|-
+Carbonato de cálcio|calcio;caltrate;carbonato de calcio|Suplemento de cálcio|c|Aceito; indicado em populações de baixa ingestão e na prevenção de pré-eclâmpsia.|c|Compatível.|-
+Vitamina B12|cianocobalamina;citoneurin;b12|Vitamina|c|Aceita nas doses fisiológicas.|c|Compatível.|-
+Piridoxina|vitamina b6;piridoxina|Vitamina|c|Indicada para náuseas da gestação.|c|Compatível em doses habituais.|-
+Doxilamina e piridoxina|diclegis;doxilamina|Antiemético|c|Combinação de primeira linha para náuseas e vômitos da gestação.|a|Doxilamina pode causar sonolência no lactente; usar com observação.|-
+Dimenidrinato|dramin;dimenidrinato|Antiemético/antivertiginoso|c|Uso aceito em doses habituais.|a|Pode causar sedação no lactente e reduzir a produção de leite.|-
+Amoxicilina|amoxil;novocilin;amoxicilina|Antibiótico betalactâmico|c|Segura; antibiótico de escolha em muitas infecções.|c|Passagem baixa; pode causar diarreia ou candidíase no lactente.|-
+Amoxicilina com clavulanato|clavulin;augmentin;amoxicilina clavulanato|Antibiótico betalactâmico|c|Uso aceito quando indicado.|c|Compatível; observar diarreia no lactente.|-
+Ampicilina|binotal;ampicilina|Antibiótico betalactâmico|c|Segura.|c|Compatível.|-
+Penicilina benzatina|benzetacil;penicilina g benzatina|Antibiótico betalactâmico|c|Segura; tratamento de escolha da sífilis na gestação.|c|Compatível.|-
+Cefalexina|keflex;cefalexina|Cefalosporina|c|Segura.|c|Compatível; observar diarreia no lactente.|-
+Cefuroxima|zinnat;cefuroxima|Cefalosporina|c|Segura.|c|Compatível.|-
+Ceftriaxona|rocefin;ceftriaxona|Cefalosporina|c|Segura.|c|Compatível; evitar em recém-nascidos com icterícia ou em uso de cálcio endovenoso.|-
+Azitromicina|zitromax;azi;azitromicina|Macrolídeo|c|Considerada segura.|c|Passagem baixa; compatível.|-
+Claritromicina|klaricid;claritromicina|Macrolídeo|a|Dados limitados; usar somente se necessário.|a|Passagem baixa; observar diarreia no lactente.|Azitromicina.
+Eritromicina|eritromicina|Macrolídeo|a|Aceita (evitar a forma estolato pelo risco de hepatotoxicidade materna).|c|Compatível; observar risco de estenose pilórica no lactente nas primeiras semanas.|Azitromicina.
+Nitrofurantoína|macrodantina;nitrofurantoina|Antibiótico urinário|a|Aceita no 1º e 2º trimestres quando não há alternativa; evitar próximo ao termo (risco de hemólise neonatal).|a|Evitar nas primeiras semanas de vida e em lactentes com deficiência de G6PD.|Cefalexina, fosfomicina.
+Sulfametoxazol e trimetoprima|bactrim;septra;sulfametoxazol trimetoprima|Antibiótico|e|Evitar no 1º trimestre (antagonista do folato) e próximo ao parto (icterícia neonatal).|a|Evitar em recém-nascidos, prematuros, com icterícia ou deficiência de G6PD.|Cefalexina, amoxicilina, fosfomicina.
+Fosfomicina|monuril;fosfomicina|Antibiótico urinário|c|Dose única aceita em cistite não complicada.|c|Passagem baixa; compatível.|-
+Ciprofloxacino|cipro;ciprofloxacino|Quinolona|e|Evitar; usar apenas se não houver alternativa.|a|Uso curto é geralmente aceito; preferir outras classes.|Amoxicilina, cefalosporinas.
+Levofloxacino|levaquin;tavanic;levofloxacino|Quinolona|e|Evitar; usar apenas se não houver alternativa.|a|Poucos dados; preferir outras classes.|Amoxicilina, cefalosporinas.
+Metronidazol|flagyl;metronidazol|Antimicrobiano|a|Aceito nas infecções em que há indicação (vaginose, tricomoníase); dados atuais não mostram aumento de malformações.|a|Passa ao leite; dose única é aceita, e em uso prolongado observar o lactente.|-
+Clindamicina|dalacin;clindamicina|Lincosamida|c|Aceita quando indicada.|c|Compatível; observar diarreia no lactente.|-
+Doxiciclina|vibramicina;doxiciclina|Tetraciclina|x|Contraindicada: afeta ossos e dentes fetais.|a|Uso curto (até 3 semanas) é aceito; evitar uso prolongado.|Azitromicina ou amoxicilina conforme o caso.
+Tetraciclina|tetraciclina|Tetraciclina|x|Contraindicada: afeta ossos e dentes fetais.|a|Uso curto é aceito; evitar uso prolongado.|Azitromicina ou amoxicilina.
+Gentamicina|gentamicina|Aminoglicosídeo|e|Risco de ototoxicidade fetal; reservar para infecções graves.|c|Absorção oral mínima; compatível.|Cefalosporinas quando possível.
+Fluconazol|zoltec;diflucan;fluconazol|Antifúngico azólico|a|Dose única (150 mg) para candidíase é aceita; doses altas ou prolongadas no 1º trimestre estão associadas a malformações.|c|Compatível.|Antifúngicos tópicos (clotrimazol, nistatina).
+Nistatina|micostatin;nistatina|Antifúngico|c|Segura (uso tópico ou oral não absorvido).|c|Compatível.|-
+Clotrimazol|canesten;clotrimazol|Antifúngico tópico|c|Preferido no tratamento de candidíase vaginal na gestação.|c|Compatível.|-
+Miconazol|daktarin;miconazol|Antifúngico tópico|c|Aceito por via tópica ou vaginal.|c|Compatível.|-
+Cetoconazol|nizoral;cetoconazol|Antifúngico azólico|e|Uso oral deve ser evitado (dados de teratogenicidade em altas doses).|a|Poucos dados; uso tópico é aceito.|Clotrimazol, nistatina.
+Terbinafina|lamisil;terbinafina|Antifúngico|a|Uso oral com dados limitados; postergar até depois da gestação se possível.|e|Passa ao leite; evitar uso oral.|Tratamento tópico ou adiamento.
+Albendazol|zentel;albendazol|Antiparasitário|e|Evitar no 1º trimestre; usar depois apenas se necessário.|c|Absorção baixa; compatível.|Adiar tratamento para depois do 1º trimestre.
+Mebendazol|vermox;mebendazol|Antiparasitário|e|Evitar no 1º trimestre; dados limitados.|c|Absorção baixa; compatível.|Adiar tratamento se possível.
+Ivermectina|revectina;ivermectina|Antiparasitário|a|Dados limitados; usar se benefício superar risco (escabiose grave).|a|Passagem baixa; evitar na primeira semana de vida do lactente.|Permetrina.
+Permetrina|kwell;permetrina|Antiparasitário tópico|c|Tratamento de escolha para escabiose e pediculose na gestação.|c|Absorção mínima; compatível.|-
+Secnidazol|secnidazol|Antimicrobiano|a|Dados limitados; evitar no 1º trimestre.|a|Passa ao leite; considerar suspender a amamentação por 24 h após a dose.|Metronidazol.
+Nitazoxanida|annita;nitazoxanida|Antiparasitário|a|Dados limitados; usar somente se necessário.|a|Sem dados suficientes.|-
+Aciclovir|zovirax;aciclovir|Antiviral|c|Aceito; indicado em herpes genital e outras infecções.|c|Passagem baixa; compatível.|-
+Valaciclovir|valtrex;valaciclovir|Antiviral|c|Aceito quando indicado.|c|Passagem baixa; compatível.|-
+Oseltamivir|tamiflu;oseltamivir|Antiviral|c|Indicado em gestantes com síndrome gripal e fatores de risco; iniciar precocemente.|c|Passagem baixa; compatível.|-
+Cloroquina|cloroquina|Antimalárico|c|Segura nas doses de profilaxia e tratamento da malária.|c|Compatível.|-
+Primaquina|primaquina|Antimalárico|e|Evitar durante a gestação.|e|Evitar, principalmente se lactente com deficiência de G6PD ou sem teste.|Orientação especializada.
+Hidroxicloroquina|plaquenil;reuquinol;hidroxicloroquina|Antimalárico/imunomodulador|c|Compatível; mantida em gestantes com lúpus ou artrite reumatoide.|c|Passagem baixa; compatível.|-
+Isoniazida|isoniazida|Antituberculoso|c|Uso aceito com piridoxina.|c|Compatível; manter piridoxina e observar o lactente.|-
+Rifampicina|rifampicina;rifaldin|Antituberculoso|c|Uso aceito no tratamento da tuberculose.|c|Compatível; pode dar coloração alaranjada ao leite.|-
+Metildopa|aldomet;metildopa|Anti-hipertensivo central|c|Uma das primeiras escolhas para hipertensão na gestação.|c|Passagem baixa; compatível.|-
+Nifedipino|adalat;nifedipino|Bloqueador de canal de cálcio|c|Primeira escolha para hipertensão na gestação (formulação de liberação prolongada).|c|Passagem baixa; compatível.|-
+Anlodipino|norvasc;anlodipino|Bloqueador de canal de cálcio|a|Dados limitados; nifedipino é mais estudado.|c|Passagem baixa; compatível.|Nifedipino.
+Hidralazina|apresolina;hidralazina|Vasodilatador|c|Usada em crises hipertensivas na gestação.|c|Compatível.|-
+Labetalol|labetalol|Betabloqueador|c|Opção de primeira linha para hipertensão na gestação.|c|Passagem baixa; compatível.|-
+Atenolol|atenol;atenolol|Betabloqueador|e|Associado a restrição de crescimento fetal; evitar.|a|Concentra-se no leite e pode causar bradicardia no lactente.|Metildopa, nifedipino, labetalol.
+Propranolol|inderal;propranolol|Betabloqueador|a|Aceito quando necessário; monitorar o crescimento fetal.|c|Passagem baixa; compatível.|Labetalol.
+Metoprolol|seloken;metoprolol|Betabloqueador|a|Aceito quando necessário; monitorar o crescimento fetal.|c|Passagem baixa; compatível.|Labetalol.
+Carvedilol|divelol;coreg;carvedilol|Betabloqueador|a|Dados limitados.|a|Poucos dados; preferir metoprolol ou propranolol.|Labetalol.
+Captopril|capoten;captopril|Inibidor da ECA|x|Contraindicado: fetotoxicidade renal no 2º e 3º trimestres.|c|Passagem baixa; compatível.|Metildopa ou nifedipino na gestação.
+Enalapril|renitec;enalapril|Inibidor da ECA|x|Contraindicado: fetotoxicidade renal no 2º e 3º trimestres.|c|Passagem baixa; compatível.|Metildopa ou nifedipino na gestação.
+Losartana|cozaar;losartana|Bloqueador do receptor de angiotensina|x|Contraindicada: fetotoxicidade (mesmos riscos dos IECA).|a|Dados insuficientes; preferir enalapril ou captopril na lactação.|Metildopa ou nifedipino na gestação.
+Valsartana|diovan;valsartana|Bloqueador do receptor de angiotensina|x|Contraindicada: fetotoxicidade (mesmos riscos dos IECA).|a|Dados insuficientes; preferir enalapril ou captopril.|Metildopa ou nifedipino.
+Hidroclorotiazida|clorana;hidroclorotiazida|Diurético tiazídico|a|Não iniciar na gestação; pode reduzir o volume plasmático. Continuação em hipertensas crônicas é possível com acompanhamento.|a|Doses baixas costumam ser aceitas; doses altas podem reduzir a produção de leite.|Nifedipino ou metildopa.
+Furosemida|lasix;furosemida|Diurético de alça|a|Usar somente se houver indicação clara (edema pulmonar, insuficiência cardíaca).|a|Pode reduzir a produção de leite.|-
+Espironolactona|aldactone;espironolactona|Diurético poupador de potássio|e|Evitar: efeito antiandrogênico no feto masculino em estudos animais.|c|Passagem baixa; compatível.|-
+Clonidina|atensina;clonidina|Anti-hipertensivo central|a|Dados limitados; usar se outras opções falharem.|a|Pode reduzir a produção de leite e causar sedação no lactente.|Metildopa.
+Sinvastatina|zocor;sinvastatina|Estatina|e|Suspender na gestação em geral; reavaliar apenas em risco muito alto.|e|Sem dados de segurança; evitar.|Manter mudanças de estilo de vida.
+Atorvastatina|lipitor;citalor;atorvastatina|Estatina|e|Suspender na gestação em geral; reavaliar apenas em risco muito alto.|e|Sem dados de segurança; evitar.|Manter mudanças de estilo de vida.
+Rosuvastatina|crestor;rosuvastatina|Estatina|e|Suspender na gestação em geral; reavaliar apenas em risco muito alto.|e|Sem dados de segurança; evitar.|Manter mudanças de estilo de vida.
+Ezetimiba|zetia;ezetimiba|Hipolipemiante|e|Dados insuficientes; evitar.|e|Sem dados; evitar.|-
+Fenofibrato|lipanon;fenofibrato|Fibrato|e|Dados insuficientes; evitar.|e|Sem dados; evitar.|-
+Varfarina|marevan;coumadin;varfarina|Anticoagulante|x|Contraindicada: embriopatia e sangramento fetal.|c|Excreção mínima; compatível.|Heparina de baixo peso molecular.
+Enoxaparina|clexane;enoxaparina|Anticoagulante|c|Anticoagulante de escolha na gestação (não atravessa a placenta).|c|Não é absorvida por via oral; compatível.|-
+Heparina|liquemine;heparina|Anticoagulante|c|Não atravessa a placenta; uso aceito.|c|Compatível.|-
+Rivaroxabana|xarelto;rivaroxabana|Anticoagulante oral direto|x|Contraindicada: atravessa a placenta e há risco de sangramento.|e|Sem dados suficientes; evitar.|Heparina de baixo peso molecular.
+Clopidogrel|plavix;clopidogrel|Antiagregante|a|Dados limitados; usar se indicação forte.|a|Sem dados suficientes.|-
+Metformina|glifage;glucoformin;metformina|Antidiabético oral|c|Uso aceito em diabetes gestacional e DM2 quando insulina não é possível ou como adjuvante.|c|Excreção baixa; compatível.|Insulina segue como padrão.
+Insulina NPH|humulin n;novolin n;insulina nph|Insulina|c|Insulina de escolha na gestação.|c|Compatível.|-
+Insulina regular|humulin r;novolin r;insulina regular|Insulina|c|Insulina de escolha na gestação.|c|Compatível.|-
+Insulina glargina|lantus;basaglar;insulina glargina|Insulina análoga|c|Uso aceito; dados favoráveis.|c|Compatível.|-
+Insulina detemir|levemir;insulina detemir|Insulina análoga|c|Uso aceito.|c|Compatível.|-
+Insulina lispro|humalog;insulina lispro|Insulina análoga|c|Uso aceito.|c|Compatível.|-
+Insulina asparte|novorapid;insulina asparte|Insulina análoga|c|Uso aceito.|c|Compatível.|-
+Glibenclamida|daonil;glibenclamida|Sulfonilureia|a|Alternativa quando a insulina não é possível; risco de hipoglicemia neonatal.|a|Risco de hipoglicemia no lactente; preferir metformina.|Insulina ou metformina.
+Gliclazida|diamicron;gliclazida|Sulfonilureia|a|Dados limitados; risco de hipoglicemia neonatal.|a|Poucos dados; preferir metformina.|Insulina ou metformina.
+Dapagliflozina|forxiga;dapagliflozina|Inibidor de SGLT2|e|Evitar: dados animais mostram efeitos renais no 2º e 3º trimestres.|e|Sem dados; evitar.|Insulina.
+Empagliflozina|jardiance;empagliflozina|Inibidor de SGLT2|e|Evitar: mesmos riscos da classe.|e|Sem dados; evitar.|Insulina.
+Sitagliptina|januvia;sitagliptina|Inibidor de DPP-4|e|Dados insuficientes; evitar.|e|Sem dados; evitar.|Insulina.
+Levotiroxina|puran t4;euthyrox;synthroid;levotiroxina|Hormônio tireoidiano|c|Segura e necessária; a dose costuma precisar de aumento na gestação.|c|Compatível.|-
+Metimazol|tapazol;metimazol|Antitireoidiano|e|Evitar no 1º trimestre (embriopatia); usar propiltiouracil nesse período.|c|Compatível em doses até 20 a 30 mg/dia.|Propiltiouracil no 1º trimestre.
+Propiltiouracil|propiltiouracil;ptu|Antitireoidiano|a|Preferido no 1º trimestre; monitorar função hepática.|c|Compatível.|-
+Prednisona|meticorten;prednisona|Corticosteroide|a|Uso aceito quando necessário; risco baixo de fenda oral no 1º trimestre.|c|Compatível; com doses acima de 20 mg, esperar 4 h após a dose.|-
+Prednisolona|prelone;prednisolona|Corticosteroide|a|Uso aceito quando necessário.|c|Compatível; com doses altas, esperar 4 h após a dose.|-
+Dexametasona|decadron;dexametasona|Corticosteroide|a|Atravessa a placenta; uso aceito para maturação pulmonar fetal e outras indicações.|a|Uso curto é aceito; monitorar.|-
+Betametasona|celestone;betametasona|Corticosteroide|a|Indicada para maturação pulmonar fetal entre 24 e 34 semanas nos casos de risco de parto prematuro.|a|Uso curto é aceito.|-
+Hidrocortisona|solu-cortef;hidrocortisona|Corticosteroide|c|Metabolizada pela placenta em grande parte; uso aceito.|c|Compatível.|-
+Salbutamol|aerolin;salbutamol|Beta-2 agonista|c|Uso aceito; tratamento de crises de asma.|c|Compatível.|-
+Formoterol|foradil;formoterol|Beta-2 agonista de longa duração|a|Dados limitados; uso aceito se necessário.|a|Poucos dados.|Salbutamol.
+Budesonida|pulmicort;busonid;budesonida|Corticosteroide inalatório|c|Corticoide inalatório de escolha na gestação.|c|Compatível.|-
+Beclometasona|clenil;beclometasona|Corticosteroide inalatório|c|Uso aceito.|c|Compatível.|-
+Ipratrópio|atrovent;ipratropio|Anticolinérgico inalatório|c|Uso aceito.|c|Absorção mínima; compatível.|-
+Montelucaste|singulair;montelucaste|Antileucotrieno|a|Dados limitados; manter se já usava e estava controlada.|a|Poucos dados.|-
+Teofilina|teofilina|Broncodilatador|a|Aceita com monitoramento do nível sérico.|a|Pode causar irritabilidade no lactente.|Salbutamol.
+Loratadina|claritin;loratadina|Anti-histamínico|c|Anti-histamínico não sedativo de escolha.|c|Passagem baixa; compatível.|-
+Desloratadina|desalex;desloratadina|Anti-histamínico|a|Dados menos extensos; preferir loratadina.|c|Passagem baixa; compatível.|Loratadina.
+Cetirizina|zyrtec;cetirizina|Anti-histamínico|c|Uso aceito.|a|Pode causar sonolência no lactente.|Loratadina.
+Fexofenadina|allegra;fexofenadina|Anti-histamínico|a|Menos dados que loratadina.|c|Passagem baixa; compatível.|Loratadina.
+Clorfeniramina|clorfeniramina;polaramine;dexclorfeniramina|Anti-histamínico sedativo|c|Uso aceito em doses habituais.|a|Pode causar sonolência no lactente e reduzir o leite.|Loratadina.
+Prometazina|fenergan;prometazina|Anti-histamínico sedativo|a|Uso pontual aceito; evitar uso prolongado próximo ao parto.|a|Pode causar sedação no lactente.|Metoclopramida ou doxilamina para náuseas.
+Hidroxizina|hixizine;hidroxizina|Anti-histamínico sedativo|e|Evitar no 1º trimestre.|a|Pode causar sedação no lactente.|Loratadina ou cetirizina.
+Acetilcisteína|fluimucil;acetilcisteina|Mucolítico|c|Uso aceito.|c|Compatível.|-
+Ambroxol|mucosolvan;ambroxol|Mucolítico|a|Evitar no 1º trimestre por falta de dados.|a|Poucos dados.|Hidratação.
+Dextrometorfano|dextrometorfano|Antitussígeno|a|Dados limitados; uso pontual aceito.|a|Poucos dados; uso pontual aceito.|Mel e hidratação (se lactente com mais de 1 ano).
+Pseudoefedrina|pseudoefedrina|Descongestionante sistêmico|e|Evitar no 1º trimestre (risco de gastrosquise).|e|Pode reduzir a produção de leite e causar irritabilidade no lactente.|Soro nasal.
+Soro fisiológico nasal|soro nasal;cloreto de sodio nasal|Descongestionante tópico|c|Seguro.|c|Seguro.|-
+Sertralina|zoloft;serenata;sertralina|Antidepressivo ISRS|a|ISRS mais estudado na gestação; pesar risco e benefício e manter se necessário.|c|Excreção baixa; compatível (ISRS preferido na lactação).|-
+Fluoxetina|prozac;daforin;fluoxetina|Antidepressivo ISRS|a|Uso aceito quando necessário; meia-vida longa.|a|Passa ao leite em quantidade maior que a sertralina; observar o lactente.|Sertralina.
+Escitalopram|lexapro;escitalopram|Antidepressivo ISRS|a|Uso aceito quando necessário.|a|Passagem moderada; observar o lactente.|Sertralina.
+Citalopram|cipramil;citalopram|Antidepressivo ISRS|a|Uso aceito quando necessário.|a|Passagem moderada; observar o lactente.|Sertralina.
+Paroxetina|paxil;aropax;paroxetina|Antidepressivo ISRS|e|Evitar no 1º trimestre: associada a malformações cardíacas.|c|Passagem baixa; compatível.|Sertralina.
+Venlafaxina|efexor;venlafaxina|Antidepressivo IRSN|a|Aceita quando necessário; risco de hipertensão materna e sintomas neonatais.|a|Passagem moderada; observar o lactente.|Sertralina.
+Bupropiona|zyban;wellbutrin;bupropiona|Antidepressivo|a|Dados limitados; aceita quando necessário (inclusive para cessação do tabagismo).|a|Poucos dados; observar o lactente.|Sertralina.
+Nortriptilina|pamelor;nortriptilina|Antidepressivo tricíclico|a|Aceita quando necessário.|c|Passagem baixa; compatível.|-
+Mirtazapina|remeron;mirtazapina|Antidepressivo|a|Dados limitados; aceita quando necessário.|a|Passagem baixa; observar sedação no lactente.|Sertralina.
+Lítio|carbolitium;litio;lítio|Estabilizador de humor|e|Evitar no 1º trimestre (risco de malformação cardíaca); manter apenas com acompanhamento especializado.|e|Passa em quantidade importante; evitar ou acompanhar de perto.|Acompanhamento psiquiátrico.
+Carbamazepina|tegretol;carbamazepina|Anticonvulsivante|e|Risco de defeitos do tubo neural; usar apenas com acompanhamento especializado e ácido fólico.|c|Passagem baixa; compatível, observar o lactente.|Lamotrigina ou levetiracetam.
+Ácido valproico|depakene;depakote;valproato;acido valproico|Anticonvulsivante|x|Contraindicado: alto risco de malformações e efeitos no neurodesenvolvimento.|a|Passagem baixa; usar com acompanhamento.|Lamotrigina ou levetiracetam.
+Lamotrigina|lamictal;lamotrigina|Anticonvulsivante|a|Um dos mais seguros entre os anticonvulsivantes; a dose pode precisar de ajuste.|a|Passagem moderada; observar o lactente.|-
+Fenitoína|hidantal;fenitoina|Anticonvulsivante|e|Risco de síndrome fetal por hidantoína.|c|Passagem baixa; compatível.|Lamotrigina ou levetiracetam.
+Fenobarbital|gardenal;fenobarbital|Anticonvulsivante|e|Risco de malformações e sintomas neonatais de retirada.|a|Pode causar sedação no lactente.|Lamotrigina ou levetiracetam.
+Topiramato|topamax;topiramato|Anticonvulsivante|e|Risco de fenda oral e restrição de crescimento.|a|Pode causar sonolência e diarreia no lactente.|Lamotrigina ou levetiracetam.
+Levetiracetam|keppra;levetiracetam|Anticonvulsivante|a|Dados favoráveis, aceito quando necessário.|a|Passagem moderada; observar o lactente.|-
+Diazepam|valium;dienpax;diazepam|Benzodiazepínico|e|Evitar uso contínuo; uso próximo ao parto pode causar hipotonia e sintomas de retirada no recém-nascido.|e|Meia-vida longa e acúmulo no lactente; evitar.|Medidas não farmacológicas; reavaliar indicação.
+Clonazepam|rivotril;clonazepam|Benzodiazepínico|a|Evitar uso contínuo, se possível; risco de sintomas neonatais próximo ao parto.|a|Pode causar sedação no lactente; usar com cautela.|Reavaliar indicação.
+Alprazolam|frontal;alprazolam|Benzodiazepínico|a|Evitar uso contínuo, se possível.|a|Pode causar sedação no lactente.|Reavaliar indicação.
+Lorazepam|lorax;lorazepam|Benzodiazepínico|a|Evitar uso contínuo, se possível.|a|Uso ocasional é aceito; observar sedação.|Reavaliar indicação.
+Zolpidem|stilnox;zolpidem|Hipnótico|a|Dados limitados.|a|Passagem baixa; observar sedação.|Higiene do sono.
+Haloperidol|haldol;haloperidol|Antipsicótico|a|Aceito quando necessário; sintomas extrapiramidais neonatais possíveis.|a|Passagem baixa a moderada; observar o lactente.|-
+Risperidona|risperdal;risperidona|Antipsicótico|a|Aceita quando necessário.|a|Passagem baixa; observar o lactente.|-
+Quetiapina|seroquel;quetiapina|Antipsicótico|a|Aceita quando necessário.|c|Passagem baixa; compatível.|-
+Olanzapina|zyprexa;olanzapina|Antipsicótico|a|Aceita quando necessário; risco de diabetes gestacional e ganho de peso.|a|Passagem moderada; observar o lactente.|-
+Metilfenidato|ritalina;concerta;metilfenidato|Psicoestimulante|a|Dados limitados; reavaliar a necessidade.|a|Passagem baixa; observar o lactente.|-
+Melatonina|melatonina|Hormônio|a|Dados limitados.|a|Passagem baixa; dados limitados.|Higiene do sono.
+Vareniclina|champix;vareniclina|Auxiliar de cessação do tabagismo|a|Dados limitados; reservar para casos em que outros métodos falharam.|e|Poucos dados; evitar.|Aconselhamento; reposição de nicotina se necessário.
+Nicotina (reposição)|nicorette;adesivo de nicotina|Auxiliar de cessação do tabagismo|a|Preferir formas de curta duração (goma, pastilha) quando o aconselhamento falhou.|a|Melhor que fumar; preferir formas de curta duração.|-
+Anticoncepcional oral combinado|pílula combinada;etinilestradiol|Contraceptivo hormonal|x|Sem indicação na gestação. Se usado sem saber da gestação, não há risco teratogênico importante conhecido.|e|Evitar nas primeiras 6 semanas e enquanto a amamentação estiver estabelecida (pode reduzir o leite).|Métodos apenas com progestagênio ou não hormonais.
+Noretisterona|micronor;noretisterona|Progestagênio|e|Evitar na gestação.|c|Compatível; método apenas com progestagênio aceito na lactação.|-
+Acetato de medroxiprogesterona|depo-provera;depo provera;acetato de medroxiprogesterona|Contraceptivo injetável|x|Sem indicação na gestação.|c|Compatível.|-
+Levonorgestrel|postinor;levonorgestrel|Contracepção de emergência|c|Não é teratogênico nem interrompe uma gestação estabelecida.|c|Compatível.|-
+Progesterona micronizada|utrogestan;evocanil;progesterona|Progestagênio|c|Uso aceito quando indicado (prevenção de parto prematuro, suporte de fase lútea).|c|Compatível.|-
+Estradiol|estrofem;estradiol|Estrogênio|x|Contraindicado na gestação.|e|Pode reduzir a produção de leite; evitar.|-
+Clomifeno|clomid;clomifeno|Indutor de ovulação|x|Contraindicado na gestação.|e|Pode reduzir a produção de leite; evitar.|-
+Ácido tranexâmico|transamin;ácido tranexâmico|Antifibrinolítico|a|Dados limitados; usar apenas com indicação obstétrica.|c|Passagem baixa; compatível.|-
+Misoprostol|cytotec;misoprostol|Prostaglandina|x|Contraindicado na gestação, exceto sob indicação obstétrica (aborto retido, indução do parto).|a|Pode causar diarreia no lactente; dose única é aceita.|-
+Metilergometrina|methergin;metilergometrina|Uterotônico|x|Contraindicada durante a gestação (uso restrito ao pós-parto imediato).|a|Uso curto (poucos dias) é aceito; pode reduzir o leite.|-
+Cabergolina|dostinex;cabergolina|Agonista dopaminérgico|a|Aceita se prolactinoma com desejo de engravidar, com acompanhamento especializado.|x|Contraindicada: inibe a produção de leite.|-
+Bromocriptina|parlodel;bromocriptina|Agonista dopaminérgico|a|Aceita com acompanhamento especializado.|x|Contraindicada: inibe a produção de leite.|-
+Isotretinoína|roacutan;isotretinoina;isotretinoína|Retinoide|x|Contraindicada: teratogenicidade grave. Exige contracepção eficaz e testes de gravidez.|x|Contraindicada.|Tratamentos tópicos compatíveis.
+Acitretina|neotigason;acitretina|Retinoide|x|Contraindicada: teratogenicidade grave e prolongada (efeito por até 3 anos).|x|Contraindicada.|-
+Metotrexato|metotrexato;methotrexate|Imunossupressor|x|Contraindicado: teratogênico e abortivo.|x|Contraindicado.|-
+Azatioprina|imuran;azatioprina|Imunossupressor|a|Uso aceito quando necessário, com acompanhamento especializado.|a|Passagem baixa; acompanhamento especializado.|-
+Colchicina|colchis;colchicina|Antigotoso|a|Dados limitados; usar apenas se benefício superar risco.|a|Passagem baixa; uso aceito.|-
+Alopurinol|zyloric;alopurinol|Hipouricemiante|a|Dados limitados; reservar para casos com indicação.|a|Passagem baixa.|-
+Orlistate|xenical;orlistate|Antiobesidade|e|Sem indicação na gestação.|a|Sem dados.|Orientação nutricional.
+Sibutramina|sibutramina;reductil|Antiobesidade|x|Contraindicada.|x|Contraindicada.|-
+Lidocaína (uso tópico)|xylocaina;lidocaína;lidocaina|Anestésico local|c|Uso aceito nas doses habituais, incluindo odontológico.|c|Compatível.|-

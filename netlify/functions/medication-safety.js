@@ -24,15 +24,16 @@ exports.handler = async function(event) {
   }
 
   const prompt = `
-Você é um médico farmacologista. Analise a segurança do medicamento "${medicationName}" para gestantes e lactantes.
-Retorne EXATAMENTE UM objeto JSON válido com os seguintes campos (não use crases \`\`\` nem marcações de bloco, apenas o JSON puro):
+Você é um médico farmacologista. Analise a segurança do medicamento "${medicationName}" para gestantes e lactantes, em português do Brasil.
+Não use a classificação por letras da FDA. Descreva o risco em texto.
+Retorne EXATAMENTE UM objeto JSON válido (sem crases nem marcações de bloco, apenas o JSON puro):
 {
   "isValid": true se o nome for um medicamento válido, false caso contrário,
-  "fdaCategory": "A letra da categoria FDA (A, B, C, D ou X) ou 'Não classificado'",
-  "gestationRiskText": "Resumo clínico sobre o risco fetal na gestação. Seja direto.",
-  "lactationStatus": "Classifique como 'Seguro', 'Risco Muito Baixo', 'Risco Moderado' ou 'Contraindicado'",
-  "lactationRiskText": "Explique a passagem para o leite materno e o risco para o bebê.",
-  "alternatives": "Sugira a conduta e alternativas mais seguras na mesma classe terapêutica."
+  "gestacaoNivel": "compativel", "cautela", "evitar" ou "contraindicado",
+  "gestacaoTexto": "Resumo clínico direto sobre o risco na gestação, citando trimestres quando relevante.",
+  "lactacaoNivel": "compativel", "cautela", "evitar" ou "contraindicado",
+  "lactacaoTexto": "Passagem para o leite materno e risco para o lactente.",
+  "conduta": "Conduta sugerida e alternativas mais seguras na mesma classe terapêutica."
 }`;
 
   try {
