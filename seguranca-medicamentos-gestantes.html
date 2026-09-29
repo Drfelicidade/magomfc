@@ -13,7 +13,7 @@
         <a href="index.html" class="text-sm text-violet-700 underline">← Início</a>
         <h1 class="text-3xl font-bold text-gray-800 mt-2">Segurança de Medicamentos na Gestação e Lactação</h1>
         <p class="text-gray-600">Consulta primeiro na base local; se o medicamento não estiver nela, é possível consultar a IA.</p>
-        <p id="aviso-base" class="mt-2 text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900"></p>
+        <p id="aviso-base" class="mt-2 text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">Confirme em bula e protocolos antes de decidir.</p>
     </header>
 
     <div>
@@ -85,7 +85,6 @@
     try {
         base = await (await fetch('data/medicamentos.json')).json();
         indice = BuscaMedicamentos.indexar(base.medicamentos);
-        $('aviso-base').textContent = `${base.medicamentos.length} medicamentos na base local (${base.versao}). ${base.aviso}`;
     } catch (e) {
         base = null;
         $('aviso-base').textContent = 'Não foi possível carregar a base local; apenas a consulta por IA está disponível.';
