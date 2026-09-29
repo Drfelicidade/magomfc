@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interações Medicamentosas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, button:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-rose-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Interações Medicamentosas</h1>
+        <p class="text-rose-100 text-sm md:text-base">Interações clinicamente relevantes entre fármacos comuns na APS</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-rose-800 hover:bg-rose-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <div class="p-6 md:p-8 space-y-6">
+        <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm text-amber-900">
+            <strong>Lista parcial.</strong> Cobre as interações mais relevantes de um conjunto limitado de fármacos. <strong>A ausência de alerta não significa ausência de interação</strong>; para prescrições complexas, consulte a bula, um banco de interações (ex.: Micromedex, UpToDate/Lexicomp) e o farmacêutico clínico.
+        </div>
+        <div class="relative">
+            <label for="busca" class="block text-sm font-medium text-gray-700 mb-1">Adicionar medicamento em uso</label>
+            <input id="busca" type="text" autocomplete="off" placeholder="Digite o nome (ex.: varfarina, sinvastatina…)" class="w-full p-3 border border-gray-300 rounded-xl" role="combobox" aria-expanded="false" aria-controls="sugestoes">
+            <ul id="sugestoes" class="hidden absolute z-10 left-0 right-0 mt-1 max-h-64 overflow-auto bg-white border border-gray-300 rounded-xl shadow-lg" role="listbox"></ul>
+        </div>
+        <div id="chips" class="flex flex-wrap gap-2" aria-live="polite"></div>
+        <div class="flex gap-3"><button type="button" id="limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar</button></div>
+        <div id="resultado" class="space-y-3" role="status" aria-live="polite"></div>
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Legenda, fontes e limites</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li><strong>Contraindicada</strong>: não associar. <strong>Grave</strong>: evitar ou, se indispensável, ajustar dose e monitorar de perto. <strong>Moderada</strong>: monitorar e orientar.</li>
+                <li>Compilação de interações descritas em bulas aprovadas pela FDA (DailyMed) e em referências clássicas de farmacologia clínica, escolhidas por relevância na APS. Não substitui banco de dados de interações validado.</li>
+                <li>Interações por classe (ex.: prolongamento do QT) valem entre quaisquer fármacos da classe presentes na lista.</li>
+                <li>Não considera doses, função renal/hepática, idade, álcool, fitoterápicos ou alimentos.</li>
+            </ul>
+        </details>
+    </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const norm = t => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const ROT = { c: 'Contraindicada', g: 'Grave', m: 'Moderada' };
+const COR = { c: 'border-red-500 bg-red-50 text-red-900', g: 'border-orange-500 bg-orange-50 text-orange-900', m: 'border-yellow-400 bg-yellow-50 text-yellow-900' };
+const NOME_CLASSE = { aine: 'AINE', ieca: 'IECA', bra: 'BRA', poupk: 'poupador de K', tiazidico: 'tiazídico', alca: 'diurético de alça', betabloq: 'betabloqueador', bccnd: 'verapamil/diltiazem', estatina: 'estatina', isrs: 'ISRS', irsn: 'IRSN', adt: 'antidepressivo tricíclico', opioide: 'opioide', benzo: 'benzodiazepínico', indutor: 'indutor enzimático', ibp: 'IBP', macrolideo: 'macrolídeo', quinolona: 'quinolona', azol: 'antifúngico azólico', smx: 'SMX-TMP', quelante: 'cálcio/ferro', corticoide: 'corticoide', sulfonilureia: 'sulfonilureia', hipoglic: 'insulina', qt: 'prolonga QT', cyp2d6: 'inibidor CYP2D6', vka: 'antagonista de vitamina K', doac: 'anticoagulante oral direto', xa: 'inibidor do fator Xa', antiplaq: 'antiagregante', aas: 'AAS', nitrato: 'nitrato' };
+let D = null, sel = [];
+function membros(tok) { return D.farmacos.filter(f => f.n === tok || f.c.indexOf(tok) >= 0); }
+function calcular() {
+    const res = $('resultado');
+    if (sel.length < 2) { res.innerHTML = '<p class="text-sm text-gray-500">Adicione pelo menos dois medicamentos.</p>'; return; }
+    const achados = [], vistos = {};
+    D.regras.forEach(r => {
+        const A = membros(r.a).filter(f => sel.indexOf(f.n) >= 0), B = membros(r.b).filter(f => sel.indexOf(f.n) >= 0);
+        A.forEach(x => B.forEach(y => {
+            if (x.n === y.n) return;
+            const k = [x.n, y.n].sort().join('|') + '|' + r.m;
+            if (vistos[k]) return; vistos[k] = 1;
+            achados.push({ x: x.n, y: y.n, r: r });
+        }));
+    });
+    const ordem = { c: 0, g: 1, m: 2 };
+    achados.sort((p, q) => ordem[p.r.s] - ordem[q.r.s]);
+    if (!achados.length) { res.innerHTML = '<div class="p-4 border-2 border-green-500 bg-green-50 text-green-900 rounded-2xl text-sm">Nenhuma interação encontrada <strong>nesta lista parcial</strong>. Isso não exclui interações — confirme em bula/banco de interações.</div>'; return; }
+    res.innerHTML = achados.map(a => '<div class="p-4 rounded-2xl border-2 ' + COR[a.r.s] + '"><div class="flex flex-wrap justify-between gap-2 mb-1"><h2 class="font-bold">' + a.x + ' + ' + a.y + '</h2><span class="text-xs font-bold uppercase">' + ROT[a.r.s] + '</span></div><p class="text-sm"><strong>Efeito:</strong> ' + a.r.m + '</p><p class="text-sm mt-1"><strong>Conduta:</strong> ' + a.r.c + '</p></div>').join('');
+}
+function chips() {
+    $('chips').innerHTML = sel.map(n => '<span class="inline-flex items-center gap-1 px-3 py-1 bg-rose-100 text-rose-900 rounded-full text-sm font-medium">' + n + '<button type="button" data-n="' + n + '" class="ml-1 font-bold" aria-label="Remover ' + n + '">×</button></span>').join('');
+    $('chips').querySelectorAll('button').forEach(b => b.addEventListener('click', () => { sel = sel.filter(x => x !== b.dataset.n); chips(); calcular(); }));
+}
+function sugerir() {
+    const q = norm($('busca').value.trim()), ul = $('sugestoes');
+    if (!q || !D) { ul.classList.add('hidden'); $('busca').setAttribute('aria-expanded', 'false'); return; }
+    const lista = D.farmacos.filter(f => sel.indexOf(f.n) < 0 && norm(f.n).indexOf(q) >= 0).slice(0, 12);
+    ul.innerHTML = lista.length ? lista.map(f => '<li role="option" tabindex="0" data-n="' + f.n + '" class="px-4 py-2 cursor-pointer hover:bg-rose-50">' + f.n + '</li>').join('') : '<li class="px-4 py-2 text-sm text-gray-500">Não está na lista</li>';
+    ul.classList.remove('hidden'); $('busca').setAttribute('aria-expanded', 'true');
+    ul.querySelectorAll('[data-n]').forEach(li => { const add = () => adicionar(li.dataset.n); li.addEventListener('click', add); li.addEventListener('keydown', e => { if (e.key === 'Enter') add(); }); });
+}
+function adicionar(n) { if (sel.indexOf(n) < 0) sel.push(n); $('busca').value = ''; $('sugestoes').classList.add('hidden'); chips(); calcular(); $('busca').focus(); }
+$('busca').addEventListener('input', sugerir);
+$('busca').addEventListener('keydown', e => { if (e.key === 'Enter') { const f = $('sugestoes').querySelector('[data-n]'); if (f) adicionar(f.dataset.n); e.preventDefault(); } });
+$('limpar').addEventListener('click', () => { sel = []; chips(); calcular(); });
+fetch('data/interacoes.json').then(r => r.json()).then(d => { D = d; calcular(); }).catch(() => { $('resultado').innerHTML = '<p class="text-sm text-red-700">Não foi possível carregar a base de interações.</p>'; });
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>
