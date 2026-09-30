@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manobras do Exame Físico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] .seta { transform: rotate(90deg); }
+        @media print { .nao-imprimir { display: none !important; } details { break-inside: avoid; } }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-sky-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Manobras do Exame Físico</h1>
+        <p class="text-sky-100 text-sm md:text-base">Como fazer, para que serve e o que é positivo — por sistema</p>
+        <a href="index.html" class="nao-imprimir inline-flex items-center mt-5 px-5 py-2 bg-sky-800 hover:bg-sky-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <div class="p-6 md:p-8 space-y-5">
+        <div class="nao-imprimir space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                    <label for="busca" class="block text-sm font-medium text-gray-700 mb-1">Buscar por manobra, região ou suspeita diagnóstica</label>
+                    <input id="busca" type="search" autocomplete="off" placeholder="Ex.: menisco, Lachman, túnel do carpo…" class="w-full p-3 border border-gray-300 rounded-xl">
+                </div>
+                <div>
+                    <label for="roteiro" class="block text-sm font-medium text-gray-700 mb-1">Roteiro por queixa</label>
+                    <select id="roteiro" class="w-full p-3 border border-gray-300 rounded-xl bg-white"><option value="">Todas as manobras</option></select>
+                </div>
+            </div>
+            <div id="sistemas" class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por sistema"></div>
+            <div id="regioes" class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por região"></div>
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <p id="contagem" class="text-sm text-gray-600" role="status" aria-live="polite"></p>
+                <div class="flex gap-2">
+                    <button type="button" id="exp-reg" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Expandir regiões</button>
+                    <button type="button" id="rec-reg" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Recolher regiões</button>
+                    <button type="button" id="exp-man" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Abrir manobras</button>
+                    <button type="button" id="rec-man" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Fechar manobras</button>
+                </div>
+            </div>
+            <p id="offline" class="hidden text-xs text-green-800 bg-green-50 border border-green-200 rounded-lg p-2">Disponível offline neste aparelho após o primeiro acesso.</p>
+        </div>
+        <div id="dica-roteiro" class="hidden p-3 bg-sky-50 border border-sky-200 rounded-xl text-sm text-sky-900"></div>
+        <div id="lista" class="space-y-6"></div>
+
+        <section id="registro" class="p-4 bg-sky-50 border border-sky-200 rounded-2xl space-y-3">
+            <h2 class="font-bold text-sky-900">Registro do exame físico</h2>
+            <p class="text-sm text-sky-900">Marque «+» (positivo) ou «−» (negativo) em cada manobra realizada; nas manobras com lado, marque direito (D) e esquerdo (E) separadamente. O texto é montado automaticamente e pode ser editado e copiado para o prontuário.</p>
+            <textarea id="texto" rows="5" class="w-full p-3 border border-sky-200 rounded-xl text-sm bg-white" aria-label="Texto do registro" placeholder="Nenhuma manobra marcada."></textarea>
+            <div class="nao-imprimir flex flex-wrap gap-2">
+                <button type="button" id="copiar" class="px-4 py-2 bg-sky-700 hover:bg-sky-800 text-white text-sm font-bold rounded-lg">Copiar</button>
+                <button type="button" id="limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg bg-white">Limpar marcações</button>
+                <button type="button" id="imprimir" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg bg-white">Imprimir</button>
+            </div>
+            <p class="text-xs text-sky-800">O registro existe só nesta página: nada é enviado nem salvo (apenas os favoritos ficam neste aparelho). Não inclua dados que identifiquem o paciente.</p>
+        </section>
+
+        <section id="interpretacao" class="hidden p-4 bg-indigo-50 border border-indigo-200 rounded-2xl space-y-2" aria-live="polite">
+            <h2 class="font-bold text-indigo-900">Interpretação combinada das manobras positivas</h2>
+            <ul id="sugestoes" class="list-disc pl-5 text-sm text-indigo-900 space-y-1"></ul>
+            <p class="text-xs text-indigo-800">Apoio ao raciocínio, não diagnóstico: as sugestões partem apenas das manobras marcadas como positivas e devem ser integradas à história, ao restante do exame e aos exames complementares.</p>
+        </section>
+
+        <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm text-amber-900">
+            <strong>Uso.</strong> Descrições resumidas de manobras clássicas de semiologia. A acurácia de cada manobra varia e <strong>nenhuma manobra isolada confirma ou exclui um diagnóstico</strong>: combine vários testes, compare sempre com o lado contralateral e correlacione com a história, a inspeção, a palpação, a amplitude de movimento e, quando indicado, exames de imagem.
+        </div>
+        <details class="nao-imprimir text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Magee DJ. Avaliação Musculoesquelética. Elsevier.</li>
+                <li>Hoppenfeld S. Propedêutica Ortopédica: Coluna e Extremidades. Atheneu.</li>
+                <li>Porto CC. Semiologia Médica. Guanabara Koogan.</li>
+                <li>Bickley LS. Bates: Propedêutica Médica. Guanabara Koogan.</li>
+                <li>Conteúdo compilado de textos clássicos de semiologia; a revisão por especialista da área é recomendada antes de uso didático ou institucional.</li>
+            </ul>
+        </details>
+    </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const norm = t => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const esc = t => String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const LINKS = { 'regras-de-ottawa-do-tornozelo': ['regras-ottawa-tornozelo.html', 'Abrir Regras de Ottawa'], 'cincinnati-fast-para-avc': ['calculadora-nihss.html', 'Abrir escala NIHSS'] };
+let DADOS = [], ROTEIROS = [], REGRAS = [], sistema = '', regiao = '', roteiro = '', soFav = false;
+let favoritos = new Set();
+const marcas = {}; // 'id' ou 'id:D' / 'id:E' -> '+' | '-'
+
+try { favoritos = new Set(JSON.parse(localStorage.getItem('manobras-favoritos') || '[]')); } catch (e) { /* sem armazenamento local */ }
+function salvarFavoritos() { try { localStorage.setItem('manobras-favoritos', JSON.stringify(Array.from(favoritos))); } catch (e) { /* ignora */ } }
+
+const porId = id => DADOS.find(d => d.id === id);
+function filtrados() {
+    const q = norm($('busca').value.trim());
+    let base = DADOS;
+    if (roteiro !== '') base = ROTEIROS[+roteiro].m.map(porId).filter(Boolean);
+    return base.filter(d => (roteiro !== '' || ((!sistema || d.s === sistema) && (!regiao || d.r === regiao))) &&
+        (!soFav || favoritos.has(d.id)) &&
+        (!q || norm([d.n, d.a, d.r, d.s, d.p, d.x].join(' ')).indexOf(q) >= 0));
+}
+function chip(rotulo, ativo, onclick) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = rotulo; b.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+    b.className = 'px-3 py-1 rounded-full text-sm font-semibold border ' + (ativo ? 'bg-sky-700 text-white border-sky-700' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100');
+    b.addEventListener('click', onclick); return b;
+}
+function chips() {
+    const ss = []; DADOS.forEach(d => { if (ss.indexOf(d.s) < 0) ss.push(d.s); });
+    const desativa = roteiro !== '';
+    $('sistemas').replaceChildren(chip('Todos', !sistema && !soFav, () => { sistema = ''; regiao = ''; soFav = false; roteiro = ''; $('roteiro').value = ''; render(); }),
+        chip('★ Favoritos (' + favoritos.size + ')', soFav, () => { soFav = !soFav; render(); }),
+        ...ss.map(s => chip(s, sistema === s && !desativa, () => { sistema = s; regiao = ''; roteiro = ''; $('roteiro').value = ''; render(); })));
+    const rr = []; if (sistema && !desativa) DADOS.forEach(d => { if (d.s === sistema && rr.indexOf(d.r) < 0) rr.push(d.r); });
+    $('regioes').replaceChildren(...(rr.length > 1 ? [chip('Todas as regiões', !regiao, () => { regiao = ''; render(); }), ...rr.map(r => chip(r, regiao === r, () => { regiao = r; render(); }))] : []));
+}
+function grupoMarcas(d, lado) {
+    const chave = lado ? d.id + ':' + lado : d.id, m = marcas[chave] || '';
+    const rot = lado ? (lado === 'D' ? 'direito' : 'esquerdo') : '';
+    const bt = (v, nome, cor) => '<button type="button" data-k="' + esc(chave) + '" data-m="' + v + '" aria-pressed="' + (m === v) + '" aria-label="' + nome + ' ' + rot + ' — ' + esc(d.n) + '" class="w-8 h-8 rounded-lg border font-bold ' + (m === v ? cor : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100') + '">' + (v === '+' ? '+' : '−') + '</button>';
+    return '<span class="flex items-center gap-1">' + (lado ? '<span class="text-xs font-bold text-gray-500 w-4">' + lado + '</span>' : '') + bt('+', 'Positivo', 'bg-red-600 text-white border-red-600') + bt('-', 'Negativo', 'bg-green-600 text-white border-green-600') + '</span>';
+}
+function card(d) {
+    const l = LINKS[d.id], fav = favoritos.has(d.id);
+    const video = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(d.n + ' exame físico manobra');
+    return '<details class="border border-gray-200 rounded-2xl bg-white" data-id="' + esc(d.id) + '"><summary class="cursor-pointer p-4 flex items-start gap-3">' +
+        '<span class="seta text-sky-700 mt-1 transition-transform">▶</span>' +
+        '<span class="flex-1 min-w-0"><span class="block font-bold text-gray-900">' + esc(d.n) + (d.a ? ' <span class="font-normal text-sm text-gray-500">· ' + esc(d.a) + '</span>' : '') + '</span>' +
+        (roteiro !== '' ? '<span class="block text-xs text-gray-500">' + esc(d.r) + '</span>' : '') +
+        '<span class="block text-sm text-gray-700 mt-1"><strong>Para que serve:</strong> ' + esc(d.p) + '</span></span>' +
+        '<span class="nao-imprimir flex flex-col gap-1 shrink-0 items-end" role="group">' +
+            '<button type="button" data-fav="' + esc(d.id) + '" aria-pressed="' + fav + '" aria-label="Favoritar ' + esc(d.n) + '" class="text-xl leading-none ' + (fav ? 'text-amber-500' : 'text-gray-300 hover:text-amber-400') + '">★</button>' +
+            (d.l ? grupoMarcas(d, 'D') + grupoMarcas(d, 'E') : grupoMarcas(d, '')) + '</span></summary>' +
+        '<div class="px-4 pb-4 pl-11 space-y-2 text-sm text-gray-800">' +
+        (d.img ? '<img src="' + esc(d.img) + '" alt="Ilustração: ' + esc(d.n) + '" loading="lazy" class="max-w-full rounded-lg border border-gray-200">' : '') +
+        '<p><strong>Como fazer:</strong> ' + esc(d.c) + '</p><p><strong>Positivo se:</strong> ' + esc(d.x) + '</p>' +
+        (d.o ? '<p class="text-gray-600"><strong>Observação:</strong> ' + esc(d.o) + '</p>' : '') +
+        '<p class="nao-imprimir flex flex-wrap gap-4">' + (l ? '<a class="text-sky-700 underline font-semibold" href="' + l[0] + '">' + l[1] + '</a>' : '') +
+        '<a class="text-sky-700 underline" href="' + video + '" target="_blank" rel="noopener noreferrer">Buscar vídeo da técnica (YouTube)</a></p></div></details>';
+}
+function estadoAbertos() { return new Set(Array.from(document.querySelectorAll('#lista details[data-id][open]')).map(e => e.dataset.id)); }
+function regioesAbertas() { return new Set(Array.from(document.querySelectorAll('#lista details[data-reg][open]')).map(e => e.dataset.reg)); }
+function resumoMarcas(lista) {
+    let pos = 0, neg = 0;
+    lista.forEach(d => (d.l ? ['D', 'E'] : ['']).forEach(l => { const m = marcas[l ? d.id + ':' + l : d.id]; if (m === '+') pos++; else if (m === '-') neg++; }));
+    return (pos ? '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">' + pos + ' positiva' + (pos > 1 ? 's' : '') + '</span>' : '') + (neg ? '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">' + neg + ' negativa' + (neg > 1 ? 's' : '') + '</span>' : '');
+}
+function render() {
+    const abertos = estadoAbertos(), regAbertas = regioesAbertas();
+    const autoAbrir = !!norm($('busca').value.trim()) || !!regiao || soFav; // filtros ativos mostram tudo que combina
+    chips();
+    const lista = filtrados();
+    $('contagem').textContent = lista.length + ' de ' + DADOS.length + ' manobras' + (favoritos.size && !soFav ? ' · ★ ' + favoritos.size + ' favoritas' : '');
+    const dica = $('dica-roteiro');
+    if (roteiro !== '') { dica.innerHTML = '<strong>' + esc(ROTEIROS[+roteiro].t) + ':</strong> ' + esc(ROTEIROS[+roteiro].d); dica.classList.remove('hidden'); } else dica.classList.add('hidden');
+    if (!lista.length) { $('lista').innerHTML = '<p class="text-gray-600">' + (soFav ? 'Nenhuma manobra favorita neste filtro. Toque na estrela ★ de uma manobra para favoritá-la.' : 'Nenhuma manobra encontrada.') + '</p>'; return; }
+    let html = '';
+    if (roteiro !== '') html = '<div class="space-y-2">' + lista.map(card).join('') + '</div>';
+    else {
+        const grupos = []; // [{s, r, itens}]
+        lista.forEach(d => {
+            let g = grupos.find(x => x.s === d.s && x.r === d.r);
+            if (!g) { g = { s: d.s, r: d.r, itens: [] }; grupos.push(g); }
+            g.itens.push(d);
+        });
+        let sAtual = null;
+        grupos.forEach(g => {
+            if (g.s !== sAtual) { if (sAtual !== null) html += '</section>'; sAtual = g.s; html += '<section class="space-y-2"><h2 class="text-xl font-bold text-sky-900 border-l-4 border-sky-500 pl-3">' + esc(g.s) + '</h2>'; }
+            const chave = g.s + '|' + g.r, aberta = autoAbrir || regAbertas.has(chave);
+            html += '<details class="regiao border border-sky-200 rounded-2xl bg-sky-50" data-reg="' + esc(chave) + '"' + (aberta ? ' open' : '') + '><summary class="cursor-pointer p-3 flex items-center gap-3">' +
+                '<span class="seta text-sky-700 transition-transform">▶</span><span class="flex-1 font-bold text-sky-900">' + esc(g.r) + '</span>' +
+                resumoMarcas(g.itens) + '<span class="text-xs text-sky-800 font-semibold">' + g.itens.length + ' manobra' + (g.itens.length > 1 ? 's' : '') + '</span></summary>' +
+                '<div class="p-3 pt-0 space-y-2">' + g.itens.map(card).join('') + '</div></details>';
+        });
+        html += '</section>';
+    }
+    $('lista').innerHTML = html;
+    abertos.forEach(id => { const e = document.querySelector('#lista details[data-id="' + id + '"]'); if (e) e.open = true; });
+}
+function montarTexto() {
+    const grupos = {};
+    DADOS.forEach(d => {
+        let parte = '';
+        if (d.l) {
+            const lados = ['D', 'E'].filter(x => marcas[d.id + ':' + x]).map(x => x + (marcas[d.id + ':' + x] === '+' ? ' positivo' : ' negativo'));
+            if (lados.length) parte = d.n + ' (' + lados.join(', ') + ')';
+        } else if (marcas[d.id]) parte = d.n + (marcas[d.id] === '+' ? ' positivo' : ' negativo');
+        if (parte) (grupos[d.r] = grupos[d.r] || []).push(parte);
+    });
+    $('texto').value = Object.keys(grupos).map(r => r + ': ' + grupos[r].join('; ') + '.').join('\n');
+    interpretar();
+}
+function interpretar() {
+    const positivas = new Set();
+    Object.keys(marcas).forEach(k => { if (marcas[k] === '+') positivas.add(k.split(':')[0]); });
+    const sug = [];
+    REGRAS.forEach(r => {
+        const pos = r.m.filter(id => positivas.has(id));
+        if (pos.length >= r.n) sug.push('<li>' + esc(r.t) + ' <span class="text-indigo-700">(' + pos.map(id => esc(porId(id).n)).join(', ') + ')</span></li>');
+    });
+    $('sugestoes').innerHTML = sug.join('');
+    $('interpretacao').classList.toggle('hidden', !sug.length);
+}
+$('lista').addEventListener('click', e => {
+    const f = e.target.closest('button[data-fav]');
+    if (f) { e.preventDefault(); const id = f.dataset.fav; if (favoritos.has(id)) favoritos.delete(id); else favoritos.add(id); salvarFavoritos(); render(); const n = document.querySelector('#lista button[data-fav="' + id + '"]'); if (n) n.focus(); return; }
+    const b = e.target.closest('button[data-m]'); if (!b) return;
+    e.preventDefault();
+    const k = b.dataset.k, v = b.dataset.m;
+    if (marcas[k] === v) delete marcas[k]; else marcas[k] = v;
+    montarTexto(); render();
+    const novo = document.querySelector('#lista button[data-k="' + k + '"][data-m="' + v + '"]'); if (novo) novo.focus();
+});
+$('busca').addEventListener('input', render);
+$('roteiro').addEventListener('change', () => { roteiro = $('roteiro').value; if (roteiro !== '') { sistema = ''; regiao = ''; } render(); });
+const abrirTodos = (sel, v) => document.querySelectorAll('#lista ' + sel).forEach(e => e.open = v);
+$('exp-reg').addEventListener('click', () => abrirTodos('details[data-reg]', true));
+$('rec-reg').addEventListener('click', () => abrirTodos('details[data-reg]', false));
+$('exp-man').addEventListener('click', () => { abrirTodos('details[data-reg]', true); abrirTodos('details[data-id]', true); });
+$('rec-man').addEventListener('click', () => abrirTodos('details[data-id]', false));
+$('limpar').addEventListener('click', () => { Object.keys(marcas).forEach(k => delete marcas[k]); montarTexto(); render(); });
+$('imprimir').addEventListener('click', () => window.print());
+$('copiar').addEventListener('click', () => {
+    const t = $('texto'); const ok = () => { $('copiar').textContent = 'Copiado!'; setTimeout(() => $('copiar').textContent = 'Copiar', 1800); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t.value).then(ok, () => { t.select(); document.execCommand('copy'); ok(); });
+    else { t.select(); document.execCommand('copy'); ok(); }
+});
+fetch('data/manobras.json').then(r => r.json()).then(d => {
+    DADOS = d.manobras; ROTEIROS = d.roteiros; REGRAS = d.regras;
+    ROTEIROS.forEach((r, i) => { const o = document.createElement('option'); o.value = i; o.textContent = r.t; $('roteiro').appendChild(o); });
+    render();
+}).catch(() => { $('lista').innerHTML = '<p class="text-red-700">Não foi possível carregar as manobras.</p>'; });
+
+// Uso offline: o service worker guarda a página e os dados após o primeiro acesso
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(() => navigator.serviceWorker.ready).then(() => $('offline').classList.remove('hidden')).catch(() => { /* sem suporte offline */ });
+}
+</script>
+<script src="assets/aviso.js" defer></script>
+</body>
+</html>
