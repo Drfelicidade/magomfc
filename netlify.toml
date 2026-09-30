@@ -1,2 +1,8 @@
 [build]
   functions = "netlify/functions"
+
+# O service worker precisa ser revalidado sempre, para as atualizações do site chegarem aos aparelhos
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

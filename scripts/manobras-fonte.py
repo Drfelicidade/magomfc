@@ -154,19 +154,105 @@ D = [
 (H,"Pescoço","Palpação da tireoide","","Bócio, nódulos tireoidianos, tireoidite.","Posicione-se atrás do paciente, com os dedos sobre a região da tireoide, abaixo da cartilagem cricoide. Peça para engolir (com água) e sinta o movimento da glândula.","Aumento difuso, nódulos, consistência endurecida, fixação a planos profundos ou linfonodos cervicais.",""),
 ]
 
+# ---------------- ROTEIROS POR QUEIXA ----------------
+# (título, dica, [nomes das manobras na ordem sugerida])
+ROTEIROS = [
+("Dor no ombro","Comece pela inspeção, palpação e amplitude de movimento; depois teste impacto, manguito e bíceps. Lembre de descartar origem cervical.",["Teste de Neer","Teste de Hawkins-Kennedy","Teste de Jobe","Teste de Patte","Lift-off de Gerber","Belly-press","Teste da queda do braço","Teste de Speed","Teste de Yergason","Teste de O'Brien","Adução horizontal forçada","Teste de Spurling"]),
+("Instabilidade ou luxação do ombro","Compare com o lado contralateral e pesquise frouxidão generalizada.",["Teste de apreensão (anterior)","Sinal do sulco","Teste de O'Brien"]),
+("Dor no cotovelo","Palpe os epicôndilos e o sulco ulnar.",["Teste de Cozen","Teste de Mill","Epicondilite medial (cotovelo de golfista)","Estresse em valgo do cotovelo","Estresse em varo do cotovelo","Sinal de Tinel no cotovelo"]),
+("Formigamento ou dormência na mão","Distinga compressão no carpo, no cotovelo ou na raiz cervical.",["Teste de Phalen","Sinal de Tinel no carpo","Teste de Durkan","Sinal de Tinel no cotovelo","Sinal de Froment","Teste de Spurling","Reflexos osteotendíneos","Graduação da força muscular"]),
+("Dor no punho ou na mão após queda","Dor na tabaqueira anatômica exige imobilização e reavaliação, mesmo com radiografia inicial normal.",["Palpação da tabaqueira anatômica","Teste de Watson","Teste de Finkelstein","Teste de Allen"]),
+("Dor cervical com irradiação para o braço","Pesquise sinais de compressão radicular e de mielopatia.",["Teste de Spurling","Teste de distração cervical","Sinal de Bakody","Sinal de Lhermitte","Sinal de Hoffmann","Reflexos osteotendíneos","Graduação da força muscular","Sinal de Babinski"]),
+("Lombociatalgia","Avalie raiz nervosa, tensão neural e sinais de alarme (déficit motor progressivo, retenção urinária).",["Manobra de Lasègue","Lasègue cruzado","Sinal de Bragard","Teste de estiramento femoral","Teste de Slump","Manobra de Valsalva","Reflexos osteotendíneos","Graduação da força muscular","Sinal de Babinski"]),
+("Lombalgia com suspeita de espondiloartrite ou sacroilíaca","Dor inflamatória (piora no repouso, melhora com movimento) e rigidez matinal.",["Teste de Schober modificado","Testes de provocação da sacroilíaca","Teste de Gaenslen","Teste de Patrick"]),
+("Dor no quadril ou na virilha","Diferencie dor intra-articular, periarticular e referida da coluna.",["Log roll","Teste de Stinchfield","Teste de Patrick","Teste de FADIR","Sinal de Trendelenburg","Teste de Thomas","Teste de Ober","Teste de Ely"]),
+("Recém-nascido ou lactente: rastreio do quadril","Realize com o bebê calmo e relaxado; alteração exige ultrassom.",["Manobras de Ortolani e Barlow","Sinal de Galeazzi","Medida do comprimento dos membros"]),
+("Trauma ou entorse do joelho","Avalie derrame, ligamentos e meniscos; regras de Ottawa do joelho para decidir radiografia.",["Sinal do abaulamento e balotamento patelar","Teste de Lachman","Gaveta anterior","Gaveta posterior","Pivot shift","Estresse em valgo do joelho","Estresse em varo do joelho","Teste de McMurray","Teste de Apley","Teste de Thessaly"]),
+("Dor anterior do joelho","Pesquise patelofemoral, instabilidade patelar e trato iliotibial.",["Teste de compressão patelofemoral","Teste de apreensão patelar","Teste de Noble","Teste de Ober","Teste de Ely"]),
+("Entorse de tornozelo","Comece pelas regras de Ottawa; depois avalie os ligamentos e a sindesmose.",["Regras de Ottawa do tornozelo","Gaveta anterior do tornozelo","Inversão forçada (talar tilt)","Teste da compressão tibiofibular","Teste de rotação externa (Kleiger)","Teste de Thompson"]),
+("Dor no calcanhar ou no pé","Diferencie fascite plantar, tendinopatia do Aquiles, neuroma e compressão nervosa.",["Teste de Windlass","Teste de Thompson","Teste de Silfverskiöld","Elevação unipodal do calcanhar","Sinal de Mulder","Sinal de Tinel do tarso"]),
+("Vertigem","Diferencie causa periférica (VPPB, neurite) de causa central; sinais de alarme exigem avaliação urgente.",["Manobra de Dix-Hallpike","Teste do impulso cefálico","Teste de Romberg","Marcha em tandem","Prova dedo-nariz e calcanhar-joelho","Testes de Rinne e Weber"]),
+("Febre com cefaleia (suspeita de meningite)","Sinais meníngeos ausentes não excluem meningite; na dúvida, urgência.",["Rigidez de nuca","Sinal de Kernig","Sinal de Brudzinski"]),
+("Dor abdominal na fossa ilíaca direita","Combine os sinais com o quadro clínico e, se indicado, imagem e avaliação cirúrgica.",["Ponto de McBurney","Sinal de Blumberg","Sinal de Rovsing","Sinal do psoas","Sinal do obturador","Sinal de Carnett"]),
+("Dor no hipocôndrio direito","Correlacione com febre, icterícia e ultrassom.",["Sinal de Murphy","Sinal de Carnett"]),
+("Dor lombar ou no flanco com febre ou disúria","Pesquise pielonefrite e cólica renal.",["Sinal de Giordano"]),
+("Edema de membros inferiores","Diferencie edema sistêmico, venoso, linfático e arterial.",["Sinal de Godet","Sinal de Stemmer","Teste de Buerger","Índice tornozelo-braquial"]),
+("Tontura ao levantar, síncope ou quedas em idosos","Revise medicações e avalie equilíbrio e marcha.",["Hipotensão ortostática","Teste de Romberg","Marcha em tandem","Sinal de Trendelenburg","Prova de Barré"]),
+("Tosse ou dispneia","Combine com ausculta e saturação.",["Frêmito toracovocal","Percussão torácica","Ausculta vocal (egofonia, broncofonia)","Tempo expiratório forçado","Sinal de Hoover"]),
+("Suspeita de AVC","Tempo é cérebro: reconheça, registre o horário de início e acione o serviço de urgência.",["Cincinnati (FAST) para AVC","Prova de Barré","Reflexos osteotendíneos","Sinal de Babinski","Prova dedo-nariz e calcanhar-joelho"]),
+]
+
+# ---------------- INTERPRETAÇÃO COMBINADA ----------------
+# (nomes das manobras, mínimo de positivas, sugestão)
+REGRAS = [
+(["Teste de Lachman"],1,"Sugere lesão do ligamento cruzado anterior. Confirme com gaveta anterior e pivot shift; considere ressonância se houver indicação cirúrgica."),
+(["Gaveta posterior"],1,"Sugere lesão do ligamento cruzado posterior."),
+(["Estresse em valgo do joelho"],1,"Sugere lesão do ligamento colateral medial."),
+(["Estresse em varo do joelho"],1,"Sugere lesão do ligamento colateral lateral ou do canto posterolateral."),
+(["Teste de McMurray","Teste de Apley","Teste de Thessaly"],2,"Dois ou mais testes positivos tornam provável lesão meniscal."),
+(["Teste de Neer","Teste de Hawkins-Kennedy"],2,"Neer e Hawkins-Kennedy positivos sugerem síndrome do impacto subacromial."),
+(["Teste de Jobe","Teste de Patte","Lift-off de Gerber","Belly-press","Teste da queda do braço"],2,"Vários testes de força positivos sugerem lesão do manguito rotador; considere ultrassonografia ou ressonância."),
+(["Teste de apreensão (anterior)"],1,"Sugere instabilidade anterior do ombro (luxação recidivante)."),
+(["Teste de Phalen","Sinal de Tinel no carpo","Teste de Durkan"],2,"Dois ou mais testes positivos sugerem síndrome do túnel do carpo; confirme com eletroneuromiografia se necessário."),
+(["Teste de Cozen","Teste de Mill"],1,"Sugere epicondilite lateral."),
+(["Teste de Finkelstein"],1,"Sugere tenossinovite de De Quervain."),
+(["Palpação da tabaqueira anatômica"],1,"Suspeita de fratura do escafoide: imobilizar e reavaliar com imagem, mesmo com radiografia inicial normal."),
+(["Teste de Spurling","Teste de distração cervical","Sinal de Bakody"],2,"Sugere radiculopatia cervical."),
+(["Sinal de Lhermitte","Sinal de Hoffmann","Sinal de Babinski"],2,"Sinais de neurônio motor superior/medula: considere mielopatia cervical e ressonância."),
+(["Manobra de Lasègue","Lasègue cruzado","Sinal de Bragard"],2,"Sugere radiculopatia lombossacra (hérnia de disco); o Lasègue cruzado tem alta especificidade."),
+(["Teste de Gaenslen","Teste de Patrick","Testes de provocação da sacroilíaca"],2,"Sugere dor de origem sacroilíaca."),
+(["Teste de FADIR"],1,"Dor inguinal com FADIR positivo sugere impacto femoroacetabular; considere radiografia de bacia e do quadril."),
+(["Sinal de Trendelenburg"],1,"Sugere fraqueza do glúteo médio (abdutores do quadril) do lado do apoio."),
+(["Manobras de Ortolani e Barlow","Sinal de Galeazzi"],1,"Suspeita de displasia do desenvolvimento do quadril: solicitar ultrassom do quadril e encaminhar."),
+(["Teste da compressão tibiofibular","Teste de rotação externa (Kleiger)"],1,"Sugere lesão da sindesmose (entorse alta); considere radiografia com carga e avaliação ortopédica."),
+(["Gaveta anterior do tornozelo","Inversão forçada (talar tilt)"],1,"Sugere lesão dos ligamentos laterais do tornozelo (talofibular anterior e calcaneofibular)."),
+(["Teste de Thompson"],1,"Sugere rotura do tendão de Aquiles: imobilização em equino e encaminhamento."),
+(["Teste de Windlass"],1,"Sugere fascite plantar."),
+(["Elevação unipodal do calcanhar"],1,"Sugere insuficiência do tendão tibial posterior."),
+(["Rigidez de nuca","Sinal de Kernig","Sinal de Brudzinski"],1,"Sinal meníngeo positivo: suspeita de meningite ou hemorragia subaracnóidea; urgência."),
+(["Ponto de McBurney","Sinal de Blumberg","Sinal de Rovsing","Sinal do psoas","Sinal do obturador"],2,"Dois ou mais sinais positivos aumentam a suspeita de apendicite: avaliação cirúrgica e imagem."),
+(["Sinal de Murphy"],1,"Sugere colecistite aguda; correlacione com ultrassom."),
+(["Manobra de Dix-Hallpike"],1,"Sugere VPPB do canal posterior; considere manobra de Epley."),
+(["Hipotensão ortostática"],1,"Hipotensão ortostática: revise medicações, volume e causas neurogênicas."),
+(["Cincinnati (FAST) para AVC"],1,"Sinal focal agudo: acione o serviço de urgência e registre o horário de início."),
+]
+
+# Manobras em que o lado (direito/esquerdo) importa
+REGIOES_LATERAIS = {"Ombro", "Cotovelo", "Punho e mão", "Quadril", "Joelho", "Tornozelo e pé"}
+NOMES_LATERAIS = {"Teste de Spurling", "Teste de distração cervical", "Sinal de Bakody", "Manobra de Lasègue", "Lasègue cruzado", "Sinal de Bragard",
+    "Teste de estiramento femoral", "Teste de Slump", "Teste de Gaenslen", "Prova de Barré", "Sinal de Babinski", "Sinal de Hoffmann",
+    "Reflexos osteotendíneos", "Graduação da força muscular", "Prova dedo-nariz e calcanhar-joelho", "Sinal de Godet", "Teste de Buerger",
+    "Índice tornozelo-braquial", "Sinal de Stemmer", "Testes de Rinne e Weber", "Teste do impulso cefálico"}
+NAO_LATERAIS = {"Medida do comprimento dos membros", "Regras de Ottawa do tornozelo"}
+
 def slug(s):
     s = unicodedata.normalize("NFD", s).encode("ascii", "ignore").decode().lower()
     return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
 
 def main():
-    saida, ids = [], set()
+    import os, glob
+    saida, ids = [], {}
     for sis, reg, nome, alias, serve, como, positivo, obs in D:
         i = slug(nome)
         assert i not in ids, "nome duplicado: " + nome
-        ids.add(i)
-        saida.append({"id": i, "s": sis, "r": reg, "n": nome, "a": alias, "p": serve, "c": como, "x": positivo, "o": obs})
-    json.dump(saida, open("data/manobras.json", "w"), ensure_ascii=False, separators=(",", ":"))
+        d = {"id": i, "s": sis, "r": reg, "n": nome, "a": alias, "p": serve, "c": como, "x": positivo, "o": obs}
+        if (reg in REGIOES_LATERAIS or nome in NOMES_LATERAIS) and nome not in NAO_LATERAIS:
+            d["l"] = 1
+        imgs = sorted(glob.glob("assets/manobras/" + i + ".*"))
+        if imgs:
+            d["img"] = imgs[0]
+        ids[i] = nome
+        saida.append(d)
+    def ref(nomes, onde):
+        r = []
+        for n in nomes:
+            assert slug(n) in ids, "manobra inexistente em %s: %s" % (onde, n)
+            r.append(slug(n))
+        return r
+    roteiros = [{"t": t, "d": dica, "m": ref(ms, t)} for t, dica, ms in ROTEIROS]
+    regras = [{"m": ref(ms, s2), "n": mn, "t": txt} for ms, mn, txt in REGRAS for s2 in [txt[:30]]]
+    json.dump({"manobras": saida, "roteiros": roteiros, "regras": regras}, open("data/manobras.json", "w"), ensure_ascii=False, separators=(",", ":"))
     ss = sorted({d["s"] for d in saida})
-    print(len(saida), "manobras;", {s: sum(1 for d in saida if d["s"] == s) for s in ss})
+    print(len(saida), "manobras;", len(roteiros), "roteiros;", len(regras), "regras;", sum(1 for d in saida if d.get("l")), "laterais")
 
 main()
