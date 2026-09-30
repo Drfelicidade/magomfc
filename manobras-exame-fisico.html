@@ -42,8 +42,10 @@
             <div class="flex flex-wrap items-center justify-between gap-2">
                 <p id="contagem" class="text-sm text-gray-600" role="status" aria-live="polite"></p>
                 <div class="flex gap-2">
-                    <button type="button" id="expandir" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Expandir tudo</button>
-                    <button type="button" id="recolher" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Recolher tudo</button>
+                    <button type="button" id="exp-reg" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Expandir regiões</button>
+                    <button type="button" id="rec-reg" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Recolher regiões</button>
+                    <button type="button" id="exp-man" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Abrir manobras</button>
+                    <button type="button" id="rec-man" class="px-3 py-1 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg">Fechar manobras</button>
                 </div>
             </div>
             <p id="offline" class="hidden text-xs text-green-800 bg-green-50 border border-green-200 rounded-lg p-2">Disponível offline neste aparelho após o primeiro acesso.</p>
@@ -144,9 +146,16 @@ function card(d) {
         '<p class="nao-imprimir flex flex-wrap gap-4">' + (l ? '<a class="text-sky-700 underline font-semibold" href="' + l[0] + '">' + l[1] + '</a>' : '') +
         '<a class="text-sky-700 underline" href="' + video + '" target="_blank" rel="noopener noreferrer">Buscar vídeo da técnica (YouTube)</a></p></div></details>';
 }
-function estadoAbertos() { return new Set(Array.from(document.querySelectorAll('#lista details[open]')).map(e => e.dataset.id)); }
+function estadoAbertos() { return new Set(Array.from(document.querySelectorAll('#lista details[data-id][open]')).map(e => e.dataset.id)); }
+function regioesAbertas() { return new Set(Array.from(document.querySelectorAll('#lista details[data-reg][open]')).map(e => e.dataset.reg)); }
+function resumoMarcas(lista) {
+    let pos = 0, neg = 0;
+    lista.forEach(d => (d.l ? ['D', 'E'] : ['']).forEach(l => { const m = marcas[l ? d.id + ':' + l : d.id]; if (m === '+') pos++; else if (m === '-') neg++; }));
+    return (pos ? '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">' + pos + ' positiva' + (pos > 1 ? 's' : '') + '</span>' : '') + (neg ? '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">' + neg + ' negativa' + (neg > 1 ? 's' : '') + '</span>' : '');
+}
 function render() {
-    const abertos = estadoAbertos();
+    const abertos = estadoAbertos(), regAbertas = regioesAbertas();
+    const autoAbrir = !!norm($('busca').value.trim()) || !!regiao || soFav; // filtros ativos mostram tudo que combina
     chips();
     const lista = filtrados();
     $('contagem').textContent = lista.length + ' de ' + DADOS.length + ' manobras' + (favoritos.size && !soFav ? ' · ★ ' + favoritos.size + ' favoritas' : '');
@@ -156,13 +165,22 @@ function render() {
     let html = '';
     if (roteiro !== '') html = '<div class="space-y-2">' + lista.map(card).join('') + '</div>';
     else {
-        let sAtual = null, rAtual = null;
+        const grupos = []; // [{s, r, itens}]
         lista.forEach(d => {
-            if (d.s !== sAtual) { if (sAtual !== null) html += '</div></section>'; sAtual = d.s; rAtual = null; html += '<section><h2 class="text-xl font-bold text-sky-900 border-l-4 border-sky-500 pl-3 mb-3">' + esc(d.s) + '</h2><div class="space-y-2">'; }
-            if (d.r !== rAtual) { rAtual = d.r; html += '<h3 class="text-sm font-bold uppercase tracking-wide text-gray-500 pt-3">' + esc(d.r) + '</h3>'; }
-            html += card(d);
+            let g = grupos.find(x => x.s === d.s && x.r === d.r);
+            if (!g) { g = { s: d.s, r: d.r, itens: [] }; grupos.push(g); }
+            g.itens.push(d);
         });
-        html += '</div></section>';
+        let sAtual = null;
+        grupos.forEach(g => {
+            if (g.s !== sAtual) { if (sAtual !== null) html += '</section>'; sAtual = g.s; html += '<section class="space-y-2"><h2 class="text-xl font-bold text-sky-900 border-l-4 border-sky-500 pl-3">' + esc(g.s) + '</h2>'; }
+            const chave = g.s + '|' + g.r, aberta = autoAbrir || regAbertas.has(chave);
+            html += '<details class="regiao border border-sky-200 rounded-2xl bg-sky-50" data-reg="' + esc(chave) + '"' + (aberta ? ' open' : '') + '><summary class="cursor-pointer p-3 flex items-center gap-3">' +
+                '<span class="seta text-sky-700 transition-transform">▶</span><span class="flex-1 font-bold text-sky-900">' + esc(g.r) + '</span>' +
+                resumoMarcas(g.itens) + '<span class="text-xs text-sky-800 font-semibold">' + g.itens.length + ' manobra' + (g.itens.length > 1 ? 's' : '') + '</span></summary>' +
+                '<div class="p-3 pt-0 space-y-2">' + g.itens.map(card).join('') + '</div></details>';
+        });
+        html += '</section>';
     }
     $('lista').innerHTML = html;
     abertos.forEach(id => { const e = document.querySelector('#lista details[data-id="' + id + '"]'); if (e) e.open = true; });
@@ -203,8 +221,11 @@ $('lista').addEventListener('click', e => {
 });
 $('busca').addEventListener('input', render);
 $('roteiro').addEventListener('change', () => { roteiro = $('roteiro').value; if (roteiro !== '') { sistema = ''; regiao = ''; } render(); });
-$('expandir').addEventListener('click', () => document.querySelectorAll('#lista details').forEach(e => e.open = true));
-$('recolher').addEventListener('click', () => document.querySelectorAll('#lista details').forEach(e => e.open = false));
+const abrirTodos = (sel, v) => document.querySelectorAll('#lista ' + sel).forEach(e => e.open = v);
+$('exp-reg').addEventListener('click', () => abrirTodos('details[data-reg]', true));
+$('rec-reg').addEventListener('click', () => abrirTodos('details[data-reg]', false));
+$('exp-man').addEventListener('click', () => { abrirTodos('details[data-reg]', true); abrirTodos('details[data-id]', true); });
+$('rec-man').addEventListener('click', () => abrirTodos('details[data-id]', false));
 $('limpar').addEventListener('click', () => { Object.keys(marcas).forEach(k => delete marcas[k]); montarTexto(); render(); });
 $('imprimir').addEventListener('click', () => window.print());
 $('copiar').addEventListener('click', () => {
