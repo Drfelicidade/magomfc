@@ -563,7 +563,7 @@ Regras OBRIGATÓRIAS:
 2. Hemograma Completo: Extraia APENAS: Hemoglobina, Hematócrito, VCM, HCM, CHCM, RDW, Leucócitos e Plaquetas. Ignore os demais índices.
 3. Parcial de Urina (EAS): NUNCA liste os achados da urina como itens soltos (Leucócitos, Hemácias, Proteínas etc. se confundem com o hemograma). Crie UM ÚNICO item com "nome": "Parcial de Urina" e, em "valor", apenas os achados FORA dos valores de referência separados por ", " (ex.: "Leucócitos 12*, Hemácias 5*, Proteínas +"). Se tudo estiver normal, crie um único item com "nome": "Parcial de Urina sem particularidades" e "valor": "".
 4. Alterações: Coloque o símbolo * colado logo após o valor numérico de qualquer resultado que esteja fora dos valores de referência (ex: "valor": "120*").
-5. Fidedignidade: Não invente valores. Transcreva apenas o que está visível. Mantenha o nome do exame como aparece no laudo.`;
+5. Escreva o nome de cada exame com apenas a primeira letra maiúscula (ex.: "Colesterol total", "Creatinina", "Ureia"), mesmo que o laudo o traga em CAIXA ALTA; siglas continuam em maiúsculas (TSH, HDL, LDL, VCM, TGO).\n6. Fidedignidade: Não invente valores. Transcreva apenas o que está visível.`;
 
         const RESPONSE_SCHEMA = {
             type: 'OBJECT',

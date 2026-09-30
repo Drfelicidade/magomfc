@@ -8,6 +8,28 @@
         .toLowerCase().replace(/\s+/g, ' ').trim();
     const URINA = /^(?:parcial de urina|urina tipo i|urina rotina|urina|eas)\s*[-–:]\s*(.+)$/i;
     const CHAVE_URINA = '#urina';
+    // Nomes em CAIXA ALTA viram "Primeira letra maiúscula"; siglas (TSH, HDL, VCM, B12...) continuam em maiúsculas.
+    // Nomes que já vêm em caixa mista (ex.: "Colesterol Total") não são alterados.
+    const LIGACOES = ['de', 'da', 'do', 'das', 'dos', 'e', 'em', 'com', 'para', 'por', 'a', 'o', 'sem', 'ao', 'no', 'na', 'nos', 'nas', 'ou', 'pelo', 'pela'];
+    const SIGLAS_LONGAS = ['CHCM', 'VLDL', 'HBA1C', 'HBSAG', 'TTPA', 'NTPROBNP', 'HOMAIR', 'ANTIHCV', 'ANTIHIV', 'FSH', 'PTH'];
+    function ajustarCaixa(nome) {
+        const letras = nome.replace(/[^A-Za-zÀ-ÿ]/g, '');
+        if (!letras || letras !== letras.toUpperCase()) return nome;
+        let primeiro = true;
+        return nome.split(/(\s+)/).map(w => {
+            if (!w.trim()) return w;
+            const limpa = w.replace(/[^A-Za-zÀ-ÿ0-9]/g, '');
+            const sigla = /\d/.test(limpa) || limpa.length <= 3 || SIGLAS_LONGAS.indexOf(limpa) >= 0;
+            const ligacao = LIGACOES.indexOf(limpa.toLowerCase()) >= 0 && !primeiro;
+            let out;
+            if (ligacao) out = w.toLowerCase();
+            else if (sigla) out = w;
+            else out = primeiro ? w.charAt(0) + w.slice(1).toLowerCase() : w.toLowerCase();
+            primeiro = false;
+            return out;
+        }).join('');
+    }
+
     const pad = n => String(n).padStart(2, '0');
 
     // Aceita dd/mm/aaaa, dd/mm/aa, dd-mm-aaaa, dd.mm.aaaa e aaaa-mm-dd; devolve dd/mm/aaaa ou null.
@@ -54,13 +76,15 @@
             if (!grupos.has(data)) grupos.set(data, []);
             const lista = grupos.get(data);
             ((e && e.itens) || []).forEach(it => {
-                let nome = String((it && it.nome) || '').trim();
+                const nomeBruto = String((it && it.nome) || '').trim();
+                let nome = ajustarCaixa(nomeBruto);
                 if (!nome) return;
                 let valor = String((it && it.valor) == null ? '' : it.valor).trim();
                 // Alterações da urina lidas como itens soltos ("Urina - Leucócitos 12*") viram um único item "Parcial de Urina"
-                const u = nome.match(URINA) || (valor && semAcento(nome) === 'parcial de urina' ? [nome, valor] : null);
+                const u = nomeBruto.match(URINA) || (valor && semAcento(nomeBruto) === 'parcial de urina' ? [nome, valor] : null);
                 if (u) {
-                    const parte = u[1] === valor && !URINA.test(nome) ? valor : (valor ? u[1].trim() + ' ' + valor : u[1].trim());
+                    const sub = ajustarCaixa(u[1].trim());
+                    const parte = u[1] === valor && !URINA.test(nomeBruto) ? valor : (valor ? sub + ' ' + valor : sub);
                     let agg = lista.find(x => x.chave === CHAVE_URINA);
                     if (!agg) { agg = { nome: 'Parcial de Urina', valor: '', chave: CHAVE_URINA, partes: [] }; lista.push(agg); }
                     if (agg.partes.indexOf(parte) < 0) { agg.partes.push(parte); agg.valor = agg.partes.join(', '); }
@@ -84,7 +108,7 @@
         return datas.map(d => '(' + d + ') ' + grupos.get(d).map(it => it.valor ? it.nome + ' - ' + it.valor : it.nome).join(' / ')).join('\n');
     }
 
-    const api = { SEM_DATA, normalizarData, mesclar, formatar };
+    const api = { SEM_DATA, normalizarData, ajustarCaixa, mesclar, formatar };
     if (typeof module !== 'undefined' && module.exports) module.exports = api;
     else root.ExamesMerge = api;
 })(typeof window !== 'undefined' ? window : globalThis);
