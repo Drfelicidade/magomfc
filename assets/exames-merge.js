@@ -6,6 +6,8 @@
 
     const semAcento = s => String(s == null ? '' : s).normalize('NFD').replace(/[̀-ͯ]/g, '')
         .toLowerCase().replace(/\s+/g, ' ').trim();
+    const URINA = /^(?:parcial de urina|urina tipo i|urina rotina|urina|eas)\s*[-–:]\s*(.+)$/i;
+    const CHAVE_URINA = '#urina';
     const pad = n => String(n).padStart(2, '0');
 
     // Aceita dd/mm/aaaa, dd/mm/aa, dd-mm-aaaa, dd.mm.aaaa e aaaa-mm-dd; devolve dd/mm/aaaa ou null.
@@ -52,9 +54,18 @@
             if (!grupos.has(data)) grupos.set(data, []);
             const lista = grupos.get(data);
             ((e && e.itens) || []).forEach(it => {
-                const nome = String((it && it.nome) || '').trim();
+                let nome = String((it && it.nome) || '').trim();
                 if (!nome) return;
-                const valor = String((it && it.valor) == null ? '' : it.valor).trim();
+                let valor = String((it && it.valor) == null ? '' : it.valor).trim();
+                // Alterações da urina lidas como itens soltos ("Urina - Leucócitos 12*") viram um único item "Parcial de Urina"
+                const u = nome.match(URINA) || (valor && semAcento(nome) === 'parcial de urina' ? [nome, valor] : null);
+                if (u) {
+                    const parte = u[1] === valor && !URINA.test(nome) ? valor : (valor ? u[1].trim() + ' ' + valor : u[1].trim());
+                    let agg = lista.find(x => x.chave === CHAVE_URINA);
+                    if (!agg) { agg = { nome: 'Parcial de Urina', valor: '', chave: CHAVE_URINA, partes: [] }; lista.push(agg); }
+                    if (agg.partes.indexOf(parte) < 0) { agg.partes.push(parte); agg.valor = agg.partes.join(', '); }
+                    return;
+                }
                 const chave = semAcento(nome) + '|' + semAcento(valor.replace(/\*/g, ''));
                 const existente = lista.find(x => x.chave === chave);
                 if (existente) { if (valor.indexOf('*') >= 0 && existente.valor.indexOf('*') < 0) existente.valor = valor; return; }

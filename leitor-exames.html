@@ -561,7 +561,7 @@ Devolva SOMENTE o JSON pedido: uma lista "exames" com UMA entrada por data de co
 Regras OBRIGATÓRIAS:
 1. Omita nomes de pacientes/médicos e omita TOTALMENTE as unidades de medida (ex: "valor": "90" e não "90 mg/dL").
 2. Hemograma Completo: Extraia APENAS: Hemoglobina, Hematócrito, VCM, HCM, CHCM, RDW, Leucócitos e Plaquetas. Ignore os demais índices.
-3. Parcial de Urina (EAS): Anote APENAS itens que estejam FORA dos valores de referência. Se tudo estiver normal, crie um único item com "nome": "Parcial de Urina sem particularidades" e "valor": "".
+3. Parcial de Urina (EAS): NUNCA liste os achados da urina como itens soltos (Leucócitos, Hemácias, Proteínas etc. se confundem com o hemograma). Crie UM ÚNICO item com "nome": "Parcial de Urina" e, em "valor", apenas os achados FORA dos valores de referência separados por ", " (ex.: "Leucócitos 12*, Hemácias 5*, Proteínas +"). Se tudo estiver normal, crie um único item com "nome": "Parcial de Urina sem particularidades" e "valor": "".
 4. Alterações: Coloque o símbolo * colado logo após o valor numérico de qualquer resultado que esteja fora dos valores de referência (ex: "valor": "120*").
 5. Fidedignidade: Não invente valores. Transcreva apenas o que está visível. Mantenha o nome do exame como aparece no laudo.`;
 
