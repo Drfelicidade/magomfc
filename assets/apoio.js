@@ -128,7 +128,18 @@
     print.textContent = '@media print{[data-apoio],#apoio-dialogo{display:none !important}}';
     document.head.appendChild(print);
 
+    // Link pequeno no alto da página (rola junto com o conteúdo, não fica fixo na tela)
+    function linkCabecalho() {
+        var cor = escuro ? '#9ca3af' : '#6b7280';
+        var b = criarLink('position:absolute;top:1px;right:10px;z-index:40;border:0;background:transparent;color:' + cor +
+            ';font:11px/14px system-ui,sans-serif;text-decoration:underline;cursor:pointer;padding:0;opacity:.85');
+        b.id = 'apoio-topo'; b.textContent = '☕ Apoie';
+        b.setAttribute('aria-label', 'Apoie o Mago MFC');
+        document.body.appendChild(b);
+    }
+
     function iniciar() {
+        linkCabecalho();
         var mount = document.getElementById('apoio-mount'); // página inicial: linha própria no rodapé
         if (mount) { mount.appendChild(criarLink('border:0;background:transparent;color:inherit;text-decoration:underline;cursor:pointer;font:inherit')); return; }
         var barra = document.getElementById('aviso-clinico'); // demais páginas: dentro da faixa do aviso, sem ocupar espaço extra
