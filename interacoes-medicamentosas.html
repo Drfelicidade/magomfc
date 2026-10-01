@@ -89,5 +89,6 @@ $('limpar').addEventListener('click', () => { sel = []; chips(); calcular(); });
 fetch('data/interacoes.json').then(r => r.json()).then(d => { D = d; calcular(); }).catch(() => { $('resultado').innerHTML = '<p class="text-sm text-red-700">Não foi possível carregar a base de interações.</p>'; });
 </script>
 <script src="assets/aviso.js" defer></script>
+<script src="assets/apoio.js" defer></script>
 </body>
 </html>
