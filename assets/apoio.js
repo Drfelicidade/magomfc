@@ -128,14 +128,38 @@
     print.textContent = '@media print{[data-apoio],#apoio-dialogo{display:none !important}}';
     document.head.appendChild(print);
 
-    // Link pequeno no alto da página (rola junto com o conteúdo, não fica fixo na tela)
+    // Link no alto da página, alinhado à direita da moldura central da ferramenta.
+    // Rola junto com o conteúdo (não fica fixo) e usa o espaço de margem acima da moldura.
+    var ALTURA_TOPO = 32;
+    function moldura() { // a maior moldura visível perto do topo (o cartão central da ferramenta)
+        var lista = document.querySelectorAll('main, .container, [class*="max-w-"]'), melhor = null;
+        for (var i = 0; i < lista.length; i++) {
+            var e = lista[i];
+            if (e.closest('#aviso-clinico, dialog')) continue;
+            var r = e.getBoundingClientRect();
+            if (r.width > 200 && r.height > 80 && r.top < 500 && r.right <= document.documentElement.clientWidth + 1 && (!melhor || r.width > melhor.width)) melhor = r;
+        }
+        return melhor;
+    }
     function linkCabecalho() {
-        var cor = escuro ? '#9ca3af' : '#6b7280';
-        var b = criarLink('position:absolute;top:1px;right:10px;z-index:40;border:0;background:transparent;color:' + cor +
-            ';font:11px/14px system-ui,sans-serif;text-decoration:underline;cursor:pointer;padding:0;opacity:.85');
-        b.id = 'apoio-topo'; b.textContent = '☕ Apoie';
-        b.setAttribute('aria-label', 'Apoie o Mago MFC');
+        var c = escuro ? { fundo: 'rgba(52,211,153,.12)', borda: '#34d399', texto: '#6ee7b7' } : { fundo: '#ecfdf5', borda: '#34d399', texto: '#047857' };
+        var b = criarLink('position:absolute;top:4px;z-index:40;border:1px solid ' + c.borda + ';background:' + c.fundo + ';color:' + c.texto +
+            ';font:600 13px/20px system-ui,sans-serif;border-radius:999px;padding:1px 12px;cursor:pointer;white-space:nowrap');
+        b.id = 'apoio-topo'; b.textContent = '☕ Apoie o Mago MFC';
         document.body.appendChild(b);
+        var base = null;
+        function posicionar() {
+            if (base === null) base = parseFloat(getComputedStyle(document.body).paddingTop) || 0;
+            if (base < ALTURA_TOPO) document.body.style.paddingTop = ALTURA_TOPO + 'px'; // garante espaço sem cobrir a moldura
+            var r = moldura(), larg = document.documentElement.clientWidth;
+            var direita = r ? Math.max(8, larg - r.right) : 12;
+            b.style.right = direita + 'px';
+        }
+        posicionar();
+        window.addEventListener('resize', posicionar);
+        window.addEventListener('load', posicionar);
+        setTimeout(posicionar, 300); setTimeout(posicionar, 1200); // o Tailwind aplica as classes depois do carregamento
+        if (window.MutationObserver) new MutationObserver(posicionar).observe(document.body, { attributes: true, attributeFilter: ['class', 'style'], subtree: true });
     }
 
     function iniciar() {
