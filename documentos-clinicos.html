@@ -252,9 +252,6 @@
                         <option value="3x5">3 medidas, 2x ao dia, por 5 dias</option>
                     </select>
                 </label>
-                <label class="flex flex-col gap-1 text-sm font-bold text-gray-600">Data de início (opcional)
-                    <input type="date" id="bp-inicio" class="print-input font-normal" onchange="renderBP()">
-                </label>
                 <div class="flex gap-3 md:ml-auto">
                     <button onclick="hideAllForms()" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition">Fechar</button>
                     <button onclick="window.print()" class="px-6 py-2 bg-indigo-600 text-white font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition flex items-center gap-2">
@@ -368,12 +365,6 @@
         function renderBP() {
             const prot = document.getElementById('bp-protocolo').value; // "2x7" ou "3x5"
             const n = prot === '3x5' ? 3 : 2, dias = prot === '3x5' ? 5 : 7;
-            const inicio = document.getElementById('bp-inicio').value;
-            const fmt = i => {
-                if (!inicio) return '__/__';
-                const d = new Date(inicio + 'T12:00:00'); d.setDate(d.getDate() + i);
-                return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
-            };
             document.getElementById('bp-resumo').innerHTML =
                 '<strong>Como fazer:</strong> meça a pressão <strong>2 vezes ao dia</strong> (<strong>manhã</strong>, antes do café e dos remédios, e <strong>noite</strong>, antes do jantar), ' +
                 'com <strong>' + n + ' medidas</strong> em cada horário, esperando <strong>1 minuto</strong> entre uma e outra, por <strong>' + dias + ' dias seguidos</strong>. ' +
@@ -382,7 +373,7 @@
             document.querySelector('[data-bp-dias]').innerHTML = 'Faça por <strong>' + dias + ' dias seguidos</strong>, sem pular dias.';
 
             const cab = '<tr class="bg-gray-100"><th class="p-2 w-28"></th>' + Array.from({ length: dias }, (_, i) => '<th class="p-2 font-bold">Dia ' + (i + 1) + '</th>').join('') + '</tr>';
-            const linhaData = '<tr><th class="p-2 text-left font-bold">Data</th>' + Array.from({ length: dias }, (_, i) => '<td class="p-2 text-gray-500">' + fmt(i) + '</td>').join('') + '</tr>';
+            const linhaData = '<tr><th class="p-2 text-left font-bold">Data</th>' + Array.from({ length: dias }, () => '<td class="p-2"></td>').join('') + '</tr>';
             const celulaPA = '<span class="text-gray-400">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
             const periodo = (titulo, sub) => {
                 let h = '<tr class="bg-gray-100"><th colspan="' + (dias + 1) + '" class="p-2 text-left font-bold">' + titulo + ' <span class="font-normal text-xs">' + sub + '</span></th></tr>';
