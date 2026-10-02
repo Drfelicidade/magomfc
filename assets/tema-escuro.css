@@ -414,4 +414,16 @@
   [class*="bg-gray-200/"]{background-color:rgb(34 48 58 / .5) !important}
   [class*="bg-white/"]{background-color:rgb(24 35 41 / .7) !important}
   .border-black\/10{border-color:rgb(255 255 255 / .12) !important}
+  .question-item{background-color:hsl(230 18% 15%) !important}
+  .result-box-green{background-color:hsl(160 32% 14%) !important}
+  .risk-low{background-color:hsl(160 32% 14%) !important}
+  .score-desatencao{background-color:hsl(160 32% 14%) !important}
+  .result-box-yellow{background-color:hsl(40 32% 14%) !important}
+  .risk-intermediate{background-color:hsl(40 32% 14%) !important}
+  .score-hiperatividade{background-color:hsl(40 32% 14%) !important}
+  .result-box-red{background-color:hsl(0 32% 15%) !important}
+  .risk-high{background-color:hsl(0 32% 15%) !important}
+  .score-oposicao{background-color:hsl(0 32% 15%) !important}
+  .question-header{color:#e6edf1 !important}
+  .toggle-radio:checked + div, .toggle-radio:checked + div *{color:#fff !important}
 }

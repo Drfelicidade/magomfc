@@ -39,6 +39,16 @@ for t in (50,100,200):
     rule(f'[class*="bg-gray-{t}/"]', 'background-color', 'rgb(34 48 58 / .5)')
 rule('[class*="bg-white/"]', 'background-color', 'rgb(24 35 41 / .7)')
 rule('.border-black\\/10', 'border-color', 'rgb(255 255 255 / .12)')
+# Classes próprias de páginas que fixam fundo claro (hex) no <style> da página: sem isto o texto claro do tema
+# escuro fica sobre fundo claro e some (ex.: Mini-Mental, IVCF-20, PPS, risco gestacional, SNAP-IV, HEART).
+CAIXAS = {'.question-item': hsl(230,18,15),
+          '.result-box-green': hsl(160,32,14), '.risk-low': hsl(160,32,14), '.score-desatencao': hsl(160,32,14),
+          '.result-box-yellow': hsl(40,32,14), '.risk-intermediate': hsl(40,32,14), '.score-hiperatividade': hsl(40,32,14),
+          '.result-box-red': hsl(0,32,15), '.risk-high': hsl(0,32,15), '.score-oposicao': hsl(0,32,15)}
+for sel,cor in CAIXAS.items():
+    rule(sel, 'background-color', cor)
+rule('.question-header', 'color', '#e6edf1')
+rule('.toggle-radio:checked + div, .toggle-radio:checked + div *', 'color', '#fff')
 css = '''/* GERADO por scripts/gerar-tema-escuro.py: não edite à mão.
    Tema escuro automático (só em tela, não afeta a impressão) para as páginas com Tailwind (CDN). */
 :root{color-scheme:light dark}
