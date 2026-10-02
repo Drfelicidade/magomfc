@@ -90,6 +90,19 @@
             }
         }
 
+        /* Diário de pressão: orientações em duas colunas e página 2 própria na impressão */
+        .bp-cols { column-count: 1; column-gap: 2rem; }
+        @media (min-width: 768px) { .bp-cols { column-count: 2; } }
+        .bp-cols > section { break-inside: avoid; margin-bottom: 0.9rem; }
+        .bp-table td, .bp-table th { border: 1px solid #000; }
+        @media print {
+            .bp-cols { column-count: 2; font-size: 11px; line-height: 1.3; }
+            .bp-cols > section { margin-bottom: 0.6rem; }
+            .bp-page2 { break-before: page; page-break-before: always; margin-top: 0 !important; }
+            #bp-log { padding: 0 !important; }
+            .bp-table td { height: 2rem; }
+        }
+
         /* Estilos em TELA (Screen) para os inputs ficarem visíveis e fáceis de preencher */
         @media screen {
             .print-input {
@@ -141,8 +154,8 @@
                     <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                     </div>
-                    <h3 class="font-bold text-gray-800 group-hover:text-indigo-700 text-lg mb-1 text-center">Controle de Pressão</h3>
-                    <p class="text-sm text-gray-500 text-center">Diário de medições para o paciente preencher em casa.</p>
+                    <h3 class="font-bold text-gray-800 group-hover:text-indigo-700 text-lg mb-1 text-center">Controle de Pressão (MRPA)</h3>
+                    <p class="text-sm text-gray-500 text-center">Diário para medir em casa: 2 medidas ao dia (manhã e noite) por 5 ou 7 dias, com orientações ao paciente.</p>
                     <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-indigo-500 bg-indigo-100 px-3 py-1 rounded-full">Gerar Formulário</span>
                 </button>
 
@@ -228,53 +241,118 @@
         <!-- ========================================== -->
         <!-- ========================================== -->
         
-        <div id="bp-controls" class="hidden px-8 py-4 bg-gray-50 border-y border-gray-200 flex flex-col md:flex-row gap-4 justify-between items-center no-print">
-            <div class="flex items-center gap-2 w-full md:w-auto">
-                <span class="text-sm font-bold text-gray-600 shrink-0">Preencher Nome (Opcional):</span>
-                <input type="text" id="bp-nome-input" placeholder="Nome do paciente" class="print-input flex-1 md:w-64" onkeyup="document.getElementById('bp-nome-display').value = this.value">
+        <div id="bp-controls" class="hidden px-8 py-4 bg-gray-50 border-y border-gray-200 flex flex-col gap-4 no-print">
+            <div class="flex flex-col md:flex-row gap-4 md:items-end">
+                <label class="flex flex-col gap-1 text-sm font-bold text-gray-600 md:w-72">Nome (opcional)
+                    <input type="text" id="bp-nome-input" placeholder="Nome do paciente" class="print-input font-normal" oninput="document.getElementById('bp-nome-display').value = this.value">
+                </label>
+                <label class="flex flex-col gap-1 text-sm font-bold text-gray-600">Protocolo
+                    <select id="bp-protocolo" class="print-input font-normal" onchange="renderBP()">
+                        <option value="2x7">2 medidas, 2x ao dia, por 7 dias</option>
+                        <option value="3x5">3 medidas, 2x ao dia, por 5 dias</option>
+                    </select>
+                </label>
+                <div class="flex gap-3 md:ml-auto">
+                    <button onclick="hideAllForms()" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition">Fechar</button>
+                    <button onclick="window.print()" class="px-6 py-2 bg-indigo-600 text-white font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        Imprimir
+                    </button>
+                </div>
             </div>
-            <div class="space-x-3 flex">
-                <button onclick="hideAllForms()" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition">Fechar</button>
-                <button onclick="window.print()" class="px-6 py-2 bg-indigo-600 text-white font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                    Imprimir
-                </button>
+            <div class="text-xs text-gray-600 bg-indigo-50 border border-indigo-200 rounded-xl p-3 leading-relaxed">
+                <strong>Para o profissional:</strong> a MRPA é feita com 3 medidas pela manhã (antes do desjejum e dos medicamentos) e 3 à noite (antes do jantar) por 5 dias, ou 2 medidas em cada período por 7 dias. Ao retorno, calcule a média de todas as medidas do período: média ≥ 130/80 mmHg sugere hipertensão (equivale a 140/90 mmHg no consultório). Indicações: confirmar o diagnóstico, investigar hipertensão do avental branco ou mascarada, avaliar sintomas de hipotensão durante o tratamento e acompanhar pacientes de alto risco. Os valores de alerta e a meta, no documento, são editáveis antes de imprimir.
             </div>
         </div>
 
         <div id="bp-log" class="hidden p-8 md:p-12">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl font-bold uppercase tracking-wider border-b-2 border-black pb-2 inline-block">Controle de Pressão Arterial</h2>
+            <div class="text-center mb-5">
+                <h2 class="text-2xl font-bold uppercase tracking-wider border-b-2 border-black pb-2 inline-block">Controle de Pressão Arterial em Casa</h2>
+                <p class="text-sm mt-1">Diário de MRPA (Monitorização Residencial da Pressão Arterial)</p>
             </div>
-            
-            <div class="mb-6 flex items-end gap-2">
+
+            <div class="mb-3 flex items-end gap-2">
                 <span class="font-bold text-lg">Nome:</span>
                 <input type="text" id="bp-nome-display" class="print-input flex-1 font-bold text-lg pb-1" readonly>
             </div>
 
-            <table class="w-full border-collapse border-2 border-black text-center text-sm md:text-base">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="border border-black p-3 font-bold w-1/4">DATA / HORA</th>
-                        <th class="border border-black p-3 font-bold w-1/4">PRESSÃO (mmHg)</th>
-                        <th class="border border-black p-3 font-bold w-1/4">DATA / HORA</th>
-                        <th class="border border-black p-3 font-bold w-1/4">PRESSÃO (mmHg)</th>
-                    </tr>
-                </thead>
-                <tbody id="bp-table-body">
-                    <!-- Linhas geradas via JS -->
-                </tbody>
+            <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                <div class="flex items-center gap-3"><span class="font-bold">Medir no braço:</span>
+                    <label class="flex items-center gap-1"><input type="checkbox" class="print-checkbox"> direito</label>
+                    <label class="flex items-center gap-1"><input type="checkbox" class="print-checkbox"> esquerdo</label>
+                </div>
+                <div class="flex items-center gap-2"><span class="font-bold shrink-0">Meta combinada com o médico:</span>
+                    <input type="text" class="print-input w-16 text-center" aria-label="Meta sistólica"> / <input type="text" class="print-input w-16 text-center" aria-label="Meta diastólica"> mmHg</div>
+                <div class="flex items-center gap-2"><span class="font-bold shrink-0">Retorno com o diário em:</span>
+                    <input type="text" class="print-input w-32" placeholder="__/__/____" aria-label="Data do retorno"></div>
+            </div>
+
+            <div id="bp-resumo" class="mb-4 p-3 border-2 border-black rounded-lg text-sm leading-relaxed page-break-inside-avoid"></div>
+
+            <table class="bp-table w-full border-collapse text-center text-sm page-break-inside-avoid">
+                <tbody id="bp-table-body"></tbody>
             </table>
-            
-            <div class="mt-8 text-sm text-gray-700 bg-gray-50 p-4 rounded-xl border border-gray-200">
-                <p class="font-bold text-base mb-3 flex items-center gap-2"><span>⚠️</span> Regras para medir a pressão corretamente:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                    <li>Sente-se com as costas apoiadas na cadeira e os pés apoiados no chão.</li>
-                    <li>Descanse por 5 minutos antes de fazer a medição.</li>
-                    <li>Mantenha o braço relaxado e apoiado na altura do peito/coração.</li>
-                    <li><strong>Não</strong> fale enquanto o aparelho estiver medindo.</li>
-                    <li><strong>Não</strong> tome café, não fume e evite medir a pressão se estiver com a bexiga cheia.</li>
-                </ul>
+            <p class="text-xs mt-2 text-gray-600">Escreva a pressão como aparece no aparelho: a primeira cifra (máxima) à esquerda e a segunda (mínima) à direita da barra. Se quiser, anote também o pulso nas anotações.</p>
+
+            <div class="bp-page2 mt-8">
+                <h3 class="text-xl font-bold uppercase tracking-wider border-b-2 border-black pb-1 mb-4">Orientações</h3>
+                <div class="bp-cols text-sm text-gray-800">
+                    <section>
+                        <p class="font-bold mb-1">1. Quando medir</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>2 vezes ao dia</strong>, todos os dias, sempre nos mesmos horários.</li>
+                            <li><strong>Manhã:</strong> antes do café da manhã e <strong>antes</strong> de tomar os remédios.</li>
+                            <li><strong>Noite:</strong> antes do jantar (e antes dos remédios da noite, se usar).</li>
+                            <li data-bp-n>Em cada horário, faça as medidas com <strong>1 minuto de intervalo</strong> entre elas.</li>
+                            <li data-bp-dias>Meça nos dias seguidos indicados, sem pular dias.</li>
+                            <li>Esqueceu uma medida? Não compense depois: apenas anote nas anotações.</li>
+                            <li>Depois de medir, tome seus remédios normalmente.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p class="font-bold mb-1">2. Como se preparar</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Esvazie a bexiga. Fique <strong>30 minutos</strong> sem fumar, sem café, sem bebida alcoólica e sem exercício.</li>
+                            <li>Sente-se em lugar calmo, com as costas apoiadas, pernas descruzadas e pés no chão. Descanse <strong>5 minutos</strong> antes de medir.</li>
+                            <li>Apoie o braço em uma mesa, na altura do coração, com a palma da mão para cima. Nada deve apertar o braço (retire a manga grossa ou aperto de roupa).</li>
+                            <li><strong>Não converse</strong>, não se mexa e não use o celular durante a medida.</li>
+                            <li>Use sempre o mesmo braço (o indicado pelo profissional).</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p class="font-bold mb-1">3. O aparelho</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Use aparelho <strong>automático de braço</strong>. Aparelhos de pulso e de dedo não são indicados.</li>
+                            <li>O manguito precisa ser do <strong>tamanho certo</strong> para o seu braço: manguito pequeno demais mostra valores falsamente altos. Coloque-o sem folga, 2 a 3 cm acima da dobra do cotovelo.</li>
+                            <li>Leve o aparelho à consulta para que a equipe confira se ele está medindo corretamente.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p class="font-bold mb-1">4. O que anotar</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Anote os valores <strong>exatamente como aparecem</strong> no aparelho, sem arredondar e sem escolher os "melhores". Anote também os valores altos ou baixos.</li>
+                            <li>Em <strong>Anotações</strong>, escreva se estava com dor, nervoso, com mal-estar ou se esqueceu ou atrasou algum remédio.</li>
+                            <li>Traga este diário preenchido na consulta de retorno.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p class="font-bold mb-1">5. Seus remédios</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Continue tomando os remédios <strong>como foram prescritos</strong>.</li>
+                            <li><strong>Não aumente, diminua nem suspenda</strong> os remédios por conta própria por causa dos valores medidos. Converse com a equipe de saúde.</li>
+                            <li>Ajudam a controlar a pressão: pouco sal, atividade física regular, peso adequado, não fumar e pouco álcool.</li>
+                        </ul>
+                    </section>
+                    <section class="border-2 border-red-300 bg-red-50 text-red-900 rounded-lg p-3">
+                        <p class="font-bold mb-1">⚠️ Quando procurar atendimento</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Se tiver <strong>dor no peito, falta de ar, dor de cabeça muito forte, alteração da visão, confusão, fraqueza ou formigamento de um lado do corpo, dificuldade para falar ou desmaio</strong>: procure imediatamente a UPA ou o pronto-socorro, ou ligue <strong>192 (SAMU)</strong>, mesmo sem medir a pressão.</li>
+                            <li>Sem esses sintomas, mas com pressão igual ou acima de <input type="text" value="180" class="print-input w-12 text-center" aria-label="Limite sistólico de alerta"> / <input type="text" value="120" class="print-input w-12 text-center" aria-label="Limite diastólico de alerta"> mmHg: descanse 5 minutos e meça de novo. Se continuar assim, procure a unidade de saúde ou a UPA no mesmo dia.</li>
+                            <li>Pressão abaixo de <input type="text" value="90" class="print-input w-12 text-center" aria-label="Limite sistólico baixo"> / <input type="text" value="60" class="print-input w-12 text-center" aria-label="Limite diastólico baixo"> mmHg com tontura, fraqueza ou desmaio: sente-se ou deite-se e procure atendimento.</li>
+                        </ul>
+                    </section>
+                </div>
+                <p class="text-[10px] text-gray-500 mt-4 leading-snug">Orientações baseadas nas Diretrizes Brasileiras de Hipertensão Arterial (2020) e no material do Ministério da Saúde sobre aferição da pressão arterial; formulário de MRPA adaptado do modelo do TelessaúdeRS/SES-RS (Nota Técnica 05/2023). Não substitui a orientação do seu profissional de saúde.</p>
             </div>
         </div>
 
@@ -283,21 +361,29 @@
     </div>
 
     <script>
-        // Gera as linhas da tabela de pressão arterial
-        function generateBPTableRows() {
-            const tbody = document.getElementById('bp-table-body');
-            let rowsHtml = '';
-            for (let i = 0; i < 16; i++) {
-                rowsHtml += `
-                    <tr>
-                        <td class="border border-black p-4 w-1/4"></td>
-                        <td class="border border-black p-4 w-1/4"></td>
-                        <td class="border border-black p-4 w-1/4 bg-gray-50/30"></td>
-                        <td class="border border-black p-4 w-1/4 bg-gray-50/30"></td>
-                    </tr>
-                `;
-            }
-            tbody.innerHTML = rowsHtml;
+        // Monta o resumo e a tabela do diário conforme o protocolo escolhido
+        function renderBP() {
+            const prot = document.getElementById('bp-protocolo').value; // "2x7" ou "3x5"
+            const n = prot === '3x5' ? 3 : 2, dias = prot === '3x5' ? 5 : 7;
+            document.getElementById('bp-resumo').innerHTML =
+                '<strong>Como fazer:</strong> meça a pressão <strong>2 vezes ao dia</strong> (<strong>manhã</strong>, antes do café e dos remédios, e <strong>noite</strong>, antes do jantar), ' +
+                'com <strong>' + n + ' medidas</strong> em cada horário, esperando <strong>1 minuto</strong> entre uma e outra, por <strong>' + dias + ' dias seguidos</strong>. ' +
+                'Leia as orientações na página seguinte.';
+            document.querySelector('[data-bp-n]').innerHTML = 'Em cada horário, faça <strong>' + n + ' medidas</strong>, com <strong>1 minuto de intervalo</strong> entre elas.';
+            document.querySelector('[data-bp-dias]').innerHTML = 'Faça por <strong>' + dias + ' dias seguidos</strong>, sem pular dias.';
+
+            const cab = '<tr class="bg-gray-100"><th class="p-2 w-28"></th>' + Array.from({ length: dias }, (_, i) => '<th class="p-2 font-bold">Dia ' + (i + 1) + '</th>').join('') + '</tr>';
+            const linhaData = '<tr><th class="p-2 text-left font-bold">Data</th>' + Array.from({ length: dias }, () => '<td class="p-2"></td>').join('') + '</tr>';
+            const celulaPA = '<span class="text-gray-400">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+            const periodo = (titulo, sub) => {
+                let h = '<tr class="bg-gray-100"><th colspan="' + (dias + 1) + '" class="p-2 text-left font-bold">' + titulo + ' <span class="font-normal text-xs">' + sub + '</span></th></tr>';
+                h += '<tr><th class="p-2 text-left font-bold">Horário</th>' + Array.from({ length: dias }, () => '<td class="p-2"></td>').join('') + '</tr>';
+                for (let m = 1; m <= n; m++) h += '<tr><th class="p-2 text-left font-bold">Medida ' + m + '</th>' + Array.from({ length: dias }, () => '<td class="p-2">' + celulaPA + '</td>').join('') + '</tr>';
+                return h;
+            };
+            const anot = '<tr><th class="p-2 text-left font-bold align-top">Anotações</th>' + Array.from({ length: dias }, () => '<td class="p-2" style="height:3.5rem"></td>').join('') + '</tr>';
+            document.getElementById('bp-table-body').innerHTML = cab + linhaData +
+                periodo('MANHÃ', '(antes do café e dos remédios)') + periodo('NOITE', '(antes do jantar)') + anot;
         }
 
         // Esconde todos os formulários antes de mostrar o desejado
@@ -315,7 +401,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            generateBPTableRows();
+            renderBP();
         });
     </script>
 <script src="assets/aviso.js" defer></script>
