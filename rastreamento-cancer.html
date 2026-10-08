@@ -125,12 +125,19 @@ function atualizar() {
     const tab = $('tab').value, macos = parseFloat($('macos').value), parou = parseFloat($('parou').value);
     let criterio = idade >= 50 && idade <= 80 && !isNaN(macos) && macos >= 20 && (tab === 'atual' || (tab === 'ex' && !isNaN(parou) && parou < 15));
     let criterioUsp = idade >= 50 && idade <= 80 && !isNaN(macos) && macos >= 20 && (tab === 'atual' || (tab === 'ex' && !isNaN(parou) && parou <= 15));
-    if (criterio) h += card('Pulmão', 'amarelo', 'Rastreamento populacional <strong>não recomendado</strong> pelo INCA. Este paciente atende ao perfil dos estudos (50–80 anos, ≥ 20 maços-ano, fumante ou que parou há &lt; 15 anos): a TC de baixa dose pode reduzir mortalidade, mas há riscos na investigação de achados; <strong>decisão compartilhada</strong> com o paciente. Oferecer <strong>cessação do tabagismo</strong> em qualquer caso.', 'Recomenda TC de baixa dose anual (grau B) para este perfil, se apto a tratamento curativo.');
-    else if (tab === 'nunca' || isNaN(macos)) h += card('Pulmão', 'cinza', 'Rastreamento na população geral <strong>não recomendado</strong> (INCA). ' + (tab === 'atual' || tab === 'ex' ? 'Informe os maços-ano para avaliar o perfil dos estudos. ' : '') + 'Priorizar prevenção e cessação do tabagismo.', 'Sem indicação fora do perfil de alto risco.');
-    else h += card('Pulmão', 'cinza', 'Rastreamento populacional <strong>não recomendado</strong> (INCA); não atende ao perfil de alto risco dos estudos (50–80 anos, ≥ 20 maços-ano, fumante atual ou que parou há &lt; 15 anos). Oferecer cessação do tabagismo.', criterioUsp ? 'Perfil elegível apenas pelo limite de 15 anos (parou há exatamente 15 anos).' : 'Fora do perfil de rastreamento.');
+    if (criterio) h += card('Pulmão', 'amarelo', 'Rastreamento populacional <strong>não recomendado</strong> pelo INCA. Este paciente atende ao perfil dos estudos (50–80 anos, ≥ 20 maços-ano, fumante ou que parou há &lt; 15 anos): a TC de baixa dose pode reduzir mortalidade, mas há riscos na investigação de achados; <strong>decisão compartilhada</strong> com o paciente. Oferecer <strong>cessação do tabagismo</strong> em qualquer caso. <a class=\"underline font-bold\" href=\"calculadora-tabagismo.html\">Calcular carga tabágica e Fagerström</a>.', 'Recomenda TC de baixa dose anual (grau B) para este perfil, se apto a tratamento curativo.');
+    else if (tab === 'nunca' || isNaN(macos)) h += card('Pulmão', 'cinza', 'Rastreamento na população geral <strong>não recomendado</strong> (INCA). ' + (tab === 'atual' || tab === 'ex' ? 'Informe os maços-ano para avaliar o perfil dos estudos. ' : '') + 'Priorizar prevenção e cessação do tabagismo. <a class=\"underline font-bold\" href=\"calculadora-tabagismo.html\">Calcular carga tabágica e Fagerström</a>.', 'Sem indicação fora do perfil de alto risco.');
+    else h += card('Pulmão', 'cinza', 'Rastreamento populacional <strong>não recomendado</strong> (INCA); não atende ao perfil de alto risco dos estudos (50–80 anos, ≥ 20 maços-ano, fumante atual ou que parou há &lt; 15 anos). Oferecer cessação do tabagismo. <a class=\"underline font-bold\" href=\"calculadora-tabagismo.html\">Calcular carga tabágica e Fagerström</a>.', criterioUsp ? 'Perfil elegível apenas pelo limite de 15 anos (parou há exatamente 15 anos).' : 'Fora do perfil de rastreamento.');
     res.innerHTML = h; res.classList.remove('hidden');
 }
 ['idade', 'sexo', 'imuno', 'histerec', 'nic', 'altorisco', 'tab', 'macos', 'parou', 'crc-risco', 'sint'].forEach(i => { $(i).addEventListener('input', atualizar); $(i).addEventListener('change', atualizar); });
+// Preenchimento via link (ex.: vindo da calculadora de tabagismo): ?idade=60&tab=atual&macos=25&parou=3
+(function () {
+    const q = new URLSearchParams(location.search), nm = v => v !== null && /^\d+(\.\d+)?$/.test(v);
+    ['idade', 'macos', 'parou'].forEach(k => { if (nm(q.get(k))) $(k).value = q.get(k); });
+    if (['atual', 'ex', 'nunca'].indexOf(q.get('tab')) >= 0) $('tab').value = q.get('tab');
+    atualizar();
+})();
 </script>
 <script src="assets/aviso.js" defer></script>
 <script src="assets/apoio.js" defer></script>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabagismo: Fagerström e Carga Tabágica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+        details > summary { list-style: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] .seta { transform: rotate(90deg); }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-orange-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Tabagismo: Fagerström e Carga Tabágica</h1>
+        <p class="text-orange-100 text-sm md:text-base">Dependência de nicotina, maços-ano e orientação de tratamento (PCDT do Ministério da Saúde)</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-orange-800 hover:bg-orange-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+
+    <form id="form" class="p-6 md:p-8 space-y-8" onsubmit="return false">
+
+        <!-- ================= SITUAÇÃO ================= -->
+        <section class="space-y-3">
+            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-orange-500 pl-3">Situação do tabagismo</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label for="situacao" class="block font-semibold text-gray-800 mb-1">Situação</label>
+                    <select id="situacao" class="w-full p-3 border border-gray-300 rounded-xl bg-white">
+                        <option value="atual" selected>Fumante atual</option>
+                        <option value="ex">Ex-fumante</option>
+                        <option value="nunca">Nunca fumou</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="idade" class="block font-semibold text-gray-800 mb-1">Idade (anos)</label>
+                    <input type="number" id="idade" min="0" max="120" inputmode="numeric" class="w-full p-3 border border-gray-300 rounded-xl">
+                </div>
+                <div id="bloco-parou" class="hidden">
+                    <label for="parou" class="block font-semibold text-gray-800 mb-1">Parou há (anos)</label>
+                    <input type="number" id="parou" min="0" max="80" step="0.5" inputmode="decimal" class="w-full p-3 border border-gray-300 rounded-xl">
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CARGA TABÁGICA ================= -->
+        <section id="sec-carga" class="space-y-3">
+            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-orange-500 pl-3">Carga tabágica (maços-ano)</h2>
+            <p class="text-sm text-gray-600">Informe cada fase do tabagismo. Se o consumo mudou ao longo da vida, adicione um período para cada fase (inclua o período atual).</p>
+            <div class="hidden sm:grid grid-cols-[1fr_1fr_2.5rem] gap-3 text-sm font-semibold text-gray-700 px-1" aria-hidden="true">
+                <span>Cigarros por dia</span><span>Anos fumando</span><span></span>
+            </div>
+            <div id="periodos" class="space-y-2"></div>
+            <button type="button" id="btn-add" class="px-4 py-2 text-sm font-bold text-orange-800 hover:bg-orange-50 border border-orange-300 rounded-lg transition">+ Adicionar período</button>
+            <div id="res-carga" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
+        </section>
+
+        <!-- ================= FAGERSTRÖM ================= -->
+        <section id="sec-fager" class="space-y-4">
+            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-orange-500 pl-3">Teste de Fagerström (dependência de nicotina)</h2>
+            <p class="text-sm text-gray-600">Para fumantes atuais. Pontuação de 0 a 10.</p>
+
+            <fieldset class="space-y-1">
+                <legend class="font-semibold text-gray-800">1. Quanto tempo após acordar você fuma o primeiro cigarro?</legend>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f1" value="3" class="w-5 h-5 shrink-0"> <span>Nos primeiros 5 minutos</span></label>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f1" value="2" class="w-5 h-5 shrink-0"> <span>De 6 a 30 minutos</span></label>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f1" value="1" class="w-5 h-5 shrink-0"> <span>De 31 a 60 minutos</span></label>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f1" value="0" class="w-5 h-5 shrink-0"> <span>Mais de 60 minutos</span></label>
+            </fieldset>
+
+            <fieldset class="space-y-1">
+                <legend class="font-semibold text-gray-800">2. Você acha difícil não fumar em lugares proibidos?</legend>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f2" value="1" class="w-5 h-5 shrink-0"> <span>Sim</span></label>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f2" value="0" class="w-5 h-5 shrink-0"> <span>Não</span></label>
+            </fieldset>
+
+            <fieldset class="space-y-1">
+                <legend class="font-semibold text-gray-800">3. Qual o cigarro do dia que traz mais satisfação?</legend>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f3" value="1" class="w-5 h-5 shrink-0"> <span>O primeiro da manhã</span></label>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f3" value="0" class="w-5 h-5 shrink-0"> <span>Os outros</span></label>
+            </fieldset>
+
+            <div>
+                <label for="cigdia" class="block font-semibold text-gray-800 mb-1">4. Quantos cigarros você fuma por dia?</label>
+                <input type="number" id="cigdia" min="0" max="200" step="1" inputmode="numeric" class="w-full sm:w-48 p-3 border border-gray-300 rounded-xl text-lg">
+                <p id="f4-pontos" class="text-sm text-gray-500 mt-1">Até 10 = 0 ponto; 11 a 20 = 1; 21 a 30 = 2; 31 ou mais = 3.</p>
+            </div>
+
+            <fieldset class="space-y-1">
+                <legend class="font-semibold text-gray-800">5. Você fuma mais frequentemente pela manhã?</legend>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f5" value="1" class="w-5 h-5 shrink-0"> <span>Sim</span></label>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f5" value="0" class="w-5 h-5 shrink-0"> <span>Não</span></label>
+            </fieldset>
+
+            <fieldset class="space-y-1">
+                <legend class="font-semibold text-gray-800">6. Você fuma mesmo doente, quando precisa ficar acamado a maior parte do tempo?</legend>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f6" value="1" class="w-5 h-5 shrink-0"> <span>Sim</span></label>
+                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="f6" value="0" class="w-5 h-5 shrink-0"> <span>Não</span></label>
+            </fieldset>
+
+            <div id="res-fager" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
+        </section>
+
+        <!-- ================= CONDUTA (PCDT) ================= -->
+        <section id="sec-conduta" class="hidden space-y-3">
+            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-orange-500 pl-3">Tratamento: resumo do PCDT do Tabagismo (2020)</h2>
+            <div id="conduta" class="space-y-2 text-sm text-gray-800"></div>
+        </section>
+
+        <!-- ================= CUSTO ================= -->
+        <section id="sec-custo" class="hidden space-y-3">
+            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-orange-500 pl-3">Quanto o cigarro custa</h2>
+            <div>
+                <label for="preco" class="block font-semibold text-gray-800 mb-1">Preço do maço (R$, 20 cigarros)</label>
+                <input type="number" id="preco" min="0" step="0.01" inputmode="decimal" class="w-full sm:w-48 p-3 border border-gray-300 rounded-xl text-lg">
+            </div>
+            <div id="res-custo" class="hidden p-4 rounded-2xl border-2 bg-green-50 border-green-500 text-green-800 text-sm font-medium space-y-1" role="status" aria-live="polite"></div>
+        </section>
+
+        <!-- ================= RESUMO ================= -->
+        <section id="sec-resumo" class="hidden space-y-2">
+            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-orange-500 pl-3">Resumo para o prontuário</h2>
+            <textarea id="resumo" rows="4" class="w-full p-3 border border-gray-300 rounded-xl text-sm" aria-label="Resumo para o prontuário (editável)"></textarea>
+            <div class="flex flex-wrap gap-2">
+                <button type="button" id="btn-copiar" class="px-4 py-2 bg-orange-700 hover:bg-orange-800 text-white text-sm font-bold rounded-lg">Copiar resumo</button>
+            </div>
+        </section>
+
+        <div class="flex flex-wrap gap-3">
+            <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar tudo</button>
+        </div>
+
+        <details class="text-sm text-gray-600">
+            <summary class="font-semibold flex items-center gap-2"><span class="seta transition-transform">▶</span> Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Teste de Fagerström (FTND) e classificação do escore total (0–2 muito baixa; 3–4 baixa; 5 média; 6–7 elevada; 8–10 muito elevada): Ministério da Saúde. Protocolo Clínico e Diretrizes Terapêuticas do Tabagismo, Portaria Conjunta SCTIE/SAES/MS nº 10, de 16/04/2020. Versão original: Heatherton TF et al. Br J Addict 1991;86:1119-27; adaptação brasileira: Carmo JT, Pueyo AA. Rev Bras Med 2002;59:73-80.</li>
+                <li>Pergunta 4: o PCDT escreve «menos de 10» e «mais de 31»; aqui foi usada a faixa clássica do instrumento: até 10, 11–20, 21–30 e 31 ou mais.</li>
+                <li>O próprio PCDT lembra que o teste não abrange todas as situações do fumante (por exemplo, quem fuma em outros horários e locais por causa das leis de ambientes livres de fumo) e não deve ser usado isoladamente.</li>
+                <li>Carga tabágica (maços-ano) = (cigarros por dia ÷ 20) × anos de tabagismo; períodos com consumos diferentes são somados. Cigarros de palha, charutos, cachimbo, narguilé e cigarros eletrônicos não têm equivalência padronizada em maços-ano.</li>
+                <li>Tratamento (dose inicial do adesivo por número de cigarros, associação de adesivos, esquema da bupropiona, contraindicações e acompanhamento por até 12 meses): PCDT do Tabagismo, itens 7.5 a 7.7 e Tabela 1. A vareniclina não faz parte desse PCDT.</li>
+                <li>Rastreamento de câncer de pulmão: o INCA não recomenda rastreamento populacional; a tomografia de baixa dose pode reduzir a mortalidade em grandes fumantes (20 maços-ano, 50 a 80 anos, fumantes atuais ou que pararam há menos de 15 anos), com decisão compartilhada.</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const CORES = {
+    verde: 'bg-green-50 border-green-500 text-green-800',
+    amarelo: 'bg-yellow-50 border-yellow-400 text-yellow-800',
+    laranja: 'bg-orange-50 border-orange-500 text-orange-800',
+    vermelho: 'bg-red-50 border-red-500 text-red-800',
+    azul: 'bg-blue-50 border-blue-500 text-blue-800',
+    cinza: 'bg-gray-50 border-gray-300 text-gray-800'
+};
+const fmtN = (n, d) => n.toLocaleString('pt-BR', { minimumFractionDigits: d || 0, maximumFractionDigits: d == null ? 1 : d });
+const fmtR = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const num = id => { const v = $(id).value; return v === '' ? null : Number(v); };
+const radio = nome => { const el = document.querySelector('input[name="' + nome + '"]:checked'); return el ? Number(el.value) : null; };
+
+function caixa(el, cor, titulo, linhas) {
+    el.className = 'p-5 rounded-2xl border-2 space-y-2 ' + CORES[cor];
+    el.textContent = '';
+    const h = document.createElement('p'); h.className = 'text-2xl font-black'; h.textContent = titulo; el.appendChild(h);
+    (linhas || []).forEach(t => {
+        const p = document.createElement('p'); p.className = 'text-sm font-medium';
+        if (typeof t === 'string') p.textContent = t; else p.appendChild(t);
+        el.appendChild(p);
+    });
+}
+function link(href, texto) { const a = document.createElement('a'); a.href = href; a.textContent = texto; a.className = 'underline font-bold'; return a; }
+
+// ---------- períodos de tabagismo ----------
+let prefillAuto = true; // enquanto o usuário não digitar a 1ª linha, ela copia o item 4
+function novoPeriodo(cig, anos) {
+    const linha = document.createElement('div');
+    linha.className = 'periodo grid grid-cols-[1fr_1fr_2.5rem] gap-3 items-center';
+    const mk = (cls, max, step, ph, rot) => {
+        const i = document.createElement('input'); i.type = 'number'; i.min = '0'; i.max = max; i.step = step; i.inputMode = 'decimal';
+        i.className = cls + ' p-3 border border-gray-300 rounded-xl'; i.placeholder = ph; i.setAttribute('aria-label', rot); return i;
+    };
+    const c = mk('p-cig', '200', '1', 'cigarros/dia', 'Cigarros por dia'), a = mk('p-anos', '90', '0.5', 'anos', 'Anos fumando');
+    if (cig != null) c.value = cig; if (anos != null) a.value = anos;
+    const rm = document.createElement('button'); rm.type = 'button'; rm.textContent = '×'; rm.setAttribute('aria-label', 'Remover período');
+    rm.className = 'text-xl font-bold text-gray-500 hover:text-red-700';
+    rm.addEventListener('click', () => { if (document.querySelectorAll('.periodo').length > 1) { linha.remove(); atualizar(); } else { c.value = ''; a.value = ''; atualizar(); } });
+    c.addEventListener('input', () => { if (linha === document.querySelector('.periodo')) prefillAuto = false; });
+    linha.append(c, a, rm);
+    $('periodos').appendChild(linha);
+    return linha;
+}
+function periodos() {
+    return Array.from(document.querySelectorAll('.periodo')).map(l => ({
+        cig: l.querySelector('.p-cig').value === '' ? null : Number(l.querySelector('.p-cig').value),
+        anos: l.querySelector('.p-anos').value === '' ? null : Number(l.querySelector('.p-anos').value)
+    }));
+}
+
+// ---------- Fagerström ----------
+function pontosCig(n) { return n <= 10 ? 0 : n <= 20 ? 1 : n <= 30 ? 2 : 3; }
+function classeFager(s) {
+    if (s <= 2) return ['verde', 'Dependência muito baixa'];
+    if (s <= 4) return ['verde', 'Dependência baixa'];
+    if (s === 5) return ['amarelo', 'Dependência média'];
+    if (s <= 7) return ['laranja', 'Dependência elevada'];
+    return ['vermelho', 'Dependência muito elevada'];
+}
+
+// ---------- conduta (PCDT 2020) ----------
+function bloco(titulo, itens, destaque) {
+    const d = document.createElement('div');
+    d.className = 'p-3 rounded-xl border ' + (destaque ? 'border-orange-300 bg-orange-50 text-orange-900' : 'border-gray-200 bg-gray-50 text-gray-800');
+    const h = document.createElement('p'); h.className = 'font-bold mb-1'; h.textContent = titulo; d.appendChild(h);
+    const ul = document.createElement('ul'); ul.className = 'list-disc pl-5 space-y-1';
+    itens.forEach(t => { const li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
+    d.appendChild(ul); return d;
+}
+function conduta(cig, idade, escore, f1) {
+    const box = $('conduta'); box.textContent = '';
+    if (idade != null && idade < 18) {
+        box.appendChild(bloco('Menor de 18 anos', ['O PCDT indica aconselhamento estruturado/abordagem intensiva (de preferência em grupo). Não há evidência suficiente para farmacoterapia em menores de 18 anos.'], true));
+        return;
+    }
+    // aconselhamento isolado
+    const crit = [];
+    if (cig <= 5) crit.push('até 5 cigarros por dia');
+    if (f1 === 0) crit.push('primeiro cigarro 1 hora ou mais após acordar');
+    if (escore != null && escore <= 4) crit.push('escore de Fagerström igual ou inferior a 4');
+    box.appendChild(bloco('Aconselhamento estruturado', [
+        'A abordagem básica (PAAPA: Perguntar e Avaliar, Aconselhar, Preparar e Acompanhar) leva de 3 a 5 minutos na consulta de rotina. O aconselhamento estruturado são 4 sessões iniciais, de preferência semanais.',
+        'A associação de aconselhamento e medicamento é mais eficaz que cada um isolado. O aconselhamento sem medicamento é preconizado para quem tem uma ou mais destas características: ausência de sintomas de abstinência, até 5 cigarros por dia, primeiro cigarro 1 hora ou mais após acordar, ou Fagerström igual ou inferior a 4.',
+        crit.length ? 'Neste caso: ' + crit.join('; ') + '. (Sintomas de abstinência não foram avaliados aqui.)' : 'Neste caso nenhuma dessas características aparece nos dados informados (sintomas de abstinência não foram avaliados aqui).'
+    ], true));
+
+    // TRN
+    let trn;
+    if (cig <= 5) trn = 'Até 5 cigarros por dia: adesivo não indicado. Começar com goma ou pastilha (não ultrapassar 5 unidades de 2 mg ou 3 unidades de 4 mg por dia).';
+    else if (cig <= 10) trn = 'De 6 a 10 cigarros por dia: começar com adesivo de 7 mg/dia.';
+    else if (cig < 20) trn = 'De 11 a 19 cigarros por dia: começar com adesivo de 14 mg/dia.';
+    else trn = '20 ou mais cigarros por dia: começar com adesivo de 21 mg/dia.';
+    const itensTRN = [
+        trn,
+        'Regra de cálculo: 1 mg de nicotina para cada cigarro fumado; não ultrapassar 42 mg/dia.',
+        'Esquema padrão a partir de 21 mg: 21 mg (1ª a 4ª semana), 14 mg (5ª a 8ª), 7 mg (9ª a 12ª). Para doses iniciais menores, seguir as etapas seguintes do mesmo esquema (PCDT, item 7.5). Aplicar pela manhã, em área coberta, com rodízio do local.',
+        'Goma ou pastilha de 2 mg: para os momentos de maior fissura (até 5 por dia na combinação com adesivo; sozinhas, até 15 por dia).',
+        'A reposição só começa na data em que o paciente deixa de fumar e não deve ser usada junto com o cigarro.'
+    ];
+    if (cig > 20) {
+        const assoc = cig > 40 ? '21 mg + 21 mg/dia' : cig > 30 ? '21 mg + 14 mg/dia' : '21 mg + 7 mg/dia';
+        itensTRN.splice(2, 0, 'Mais de 20 cigarros por dia, com dificuldade de reduzir mas motivado a parar: pode-se associar adesivos (' + assoc + '); retirar 7 mg por semana conforme os sintomas de abstinência.');
+    }
+    box.appendChild(bloco('Terapia de reposição de nicotina (TRN)', itensTRN));
+    box.appendChild(bloco('Contraindicações da TRN', [
+        'Adesivo: infarto agudo do miocárdio nos últimos 15 dias, arritmias graves (como fibrilação atrial), angina instável, doença vascular isquêmica periférica, úlcera péptica, doenças de pele, gravidez e lactação.',
+        'Goma: incapacidade de mascar, lesões da mucosa oral, úlcera péptica, subluxação da ATM, prótese dentária móvel. Pastilha: lesões da mucosa oral, úlcera péptica, prótese dentária móvel, edema de Reinke.'
+    ]));
+    box.appendChild(bloco('Bupropiona (alternativa; receita de controle especial)', [
+        'Comprimido de 150 mg: do 1º ao 3º dia, 1 comprimido pela manhã; do 4º ao 84º dia, 1 comprimido pela manhã e outro 8 horas depois (não tomar a 2ª dose após as 16 h, pelo risco de insônia). Máximo de 300 mg/dia.',
+        'Idosos, insuficiência renal crônica ou hepatopatia crônica: considerar 150 mg/dia em dose única matinal.',
+        'Contraindicações absolutas: epilepsia, convulsão febril na infância, tumor do sistema nervoso central, traumatismo cranioencefálico, anormalidades no EEG e uso de IMAO (aguardar 15 dias após suspender o IMAO).',
+        'Interações descritas: carbamazepina, barbitúricos, fenitoína, antipsicóticos, corticoides e hipoglicemiantes.'
+    ]));
+    box.appendChild(bloco('Acompanhamento', [
+        'Retornos frequentes no início, quando o risco de recaída é maior; acompanhar por até 12 meses. Apoio telefônico: Disque Saúde 136.',
+        'Este quadro resume o PCDT; a decisão de prescrever e a dose são do profissional que atende.'
+    ]));
+}
+
+// ---------- atualização geral ----------
+function atualizar() {
+    const sit = $('situacao').value, idade = num('idade'), parou = num('parou');
+    $('bloco-parou').classList.toggle('hidden', sit !== 'ex');
+    const atual = sit === 'atual';
+    $('sec-fager').classList.toggle('hidden', !atual);
+    $('sec-carga').classList.toggle('hidden', sit === 'nunca');
+    const cig = num('cigdia');
+
+    // prefill: 1ª linha copia o item 4 enquanto não houver edição manual
+    const primeira = document.querySelector('.periodo .p-cig');
+    if (prefillAuto && primeira && cig != null) primeira.value = cig;
+
+    // carga tabágica
+    const res = $('res-carga'); let carga = null, partes = [];
+    if (sit === 'nunca') { carga = 0; }
+    else {
+        let soma = 0, incompleto = false;
+        periodos().forEach(p => {
+            if (p.cig != null && p.anos != null && p.cig > 0 && p.anos > 0) { soma += (p.cig / 20) * p.anos; partes.push(fmtN(p.cig) + ' cig/dia × ' + fmtN(p.anos) + (p.anos === 1 ? ' ano' : ' anos')); }
+            else if ((p.cig != null && p.cig > 0) !== (p.anos != null && p.anos > 0)) incompleto = true;
+        });
+        if (partes.length) carga = soma;
+        if (carga == null) { res.className = 'hidden'; if (incompleto) { res.className = 'p-4 rounded-2xl border-2 ' + CORES.cinza; res.textContent = 'Preencha cigarros por dia e anos fumando no mesmo período.'; } }
+        else {
+            const linhas = ['(cigarros por dia ÷ 20) × anos fumando, somando os períodos: ' + partes.join(' + ') + '.'];
+            if (incompleto) linhas.push('Há um período incompleto, que não entrou na soma.');
+            const apto = idade != null && idade >= 50 && idade <= 80 && carga >= 20 && (atual || (sit === 'ex' && parou != null && parou < 15));
+            if (idade != null && (sit === 'atual' || (sit === 'ex' && parou != null))) {
+                const motivos = [];
+                if (idade < 50 || idade > 80) motivos.push('idade fora de 50 a 80 anos');
+                if (carga < 20) motivos.push('carga abaixo de 20 maços-ano');
+                if (sit === 'ex' && parou >= 15) motivos.push('parou há 15 anos ou mais');
+                const p = document.createElement('span');
+                p.append(apto ? 'Atende ao perfil dos estudos de rastreamento de câncer de pulmão (50 a 80 anos, 20 maços-ano ou mais, fumante atual ou que parou há menos de 15 anos). O INCA não recomenda o rastreamento populacional; a decisão é compartilhada. '
+                              : 'Não atende ao perfil dos estudos de rastreamento de câncer de pulmão (' + motivos.join('; ') + '). ');
+                const q = new URLSearchParams({ idade: String(idade), tab: sit, macos: String(Math.round(carga * 10) / 10) });
+                if (sit === 'ex') q.set('parou', String(parou));
+                p.appendChild(link('rastreamento-cancer.html?' + q.toString(), 'Abrir o rastreamento de câncer com estes dados'));
+                linhas.push(p);
+            } else linhas.push('Informe a idade' + (sit === 'ex' ? ' e há quantos anos parou' : '') + ' para comparar com o perfil de rastreamento de câncer de pulmão.');
+            caixa(res, carga >= 20 ? 'laranja' : 'azul', fmtN(carga, 1) + ' maços-ano', linhas);
+        }
+    }
+
+    // Fagerström
+    const rf = $('res-fager'); const itens = [radio('f1'), radio('f2'), radio('f3'), cig == null ? null : pontosCig(cig), radio('f5'), radio('f6')];
+    $('f4-pontos').textContent = cig == null ? 'Até 10 = 0 ponto; 11 a 20 = 1; 21 a 30 = 2; 31 ou mais = 3.' : 'Pontuação desta pergunta: ' + pontosCig(cig) + '.';
+    let escore = null;
+    if (atual) {
+        const faltam = itens.filter(v => v == null).length;
+        if (faltam === 0) {
+            escore = itens.reduce((a, b) => a + b, 0);
+            const [cor, nome] = classeFager(escore);
+            const linhas = [nome + (escore >= 6 ? '. Maior chance de sintomas desconfortáveis da síndrome de abstinência ao parar.' : '.')];
+            linhas.push('O teste não substitui a avaliação clínica: considere também sintomas de abstinência, tentativas anteriores e motivação.');
+            caixa(rf, cor, escore + ' de 10 pontos', linhas);
+        } else { rf.className = 'hidden'; }
+    } else rf.className = 'hidden';
+
+    // conduta e custo (fumante atual com cigarros/dia informado)
+    const mostraConduta = atual && cig != null && cig > 0;
+    $('sec-conduta').classList.toggle('hidden', !mostraConduta);
+    if (mostraConduta) conduta(cig, idade, escore, radio('f1'));
+    $('sec-custo').classList.toggle('hidden', !mostraConduta);
+    const preco = num('preco'), rc = $('res-custo');
+    if (mostraConduta && preco != null && preco > 0) {
+        const dia = (cig / 20) * preco;
+        rc.className = 'p-4 rounded-2xl border-2 bg-green-50 border-green-500 text-green-800 text-sm font-medium space-y-1';
+        rc.textContent = '';
+        [['Por dia: ', fmtR(dia)], ['Por mês (30 dias): ', fmtR(dia * 30)], ['Por ano: ', fmtR(dia * 365)], ['Em 10 anos: ', fmtR(dia * 3650)]].forEach(([r, v]) => {
+            const p = document.createElement('p'); p.textContent = r; const b = document.createElement('strong'); b.textContent = v; p.appendChild(b); rc.appendChild(p);
+        });
+    } else rc.className = 'hidden';
+
+    // resumo
+    const temResumo = (carga != null && sit !== 'nunca') || escore != null || sit === 'nunca';
+    $('sec-resumo').classList.toggle('hidden', !temResumo);
+    if (temResumo && !$('resumo').dataset.editado) {
+        let t;
+        if (sit === 'nunca') t = 'Nunca fumou.';
+        else {
+            t = sit === 'atual' ? 'Tabagismo: fumante atual' + (cig != null ? ', ' + cig + ' cigarros/dia' : '') + '.' : 'Ex-fumante' + (parou != null ? ' há ' + fmtN(parou) + (parou === 1 ? ' ano' : ' anos') : '') + '.';
+            if (carga != null) t += ' Carga tabágica: ' + fmtN(carga, 1) + ' maços-ano (' + partes.join('; ') + ').';
+            if (escore != null) t += ' Teste de Fagerström: ' + escore + '/10 (' + classeFager(escore)[1].toLowerCase() + ').';
+        }
+        $('resumo').value = t;
+    }
+}
+
+$('resumo').addEventListener('input', () => { $('resumo').dataset.editado = '1'; });
+$('btn-copiar').addEventListener('click', () => {
+    const t = $('resumo'); const ok = () => { $('btn-copiar').textContent = 'Copiado!'; setTimeout(() => $('btn-copiar').textContent = 'Copiar resumo', 1800); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t.value).then(ok, () => { t.select(); document.execCommand('copy'); ok(); });
+    else { t.select(); document.execCommand('copy'); ok(); }
+});
+$('btn-add').addEventListener('click', () => { novoPeriodo(); atualizar(); });
+$('btn-limpar').addEventListener('click', () => {
+    $('form').reset(); $('periodos').textContent = ''; novoPeriodo(); prefillAuto = true; delete $('resumo').dataset.editado; atualizar();
+});
+$('form').addEventListener('input', atualizar);
+$('form').addEventListener('change', atualizar);
+novoPeriodo();
+atualizar();
+</script>
+<script src="assets/aviso.js" defer></script>
+<script src="assets/apoio.js" defer></script>
+</body>
+</html>
