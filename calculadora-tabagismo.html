@@ -108,20 +108,29 @@
             <div id="res-fager" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
         </section>
 
+        <!-- ================= CUSTO ================= -->
+        <section id="sec-custo" class="hidden space-y-3">
+            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-orange-500 pl-3">Quanto o cigarro custa</h2>
+            <p class="text-sm text-gray-600">Informe o preço do maço que o paciente compra. O cálculo usa os cigarros por dia da pergunta 4 do teste.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="preco" class="block font-semibold text-gray-800 mb-1">Preço do maço (R$)</label>
+                    <input type="number" id="preco" min="0" step="0.01" inputmode="decimal" placeholder="Ex.: 10,50" class="w-full p-3 border border-gray-300 rounded-xl text-lg">
+                </div>
+                <div>
+                    <label for="cigmaco" class="block font-semibold text-gray-800 mb-1">Cigarros por maço</label>
+                    <input type="number" id="cigmaco" min="1" max="100" step="1" value="20" inputmode="numeric" class="w-full p-3 border border-gray-300 rounded-xl text-lg">
+                    <p class="text-sm text-gray-500 mt-1">Padrão: 20. Altere se o maço tiver outra quantidade.</p>
+                </div>
+            </div>
+            <p id="aviso-custo" class="hidden text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900"></p>
+            <div id="res-custo" class="hidden p-4 rounded-2xl border-2 bg-green-50 border-green-500 text-green-800 text-sm font-medium space-y-1" role="status" aria-live="polite"></div>
+        </section>
+
         <!-- ================= CONDUTA (PCDT) ================= -->
         <section id="sec-conduta" class="hidden space-y-3">
             <h2 class="text-xl font-bold text-gray-900 border-l-4 border-orange-500 pl-3">Tratamento: resumo do PCDT do Tabagismo (2020)</h2>
             <div id="conduta" class="space-y-2 text-sm text-gray-800"></div>
-        </section>
-
-        <!-- ================= CUSTO ================= -->
-        <section id="sec-custo" class="hidden space-y-3">
-            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-orange-500 pl-3">Quanto o cigarro custa</h2>
-            <div>
-                <label for="preco" class="block font-semibold text-gray-800 mb-1">Preço do maço (R$, 20 cigarros)</label>
-                <input type="number" id="preco" min="0" step="0.01" inputmode="decimal" class="w-full sm:w-48 p-3 border border-gray-300 rounded-xl text-lg">
-            </div>
-            <div id="res-custo" class="hidden p-4 rounded-2xl border-2 bg-green-50 border-green-500 text-green-800 text-sm font-medium space-y-1" role="status" aria-live="polite"></div>
         </section>
 
         <!-- ================= RESUMO ================= -->
@@ -162,6 +171,8 @@ const CORES = {
 };
 const fmtN = (n, d) => n.toLocaleString('pt-BR', { minimumFractionDigits: d || 0, maximumFractionDigits: d == null ? 1 : d });
 const fmtR = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+// valores em centavos, com arredondamento para cima na meia casa (evita erro de 1 centavo do ponto flutuante)
+const fmtC = c => fmtR(Math.round(c + 1e-7) / 100);
 const num = id => { const v = $(id).value; return v === '' ? null : Number(v); };
 const radio = nome => { const el = document.querySelector('input[name="' + nome + '"]:checked'); return el ? Number(el.value) : null; };
 
@@ -337,15 +348,19 @@ function atualizar() {
     const mostraConduta = atual && cig != null && cig > 0;
     $('sec-conduta').classList.toggle('hidden', !mostraConduta);
     if (mostraConduta) conduta(cig, idade, escore, radio('f1'));
-    $('sec-custo').classList.toggle('hidden', !mostraConduta);
-    const preco = num('preco'), rc = $('res-custo');
-    if (mostraConduta && preco != null && preco > 0) {
-        const dia = (cig / 20) * preco;
+    $('sec-custo').classList.toggle('hidden', !atual);
+    const preco = num('preco'), maco = num('cigmaco') || 20, rc = $('res-custo'), av = $('aviso-custo');
+    const temCusto = atual && cig != null && cig > 0 && preco != null && preco > 0;
+    av.classList.toggle('hidden', !(atual && preco != null && preco > 0 && !(cig != null && cig > 0)));
+    av.textContent = 'Informe quantos cigarros por dia o paciente fuma (pergunta 4 do teste) para calcular o gasto.';
+    if (temCusto) {
+        const pc = Math.round(preco * 100), unit = pc / maco, dia = cig * pc / maco, ano = dia * 365;
         rc.className = 'p-4 rounded-2xl border-2 bg-green-50 border-green-500 text-green-800 text-sm font-medium space-y-1';
         rc.textContent = '';
-        [['Por dia: ', fmtR(dia)], ['Por mês (30 dias): ', fmtR(dia * 30)], ['Por ano: ', fmtR(dia * 365)], ['Em 10 anos: ', fmtR(dia * 3650)]].forEach(([r, v]) => {
+        [['Cada cigarro: ', fmtC(unit)], ['Por dia (' + fmtN(cig) + ' cigarros): ', fmtC(dia)], ['Por mês: ', fmtC(ano / 12)], ['Por ano: ', fmtC(ano)], ['Em 10 anos: ', fmtC(ano * 10)]].forEach(([r, v]) => {
             const p = document.createElement('p'); p.textContent = r; const b = document.createElement('strong'); b.textContent = v; p.appendChild(b); rc.appendChild(p);
         });
+        const nota = document.createElement('p'); nota.className = 'text-xs font-normal'; nota.textContent = 'Valores no preço informado, sem correção por inflação; mês = ano ÷ 12.'; rc.appendChild(nota);
     } else rc.className = 'hidden';
 
     // resumo
