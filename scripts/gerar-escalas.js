@@ -1,5 +1,5 @@
 // Gera as páginas das escalas e regras clínicas simples (CURB-65, Centor/McIsaac, CHA2DS2-VASc,
-// PHQ-9, GAD-7, AUDIT-C e Ottawa do tornozelo) a partir dos conteúdos definidos abaixo.
+// PHQ-9, GAD-7, AUDIT-C, MDQ e Ottawa do tornozelo) a partir dos conteúdos definidos abaixo.
 // Uso: node scripts/gerar-escalas.js
 const fs = require('fs');
 const raiz = __dirname + '/..';
@@ -89,6 +89,7 @@ $('btn-limpar').addEventListener('click', () => { $('form').reset(); ocultar(); 
 ${script}
 </script>
 <script src="assets/aviso.js" defer></script>
+<script src="assets/apoio.js" defer></script>
 </body>
 </html>
 `;
@@ -257,7 +258,7 @@ pagina({
     ...PHQ.map((t, i) => radio('q' + (i + 1), (i + 1) + '. ' + t, FREQ)),
     radio('func', 'Se algum problema foi assinalado, o quanto ele dificultou o trabalho, as tarefas de casa ou o convívio com as pessoas? (não entra no escore)',
       [['Nenhuma dificuldade', 0], ['Alguma dificuldade', 1], ['Muita dificuldade', 2], ['Extrema dificuldade', 3]]),
-    nota('O PHQ-9 é uma ferramenta de rastreio e acompanhamento: o diagnóstico de depressão é clínico. Antes de iniciar antidepressivo, pergunte sobre episódios de mania ou hipomania.')
+    nota('O PHQ-9 é uma ferramenta de rastreio e acompanhamento: o diagnóstico de depressão é clínico. Antes de iniciar antidepressivo, pergunte sobre episódios de mania ou hipomania; o <a class="underline" href="questionario-mdq.html">MDQ</a> ajuda a rastrear o espectro bipolar.')
   ].join('\n'),
   script: `
 function atualizar() {
@@ -324,6 +325,113 @@ function atualizar() {
     'Spitzer RL et al. Arch Intern Med 2006;166:1092-7.',
     'Kroenke K et al. Ann Intern Med 2007;146:317-25 (uso na atenção primária). Há versão validada para o português do Brasil (Moreno AL et al., 2016).',
     'Faixas: 0-4 mínima, 5-9 leve, 10-14 moderada e 15-21 grave.'
+  ]
+});
+
+// ======================= MDQ =======================
+// Texto: versão brasileira validada (B-MDQ), apêndice de Castelo MS et al., Rev Bras Psiquiatr 2010 (acesso aberto, CC BY).
+// O item 9 (mais ativo / fez mais coisas) não consta do apêndice publicado: texto adaptado da tradução usada em
+// Soares OT (tese, USP, 2010), no estilo verbal do restante da versão. Marcado com * na página.
+const MDQ = [
+  'você se sentia tão bem ou tão para cima a ponto das outras pessoas pensarem que você não estava no seu jeito normal, ou você estava tão para cima a ponto de se envolver em problemas?',
+  'você ficava tão irritado a ponto de gritar com as pessoas ou começava brigas ou discussões?',
+  'você se sentia muito mais confiante em você mesmo do que o normal?',
+  'você dormia menos que de costume e nem sequer sentia falta do sono?',
+  'você falava muito mais ou falava mais rápido que o seu normal?',
+  'os pensamentos corriam rapidamente em sua cabeça ou você não conseguia acalmar sua mente?',
+  'você se distraía com tanta facilidade com as coisas ao seu redor, a ponto de ter dificuldade em manter a concentração ou o foco em uma atividade?',
+  'você se sentia com muito mais energia que o seu normal?',
+  'você ficava muito mais ativo ou fazia muito mais coisas do que o seu normal? *',
+  'você ficava mais dado com as pessoas e mais expansivo que o seu normal, por exemplo, telefonava para os amigos no meio da noite?',
+  'você ficava mais interessado em sexo que o normal?',
+  'você fazia coisas que não eram comuns para você ou que faziam outras pessoas pensarem que você era exagerado, bobo ou se arriscava mais?',
+  'gastar dinheiro causava problemas para você ou para sua família?'
+];
+pagina({
+  arquivo: 'questionario-mdq.html',
+  titulo: 'Questionário MDQ (Transtorno Bipolar)',
+  sub: 'Questionário de Transtornos do Humor (MDQ): rastreio de transtorno do espectro bipolar, versão brasileira validada',
+  hue: 'purple',
+  corpo: [
+    nota('Instrumento de <strong>rastreio</strong>, não de diagnóstico. Texto da <strong>versão brasileira validada</strong> (B-MDQ; Castelo et al., 2010). Marque os itens em que o(a) paciente respondeu <strong>sim</strong>.'),
+    '        <p class="text-gray-700"><strong>Pergunta 1.</strong> Já ocorreu algum período na sua vida em que seu jeito de ser mudou? E que…</p>',
+    ...MDQ.map((t, i) => check('s' + (i + 1), (i + 1) + '. … ' + t)),
+    radio('simult', 'Pergunta 2. Se você marcou SIM em mais de uma das perguntas acima, várias delas ocorreram durante o mesmo período de tempo?', [['Sim', 1], ['Não', 0]], 'Só é necessária se houver 7 ou mais itens marcados.'),
+    radio('impacto', 'Pergunta 3. Até que ponto o problema o afetou, como sentir-se incapaz de trabalhar, ter dificuldades com a família, com dinheiro ou problemas com a justiça, envolver-se em discussões ou brigas?', [['Nenhum problema', 0], ['Problema pouco grave', 1], ['Problema mais ou menos grave', 2], ['Problema muito grave', 3]], 'Só é necessária se houver 7 ou mais itens marcados. Para os critérios originais, «mais ou menos grave» e «muito grave» correspondem a problema moderado ou sério.'),
+    '        <p class="text-gray-700"><strong>Informações complementares</strong> (fora do instrumento e do escore):</p>',
+    check('fam', 'Parente consanguíneo com transtorno bipolar (maníaco-depressivo)'),
+    check('diag', 'Já recebeu o diagnóstico de transtorno bipolar de um profissional de saúde')
+  ].join('\n'),
+  script: `
+function atualizar() {
+    let n = 0;
+    for (let i = 1; i <= 13; i++) if ($('s' + i).checked) n++;
+    const simult = valorRadio('simult'), impacto = valorRadio('impacto');
+    if (n === 0 && simult === null && impacto === null && !$('fam').checked && !$('diag').checked) { ocultar(); return; }
+    const br = n >= 8;
+    const fam = $('fam').checked ? ' História familiar de transtorno bipolar.' : '';
+    const diag = $('diag').checked ? ' Diagnóstico prévio de transtorno bipolar referido.' : '';
+    const pre = 'MDQ (versão brasileira): ' + n + '/13 sintomas';
+    const nomesImp = ['nenhum problema', 'problema pouco grave', 'problema mais ou menos grave', 'problema muito grave'];
+    const linhaBr = 'Corte da versão brasileira validada (8 ou mais itens): ' + (br ? 'atingido' : 'não atingido') + '.';
+    const desempenho = 'Na validação brasileira (ambulatório psiquiátrico, n = 114), o corte de 8 ou mais itens teve sensibilidade de 0,91 e especificidade de 0,70. O desempenho na atenção primária ainda não foi determinado.';
+    const condutaPos = 'Sugere transtorno do espectro bipolar, a confirmar com entrevista clínica (história de mania ou hipomania, episódios depressivos, história familiar, uso de substâncias). Não é diagnóstico. Se houver depressão atual, investigue mania ou hipomania antes de prescrever antidepressivo e avalie também depressão, ansiedade (PHQ-9, GAD-7) e risco de suicídio.';
+    if (n < 7) {
+        mostrar('verde', 'MDQ: ' + n + ' de 13 sintomas. Rastreio negativo', [
+            'Menos de 7 sintomas: nem o corte da versão brasileira (8 ou mais itens) nem os critérios originais (7 ou mais itens) são atingidos. As perguntas 2 e 3 não alteram o resultado.',
+            'Um rastreio negativo não exclui o transtorno, principalmente se a suspeita clínica for alta: na população geral a sensibilidade do MDQ foi de apenas 0,28.',
+            'Resumo: ' + pre + '; rastreio negativo.' + fam + diag
+        ]);
+        return;
+    }
+    if (simult === null || impacto === null) {
+        if (br) {
+            mostrar('laranja', 'MDQ: ' + n + ' de 13 sintomas. Rastreio positivo pelo corte brasileiro', [
+                linhaBr + ' Responda as perguntas 2 e 3 para verificar também os critérios originais (mesmo período e problema moderado ou sério).',
+                condutaPos, desempenho,
+                'Resumo: ' + pre + '; corte brasileiro (8 ou mais) atingido; perguntas 2 e 3 não preenchidas.' + fam + diag
+            ]);
+        } else {
+            aviso(n + ' sintomas marcados (7 ou mais). Responda a pergunta 2 (mesmo período) e a pergunta 3 (problemas causados) para concluir.');
+        }
+        return;
+    }
+    const c2 = simult === 1, c3 = impacto >= 2, orig = c2 && c3;
+    const falhas = [];
+    if (!c2) falhas.push('os sintomas não ocorreram no mesmo período');
+    if (!c3) falhas.push('o problema causado foi ' + (impacto === 0 ? 'nenhum' : 'pouco grave'));
+    if (br && orig) {
+        mostrar('laranja', 'MDQ: ' + n + ' de 13 sintomas. Rastreio positivo', [
+            'O corte da versão brasileira (8 ou mais itens) e os critérios originais (7 ou mais itens, no mesmo período, com ' + nomesImp[impacto] + ') foram atendidos.',
+            condutaPos, desempenho,
+            'Resumo: ' + pre + '; sintomas no mesmo período; ' + nomesImp[impacto] + '; rastreio positivo (corte brasileiro e critérios originais).' + fam + diag
+        ]);
+    } else if (br) {
+        mostrar('laranja', 'MDQ: ' + n + ' de 13 sintomas. Rastreio positivo pelo corte brasileiro', [
+            linhaBr + ' Os critérios originais não foram atendidos: ' + falhas.join('; ') + '.',
+            condutaPos, desempenho,
+            'Resumo: ' + pre + '; corte brasileiro (8 ou mais) atingido; critérios originais não atendidos (' + falhas.join('; ') + ').' + fam + diag
+        ]);
+    } else if (orig) {
+        mostrar('laranja', 'MDQ: ' + n + ' de 13 sintomas. Rastreio positivo pelos critérios originais', [
+            'Os critérios originais foram atendidos (7 sintomas, no mesmo período, com ' + nomesImp[impacto] + '), mas o corte da versão brasileira (8 ou mais itens) não foi atingido.',
+            condutaPos,
+            'Resumo: ' + pre + '; critérios originais atendidos; corte brasileiro não atingido.' + fam + diag
+        ]);
+    } else {
+        mostrar('amarelo', 'MDQ: ' + n + ' de 13 sintomas. Rastreio negativo pelos critérios completos', [
+            'Há 7 sintomas, mas: ' + falhas.join('; ') + '. ' + linhaBr,
+            'Se a suspeita clínica persistir, avalie o histórico de humor e reaplique o questionário em outro momento.',
+            'Resumo: ' + pre + '; ' + falhas.join('; ') + '; rastreio negativo.' + fam + diag
+        ]);
+    }
+}`,
+  refs: [
+    'Versão brasileira validada: Castelo MS, Carvalho ER, Gerhard ES, Costa CMC, Ferreira ED, Carvalho AF. Validity of the Mood Disorder Questionnaire in a Brazilian psychiatric population. Rev Bras Psiquiatr 2010 (acesso aberto, licença CC BY; PMID 21308264). Amostra: 114 pacientes de ambulatório psiquiátrico, padrão-ouro SCID. Melhor ponto de corte: 8 ou mais itens (sensibilidade 0,91; especificidade 0,70; VPP 0,82; VPN 0,84). Os autores indicam que falta validação em outros contextos, como a atenção primária. O texto das perguntas foi transcrito do apêndice do artigo (imagem de baixa resolução): confira com o original.',
+    '* O item 9 (muito mais ativo ou fazendo muito mais coisas) é citado no artigo (fator energia-atividade), mas não aparece no apêndice publicado. O texto foi adaptado da tradução usada em Soares OT (tese, USP, 2010), no estilo do restante da versão.',
+    'Instrumento original: Hirschfeld RM et al. Am J Psychiatry 2000;157:1873-5. Rastreio positivo: 7 ou mais sintomas (pergunta 1), no mesmo período (pergunta 2) e com problema moderado ou sério (pergunta 3); sensibilidade 0,73 e especificidade 0,90 em pacientes psiquiátricos. © University of Texas Medical Branch.',
+    'Na população geral, o MDQ teve boa especificidade (0,97), mas sensibilidade baixa (0,28): Hirschfeld RM et al. Am J Psychiatry 2003;160:178-80. Por isso, um resultado negativo não afasta o transtorno bipolar.',
+    'O MDQ rastreia o espectro bipolar ao longo da vida; pode haver resultados falso-positivos em outras condições com impulsividade, irritabilidade e instabilidade afetiva (por exemplo, TDAH e transtorno de personalidade borderline).'
   ]
 });
 
