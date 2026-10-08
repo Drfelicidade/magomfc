@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário MDQ (Transtorno Bipolar)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-purple-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Questionário MDQ (Transtorno Bipolar)</h1>
+        <p class="text-purple-100 text-sm md:text-base">Mood Disorder Questionnaire: rastreio de transtorno do espectro bipolar</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-purple-800 hover:bg-purple-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <p class="text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">Instrumento de <strong>rastreio</strong>, não de diagnóstico. Os textos abaixo são versões resumidas de cada sintoma, para registrar as respostas. Na aplicação ao paciente, use o instrumento original (Hirschfeld et al., 2000) ou a versão brasileira validada (Castelo et al., 2010).</p>
+        <p class="text-gray-700"><strong>Pergunta 1.</strong> Marque os itens em que o(a) paciente respondeu <strong>sim</strong> à pergunta: «Houve algum período, em qualquer momento da vida, em que você não estava como de costume e…».</p>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s1" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">1. Sentiu-se tão bem ou tão ativo(a) que outras pessoas acharam que não era o seu normal, ou que se meteu em encrencas</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s2" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">2. Ficou tão irritado(a) que gritou com as pessoas ou provocou brigas e discussões</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s3" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">3. Sentiu-se muito mais autoconfiante do que o habitual</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s4" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">4. Dormiu muito menos do que o habitual e não sentiu falta do sono</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s5" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">5. Ficou muito mais falante, ou falou muito mais rápido, do que o habitual</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s6" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">6. Pensamentos corriam pela cabeça e não conseguia diminuir o ritmo</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s7" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">7. Distraiu-se com tanta facilidade que teve dificuldade para se concentrar ou manter o que fazia</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s8" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">8. Teve muito mais energia do que o habitual</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s9" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">9. Esteve muito mais ativo(a) ou fez muito mais coisas do que o habitual</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s10" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">10. Esteve muito mais social ou extrovertido(a) (por exemplo, telefonou a amigos de madrugada)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s11" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">11. Teve muito mais interesse por sexo do que o habitual</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s12" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">12. Fez coisas incomuns para o seu jeito, que outros achariam excessivas, tolas ou arriscadas</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="s13" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">13. Gastar dinheiro trouxe problemas para o(a) paciente ou para a família</span></span>
+        </label>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">Pergunta 2. Se respondeu sim a mais de um item, vários deles ocorreram no mesmo período?</legend>
+            <p class="text-sm text-gray-500">Só é necessária se houver 7 ou mais itens marcados.</p>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="simult" value="1" class="w-5 h-5 shrink-0"> <span>Sim</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="simult" value="0" class="w-5 h-5 shrink-0"> <span>Não</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">Pergunta 3. Quanto problema esses sintomas causaram (trabalho, família, finanças, questões legais, brigas)?</legend>
+            <p class="text-sm text-gray-500">Só é necessária se houver 7 ou mais itens marcados.</p>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="impacto" value="0" class="w-5 h-5 shrink-0"> <span>Nenhum problema</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="impacto" value="1" class="w-5 h-5 shrink-0"> <span>Problema pequeno</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="impacto" value="2" class="w-5 h-5 shrink-0"> <span>Problema moderado</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="impacto" value="3" class="w-5 h-5 shrink-0"> <span>Problema sério</span></label>
+        </fieldset>
+        <p class="text-gray-700"><strong>Informações complementares</strong> (não entram no escore):</p>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="fam" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Parente consanguíneo com transtorno bipolar (maníaco-depressivo)</span></span>
+        </label>
+        <label class="flex items-start gap-3 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox" id="diag" class="w-5 h-5 mt-0.5 shrink-0">
+            <span><span class="font-medium text-gray-800">Já recebeu o diagnóstico de transtorno bipolar de um profissional de saúde</span></span>
+        </label>
+        <div class="flex flex-wrap gap-3">
+            <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar</button>
+        </div>
+        <div id="resultado" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Hirschfeld RM et al. Development and validation of a screening instrument for bipolar spectrum disorder: the Mood Disorder Questionnaire. Am J Psychiatry 2000;157:1873-5. Rastreio positivo: 7 ou mais sintomas (pergunta 1), sintomas no mesmo período (pergunta 2) e problema moderado ou sério (pergunta 3); sensibilidade 0,73 e especificidade 0,90 em pacientes psiquiátricos. © University of Texas Medical Branch.</li>
+                <li>Versão brasileira: Castelo MS et al. Validity of the Mood Disorder Questionnaire in a Brazilian psychiatric population. Rev Bras Psiquiatr 2010 (n = 114, ambulatório psiquiátrico). Melhor ponto de corte: 8 ou mais itens (sensibilidade 0,91; especificidade 0,70). Os autores indicam que falta validação em outros contextos, como a atenção primária.</li>
+                <li>Na população geral, o MDQ teve boa especificidade (0,97), mas sensibilidade baixa (0,28): Hirschfeld RM et al. Am J Psychiatry 2003;160:178-80. Por isso, um resultado negativo não afasta o transtorno bipolar.</li>
+                <li>O MDQ rastreia o espectro bipolar ao longo da vida; pode haver resultados falso-positivos em outras condições com impulsividade, irritabilidade e instabilidade afetiva (por exemplo, TDAH e transtorno de personalidade borderline).</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const CORES = {
+    verde: 'bg-green-50 border-green-500 text-green-800',
+    amarelo: 'bg-yellow-50 border-yellow-400 text-yellow-800',
+    laranja: 'bg-orange-50 border-orange-500 text-orange-800',
+    vermelho: 'bg-red-50 border-red-500 text-red-800',
+    azul: 'bg-blue-50 border-blue-500 text-blue-800',
+    cinza: 'bg-gray-50 border-gray-300 text-gray-800'
+};
+function valorRadio(nome) {
+    const el = document.querySelector('input[name="' + nome + '"]:checked');
+    return el ? Number(el.value) : null;
+}
+function numero(id) {
+    const v = $(id).value;
+    return v === '' ? null : Number(v);
+}
+// Mostra o resultado; "linhas" são parágrafos (texto simples, sem HTML de terceiros)
+function mostrar(cor, titulo, linhas, extras) {
+    const r = $('resultado');
+    r.className = 'p-5 rounded-2xl border-2 space-y-2 ' + CORES[cor];
+    r.textContent = '';
+    const h = document.createElement('p');
+    h.className = 'text-2xl font-black';
+    h.textContent = titulo;
+    r.appendChild(h);
+    (linhas || []).forEach(t => { const p = document.createElement('p'); p.className = 'text-sm font-medium'; p.textContent = t; r.appendChild(p); });
+    (extras || []).forEach(x => {
+        const p = document.createElement('p');
+        p.className = 'text-sm font-bold mt-2 p-3 rounded-lg bg-red-100 text-red-900 border border-red-300';
+        p.textContent = x; r.appendChild(p);
+    });
+}
+function ocultar() { $('resultado').className = 'hidden'; }
+function aviso(texto) {
+    const r = $('resultado');
+    r.className = 'p-4 rounded-2xl border-2 ' + CORES.cinza;
+    r.textContent = texto;
+}
+$('form').addEventListener('input', () => atualizar());
+$('form').addEventListener('change', () => atualizar());
+$('btn-limpar').addEventListener('click', () => { $('form').reset(); ocultar(); });
+
+function atualizar() {
+    let n = 0;
+    for (let i = 1; i <= 13; i++) if ($('s' + i).checked) n++;
+    const simult = valorRadio('simult'), impacto = valorRadio('impacto');
+    if (n === 0 && simult === null && impacto === null && !$('fam').checked && !$('diag').checked) { ocultar(); return; }
+    const corte8 = n >= 8 ? 'sim' : 'não';
+    const fam = $('fam').checked ? ' História familiar de transtorno bipolar.' : '';
+    const diag = $('diag').checked ? ' Diagnóstico prévio de transtorno bipolar referido.' : '';
+    const pre = 'MDQ: ' + n + '/13 sintomas';
+    if (n < 7) {
+        mostrar('verde', 'MDQ: ' + n + ' de 13 sintomas. Rastreio negativo', [
+            'Menos de 7 sintomas: o primeiro critério não é atendido (as perguntas 2 e 3 não alteram o resultado).',
+            'Escore de 8 ou mais itens (corte da validação brasileira): ' + corte8 + '.',
+            'Um rastreio negativo não exclui o transtorno, principalmente se a suspeita clínica for alta ou em atenção primária, onde o desempenho do MDQ ainda não foi determinado.',
+            'Resumo: ' + pre + '; rastreio negativo.' + fam + diag
+        ]);
+        return;
+    }
+    if (simult === null || impacto === null) {
+        aviso(n + ' sintomas marcados (7 ou mais). Responda a pergunta 2 (mesmo período) e a pergunta 3 (problemas causados) para concluir.');
+        return;
+    }
+    const c2 = simult === 1, c3 = impacto >= 2;
+    const nomesImp = ['nenhum problema', 'problema pequeno', 'problema moderado', 'problema sério'];
+    if (c2 && c3) {
+        mostrar('laranja', 'MDQ: ' + n + ' de 13 sintomas. Rastreio positivo', [
+            'Os 3 critérios foram atendidos: 7 ou mais sintomas, no mesmo período, com ' + nomesImp[impacto] + '.',
+            'Sugere transtorno do espectro bipolar, a confirmar com entrevista clínica (história de mania ou hipomania, episódios depressivos, história familiar, uso de substâncias). Não é diagnóstico.',
+            'Se houver depressão atual, investigue mania ou hipomania antes de prescrever antidepressivo. Avalie também depressão e ansiedade (PHQ-9, GAD-7) e risco de suicídio.',
+            'Escore de 8 ou mais itens (corte da validação brasileira): ' + corte8 + '.',
+            'Resumo: ' + pre + '; sintomas no mesmo período; ' + nomesImp[impacto] + '; rastreio positivo.' + fam + diag
+        ]);
+    } else {
+        const falhas = [];
+        if (!c2) falhas.push('os sintomas não ocorreram no mesmo período');
+        if (!c3) falhas.push('o problema causado foi ' + (impacto === 0 ? 'nenhum' : 'pequeno'));
+        mostrar('amarelo', 'MDQ: ' + n + ' de 13 sintomas. Rastreio negativo pelos critérios completos', [
+            'Há 7 ou mais sintomas, mas: ' + falhas.join('; ') + '.',
+            'Escore de 8 ou mais itens (corte da validação brasileira): ' + corte8 + '.',
+            'Se a suspeita clínica persistir, faça avaliação do histórico de humor e reaplique o questionário em outro momento.',
+            'Resumo: ' + pre + '; ' + falhas.join('; ') + '; rastreio negativo pelos critérios completos.' + fam + diag
+        ]);
+    }
+}
+</script>
+<script src="assets/aviso.js" defer></script>
+<script src="assets/apoio.js" defer></script>
+</body>
+</html>
