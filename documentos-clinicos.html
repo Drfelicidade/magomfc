@@ -99,7 +99,7 @@
             .bp-cols { column-count: 2; font-size: 11px; line-height: 1.3; }
             .bp-cols > section { margin-bottom: 0.6rem; }
             .bp-page2 { break-before: page; page-break-before: always; margin-top: 0 !important; }
-            #bp-log { padding: 0 !important; }
+            #bp-log, #tab-plano { padding: 0 !important; }
             .bp-table td { height: 2rem; }
         }
 
@@ -157,6 +157,16 @@
                     <h3 class="font-bold text-gray-800 group-hover:text-indigo-700 text-lg mb-1 text-center">Controle de Pressão (MRPA)</h3>
                     <p class="text-sm text-gray-500 text-center">Diário para medir em casa: 2 medidas ao dia (manhã e noite) por 5 ou 7 dias, com orientações ao paciente.</p>
                     <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-indigo-500 bg-indigo-100 px-3 py-1 rounded-full">Gerar Formulário</span>
+                </button>
+
+                <!-- Card: Plano para parar de fumar -->
+                <button onclick="showTabagismo()" class="text-left group flex flex-col items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl hover:border-emerald-500 hover:bg-emerald-50 transition shadow-sm focus:outline-none focus:ring-4 focus:ring-emerald-100">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800 group-hover:text-emerald-700 text-lg mb-1 text-center">Plano para Parar de Fumar</h3>
+                    <p class="text-sm text-gray-500 text-center">Plano individual para o paciente preencher: motivos, dia D, gatilhos, tratamento e consultas de acompanhamento.</p>
+                    <span class="mt-3 text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">Gerar Formulário</span>
                 </button>
 
                 <!-- Card: Nirsevimabe (PDF) -->
@@ -239,6 +249,100 @@
         </div>
 
         <!-- ========================================== -->
+        <!-- ========================================== -->
+        <!-- PLANO PARA PARAR DE FUMAR -->
+        <!-- ========================================== -->
+        <div id="tab-controls" class="hidden px-8 py-4 bg-gray-50 border-y border-gray-200 flex flex-col gap-4 no-print">
+            <div class="flex flex-col md:flex-row gap-4 md:items-end">
+                <label class="flex flex-col gap-1 text-sm font-bold text-gray-600 md:w-72">Nome (opcional)
+                    <input type="text" id="tab-nome-input" placeholder="Nome do paciente" class="print-input font-normal" oninput="document.getElementById('tab-nome-display').value = this.value">
+                </label>
+                <div class="flex gap-3 md:ml-auto">
+                    <button onclick="hideAllForms()" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition">Fechar</button>
+                    <button onclick="window.print()" class="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg shadow-sm hover:bg-emerald-700 transition">Imprimir</button>
+                </div>
+            </div>
+            <div class="text-xs text-gray-600 bg-emerald-50 border border-emerald-200 rounded-xl p-3 leading-relaxed">
+                <strong>Para o profissional:</strong> baseado no PCDT do Tabagismo (Portaria Conjunta SCTIE/SAES/MS nº 10/2020): aconselhamento estruturado em 4 sessões semanais, tratamento medicamentoso conforme critérios e acompanhamento por até 12 meses. A reposição de nicotina só começa no dia em que o paciente para de fumar. Os campos de tratamento ficam em branco para você definir dose e esquema; menores de 18 anos não recebem farmacoterapia pelo PCDT.
+            </div>
+        </div>
+
+        <div id="tab-plano" class="hidden p-8 md:p-12">
+            <div class="text-center mb-5">
+                <h2 class="text-2xl font-bold uppercase tracking-wider border-b-2 border-black pb-2 inline-block">Meu Plano para Parar de Fumar</h2>
+                <p class="text-sm mt-1">Parar de fumar é possível, e há tratamento gratuito no SUS.</p>
+            </div>
+            <div class="mb-3 flex items-end gap-2">
+                <span class="font-bold text-lg">Nome:</span>
+                <input type="text" id="tab-nome-display" class="print-input flex-1 font-bold text-lg pb-1" readonly>
+                <span class="font-bold">Data:</span>
+                <input type="text" class="print-input w-32" placeholder="__/__/____" aria-label="Data do plano">
+            </div>
+            <div class="bp-cols text-sm leading-snug">
+                <section>
+                    <h3 class="font-bold uppercase border-b border-black mb-1">1. Por que eu quero parar</h3>
+                    <div class="border-b border-black h-6"></div><div class="border-b border-black h-6"></div><div class="border-b border-black h-6"></div>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase border-b border-black mb-1">2. Meu dia D (o dia em que paro de fumar)</h3>
+                    <p>Data: <input type="text" class="print-input w-32" aria-label="Data do dia D"> &nbsp; Hoje fumo <input type="text" class="print-input w-12 text-center" aria-label="Cigarros por dia"> cigarros por dia.</p>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase border-b border-black mb-1">3. Antes do dia D</h3>
+                    <ul class="space-y-1">
+                        <label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Contar a familiares, amigos e colegas que vou parar e pedir apoio</span></label>
+                        <label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Jogar fora cigarros, isqueiros, cinzeiros e outros itens de fumar</span></label>
+                        <label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Deixar casa, carro e roupas sem cheiro de cigarro</span></label>
+                        <label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Marcar as consultas e os grupos de apoio</span></label>
+                        <label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Buscar o tratamento prescrito na unidade de saúde</span></label>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase border-b border-black mb-1">4. Meu tratamento (definido pelo profissional)</h3>
+                    <ul class="space-y-1"><label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Aconselhamento estruturado (4 sessões)</span></label><label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Adesivo de nicotina: <input type="text" class="print-input w-16" aria-label="Dose do adesivo"> mg/dia</span></label><label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Goma / pastilha de nicotina: <input type="text" class="print-input w-16" aria-label="Dose da goma ou pastilha"> mg, até <input type="text" class="print-input w-10" aria-label="Máximo por dia"> por dia, se fissura</span></label><label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Bupropiona: <input type="text" class="print-input w-40" aria-label="Esquema da bupropiona"></span></label><label class="flex items-start gap-2"><input type="checkbox" class="print-checkbox mt-0.5"> <span>Outro: <input type="text" class="print-input w-40" aria-label="Outro tratamento"></span></label></ul>
+                    <p class="mt-1 text-xs">Não fumar enquanto usar adesivo ou goma: reposição de nicotina só a partir do dia D. Tomar os medicamentos como orientado, mesmo nos dias difíceis.</p>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase border-b border-black mb-1">5. Situações em que mais sinto vontade de fumar</h3>
+                    <table class="w-full border-collapse bp-table text-xs">
+                        <tr><th class="p-1.5 text-left">Situação (café, álcool, estresse...)</th><th class="p-1.5 text-left">O que vou fazer em vez de fumar</th></tr>
+                        <tr><td class="p-1.5 h-8"></td><td class="p-1.5"></td></tr><tr><td class="p-1.5 h-8"></td><td class="p-1.5"></td></tr><tr><td class="p-1.5 h-8"></td><td class="p-1.5"></td></tr><tr><td class="p-1.5 h-8"></td><td class="p-1.5"></td></tr>
+                    </table>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase border-b border-black mb-1">6. Quando bater a vontade</h3>
+                    <ul class="list-disc pl-5 space-y-0.5">
+                        <li>A vontade forte dura poucos minutos e passa: espere, sem fumar.</li>
+                        <li>Respire fundo devagar e beba água.</li>
+                        <li>Mude de ambiente e ocupe as mãos e a mente (caminhar, mastigar algo, ligar para alguém).</li>
+                        <li>Lembre dos seus motivos (item 1).</li>
+                        <li>Evite álcool nas primeiras semanas: ele aumenta a vontade de fumar.</li>
+                        <li>Se usar goma ou pastilha de nicotina para a vontade, siga a orientação do profissional.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase border-b border-black mb-1">7. Se eu fumar de novo</h3>
+                    <p>Escorregar não é fracasso. Não desista: conte na próxima consulta o que aconteceu, o que levou a isso e retome o plano no mesmo dia.</p>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase border-b border-black mb-1">8. Meu apoio</h3>
+                    <p>Pessoa(s) que vão me ajudar: <input type="text" class="print-input w-48" aria-label="Pessoas de apoio"></p>
+                    <p class="mt-1">Unidade de saúde / telefone: <input type="text" class="print-input w-48" aria-label="Unidade de saúde e telefone"></p>
+                    <p class="mt-1">Disque Saúde: <strong>136</strong> (gratuito).</p>
+                </section>
+                <section>
+                    <h3 class="font-bold uppercase border-b border-black mb-1">9. Sessões de aconselhamento e retornos</h3>
+                    <table class="w-full border-collapse bp-table text-xs">
+                        <tr><th class="p-1.5 text-left">Sessão</th><th class="p-1.5 text-left">Tema</th><th class="p-1.5 text-left">Data</th></tr>
+                        <tr><td class="p-1.5">1ª</td><td class="p-1.5">Entender por que se fuma e como afeta a saúde</td><td class="p-1.5"></td></tr><tr><td class="p-1.5">2ª</td><td class="p-1.5">Os primeiros dias sem fumar</td><td class="p-1.5"></td></tr><tr><td class="p-1.5">3ª</td><td class="p-1.5">Como vencer os obstáculos para permanecer sem fumar</td><td class="p-1.5"></td></tr><tr><td class="p-1.5">4ª</td><td class="p-1.5">Benefícios obtidos após parar</td><td class="p-1.5"></td></tr>
+                        <tr><td class="p-1.5" colspan="2">Retornos de acompanhamento (até 12 meses)</td><td class="p-1.5 h-8"></td></tr>
+                    </table>
+                </section>
+            </div>
+            <p class="text-[10px] text-gray-600 mt-3">Fonte: PCDT do Tabagismo, Portaria Conjunta SCTIE/SAES/MS nº 10, de 16/04/2020. Este plano não substitui a orientação do profissional de saúde.</p>
+        </div>
+
+
         <!-- ========================================== -->
         
         <div id="bp-controls" class="hidden px-8 py-4 bg-gray-50 border-y border-gray-200 flex flex-col gap-4 no-print">
@@ -391,6 +495,16 @@
             // Controle de Pressão
             document.getElementById('bp-controls').classList.add('hidden');
             document.getElementById('bp-log').classList.add('hidden');
+            // Plano para parar de fumar
+            document.getElementById('tab-controls').classList.add('hidden');
+            document.getElementById('tab-plano').classList.add('hidden');
+        }
+
+        function showTabagismo() {
+            hideAllForms();
+            document.getElementById('tab-controls').classList.remove('hidden');
+            document.getElementById('tab-plano').classList.remove('hidden');
+            document.getElementById('tab-plano').scrollIntoView({ behavior: 'smooth' });
         }
 
         function showBPLog() {
