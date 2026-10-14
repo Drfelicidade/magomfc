@@ -3,297 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora LDL-C (Martin-Hopkins)</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Equivalência de Estatinas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-        }
-        .container {
-            max-width: 800px;
-        }
-        .section-title {
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background-color: #f97316; /* Orange-500 */
-            border-radius: 9999px;
-        }
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
+        .container { max-width: 800px; }
     </style>
     <link rel="stylesheet" href="assets/tema-escuro.css">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 md:p-8">
-    <div class="container mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
-        
-        <!-- Cabeçalho -->
-        <div class="bg-orange-600 p-6 md:p-8 text-white text-center relative">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">Calculadora de Colesterol LDL</h1>
-            <p class="text-orange-100 text-sm md:text-base">Fórmula de Martin-Hopkins (Tabela Original de 180 Células)</p>
-            <div class="mt-6">
-                <a href="index.html" class="inline-flex items-center px-5 py-2 bg-orange-700 hover:bg-orange-800 text-white text-sm font-medium rounded-full transition shadow-sm">
-                    &larr; Voltar ao Menu Principal
-                </a>
-            </div>
-        </div>
+<body class="text-gray-800 p-4 md:p-8">
+<div class="container mx-auto">
+    <a href="index.html" class="text-sm text-red-700 font-semibold">&larr; Voltar às ferramentas</a>
+    <header class="mt-3 mb-6">
+        <h1 class="text-3xl font-black text-red-900">Equivalência de Estatinas</h1>
+        <p class="text-gray-600 mt-1">Potência da terapia e doses equivalentes (Diretriz Brasileira de Dislipidemias, SBC 2017; ACC/AHA 2018).</p>
+    </header>
 
-        <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Coluna de Entrada -->
-            <div class="space-y-6">
-                <div class="bg-orange-50/50 p-6 rounded-2xl border border-orange-100 shadow-sm">
-                    <h2 class="section-title text-xl font-bold text-orange-900 mb-4">Perfil Lipídico (mg/dL)</h2>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label for="tc" class="block text-sm font-medium text-gray-700 mb-1">Colesterol Total (CT)</label>
-                            <input type="number" id="tc" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 font-bold bg-white" placeholder="Ex: 210">
-                        </div>
-                        
-                        <div>
-                            <label for="hdl" class="block text-sm font-medium text-gray-700 mb-1">Colesterol HDL</label>
-                            <input type="number" id="hdl" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 font-bold bg-white" placeholder="Ex: 45">
-                        </div>
-                        
-                        <div>
-                            <label for="tg" class="block text-sm font-medium text-gray-700 mb-1">Triglicerídeos (TG)</label>
-                            <input type="number" id="tg" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 font-bold bg-white" placeholder="Ex: 150">
-                        </div>
-                    </div>
-
-                    <button id="btn-calculate" class="w-full mt-8 py-3 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-700 shadow-lg transition transform active:scale-95">
-                        Calcular LDL-C
-                    </button>
-                </div>
-                
-                <div class="text-left p-4 bg-gray-50 rounded-xl border border-gray-200">
-                    <p class="text-xs text-gray-600 leading-relaxed">
-                        <strong>Nota:</strong> Esta calculadora utiliza a matriz exata publicada no método Martin-Hopkins. Em pacientes com triglicerídeos elevados (até 399 mg/dL) ou níveis baixos de LDL, este método é significativamente mais preciso que a fórmula tradicional de Friedewald.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Coluna de Resultados -->
-            <div class="relative h-full">
-                <div class="sticky top-6 h-full flex flex-col">
-                    <div id="result-box" class="flex flex-col justify-center items-center text-center p-6 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 min-h-[400px] transition-all duration-300 flex-1">
-                        
-                        <div id="placeholder" class="text-gray-400">
-                            <svg class="w-20 h-20 mx-auto mb-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2"></path>
-                            </svg>
-                            <p class="font-medium text-base px-4">Preencha os valores do painel lipídico para obter o cálculo exato do LDL-C.</p>
-                        </div>
-
-                        <div id="content" class="hidden w-full space-y-6 animate-fade-in">
-                            <!-- Card Principal de Resultado -->
-                            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border-t-8 border-orange-500">
-                                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">LDL-C Estimado</span>
-                                <div class="flex items-end justify-center gap-2">
-                                    <h3 class="text-6xl md:text-7xl font-black text-orange-600 tracking-tighter" id="res-ldl"></h3>
-                                    <span class="text-lg font-bold text-gray-500 mb-2">mg/dL</span>
-                                </div>
-                            </div>
-
-                            <!-- Métricas Secundárias -->
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="p-4 bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-center">
-                                    <span class="block text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Colesterol Não-HDL</span>
-                                    <div class="flex items-baseline justify-center gap-1">
-                                        <span id="res-non-hdl" class="text-2xl font-black text-gray-800"></span>
-                                        <span class="text-xs font-medium text-gray-500 mb-0.5">mg/dL</span>
-                                    </div>
-                                </div>
-                                <div class="p-4 bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-center relative group">
-                                    <span class="block text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Fator Ajustável</span>
-                                    <span id="res-factor" class="text-2xl font-black text-gray-800"></span>
-                                    
-                                    <!-- Tooltip com a fórmula -->
-                                    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10 pointer-events-none">
-                                        Fórmula: TG / Fator<br>Substitui o "5" da fórmula clássica.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Alertas e Informações -->
-                            <div id="alert-friedewald" class="hidden text-left p-4 bg-yellow-50 rounded-xl border border-yellow-200 flex items-start gap-3">
-                                <span class="text-xl">⚠️</span>
-                                <div>
-                                    <span class="block text-xs font-bold text-yellow-800 uppercase tracking-widest mb-0.5">Comparação Histórica</span>
-                                    <p class="text-sm text-yellow-900 font-medium">
-                                        Pela fórmula clássica de Friedewald (TG/5), o resultado seria de <strong class="text-black bg-yellow-200/50 px-1 rounded" id="res-friedewald"></strong> mg/dL.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div id="alert-high-tg" class="hidden text-left p-4 bg-red-50 rounded-xl border border-red-200 flex items-start gap-3">
-                                <span class="text-xl">🛑</span>
-                                <div>
-                                    <span class="block text-xs font-bold text-red-800 uppercase tracking-widest mb-0.5">Aviso Clínico</span>
-                                    <p class="text-sm text-red-900 font-medium leading-snug">
-                                        Triglicerídeos ≥ 400 mg/dL. As diretrizes recomendam a medição direta do LDL-C (ultracentrifugação) ou a utilização da equação de Sampson/NIH em casos de hipertrigliceridemia grave.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="bg-white rounded-2xl shadow-sm border border-red-100 p-5 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="block">
+                <span class="text-sm font-bold text-gray-700">Estatina em uso</span>
+                <select id="droga" class="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-white"></select>
+            </label>
+            <label class="block">
+                <span class="text-sm font-bold text-gray-700">Dose diária (mg)</span>
+                <select id="dose" class="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-white"></select>
+            </label>
         </div>
     </div>
 
-    <script>
-        // =========================================================================
-        // TABELA OFICIAL MARTIN-HOPKINS (180 Células)
-        // Extraída com precisão da tabela fornecida (tabela.jpg)
-        // =========================================================================
-        
-        // Definição das colunas de Não-HDL (Limites inferiores)
-        // Index: 0 (<100), 1 (100-129), 2 (130-159), 3 (160-189), 4 (190-219), 5 (>=220)
-        
-        // Definição das linhas de Triglicerídeos (TG) com seu limite mínimo, máximo e o array de fatores
-        const martinHopkinsTable = [
-            { minTG: 7,   maxTG: 49,   factors: [3.5, 3.4, 3.3, 3.3, 3.2, 3.1] },
-            { minTG: 50,  maxTG: 56,   factors: [4.0, 3.9, 3.7, 3.6, 3.6, 3.4] },
-            { minTG: 57,  maxTG: 61,   factors: [4.3, 4.1, 4.0, 3.9, 3.8, 3.6] },
-            { minTG: 62,  maxTG: 66,   factors: [4.5, 4.3, 4.1, 4.0, 3.9, 3.9] },
-            { minTG: 67,  maxTG: 71,   factors: [4.7, 4.4, 4.3, 4.2, 4.1, 3.9] },
-            { minTG: 72,  maxTG: 75,   factors: [4.8, 4.6, 4.4, 4.2, 4.2, 4.1] },
-            { minTG: 76,  maxTG: 79,   factors: [4.9, 4.6, 4.5, 4.3, 4.3, 4.2] },
-            { minTG: 80,  maxTG: 83,   factors: [5.0, 4.8, 4.6, 4.4, 4.3, 4.2] },
-            { minTG: 84,  maxTG: 87,   factors: [5.1, 4.8, 4.6, 4.5, 4.4, 4.3] },
-            { minTG: 88,  maxTG: 92,   factors: [5.2, 4.9, 4.7, 4.6, 4.4, 4.3] },
-            { minTG: 93,  maxTG: 96,   factors: [5.3, 5.0, 4.8, 4.7, 4.5, 4.4] },
-            { minTG: 97,  maxTG: 100,  factors: [5.4, 5.1, 4.8, 4.7, 4.5, 4.3] },
-            { minTG: 101, maxTG: 105,  factors: [5.5, 5.2, 5.0, 4.7, 4.6, 4.5] },
-            { minTG: 106, maxTG: 110,  factors: [5.6, 5.3, 5.0, 4.8, 4.6, 4.5] },
-            { minTG: 111, maxTG: 115,  factors: [5.7, 5.4, 5.1, 4.9, 4.7, 4.5] },
-            { minTG: 116, maxTG: 120,  factors: [5.8, 5.5, 5.2, 5.0, 4.8, 4.6] },
-            { minTG: 121, maxTG: 126,  factors: [6.0, 5.5, 5.3, 5.0, 4.8, 4.6] },
-            { minTG: 127, maxTG: 132,  factors: [6.1, 5.7, 5.3, 5.1, 4.9, 4.7] },
-            { minTG: 133, maxTG: 138,  factors: [6.2, 5.8, 5.4, 5.2, 5.0, 4.7] },
-            { minTG: 139, maxTG: 146,  factors: [6.3, 5.9, 5.6, 5.3, 5.0, 4.8] },
-            { minTG: 147, maxTG: 154,  factors: [6.5, 6.0, 5.7, 5.4, 5.1, 4.8] },
-            { minTG: 155, maxTG: 163,  factors: [6.7, 6.2, 5.8, 5.4, 5.2, 4.9] },
-            { minTG: 164, maxTG: 173,  factors: [6.8, 6.3, 5.9, 5.5, 5.3, 5.0] },
-            { minTG: 174, maxTG: 185,  factors: [7.0, 6.5, 6.0, 5.7, 5.4, 5.1] },
-            { minTG: 186, maxTG: 201,  factors: [7.3, 6.7, 6.2, 5.8, 5.5, 5.2] },
-            { minTG: 202, maxTG: 220,  factors: [7.6, 6.9, 6.4, 6.0, 5.6, 5.3] },
-            { minTG: 221, maxTG: 247,  factors: [8.0, 7.2, 6.6, 6.2, 5.9, 5.4] },
-            { minTG: 248, maxTG: 292,  factors: [8.5, 7.6, 7.0, 6.5, 6.1, 5.6] },
-            { minTG: 293, maxTG: 399,  factors: [9.5, 8.3, 7.5, 7.0, 6.5, 5.9] },
-            { minTG: 400, maxTG: 99999,factors: [11.9,10.0, 8.8, 8.1, 7.5, 6.7] }
-        ];
+    <div id="resultado" class="bg-white rounded-2xl shadow-sm border border-red-100 p-5 mb-6" aria-live="polite">
+        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Potência</span>
+        <h2 id="res-int" class="text-3xl font-black my-1"></h2>
+        <p id="res-red" class="text-sm text-gray-600 mb-4"></p>
+        <h3 class="text-sm font-bold text-gray-700 mb-2">Outras opções com a mesma potência</h3>
+        <ul id="res-eq" class="space-y-1 text-sm"></ul>
+    </div>
 
-        function getMartinHopkinsFactor(tg, nonHdl) {
-            // 1. Encontrar o índice da coluna baseado no Não-HDL
-            let colIndex = 0;
-            if (nonHdl < 100) colIndex = 0;
-            else if (nonHdl >= 100 && nonHdl <= 129) colIndex = 1;
-            else if (nonHdl >= 130 && nonHdl <= 159) colIndex = 2;
-            else if (nonHdl >= 160 && nonHdl <= 189) colIndex = 3;
-            else if (nonHdl >= 190 && nonHdl <= 219) colIndex = 4;
-            else if (nonHdl >= 220) colIndex = 5;
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 mb-6">
+        <h2 class="font-bold text-gray-800 mb-3">Tabela de potência da terapia com estatinas</h2>
+        <div id="tabela" class="space-y-3 text-sm"></div>
+    </div>
 
-            // 2. Tratar TG abaixo do limite da tabela (Raro, mas seguro assumir a primeira linha)
-            if (tg < 7) return martinHopkinsTable[0].factors[colIndex];
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 mb-6">
+        <h2 class="font-bold text-gray-800 mb-1">Redução média do LDL-C por dose</h2>
+        <p class="text-xs text-gray-500 mb-3">Percentual médio de redução do LDL-C (meta-análise de 164 ensaios; valores padronizados).</p>
+        <div class="overflow-x-auto">
+            <table id="tab-red" class="w-full text-sm text-center border-collapse"></table>
+        </div>
+    </div>
 
-            // 3. Encontrar a linha exata baseada nos Triglicerídeos
-            for (let i = 0; i < martinHopkinsTable.length; i++) {
-                if (tg >= martinHopkinsTable[i].minTG && tg <= martinHopkinsTable[i].maxTG) {
-                    return martinHopkinsTable[i].factors[colIndex];
-                }
-            }
-            
-            // Fallback (não deve ser atingido com a configuração atual de maxTG)
-            return 5.0; 
-        }
+    <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-xs text-blue-900 leading-relaxed">
+        <p>* A Diretriz Brasileira inclui a associação sinvastatina 40 mg + ezetimiba 10 mg como opção de alta potência, com base no estudo IMPROVE-IT.</p>
+        <p class="mt-2"><strong>Metas de LDL-C (SBC 2017, conforme resumo do TdC):</strong> risco muito alto &lt; 50 mg/dL; alto ≤ 70 mg/dL (preferir alta potência); intermediário &lt; 100 mg/dL (preferir moderada potência); baixo &lt; 130 mg/dL, com medidas não farmacológicas (considerar fármaco se LDL &gt; 160 mg/dL).</p>
+        <p class="mt-2"><strong>Redução por dose:</strong> valores médios de Law et al. (BMJ 2003), com LDL-C basal padronizado; doses fora do intervalo estudado (ex.: 5 mg de atorvastatina, 80 mg de rosuvastatina) são extrapolações, e "—" indica dose não analisada. Cada dobra de dose reduz o LDL-C em cerca de 6 pontos percentuais adicionais. A pitavastatina não consta nessa análise: os valores vêm de ensaios comparativos (2 mg ≈ atorvastatina 10 mg; 4 mg ≈ 42–45%) e não há dado para 1 mg. *Não há valor agregado para sinvastatina 40 mg + ezetimiba 10 mg nesta ferramenta (a ezetimiba reduz o LDL-C adicionalmente sobre a estatina isolada).</p>
+        <p class="mt-2"><strong>Observações:</strong> a potência indica a redução média esperada do LDL-C com a dose (alta ≥ 50%; moderada 30–49%; baixa &lt; 30%), com grande variação individual. Não substitui a avaliação clínica: considere interações, função hepática/renal, idade e eventos adversos.</p>
+        <p class="mt-2"><strong>Referências:</strong> (1) Faludi AA, et al. Atualização da Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose – 2017. Arq Bras Cardiol. 2017;109(2 Supl 1):1-76. (2) Grundy SM, et al. 2018 AHA/ACC Guideline on the Management of Blood Cholesterol. Circulation. 2019;139:e1082–e1143. (3) Law MR, Wald NJ, Rudnicka AR. Quantifying effect of statins on low density lipoprotein cholesterol, ischaemic heart disease, and stroke. BMJ. 2003;326:1423. (4) 2019 ESC/EAS Guidelines for the management of dyslipidaemias. Atherosclerosis. 2019. Tabela conforme o guia "Estatinas e eventos adversos", <a class="underline" href="https://www.tadeclinicagem.com.br/guia/217/estatinas-e-eventos-adversos/" target="_blank" rel="noopener">TdC</a>.</p>
+    </div>
+</div>
 
-        document.getElementById('btn-calculate').addEventListener('click', () => {
-            const tc = parseFloat(document.getElementById('tc').value);
-            const hdl = parseFloat(document.getElementById('hdl').value);
-            const tg = parseFloat(document.getElementById('tg').value);
-
-            if (isNaN(tc) || isNaN(hdl) || isNaN(tg) || tc <= 0 || hdl <= 0 || tg <= 0) {
-                alert("Por favor, preencha todos os campos com valores válidos maiores que zero.");
-                return;
-            }
-
-            // Cálculos Intermediários
-            const nonHdl = tc - hdl;
-            
-            // Busca o Fator Exato na Matriz
-            const adjustableFactor = getMartinHopkinsFactor(tg, nonHdl);
-            
-            // O VLDL estimado (Martin-Hopkins)
-            const vldl = tg / adjustableFactor;
-            
-            // O LDL estimado (CT - HDL - VLDL)
-            const ldl = tc - hdl - vldl;
-
-            // O LDL de Friedewald clássico (para comparação)
-            const ldlFriedewald = tc - hdl - (tg / 5);
-
-            // Tratamento de segurança (LDL não pode ser negativo)
-            const finalLdl = ldl > 0 ? Math.round(ldl) : 0;
-            const finalFriedewald = ldlFriedewald > 0 ? Math.round(ldlFriedewald) : 0;
-
-            // Manipulação da Interface (UI)
-            const resultBox = document.getElementById('result-box');
-            resultBox.classList.remove('bg-gray-50', 'border-dashed', 'border-gray-200');
-            resultBox.classList.add('bg-white', 'border-solid', 'border-orange-200', 'shadow-sm');
-            
-            document.getElementById('placeholder').classList.add('hidden');
-            document.getElementById('content').classList.remove('hidden');
-            
-            document.getElementById('res-ldl').textContent = finalLdl;
-            document.getElementById('res-non-hdl').textContent = nonHdl;
-            document.getElementById('res-factor').textContent = adjustableFactor.toFixed(1);
-            
-            // Exibir a comparação apenas se a diferença for maior que 1 mg/dL para não poluir
-            if (Math.abs(finalLdl - finalFriedewald) >= 1) {
-                document.getElementById('res-friedewald').textContent = finalFriedewald;
-                document.getElementById('alert-friedewald').classList.remove('hidden');
-            } else {
-                document.getElementById('alert-friedewald').classList.add('hidden');
-            }
-
-            // Alerta Triglicerídeos Elevados (Limitante Clínico)
-            if (tg >= 400) {
-                document.getElementById('alert-high-tg').classList.remove('hidden');
-                document.getElementById('res-ldl').classList.add('text-red-600');
-                document.getElementById('res-ldl').classList.remove('text-orange-600');
-            } else {
-                document.getElementById('alert-high-tg').classList.add('hidden');
-                document.getElementById('res-ldl').classList.remove('text-red-600');
-                document.getElementById('res-ldl').classList.add('text-orange-600');
-            }
-        });
-    </script>
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-    </style>
+<script>
+const ESTATINAS = {
+    'Atorvastatina': [[10,'mod'],[20,'mod'],[40,'alta'],[80,'alta']],
+    'Rosuvastatina': [[5,'mod'],[10,'mod'],[20,'alta'],[40,'alta']],
+    'Sinvastatina': [[10,'baixa'],[20,'mod'],[40,'mod']],
+    'Pravastatina': [[10,'baixa'],[20,'baixa'],[40,'mod'],[80,'mod']],
+    'Lovastatina': [[20,'baixa'],[40,'mod'],[80,'mod']],
+    'Fluvastatina': [[20,'baixa'],[40,'baixa'],[80,'mod']],
+    'Pitavastatina': [[1,'mod'],[2,'mod'],[4,'mod']],
+    'Sinvastatina + ezetimiba': [[40,'alta']]
+};
+// Redução média do LDL-C por dose (%): Law MR, Wald NJ, Rudnicka AR. BMJ 2003;326:1423 (164 ensaios, LDL basal padronizado).
+// Pitavastatina: não consta em Law 2003; valores de ensaios comparativos (faixa observada). Fluvastatina 80 mg = XL/40 mg 2x/dia.
+const REDUCAO = {
+    'Atorvastatina': {10:'37%', 20:'43%', 40:'49%', 80:'55%'},
+    'Rosuvastatina': {5:'38%', 10:'43%', 20:'48%', 40:'53%'},
+    'Sinvastatina': {10:'27%', 20:'32%', 40:'37%'},
+    'Pravastatina': {10:'20%', 20:'24%', 40:'29%', 80:'33%'},
+    'Lovastatina': {20:'29%', 40:'37%', 80:'45%'},
+    'Fluvastatina': {20:'21%', 40:'27%', 80:'33%'},
+    'Pitavastatina': {1:'sem dado', 2:'≈ 38–43%', 4:'≈ 42–45%'},
+    'Sinvastatina + ezetimiba': {40:'sem dado*'}
+};
+const NIVEIS = {
+    alta: { nome: 'Alta potência', red: 'Redução esperada do LDL-C: ≥ 50%', cor: 'text-red-700' },
+    mod: { nome: 'Moderada potência', red: 'Redução esperada do LDL-C: 30% a 49%', cor: 'text-orange-600' },
+    baixa: { nome: 'Baixa potência', red: 'Redução esperada do LDL-C: < 30%', cor: 'text-green-700' }
+};
+const nivelDe = (d, dose) => {
+    const par = ESTATINAS[d].find(p => p[0] === dose);
+    return par ? par[1] : null;
+};
+const selDroga = document.getElementById('droga'), selDose = document.getElementById('dose');
+Object.keys(ESTATINAS).forEach(d => selDroga.add(new Option(d, d)));
+function doses() {
+    selDose.innerHTML = '';
+    const comb = selDroga.value === 'Sinvastatina + ezetimiba';
+    ESTATINAS[selDroga.value].forEach(p => selDose.add(new Option(comb ? p[0] + ' mg + ezetimiba 10 mg' : p[0] + ' mg', p[0])));
+    mostrar();
+}
+function mostrar() {
+    const d = selDroga.value, dose = +selDose.value, n = nivelDe(d, dose), N = NIVEIS[n];
+    const h = document.getElementById('res-int');
+    h.textContent = N.nome; h.className = 'text-3xl font-black my-1 ' + N.cor;
+    const r = REDUCAO[d][dose];
+    document.getElementById('res-red').textContent = (d === 'Sinvastatina + ezetimiba' ? 'Sinvastatina 40 mg + ezetimiba 10 mg/dia' : d + ' ' + dose + ' mg/dia') + '. ' + N.red + '. Redução média estimada do LDL-C com esta dose: ' + r + '.';
+    const ul = document.getElementById('res-eq'); ul.innerHTML = '';
+    Object.keys(ESTATINAS).filter(x => x !== d).forEach(x => {
+        const ds = ESTATINAS[x].filter(p => p[1] === n).map(p => p[0]);
+        const li = document.createElement('li');
+        li.innerHTML = '<strong></strong> ' + (ds.length ? (x === 'Sinvastatina + ezetimiba' ? '40 mg + ezetimiba 10 mg' : ds.map(v => v + ' mg (' + REDUCAO[x][v] + ')').join(' / ')) : '<span class="text-gray-500">sem dose nesta faixa</span>');
+        li.firstChild.textContent = x + ':';
+        ul.appendChild(li);
+    });
+}
+(function tabela() {
+    const t = document.getElementById('tabela');
+    ['alta', 'mod', 'baixa'].forEach(n => {
+        const itens = Object.keys(ESTATINAS).map(d => {
+            const ds = ESTATINAS[d].filter(p => p[1] === n).map(p => p[0]);
+            if (!ds.length) return null;
+            if (d === 'Sinvastatina + ezetimiba') return 'Sinvastatina 40 mg + ezetimiba 10 mg*';
+            return d + ' ' + (ds.length > 1 ? ds[0] + '–' + ds[ds.length - 1] : ds[0]) + ' mg';
+        }).filter(Boolean);
+        const div = document.createElement('div');
+        div.innerHTML = '<p class="font-bold ' + NIVEIS[n].cor + '"></p><p class="text-gray-700"></p>';
+        div.children[0].textContent = NIVEIS[n].nome + ' (' + NIVEIS[n].red.replace('Redução esperada do LDL-C: ', '') + ')';
+        div.children[1].textContent = itens.join(' · ');
+        t.appendChild(div);
+    });
+})();
+(function tabelaReducao() {
+    const doses = [5, 10, 20, 40, 80];
+    const LAW = {
+        'Atorvastatina': {10:'37%', 20:'43%', 40:'49%', 80:'55%', 5:'31%'},
+        'Rosuvastatina': {5:'38%', 10:'43%', 20:'48%', 40:'53%', 80:'58%'},
+        'Sinvastatina': {5:'23%', 10:'27%', 20:'32%', 40:'37%', 80:'42%'},
+        'Pravastatina': {5:'15%', 10:'20%', 20:'24%', 40:'29%', 80:'33%'},
+        'Lovastatina': {10:'21%', 20:'29%', 40:'37%', 80:'45%'},
+        'Fluvastatina': {5:'10%', 10:'15%', 20:'21%', 40:'27%', 80:'33%'}
+    };
+    const t = document.getElementById('tab-red');
+    let h = '<tr class="border-b border-gray-300"><th class="p-2 text-left">Estatina</th>' + doses.map(d => '<th class="p-2">' + d + ' mg</th>').join('') + '</tr>';
+    Object.keys(LAW).forEach(n => {
+        h += '<tr class="border-b border-gray-100"><th class="p-2 text-left font-semibold">' + n + '</th>' + doses.map(d => '<td class="p-2">' + (LAW[n][d] || '—') + '</td>').join('') + '</tr>';
+    });
+    t.innerHTML = h;
+})();
+selDroga.addEventListener('change', doses);
+selDose.addEventListener('change', mostrar);
+doses();
+</script>
 <script src="assets/aviso.js" defer></script>
 <script src="assets/apoio.js" defer></script>
 </body>
