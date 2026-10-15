@@ -31,10 +31,19 @@
         .option-label {
             transition: all 0.2s ease-in-out;
         }
+        /* !important: o tema escuro força o fundo das opções e escondia a seleção */
         .option-radio:checked + .option-label {
-            background-color: #e11d48;
-            color: white;
-            border-color: #e11d48;
+            background-color: #e11d48 !important;
+            color: white !important;
+            border-color: #e11d48 !important;
+            font-weight: 700;
+        }
+        .option-radio:checked + .option-label::before {
+            content: '✓ ';
+        }
+        .option-radio:focus-visible + .option-label {
+            outline: 3px solid #fda4af;
+            outline-offset: 2px;
         }
     </style>
     <link rel="stylesheet" href="assets/tema-escuro.css">
