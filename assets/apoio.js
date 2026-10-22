@@ -3,7 +3,7 @@
 (function () {
     var CONFIG = {
         // Chave Pix própria: CPF/CNPJ (só números), e-mail, celular (+5511999999999) ou chave aleatória.
-        chavePix: 'tdandre@gmail.com',
+        chavePix: 'c6cfe85f-5bb3-480f-beb5-3d8a479c099c',
         // Nome do recebedor (até 25 caracteres) e cidade (até 15), como no cadastro do banco.
         nomeRecebedor: 'André L Felicidade Silva', // o limite do Pix é 25 caracteres: nome completo não cabe
         cidade: 'Blumenau',
