@@ -17,7 +17,8 @@ function pagina({ arquivo, titulo, sub, hue, corpo, script, refs }) {
         body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
         input:focus-visible, select:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
     </style>
-    <link rel="stylesheet" href="assets/tema-escuro.css">
+    <link rel="stylesheet" href="assets/tema-escuro.css" media="screen and (prefers-color-scheme: dark)">
+    <script src="assets/tema.js"></script>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">

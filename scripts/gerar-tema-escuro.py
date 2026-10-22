@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Gera assets/tema-escuro.css: remapeia as utilidades claras do Tailwind (CDN) para o tema escuro
-automático (prefers-color-scheme: dark). Rode: python3 scripts/gerar-tema-escuro.py"""
+(ativado por assets/tema.js: automático via prefers-color-scheme, ou escolha manual). Rode: python3 scripts/gerar-tema-escuro.py"""
 HUES = {'red':0,'orange':25,'amber':40,'yellow':50,'lime':85,'green':140,'emerald':160,'teal':175,
         'cyan':190,'sky':200,'blue':220,'indigo':240,'violet':262,'purple':275,'fuchsia':295,'pink':330,'rose':350}
 # (sat%, lum%) por tom, no escuro
@@ -50,9 +50,9 @@ for sel,cor in CAIXAS.items():
 rule('.question-header', 'color', '#e6edf1')
 rule('.toggle-radio:checked + div, .toggle-radio:checked + div *', 'color', '#fff')
 css = '''/* GERADO por scripts/gerar-tema-escuro.py: não edite à mão.
-   Tema escuro automático (só em tela, não afeta a impressão) para as páginas com Tailwind (CDN). */
-:root{color-scheme:light dark}
-@media screen and (prefers-color-scheme:dark){
+   Tema escuro para as páginas com Tailwind (CDN). O link usa media="screen and (prefers-color-scheme: dark)"
+   e assets/tema.js troca essa media para forçar o modo claro ou escuro (só em tela, não afeta a impressão). */
+:root{color-scheme:dark}
   body{background-color:#0f171b !important;color:#e6edf1}
   input,select,textarea{background-color:#10181d !important;color:#e6edf1 !important;border-color:#3a4d58 !important}
   input::placeholder,textarea::placeholder{color:#7d8f9b !important}
@@ -60,6 +60,6 @@ css = '''/* GERADO por scripts/gerar-tema-escuro.py: não edite à mão.
   hr{border-color:#2a3a43}
   table{color:inherit}
   a:not([class]){color:#7cc4ff}
-''' + '\n'.join(r) + '\n}\n'
+''' + '\n'.join(r) + '\n'
 open(__file__.replace('scripts/gerar-tema-escuro.py','assets/tema-escuro.css'),'w').write(css)
 print(len(r),'regras')

@@ -1,7 +1,7 @@
 /* GERADO por scripts/gerar-tema-escuro.py: não edite à mão.
-   Tema escuro automático (só em tela, não afeta a impressão) para as páginas com Tailwind (CDN). */
-:root{color-scheme:light dark}
-@media screen and (prefers-color-scheme:dark){
+   Tema escuro para as páginas com Tailwind (CDN). O link usa media="screen and (prefers-color-scheme: dark)"
+   e assets/tema.js troca essa media para forçar o modo claro ou escuro (só em tela, não afeta a impressão). */
+:root{color-scheme:dark}
   body{background-color:#0f171b !important;color:#e6edf1}
   input,select,textarea{background-color:#10181d !important;color:#e6edf1 !important;border-color:#3a4d58 !important}
   input::placeholder,textarea::placeholder{color:#7d8f9b !important}
@@ -426,4 +426,3 @@
   .score-oposicao{background-color:hsl(0 32% 15%) !important}
   .question-header{color:#e6edf1 !important}
   .toggle-radio:checked + div, .toggle-radio:checked + div *{color:#fff !important}
-}
