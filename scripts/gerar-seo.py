@@ -3,7 +3,7 @@
 (entre <!-- seo:inicio --> e <!-- seo:fim -->), e gera sitemap.xml. As descrições vêm dos cartões do index.html.
 Rode de novo sempre que criar ou renomear uma página: python3 scripts/gerar-seo.py"""
 import glob, html, json, os, re, datetime
-SITE = 'https://magomfc.netlify.app'  # trocar aqui se o site ganhar domínio próprio
+SITE = 'https://magomfc.com.br'  # trocar aqui se o site ganhar domínio próprio
 MARCA = 'Mago MFC'
 os.chdir(os.path.join(os.path.dirname(__file__), '..'))
 idx = open('index.html', encoding='utf-8').read()
