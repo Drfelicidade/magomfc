@@ -91,6 +91,7 @@ ${script}
 </script>
 <script src="assets/aviso.js" defer></script>
 <script src="assets/apoio.js" defer></script>
+<script src="assets/contato.js" defer></script>
 </body>
 </html>
 `;

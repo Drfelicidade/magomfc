@@ -1,6 +1,6 @@
 // Service worker do site: permite consultar as Manobras do Exame Físico sem internet.
 // Só trata as páginas/arquivos listados; as demais páginas (login, IA, funções Netlify) nunca passam pelo cache.
-const VERSAO = 'manobras-v2';
+const VERSAO = 'manobras-v3';
 const ARQUIVOS = ['manobras-exame-fisico.html', 'data/manobras.json', 'assets/tema-escuro.css', 'assets/tema.js', 'assets/aviso.js', 'assets/favicon.svg', 'assets/favicon-32.png', 'assets/apple-touch-icon.png', 'regras-ottawa-tornozelo.html', 'calculadora-nihss.html', 'index.html'];
 const CDN = 'https://cdn.tailwindcss.com/';
 

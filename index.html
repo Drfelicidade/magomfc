@@ -262,6 +262,7 @@
         <footer class="text-center text-gray-500 text-sm">
             <p>&copy; 2026 Mago MFC - Ferramentas Médicas. Todos os direitos reservados.</p>
             <p id="apoio-mount" class="mt-1"></p>
+            <p id="contato-mount" class="mt-1"></p>
         </footer>
     </div>
     <script>
@@ -283,6 +284,16 @@
             document.getElementById('sem-resultado').classList.toggle('hidden', total !== 0);
         });
     </script>
+    <!-- Formulário detectado pelo Netlify Forms; o envio real é feito por assets/contato.js -->
+    <form name="contato" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="contato">
+        <input name="bot-field">
+        <input name="tipo">
+        <textarea name="mensagem"></textarea>
+        <input name="contato">
+        <input name="pagina">
+    </form>
 <script src="assets/apoio.js" defer></script>
+<script src="assets/contato.js" defer></script>
 </body>
 </html>
