@@ -54,7 +54,7 @@
         caixa.id = 'topo-acoes';
         caixa.style.cssText = 'position:absolute;top:4px;right:12px;z-index:40;display:flex;gap:6px;align-items:center';
         var p = document.createElement('style');
-        p.textContent = '@media print{#topo-acoes{display:none !important}}';
+        p.textContent = '@media print{#topo-acoes{display:none !important}} @media(max-width:480px){#topo-acoes .mago-rot{display:none}}'; // telas estreitas: só o ícone
         document.head.appendChild(p);
         document.body.appendChild(caixa);
         var base = null;
@@ -74,7 +74,7 @@
     function atualizarBotao() {
         if (!botao) return;
         var e = escuro();
-        botao.textContent = e ? '☀️ Claro' : '🌙 Escuro';
+        botao.innerHTML = e ? '☀️<span class="mago-rot"> Claro</span>' : '🌙<span class="mago-rot"> Escuro</span>';
         botao.setAttribute('aria-label', e ? 'Mudar para o modo claro' : 'Mudar para o modo escuro');
         botao.title = modo ? 'Tema escolhido por você. Alternar de volta ao modo do sistema restaura o automático.' : 'Seguindo o modo do seu navegador/sistema';
         botao.style.cssText = 'border:1px solid ' + (e ? '#4a5f6b' : '#cbd5e1') + ';background:' + (e ? 'rgba(148,163,184,.14)' : '#f8fafc') +
