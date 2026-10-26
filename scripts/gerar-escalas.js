@@ -601,3 +601,83 @@ function atualizar() {
     'Apoio à decisão: não substitui a avaliação neurológica completa nem protocolos de trauma (ATLS) e de via aérea.'
   ]
 });
+
+// ======================= Reposição de ferro endovenoso (Ganzoni) =======================
+pagina({
+  arquivo: 'calculadora-ferro-endovenoso.html',
+  titulo: 'Reposição de ferro endovenoso',
+  sub: 'Déficit total de ferro (fórmula de Ganzoni) e esquema por produto: sacarato de hidróxido férrico e carboximaltose férrica',
+  hue: 'red',
+  corpo: [
+    nota('Antes de calcular, confirme a deficiência de ferro (ferritina, saturação de transferrina) e que a via oral foi insuficiente, não tolerada ou inadequada. Dose cumulativa e limites por aplicação seguem as bulas; confira sempre a bula vigente do produto disponível.'),
+    num('peso', 'Peso (kg)', 'Peso atual, em kg. Abaixo de 35 kg, a bula usa hemoglobina-alvo e reservas diferentes (preenchidas automaticamente).', 'min="1" max="300" step="0.1"'),
+    num('hb', 'Hemoglobina atual (g/dL)', '', 'min="1" max="20" step="0.1"'),
+    num('alvo', 'Hemoglobina-alvo (g/dL)', 'Padrão da bula: 15 g/dL (35 kg ou mais) e 13 g/dL (abaixo de 35 kg). Pode ser ajustada conforme o protocolo do serviço.', 'min="5" max="20" step="0.1" value="15"'),
+    num('reserva', 'Reservas de ferro (mg)', 'Padrão da bula: 500 mg (35 kg ou mais) e 15 mg/kg (abaixo de 35 kg).', 'min="0" max="2000" step="1" value="500"'),
+    '        <p class="text-sm text-gray-600">Fórmula: déficit total de ferro (mg) = peso (kg) × (Hb-alvo − Hb atual, em g/dL) × 2,4 + reservas (mg).</p>'
+  ].join('\n'),
+  script: `
+let editado = { alvo: false, reserva: false };
+$('alvo').addEventListener('input', () => { editado.alvo = true; });
+$('reserva').addEventListener('input', () => { editado.reserva = true; });
+$('btn-limpar').addEventListener('click', () => { editado = { alvo: false, reserva: false }; });
+const arred = x => Math.round(x);
+function atualizar() {
+    const peso = numero('peso'), hb = numero('hb');
+    // padrões da bula conforme o peso, enquanto o usuário não alterou os campos
+    if (peso !== null && peso > 0) {
+        const kids = peso < 35;
+        if (!editado.alvo) $('alvo').value = kids ? 13 : 15;
+        if (!editado.reserva) $('reserva').value = kids ? Math.round(15 * peso) : 500;
+    }
+    const alvo = numero('alvo'), reserva = numero('reserva');
+    if (peso === null || hb === null || alvo === null || reserva === null) { aviso('Informe peso e hemoglobina atual para calcular.'); return; }
+    if (peso <= 0 || peso > 300 || hb <= 0 || hb > 20 || alvo <= 0 || reserva < 0) { aviso('Confira os valores informados.'); return; }
+    if (alvo <= hb) { mostrar('cinza', 'Sem déficit pela fórmula', ['A hemoglobina atual já está igual ou acima da hemoglobina-alvo informada. Reavalie a indicação de ferro endovenoso (ferritina e saturação de transferrina).']); return; }
+    const deficit = arred(peso * (alvo - hb) * 2.4 + reserva);
+    const linhas = ['Déficit total de ferro (Ganzoni): ' + deficit + ' mg (peso ' + peso + ' kg × (' + alvo + ' − ' + hb + ') × 2,4 + reservas ' + reserva + ' mg).'];
+    const extras = [];
+
+    // Sacarato de hidróxido férrico (Noripurum EV, 20 mg/mL)
+    const kids = peso < 35;
+    const mlNori = (deficit / 20).toFixed(1).replace('.', ',');
+    if (kids) {
+        const porAplic = Math.floor(3 * peso);
+        const n = Math.ceil(deficit / porAplic);
+        linhas.push('Sacarato de hidróxido férrico (20 mg/mL): total de ' + mlNori + ' mL. Crianças: até 3 mg/kg por aplicação (cerca de ' + porAplic + ' mg), no máximo 3 vezes por semana, em pelo menos ' + n + ' aplicações.');
+    } else {
+        const infusao = Math.min(Math.floor(7 * peso), 500);
+        const nInf = Math.ceil(deficit / infusao);
+        const nInj = Math.ceil(deficit / 200);
+        linhas.push('Sacarato de hidróxido férrico (Noripurum EV, 20 mg/mL): total de ' + mlNori + ' mL.');
+        linhas.push('• Infusão: até 7 mg/kg, no máximo 500 mg, uma vez por semana (aqui, até ' + infusao + ' mg): pelo menos ' + nInf + ' infusão(ões), ' + nInf + ' semana(s). A dose de 500 mg vai em 500 mL de soro fisiológico, em no mínimo 3,5 horas.');
+        linhas.push('• Injeção endovenosa lenta: 100 a 200 mg por aplicação, de 1 a 3 vezes por semana (cerca de ' + nInj + ' aplicações de 200 mg, em ' + Math.ceil(nInj / 3) + ' semana(s) no mínimo). Máximo de 10 mL (200 mg) por injeção, em no mínimo 10 minutos.');
+    }
+    linhas.push('Em todas as formas, não ultrapasse a dose total calculada e divida o tratamento quando o total exceder o máximo por aplicação.');
+
+    // Carboximaltose férrica (Ferinject, 50 mg/mL)
+    if (!kids) {
+        const maxDose = Math.min(1000, 20 * peso);
+        const nCm = Math.ceil(deficit / maxDose);
+        linhas.push('Carboximaltose férrica (Ferinject, 50 mg/mL): dose única máxima de ' + Math.floor(maxDose) + ' mg (limite de 1.000 mg e 20 mg/kg), uma vez por semana: pelo menos ' + nCm + ' administração(ões), ' + nCm + ' semana(s). Diluir em soro fisiológico 0,9% (volume de até 250 mL na infusão).');
+        let simp;
+        if (hb < 10) simp = peso >= 70 ? 2000 : 1500;
+        else if (hb < 14) simp = peso >= 70 ? 1500 : 1000;
+        else simp = 500;
+        linhas.push('Esquema simplificado da bula europeia (Ferinject, adultos de 35 kg ou mais): dose cumulativa de ' + simp + ' mg para Hb ' + (hb < 10 ? 'abaixo de 10' : hb < 14 ? 'de 10 a menos de 14' : 'de 14 ou mais') + ' g/dL e peso ' + (peso >= 70 ? 'de 70 kg ou mais' : 'de 35 a menos de 70 kg') + '. Essa tabela não consta na página da bula brasileira consultada: confira a bula do produto no seu país.');
+    } else {
+        linhas.push('Carboximaltose férrica: a bula brasileira informa que não foi estudada em crianças.');
+    }
+
+    extras.push('Segurança: reações de hipersensibilidade graves, inclusive fatais, são possíveis com ferro endovenoso. Aplique onde haja suporte para ressuscitação, interrompa se houver reação e observe o paciente por pelo menos 30 minutos após a aplicação.');
+    extras.push('Carboximaltose férrica: pode causar hipofosfatemia (osteomalácia e fraturas com doses altas repetidas e fatores de risco); considere dosar fósforo. Contraindicada em anemia não ferropriva e sobrecarga de ferro; cautela em infecção ativa e doença hepática.');
+    mostrar(deficit > 0 ? 'azul' : 'cinza', 'Déficit de ferro: ' + deficit + ' mg', linhas, extras);
+}`,
+  refs: [
+    'Ganzoni AM. Intravenous iron-dextran: therapeutic and experimental possibilities. Schweiz Med Wochenschr 1970;100:301-3 (fórmula de Ganzoni).',
+    'Bula profissional do Noripurum EV (sacarato de hidróxido férrico): fórmula do déficit, hemoglobina-alvo de 15 g/dL (35 kg ou mais) e 13 g/dL (abaixo de 35 kg), reservas de 500 mg ou 15 mg/kg, limites de injeção (200 mg) e infusão (7 mg/kg, máximo de 500 mg por semana).',
+    'Bula brasileira do Ferinject (carboximaltose férrica): dose única máxima de 1.000 mg por semana, advertências de hipersensibilidade e hipofosfatemia; bula europeia/australiana (Ferinject, Ferrive) para o limite de 20 mg/kg e a tabela simplificada por Hb e peso.',
+    'Dados conferidos em páginas de bulas e guias institucionais; as doses podem diferir entre apresentações e países. Esta ferramenta é apoio ao cálculo e não substitui a prescrição médica nem a bula vigente.',
+    'Não considera necessidades específicas: gestação, insuficiência cardíaca, doença renal crônica em diálise, infecção ativa e obesidade importante exigem protocolo próprio.'
+  ]
+});
