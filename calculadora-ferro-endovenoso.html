@@ -3,17 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reposição de ferro endovenoso | Mago MFC</title>
-    <!-- seo:inicio -->
-    <meta name="description" content="Déficit total de ferro (Ganzoni) e esquema do sacarato férrico e da carboximaltose.">
-    <link rel="canonical" href="https://magomfc.com.br/calculadora-ferro-endovenoso.html">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Mago MFC">
-    <meta property="og:locale" content="pt_BR">
-    <meta property="og:title" content="Reposição de ferro endovenoso | Mago MFC">
-    <meta property="og:description" content="Déficit total de ferro (Ganzoni) e esquema do sacarato férrico e da carboximaltose.">
-    <meta property="og:url" content="https://magomfc.com.br/calculadora-ferro-endovenoso.html">
-    <!-- seo:fim -->
+    <title>Reposição de ferro endovenoso</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
@@ -63,7 +53,7 @@
             <ul class="list-disc pl-5 mt-2 space-y-1">
                 <li>Ganzoni AM. Intravenous iron-dextran: therapeutic and experimental possibilities. Schweiz Med Wochenschr 1970;100:301-3 (fórmula de Ganzoni).</li>
                 <li>Bula profissional do Noripurum EV (sacarato de hidróxido férrico): fórmula do déficit, hemoglobina-alvo de 15 g/dL (35 kg ou mais) e 13 g/dL (abaixo de 35 kg), reservas de 500 mg ou 15 mg/kg, limites de injeção (200 mg) e infusão (7 mg/kg, máximo de 500 mg por semana).</li>
-                <li>Bula brasileira do Ferinject (carboximaltose férrica): dose única máxima de 1.000 mg por semana, advertências de hipersensibilidade e hipofosfatemia; bula europeia/australiana (Ferinject, Ferrive) para o limite de 20 mg/kg e a tabela simplificada por Hb e peso.</li>
+                <li>Bula brasileira do Ferinject (carboximaltose férrica): dose única máxima de 1.000 mg por semana, advertências de hipersensibilidade e hipofosfatemia; bulas neozelandesa/australiana (Ferinject, Ferrive) para o limite de 20 mg/kg, a tabela simplificada por Hb e peso e o plano de diluição (volume máximo de soro e tempo mínimo por dose). Noripurum EV: ampola de 100 mg/5 mL, 1 mL em até 20 mL de soro fisiológico.</li>
                 <li>Dados conferidos em páginas de bulas e guias institucionais; as doses podem diferir entre apresentações e países. Esta ferramenta é apoio ao cálculo e não substitui a prescrição médica nem a bula vigente.</li>
                 <li>Não considera necessidades específicas: gestação, insuficiência cardíaca, doença renal crônica em diálise, infecção ativa e obesidade importante exigem protocolo próprio.</li>
             </ul>
@@ -135,36 +125,67 @@ function atualizar() {
     const linhas = ['Déficit total de ferro (Ganzoni): ' + deficit + ' mg (peso ' + peso + ' kg × (' + alvo + ' − ' + hb + ') × 2,4 + reservas ' + reserva + ' mg).'];
     const extras = [];
 
-    // Sacarato de hidróxido férrico (Noripurum EV, 20 mg/mL)
+    const f1 = x => x.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
+    const pl = (n, um, varios) => n + ' ' + (n === 1 ? um : varios);
     const kids = peso < 35;
-    const mlNori = (deficit / 20).toFixed(1).replace('.', ',');
+    const plano = (total, max) => { // doses cheias + sobra; devolve [[dose, vezes], ...]
+        const cheias = Math.floor(total / max), sobra = total - cheias * max, r = [];
+        if (cheias > 0) r.push([max, cheias]);
+        if (sobra > 0) r.push([sobra, 1]);
+        return r;
+    };
+
+    // ---- Sacarato de hidróxido férrico (Noripurum EV): ampola de 5 mL = 100 mg (20 mg/mL); 1 mL em até 20 mL de SF 0,9% ----
+    linhas.push('SACARATO DE HIDRÓXIDO FÉRRICO (Noripurum EV, ampola de 100 mg em 5 mL)');
     if (kids) {
         const porAplic = Math.floor(3 * peso);
         const n = Math.ceil(deficit / porAplic);
-        linhas.push('Sacarato de hidróxido férrico (20 mg/mL): total de ' + mlNori + ' mL. Crianças: até 3 mg/kg por aplicação (cerca de ' + porAplic + ' mg), no máximo 3 vezes por semana, em pelo menos ' + n + ' aplicações.');
+        linhas.push('• Total: ' + deficit + ' mg = ' + f1(deficit / 20) + ' mL = ' + f1(deficit / 100) + ' ampolas.');
+        linhas.push('• Crianças: até 3 mg/kg por aplicação (cerca de ' + porAplic + ' mg = ' + f1(porAplic / 20) + ' mL, diluídos em até ' + f1(porAplic / 20 * 20) + ' mL de soro fisiológico 0,9%), no máximo 3 vezes por semana: pelo menos ' + n + ' aplicações.');
     } else {
-        const infusao = Math.min(Math.floor(7 * peso), 500);
-        const nInf = Math.ceil(deficit / infusao);
-        const nInj = Math.ceil(deficit / 200);
-        linhas.push('Sacarato de hidróxido férrico (Noripurum EV, 20 mg/mL): total de ' + mlNori + ' mL.');
-        linhas.push('• Infusão: até 7 mg/kg, no máximo 500 mg, uma vez por semana (aqui, até ' + infusao + ' mg): pelo menos ' + nInf + ' infusão(ões), ' + nInf + ' semana(s). A dose de 500 mg vai em 500 mL de soro fisiológico, em no mínimo 3,5 horas.');
-        linhas.push('• Injeção endovenosa lenta: 100 a 200 mg por aplicação, de 1 a 3 vezes por semana (cerca de ' + nInj + ' aplicações de 200 mg, em ' + Math.ceil(nInj / 3) + ' semana(s) no mínimo). Máximo de 10 mL (200 mg) por injeção, em no mínimo 10 minutos.');
+        const ampTotal = Math.floor(deficit / 100);
+        const ampMax = Math.max(1, Math.min(Math.floor(7 * peso / 100), 5)); // 7 mg/kg e teto de 500 mg por infusão
+        linhas.push('• Total: ' + deficit + ' mg = ' + f1(deficit / 20) + ' mL = ' + f1(deficit / 100) + ' ampolas.');
+        if (ampTotal === 0) {
+            linhas.push('• O déficit é menor que 1 ampola (100 mg): ' + f1(deficit / 20) + ' mL em ' + f1(deficit / 20 * 20) + ' mL de soro fisiológico 0,9%.');
+        } else {
+            const usado = ampTotal * 100;
+            linhas.push('• Com ampolas inteiras, sem ultrapassar o calculado: ' + ampTotal + ' ampolas (' + usado + ' mg). Sobra de ' + (deficit - usado) + ' mg; reavalie com Hb e ferritina ao fim do tratamento.');
+            plano(ampTotal, ampMax).forEach(([amp, vezes]) => {
+                linhas.push('• ' + pl(vezes, 'infusão', 'infusões') + ' de ' + pl(amp, 'ampola', 'ampolas') + ' (' + amp * 100 + ' mg = ' + amp * 5 + ' mL), ' + (vezes === 1 ? 'diluída' : 'cada uma diluída') + ' em ' + amp * 100 + ' mL de soro fisiológico 0,9%, 1 vez por semana.');
+            });
+            const nInf = Math.ceil(ampTotal / ampMax);
+            linhas.push('• Máximo por infusão neste paciente: ' + pl(ampMax, 'ampola', 'ampolas') + ' (' + ampMax * 100 + ' mg), pelo limite de 7 mg/kg e 500 mg. Tratamento em ' + pl(nInf, 'semana', 'semanas') + '.');
+            linhas.push('• Tempo mínimo: 100 mg (1 ampola) em 15 minutos; 500 mg (5 ampolas) em 3,5 horas; para as demais doses siga o quadro de tempos da bula.');
+            const nInj = Math.ceil(ampTotal / 2);
+            linhas.push('• Alternativa, injeção endovenosa lenta sem diluir: 1 a 2 ampolas (5 a 10 mL) por aplicação, em no mínimo 10 minutos (1 mL por minuto), 1 a 3 vezes por semana: cerca de ' + pl(nInj, 'aplicação', 'aplicações') + ' de 2 ampolas, em pelo menos ' + pl(Math.ceil(nInj / 3), 'semana', 'semanas') + '.');
+        }
     }
-    linhas.push('Em todas as formas, não ultrapasse a dose total calculada e divida o tratamento quando o total exceder o máximo por aplicação.');
 
-    // Carboximaltose férrica (Ferinject, 50 mg/mL)
+    // ---- Carboximaltose férrica (Ferinject, 50 mg/mL): frascos de 2 mL (100 mg), 10 mL (500 mg) e 20 mL (1.000 mg) ----
+    const sfFcm = mg => mg <= 200 ? [50, 3] : mg <= 500 ? [100, 6] : [250, 15]; // volume máximo de soro (mL) e tempo mínimo (min) da bula
     if (!kids) {
-        const maxDose = Math.min(1000, 20 * peso);
-        const nCm = Math.ceil(deficit / maxDose);
-        linhas.push('Carboximaltose férrica (Ferinject, 50 mg/mL): dose única máxima de ' + Math.floor(maxDose) + ' mg (limite de 1.000 mg e 20 mg/kg), uma vez por semana: pelo menos ' + nCm + ' administração(ões), ' + nCm + ' semana(s). Diluir em soro fisiológico 0,9% (volume de até 250 mL na infusão).');
+        const maxFcm = Math.floor(Math.min(1000, 20 * peso) / 50) * 50;
+        linhas.push('CARBOXIMALTOSE FÉRRICA (Ferinject, 50 mg/mL; frascos de 100 mg em 2 mL, 500 mg em 10 mL e 1.000 mg em 20 mL)');
+        linhas.push('• Total: ' + deficit + ' mg = ' + f1(deficit / 50) + ' mL.');
+        let planoCm = plano(deficit, maxFcm), sobraCm = 0;
+        const ultimo = planoCm[planoCm.length - 1];
+        if (planoCm.length > 1 && ultimo[0] < 100) { sobraCm = ultimo[0]; planoCm.pop(); } // sobra pequena não justifica outra administração
+        planoCm.forEach(([mg, vezes]) => {
+            const [sf, min] = sfFcm(mg);
+            linhas.push('• ' + pl(vezes, 'administração', 'administrações') + ' de ' + mg + ' mg (' + f1(mg / 50) + ' mL), ' + (vezes === 1 ? 'diluída' : 'cada uma diluída') + ' em até ' + sf + ' mL de soro fisiológico 0,9%, em no mínimo ' + min + ' minutos, 1 vez por semana.');
+        });
+        const nCm = planoCm.reduce((t, x) => t + x[1], 0);
+        linhas.push('• Máximo por administração neste paciente: ' + maxFcm + ' mg (limite de 1.000 mg e 20 mg/kg). Tratamento em ' + pl(nCm, 'semana', 'semanas') + (sobraCm ? '; sobra de ' + sobraCm + ' mg não incluída, reavalie ao fim.' : '.') + ' Não dilua a menos de 2 mg de ferro por mL.');
         let simp;
         if (hb < 10) simp = peso >= 70 ? 2000 : 1500;
         else if (hb < 14) simp = peso >= 70 ? 1500 : 1000;
         else simp = 500;
-        linhas.push('Esquema simplificado da bula europeia (Ferinject, adultos de 35 kg ou mais): dose cumulativa de ' + simp + ' mg para Hb ' + (hb < 10 ? 'abaixo de 10' : hb < 14 ? 'de 10 a menos de 14' : 'de 14 ou mais') + ' g/dL e peso ' + (peso >= 70 ? 'de 70 kg ou mais' : 'de 35 a menos de 70 kg') + '. Essa tabela não consta na página da bula brasileira consultada: confira a bula do produto no seu país.');
+        linhas.push('• Esquema simplificado da bula europeia/australiana (adultos de 35 kg ou mais): dose cumulativa de ' + simp + ' mg para Hb ' + (hb < 10 ? 'abaixo de 10' : hb < 14 ? 'de 10 a menos de 14' : 'de 14 ou mais') + ' g/dL e peso ' + (peso >= 70 ? 'de 70 kg ou mais' : 'de 35 a menos de 70 kg') + '. Não consta na página da bula brasileira consultada.');
     } else {
-        linhas.push('Carboximaltose férrica: a bula brasileira informa que não foi estudada em crianças.');
+        linhas.push('CARBOXIMALTOSE FÉRRICA: a bula brasileira informa que não foi estudada em crianças.');
     }
+    linhas.push('Nunca ultrapasse o déficit calculado; os volumes de soro são os da bula para cada dose. Confira a bula vigente do produto.');
 
     extras.push('Segurança: reações de hipersensibilidade graves, inclusive fatais, são possíveis com ferro endovenoso. Aplique onde haja suporte para ressuscitação, interrompa se houver reação e observe o paciente por pelo menos 30 minutos após a aplicação.');
     extras.push('Carboximaltose férrica: pode causar hipofosfatemia (osteomalácia e fraturas com doses altas repetidas e fatores de risco); considere dosar fósforo. Contraindicada em anemia não ferropriva e sobrecarga de ferro; cautela em infecção ativa e doença hepática.');
