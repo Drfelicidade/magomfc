@@ -536,3 +536,68 @@ function atualizar() {
     'Não substitui o exame físico completo (palpação da fíbula proximal, sinais de lesão ligamentar, vascular e neurológica).'
   ]
 });
+
+// ======================= Glasgow (GCS) e GCS-Pupilas (GCS-P) =======================
+const gcsOps = (nome, rotulo, ops, ajuda) => radio(nome, rotulo, ops.concat([['Não testável (ex.: olho fechado por edema, intubado, sedado)', 'nt']]), ajuda);
+pagina({
+  arquivo: 'calculadora-glasgow.html',
+  titulo: 'Escala de Coma de Glasgow (GCS-P)',
+  sub: 'Nível de consciência com resposta pupilar: Glasgow (3 a 15) e GCS-Pupilas (1 a 15)',
+  hue: 'violet',
+  corpo: [
+    nota('Pontue a <strong>melhor resposta</strong> observada. Use estímulo sonoro (voz) antes do estímulo doloroso; para a dor, use pressão no leito ungueal, na região supraorbitária ou no trapézio.'),
+    gcsOps('olho', 'Abertura ocular (O)', [['Espontânea (4)', 4], ['Ao estímulo sonoro (3)', 3], ['À pressão/dor (2)', 2], ['Nenhuma (1)', 1]]),
+    gcsOps('verbal', 'Melhor resposta verbal (V)', [['Orientado (5)', 5], ['Confuso (4)', 4], ['Palavras inapropriadas (3)', 3], ['Sons incompreensíveis (2)', 2], ['Nenhuma (1)', 1]]),
+    gcsOps('motor', 'Melhor resposta motora (M)', [['Obedece comandos (6)', 6], ['Localiza a dor (5)', 5], ['Flexão normal, retirada (4)', 4], ['Flexão anormal, decorticação (3)', 3], ['Extensão, descerebração (2)', 2], ['Nenhuma (1)', 1]]),
+    '        <p class="font-semibold text-gray-800 pt-2">Resposta pupilar à luz</p>',
+    radio('pupd', 'Pupila direita', [['Reage à luz', 'reage'], ['Não reage à luz', 'nao'], ['Não avaliável (ex.: trauma ocular, prótese, cirurgia prévia)', 'na']], 'Considere sem reação quando não há resposta à luz intensa e direta (alteração menor que 1 mm).'),
+    radio('pupe', 'Pupila esquerda', [['Reage à luz', 'reage'], ['Não reage à luz', 'nao'], ['Não avaliável (ex.: trauma ocular, prótese, cirurgia prévia)', 'na']])
+  ].join('\n'),
+  script: `
+function lerGcs(nome) {
+    const el = document.querySelector('input[name="' + nome + '"]:checked');
+    return el ? el.value : null;
+}
+function atualizar() {
+    const o = lerGcs('olho'), v = lerGcs('verbal'), m = lerGcs('motor'), pd = lerGcs('pupd'), pe = lerGcs('pupe');
+    if (o === null || v === null || m === null) { aviso('Selecione a abertura ocular, a resposta verbal e a resposta motora.'); return; }
+    const letra = (l, x) => x === 'nt' ? l + 'NT' : l + x;
+    const componentes = letra('O', o) + ' ' + letra('V', v) + ' ' + letra('M', m);
+    if ([o, v, m].includes('nt')) {
+        mostrar('cinza', 'Glasgow: ' + componentes, ['Há componente não testável: o total não é calculado, pois somar apenas os itens testáveis subestima a pontuação. Registre os componentes (por exemplo, O1 VNT M4) e use outros dados clínicos.']);
+        return;
+    }
+    const gcs = Number(o) + Number(v) + Number(m);
+    let cor, grau;
+    if (gcs <= 8) { cor = 'vermelho'; grau = 'grave (3 a 8)'; }
+    else if (gcs <= 12) { cor = 'laranja'; grau = 'moderado (9 a 12)'; }
+    else if (gcs <= 14) { cor = 'amarelo'; grau = 'leve (13 e 14)'; }
+    else { cor = 'verde'; grau = 'leve (15)'; }
+    const linhas = ['Componentes: ' + componentes + '. Classificação clássica do rebaixamento (usada no traumatismo cranioencefálico): ' + grau + '.'];
+    const extras = [];
+    if (gcs <= 8) extras.push('Glasgow igual ou abaixo de 8 é o limiar clássico para considerar via aérea definitiva e atendimento de emergência/neurocirurgia; a decisão é clínica.');
+    if (pd === null || pe === null) {
+        linhas.push('Informe a resposta de cada pupila à luz para calcular o GCS-Pupilas (GCS-P).');
+        mostrar(cor, 'Glasgow ' + gcs + '/15', linhas, extras);
+        return;
+    }
+    if (pd === 'na' || pe === 'na') {
+        linhas.push('Pupila não avaliável: o GCS-P não é calculado. Registre o Glasgow isolado e a pupila avaliável.');
+        mostrar(cor, 'Glasgow ' + gcs + '/15', linhas, extras);
+        return;
+    }
+    const prs = (pd === 'nao' ? 1 : 0) + (pe === 'nao' ? 1 : 0);
+    const gcsp = gcs - prs;
+    linhas.push('Reatividade pupilar: ' + (prs === 0 ? 'as duas pupilas reagem (escore pupilar 0)' : prs === 1 ? 'uma pupila não reage (escore pupilar 1)' : 'nenhuma pupila reage (escore pupilar 2)') + '.');
+    linhas.push('GCS-P = Glasgow (' + gcs + ') − escore pupilar (' + prs + ') = ' + gcsp + ' (variação de 1 a 15). Quanto menor, pior o prognóstico; o GCS-P descreve melhor a gravidade do que o Glasgow isolado em lesão cerebral aguda.');
+    if (prs > 0) extras.push('Pupila(s) sem reação à luz: avalie sinais de herniação ou lesão expansiva (e outras causas, como trauma ocular ou fármacos) e acione a emergência e a neurocirurgia sem atraso se houver suspeita de lesão intracraniana.');
+    mostrar(cor, 'GCS-P ' + gcsp + '/15 (Glasgow ' + gcs + ')', linhas, extras);
+}`,
+  refs: [
+    'Teasdale G, Jennett B. Assessment of coma and impaired consciousness. Lancet 1974;2:81-84 (escala original).',
+    'Teasdale G et al. The Glasgow Coma Scale at 40 years: standing the test of time. Lancet Neurol 2014;13:844-854 (abordagem estruturada; componente não testável não entra na soma).',
+    'Brennan PM, Murray GD, Teasdale GM. Simplifying the use of prognostic information in traumatic brain injury. Part 1: the GCS-Pupils score. J Neurosurg 2018 (GCS-P = Glasgow menos o número de pupilas sem reação, de 1 a 15).',
+    'A classificação leve, moderada e grave por faixas de Glasgow é convenção usada no traumatismo cranioencefálico; outros contextos (intoxicação, sedação, AVC) exigem interpretação própria.',
+    'Apoio à decisão: não substitui a avaliação neurológica completa nem protocolos de trauma (ATLS) e de via aérea.'
+  ]
+});
