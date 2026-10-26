@@ -606,78 +606,162 @@ function atualizar() {
 pagina({
   arquivo: 'calculadora-ferro-endovenoso.html',
   titulo: 'Reposição de ferro endovenoso',
-  sub: 'Déficit total de ferro (fórmula de Ganzoni) e esquema por produto: sacarato de hidróxido férrico e carboximaltose férrica',
+  sub: 'Déficit de ferro (Ganzoni) e plano de reposição em ampolas, mL e soro: Noripurum EV, ferripolimaltose IM e Ferinject',
   hue: 'red',
   corpo: [
-    nota('Antes de calcular, confirme a deficiência de ferro (ferritina, saturação de transferrina) e que a via oral foi insuficiente, não tolerada ou inadequada. Dose cumulativa e limites por aplicação seguem as bulas; confira sempre a bula vigente do produto disponível.'),
-    num('peso', 'Peso (kg)', 'Peso atual, em kg. Abaixo de 35 kg, a bula usa hemoglobina-alvo e reservas diferentes (preenchidas automaticamente).', 'min="1" max="300" step="0.1"'),
-    num('hb', 'Hemoglobina atual (g/dL)', '', 'min="1" max="20" step="0.1"'),
-    num('alvo', 'Hemoglobina-alvo (g/dL)', 'Padrão da bula: 15 g/dL (35 kg ou mais) e 13 g/dL (abaixo de 35 kg). Pode ser ajustada conforme o protocolo do serviço.', 'min="5" max="20" step="0.1" value="15"'),
-    num('reserva', 'Reservas de ferro (mg)', 'Padrão da bula: 500 mg (35 kg ou mais) e 15 mg/kg (abaixo de 35 kg).', 'min="0" max="2000" step="1" value="500"'),
+    nota('Confirme a deficiência de ferro (ferritina, saturação de transferrina) e que a via oral foi insuficiente, não tolerada ou inadequada. Déficit pela fórmula de Ganzoni; apresentações, diluição, tempos e regras de aplicação seguem o POP da SEMUS Blumenau (2026) e, onde ele não define, as bulas. Ferramenta educacional para adultos; não substitui o julgamento clínico.'),
+    num('peso', 'Peso (kg)', 'Massa corporal real do paciente.', 'min="1" max="300" step="0.1"'),
+    num('hb', 'Hemoglobina atual (g/dL)', 'Valor do hemograma.', 'min="1" max="20" step="0.1"'),
+    num('alvo', 'Hemoglobina-alvo (g/dL)', 'Sugerida pelo peso: 13 g/dL abaixo de 35 kg e 15 g/dL com 35 kg ou mais. Pode ser alterada.', 'min="5" max="20" step="0.1" value="15"'),
+    check('reserva', 'Incluir reserva de ferro no cálculo', '15 mg/kg abaixo de 35 kg e 500 mg com 35 kg ou mais. Pode ser excluída conforme a indicação clínica.'),
     '        <p class="text-sm text-gray-600">Fórmula: déficit total de ferro (mg) = peso (kg) × (Hb-alvo − Hb atual, em g/dL) × 2,4 + reservas (mg).</p>'
   ].join('\n'),
   script: `
-let editado = { alvo: false, reserva: false };
-$('alvo').addEventListener('input', () => { editado.alvo = true; });
-$('reserva').addEventListener('input', () => { editado.reserva = true; });
-$('btn-limpar').addEventListener('click', () => { editado = { alvo: false, reserva: false }; });
-const arred = x => Math.round(x);
+$('reserva').checked = true;
+let alvoEditado = false;
+$('alvo').addEventListener('input', () => { alvoEditado = true; });
+$('btn-limpar').addEventListener('click', () => { alvoEditado = false; setTimeout(() => { $('reserva').checked = true; }, 0); });
+const f1 = x => x.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
+const pl = (n, um, varios) => n + ' ' + (n === 1 ? um : varios);
+function el(tag, cls, texto) { const e = document.createElement(tag); if (cls) e.className = cls; if (texto !== undefined) e.textContent = texto; return e; }
+function bloco(titulo, sub, pares, notas) {
+    const d = el('div', 'bg-white border border-gray-200 rounded-xl p-4 space-y-2 text-gray-800');
+    d.appendChild(el('p', 'font-bold text-base', titulo));
+    if (sub) d.appendChild(el('p', 'text-xs text-gray-500', sub));
+    const lista = el('div', 'divide-y divide-gray-100 text-sm');
+    pares.forEach(par => {
+        const r = el('div', 'flex flex-wrap justify-between gap-x-4 gap-y-0.5 py-1.5');
+        r.appendChild(el('span', 'text-gray-600', par[0]));
+        r.appendChild(el('span', 'font-semibold sm:text-right', par[1]));
+        lista.appendChild(r);
+    });
+    d.appendChild(lista);
+    (notas || []).forEach(n => d.appendChild(el('p', 'text-xs text-gray-600', n)));
+    return d;
+}
+// doses cheias + sobra: devolve [[dose, vezes], ...]
+function plano(total, max) {
+    const cheias = Math.floor(total / max), sobra = total - cheias * max, r = [];
+    if (cheias > 0) r.push([max, cheias]);
+    if (sobra > 0) r.push([sobra, 1]);
+    return r;
+}
+// quadro de infusão do POP (sacarato EV): 100 e 200 mg, mínimo de 2 h; 300 a 500 mg, mínimo de 3 h 30 min
+const tempoPop = amp => amp <= 2 ? '2 h' : '3 h 30 min';
+// Ferinject (bulas): volume máximo de soro (mL) e tempo mínimo (min) por faixa de dose
+const sfFcm = mg => mg <= 200 ? [50, 3] : mg <= 500 ? [100, 6] : [250, 15];
+
 function atualizar() {
     const peso = numero('peso'), hb = numero('hb');
-    // padrões da bula conforme o peso, enquanto o usuário não alterou os campos
-    if (peso !== null && peso > 0) {
-        const kids = peso < 35;
-        if (!editado.alvo) $('alvo').value = kids ? 13 : 15;
-        if (!editado.reserva) $('reserva').value = kids ? Math.round(15 * peso) : 500;
-    }
-    const alvo = numero('alvo'), reserva = numero('reserva');
-    if (peso === null || hb === null || alvo === null || reserva === null) { aviso('Informe peso e hemoglobina atual para calcular.'); return; }
-    if (peso <= 0 || peso > 300 || hb <= 0 || hb > 20 || alvo <= 0 || reserva < 0) { aviso('Confira os valores informados.'); return; }
+    if (peso !== null && peso > 0 && !alvoEditado) $('alvo').value = peso < 35 ? 13 : 15;
+    const alvo = numero('alvo');
+    if (peso === null || hb === null || alvo === null) { aviso('Informe peso e hemoglobina atual para calcular.'); return; }
+    if (peso <= 0 || peso > 300 || hb <= 0 || hb > 20 || alvo <= 0) { aviso('Confira os valores informados.'); return; }
     if (alvo <= hb) { mostrar('cinza', 'Sem déficit pela fórmula', ['A hemoglobina atual já está igual ou acima da hemoglobina-alvo informada. Reavalie a indicação de ferro endovenoso (ferritina e saturação de transferrina).']); return; }
-    const deficit = arred(peso * (alvo - hb) * 2.4 + reserva);
-    const linhas = ['Déficit total de ferro (Ganzoni): ' + deficit + ' mg (peso ' + peso + ' kg × (' + alvo + ' − ' + hb + ') × 2,4 + reservas ' + reserva + ' mg).'];
-    const extras = [];
-
-    // Sacarato de hidróxido férrico (Noripurum EV, 20 mg/mL)
     const kids = peso < 35;
-    const mlNori = (deficit / 20).toFixed(1).replace('.', ',');
-    if (kids) {
-        const porAplic = Math.floor(3 * peso);
-        const n = Math.ceil(deficit / porAplic);
-        linhas.push('Sacarato de hidróxido férrico (20 mg/mL): total de ' + mlNori + ' mL. Crianças: até 3 mg/kg por aplicação (cerca de ' + porAplic + ' mg), no máximo 3 vezes por semana, em pelo menos ' + n + ' aplicações.');
-    } else {
-        const infusao = Math.min(Math.floor(7 * peso), 500);
-        const nInf = Math.ceil(deficit / infusao);
-        const nInj = Math.ceil(deficit / 200);
-        linhas.push('Sacarato de hidróxido férrico (Noripurum EV, 20 mg/mL): total de ' + mlNori + ' mL.');
-        linhas.push('• Infusão: até 7 mg/kg, no máximo 500 mg, uma vez por semana (aqui, até ' + infusao + ' mg): pelo menos ' + nInf + ' infusão(ões), ' + nInf + ' semana(s). A dose de 500 mg vai em 500 mL de soro fisiológico, em no mínimo 3,5 horas.');
-        linhas.push('• Injeção endovenosa lenta: 100 a 200 mg por aplicação, de 1 a 3 vezes por semana (cerca de ' + nInj + ' aplicações de 200 mg, em ' + Math.ceil(nInj / 3) + ' semana(s) no mínimo). Máximo de 10 mL (200 mg) por injeção, em no mínimo 10 minutos.');
-    }
-    linhas.push('Em todas as formas, não ultrapasse a dose total calculada e divida o tratamento quando o total exceder o máximo por aplicação.');
+    const reserva = $('reserva').checked ? (kids ? Math.round(15 * peso) : 500) : 0;
+    const deficit = Math.round(peso * (alvo - hb) * 2.4 + reserva);
 
-    // Carboximaltose férrica (Ferinject, 50 mg/mL)
+    const r = $('resultado');
+    r.className = 'p-5 rounded-2xl border-2 space-y-3 ' + CORES.azul;
+    r.textContent = '';
+    r.appendChild(el('p', 'text-xs font-bold uppercase tracking-widest', 'Déficit total estimado de ferro'));
+    r.appendChild(el('p', 'text-4xl font-black', deficit + ' mg'));
+    r.appendChild(el('p', 'text-sm font-medium', 'Peso ' + f1(peso) + ' kg, Hb atual ' + f1(hb) + ' g/dL, Hb-alvo ' + f1(alvo) + ' g/dL, reserva ' + (reserva ? reserva + ' mg' : 'não incluída') + '. Dose total teórica: ajuste à clínica e à bula; nunca ultrapasse o déficit calculado.'));
+
+    // ---- Sacarato de hidróxido férrico EV (Noripurum EV): ampola de 100 mg em 5 mL (POP SEMUS Blumenau) ----
+    const subNori = 'Sacarato de hidróxido férrico, 20 mg/mL, ampola de 100 mg em 5 mL. Exclusivamente endovenoso; diluir só em soro fisiológico 0,9%.';
+    if (kids) {
+        const porAplic = Math.floor(3 * peso), n = Math.ceil(deficit / porAplic);
+        r.appendChild(bloco('Noripurum EV', subNori, [
+            ['Ferro total', deficit + ' mg'],
+            ['Volume total', f1(deficit / 20) + ' mL (' + f1(deficit / 100) + ' ampolas)'],
+            ['Dose por aplicação', 'até 3 mg/kg: cerca de ' + porAplic + ' mg (' + f1(porAplic / 20) + ' mL) em soro fisiológico 0,9%'],
+            ['Número mínimo de aplicações', n + ' (no máximo 3 por semana)']
+        ], ['Crianças: dose da bula do Noripurum EV (o POP não detalha). Não recomendado abaixo de 4 meses. Esta calculadora é voltada para adultos; confira a bula e a avaliação médica.']));
+    } else {
+        const ampTotal = Math.floor(deficit / 100);
+        const ampMax = Math.max(1, Math.min(Math.floor(7 * peso / 100), 5)); // teto de 500 mg do POP e limite de 7 mg/kg da bula
+        if (ampTotal === 0) {
+            r.appendChild(bloco('Noripurum EV', subNori, [
+                ['Ferro total', deficit + ' mg (menos de 1 ampola)'],
+                ['Volume total', f1(deficit / 20) + ' mL'],
+                ['Diluição e tempo', f1(deficit / 20 * 20) + ' mL de soro fisiológico 0,9%, em no mínimo 2 h']
+            ], []));
+        } else {
+            const usado = ampTotal * 100, nInf = Math.ceil(ampTotal / ampMax), nInj = Math.ceil(ampTotal / 2);
+            const doses = plano(ampTotal, ampMax).map(x => pl(x[1], 'infusão', 'infusões') + ' de ' + pl(x[0], 'ampola', 'ampolas') + ' (' + x[0] * 100 + ' mg = ' + x[0] * 5 + ' mL) em ' + x[0] * 100 + ' mL de soro, mínimo ' + tempoPop(x[0]));
+            r.appendChild(bloco('Noripurum EV', subNori, [
+                ['Ferro total (ampolas inteiras)', usado + ' mg'],
+                ['Volume total', ampTotal * 5 + ' mL (calculado: ' + f1(deficit / 20) + ' mL)'],
+                ['Número de ampolas (100 mg)', String(ampTotal)],
+                ['Dose por aplicação (infusão)', doses.join('; ')],
+                ['Número mínimo de aplicações', nInf + ' (1 por semana)']
+            ], [
+                'Ampolas inteiras para não ultrapassar o calculado; sobra de ' + (deficit - usado) + ' mg, reavalie com Hb e ferritina ao fim do tratamento.',
+                'Máximo por infusão neste paciente: ' + pl(ampMax, 'ampola', 'ampolas') + ' (' + ampMax * 100 + ' mg): o quadro do POP vai até 500 mg e a bula limita a 7 mg/kg.',
+                'Alternativa, injeção direta (bolus) sem diluir: no máximo 200 mg (2 ampolas = 10 mL) por aplicação, a 1 mL por minuto (200 mg em no mínimo 10 minutos), cerca de ' + pl(nInj, 'aplicação', 'aplicações') + ' de 2 ampolas, 1 a 3 vezes por semana; manter o braço estendido.'
+            ]));
+        }
+    }
+
     if (!kids) {
-        const maxDose = Math.min(1000, 20 * peso);
-        const nCm = Math.ceil(deficit / maxDose);
-        linhas.push('Carboximaltose férrica (Ferinject, 50 mg/mL): dose única máxima de ' + Math.floor(maxDose) + ' mg (limite de 1.000 mg e 20 mg/kg), uma vez por semana: pelo menos ' + nCm + ' administração(ões), ' + nCm + ' semana(s). Diluir em soro fisiológico 0,9% (volume de até 250 mL na infusão).');
+        // ---- Ferripolimaltose IM: ampola de 100 mg em 2 mL (POP) ----
+        const ampIm = Math.floor(deficit / 100);
+        r.appendChild(bloco('Ferripolimaltose IM', 'Ampola de 100 mg em 2 mL (50 mg/mL). Exclusivamente intramuscular; não diluir nem misturar com outros medicamentos.', [
+            ['Ferro total (ampolas inteiras)', ampIm * 100 + ' mg'],
+            ['Volume total', ampIm * 2 + ' mL (calculado: ' + f1(deficit / 50) + ' mL)'],
+            ['Número de ampolas (100 mg)', String(ampIm)],
+            ['Dose-teste (antes da 1ª dose)', '¼ a ½ ampola (25 a 50 mg = 0,5 a 1 mL), técnica em Z; observar 30 min'],
+            ['Dose por aplicação e intervalo', 'conforme prescrição e bula (o POP não define)']
+        ], ['Ventroglúteo como 1ª escolha, técnica em Z obrigatória, não massagear o local e observar 30 minutos após cada aplicação.']));
+
+        // ---- Carboximaltose férrica (Ferinject): fora do POP municipal; dados das bulas ----
+        const maxFcm = Math.floor(Math.min(1000, 20 * peso) / 50) * 50;
+        let planoCm = plano(deficit, maxFcm), sobraCm = 0;
+        const ult = planoCm[planoCm.length - 1];
+        if (planoCm.length > 1 && ult[0] < 100) { sobraCm = ult[0]; planoCm.pop(); } // sobra pequena não justifica outra administração
+        const dosesCm = planoCm.map(x => { const sf = sfFcm(x[0]); return pl(x[1], 'administração', 'administrações') + ' de ' + x[0] + ' mg (' + f1(x[0] / 50) + ' mL) em até ' + sf[0] + ' mL de soro, mínimo ' + sf[1] + ' min'; });
+        const nCm = planoCm.reduce((t, x) => t + x[1], 0);
         let simp;
         if (hb < 10) simp = peso >= 70 ? 2000 : 1500;
         else if (hb < 14) simp = peso >= 70 ? 1500 : 1000;
         else simp = 500;
-        linhas.push('Esquema simplificado da bula europeia (Ferinject, adultos de 35 kg ou mais): dose cumulativa de ' + simp + ' mg para Hb ' + (hb < 10 ? 'abaixo de 10' : hb < 14 ? 'de 10 a menos de 14' : 'de 14 ou mais') + ' g/dL e peso ' + (peso >= 70 ? 'de 70 kg ou mais' : 'de 35 a menos de 70 kg') + '. Essa tabela não consta na página da bula brasileira consultada: confira a bula do produto no seu país.');
-    } else {
-        linhas.push('Carboximaltose férrica: a bula brasileira informa que não foi estudada em crianças.');
+        r.appendChild(bloco('Ferinject (carboximaltose férrica)', 'Carboximaltose férrica, 50 mg/mL; frascos de 100 mg/2 mL, 500 mg/10 mL e 1.000 mg/20 mL. Não consta no POP municipal: valores das bulas.', [
+            ['Ferro total', deficit + ' mg'],
+            ['Volume total', f1(deficit / 50) + ' mL'],
+            ['Número de frascos (500 mg/10 mL)', Math.ceil(deficit / 500) + ' (ou combine com frascos de 100 mg/2 mL)'],
+            ['Dose máxima por aplicação', maxFcm + ' mg (limite de 1.000 mg e 20 mg/kg)'],
+            ['Dose por aplicação', dosesCm.join('; ')],
+            ['Número mínimo de aplicações', nCm + ' (1 por semana)']
+        ], [
+            (sobraCm ? 'Sobra de ' + sobraCm + ' mg não incluída; reavalie ao fim. ' : '') + 'Não dilua a menos de 2 mg de ferro por mL.',
+            'Esquema simplificado da bula europeia/australiana (adultos de 35 kg ou mais): dose cumulativa de ' + simp + ' mg para Hb ' + (hb < 10 ? 'abaixo de 10' : hb < 14 ? 'de 10 a menos de 14' : 'de 14 ou mais') + ' g/dL e peso ' + (peso >= 70 ? 'de 70 kg ou mais' : 'de 35 a menos de 70 kg') + '. Não consta na página da bula brasileira consultada.',
+            'Pode causar hipofosfatemia (osteomalácia e fraturas com doses altas repetidas e fatores de risco); considere dosar fósforo.'
+        ]));
     }
 
-    extras.push('Segurança: reações de hipersensibilidade graves, inclusive fatais, são possíveis com ferro endovenoso. Aplique onde haja suporte para ressuscitação, interrompa se houver reação e observe o paciente por pelo menos 30 minutos após a aplicação.');
-    extras.push('Carboximaltose férrica: pode causar hipofosfatemia (osteomalácia e fraturas com doses altas repetidas e fatores de risco); considere dosar fósforo. Contraindicada em anemia não ferropriva e sobrecarga de ferro; cautela em infecção ativa e doença hepática.');
-    mostrar(deficit > 0 ? 'azul' : 'cinza', 'Déficit de ferro: ' + deficit + ' mg', linhas, extras);
+    // ---- interpretação do déficit (calculadora de referência) ----
+    const interp = deficit < 500 ? 'Menos de 500 mg: em geral corrigível com 1 a 2 aplicações de Ferinject ou poucas semanas de Noripurum.'
+        : deficit <= 1500 ? 'De 500 a 1.500 mg: costuma exigir várias sessões ou esquemas fracionados.'
+        : 'Acima de 1.500 mg: associado a anemia ferropriva grave ou comorbidades; reposição parcelada.';
+    r.appendChild(el('p', 'text-sm font-semibold', 'Interpretação do déficit: ' + interp));
+
+    const avisos = [
+        'Antes de aplicar (POP SEMUS Blumenau): prescrição médica válida e deficiência de ferro confirmada; sem febre nem infecção aguda; EV só em unidade preparada para anafilaxia (adrenalina, anti-histamínico, acionamento do SAMU); acesso venoso exclusivo; proibido soro glicosado; nunca trocar as vias (EV nunca IM, IM nunca EV).',
+        'Durante e depois: monitorar pressão arterial e frequência cardíaca na infusão e observar 30 minutos. Interromper se houver edema, dor ou queimação no local, hipotensão, dispneia, urticária generalizada, edema de face ou glote, taquicardia ou sinais de alergia. Na anafilaxia, a adrenalina intramuscular é a primeira medida.',
+        'Contraindicações (POP): anemia não ferropriva, sobrecarga ou distúrbio de utilização do ferro, hipersensibilidade a ferro, poliartrite crônica, asma brônquica, fase aguda de infecção renal, hiperparatireoidismo não controlado, cirrose descompensada, hepatite infecciosa e deficiência de ácido fólico. Pergunte sobre betabloqueadores e antiarrítmicos (respondem mal à adrenalina). Ferro oral só pelo menos 1 semana após a última aplicação parenteral.',
+        'Pediatria, IRC dialítica e gestação seguem a bula e avaliação médica; em hemodiálise, DRC não dialítica e gestação, protocolos específicos podem alterar a Hb-alvo ou a estratégia. Na inflamação crônica, a ferritina pode não refletir os estoques de ferro.'
+    ];
+    avisos.forEach(t => r.appendChild(el('p', 'text-xs font-medium p-3 rounded-lg bg-red-100 text-red-900 border border-red-300', t)));
 }`,
   refs: [
+    'SEMUS Blumenau. Procedimento Operacional Padrão de administração de reposição de ferro via EV e IM, 2026: apresentações (sacarato de hidróxido férrico EV 100 mg/5 mL e ferripolimaltose IM 100 mg/2 mL), diluição em soro fisiológico 0,9%, tempos mínimos de infusão, bolus, dose-teste IM, contraindicações e manejo de anafilaxia.',
+    'Estrutura de campos e resultados inspirada na calculadora "Déficit de ferro (Ganzoni)" do Medesporte Papers (medesportepapers.com.br). Atenção: essa calculadora usa ampolas de 200 mg/10 mL e aplicações de 200 mg em 30 minutos; aqui prevalecem as ampolas de 100 mg/5 mL e os tempos do POP municipal.',
     'Ganzoni AM. Intravenous iron-dextran: therapeutic and experimental possibilities. Schweiz Med Wochenschr 1970;100:301-3 (fórmula de Ganzoni).',
     'Bula profissional do Noripurum EV (sacarato de hidróxido férrico): fórmula do déficit, hemoglobina-alvo de 15 g/dL (35 kg ou mais) e 13 g/dL (abaixo de 35 kg), reservas de 500 mg ou 15 mg/kg, limites de injeção (200 mg) e infusão (7 mg/kg, máximo de 500 mg por semana).',
-    'Bula brasileira do Ferinject (carboximaltose férrica): dose única máxima de 1.000 mg por semana, advertências de hipersensibilidade e hipofosfatemia; bula europeia/australiana (Ferinject, Ferrive) para o limite de 20 mg/kg e a tabela simplificada por Hb e peso.',
-    'Dados conferidos em páginas de bulas e guias institucionais; as doses podem diferir entre apresentações e países. Esta ferramenta é apoio ao cálculo e não substitui a prescrição médica nem a bula vigente.',
-    'Não considera necessidades específicas: gestação, insuficiência cardíaca, doença renal crônica em diálise, infecção ativa e obesidade importante exigem protocolo próprio.'
+    'Bula brasileira do Ferinject (carboximaltose férrica): dose única máxima de 1.000 mg por semana, advertências de hipersensibilidade e hipofosfatemia; bulas neozelandesa/australiana (Ferinject, Ferrive) para o limite de 20 mg/kg, a tabela simplificada por Hb e peso e o plano de diluição (volume máximo de soro e tempo mínimo por dose).',
+    'Ganz T, Nemeth E. Science 2012;338:65-72; Camaschella C. N Engl J Med 2015;372:1832-43; Auerbach M, Macdougall IC. Hematology Am Soc Hematol Educ Program 2014:338-47 (referências da calculadora de referência sobre ferro e reposição).',
+    'Esta ferramenta é apoio ao cálculo e não substitui a prescrição médica nem a bula vigente.'
   ]
 });
