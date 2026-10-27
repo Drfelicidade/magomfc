@@ -1,3 +1,5 @@
+const { gerarConteudo } = require("../lib/ia");
+
 // Valida o ID token do Firebase sem dependências extras (API REST do Identity Toolkit)
 async function tokenValido(event) {
   const header = event.headers.authorization || event.headers.Authorization || "";
@@ -33,54 +35,26 @@ exports.handler = async function(event, context) {
     };
   }
 
-  // Vai buscar a chave configurada na Netlify e limpa espaços vazios
-  const apiKey = (process.env.GEMINI_API_KEY || "").trim();
-
-  if (!apiKey) {
-    return { 
-      statusCode: 200, 
-      body: JSON.stringify({ error: "Chave de API não configurada no servidor da Netlify." }) 
-    };
-  }
-
   // Limita o tamanho do corpo para reduzir abuso da cota da API
   if ((event.body || "").length > 20 * 1024 * 1024) {
     return { statusCode: 413, body: "Payload Too Large" };
   }
 
+  let payload;
   try {
-    const payload = JSON.parse(event.body);
-    
-    // CORREÇÃO FINAL: Adicionado o sufixo "-latest" ao modelo
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
+    payload = JSON.parse(event.body);
+  } catch (e) {
+    return { statusCode: 400, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: "Requisição inválida." }) };
+  }
 
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await response.json();
-
-    // Se o Google der erro, devolvemos com status 200 para o site ler o motivo
-    if (!response.ok) {
-      return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ error: "Erro na API do Google:", details: data })
-      };
-    }
-
+  // Gemini (modelo com plano gratuito) e, se falhar, Groq como reserva (ver netlify/lib/ia.js)
+  const r = await gerarConteudo(payload);
+  if (!r.ok) {
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    };
-
-  } catch (error) {
-    return { 
-      statusCode: 200, 
-      body: JSON.stringify({ error: "Erro interno no servidor (Proxy)", details: error.message }) 
+      body: JSON.stringify({ error: "Nenhuma IA disponível no momento.", details: { error: { message: r.motivos.join(' | ') } } })
     };
   }
+  return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(r.dados) };
 };

@@ -1,6 +1,8 @@
 // Consulta de segurança de medicamentos na gestação/lactação.
 // O prompt fica no servidor: esta rota só aceita o nome de um medicamento,
 // então não serve como proxy genérico para a API do Gemini.
+const { gerarConteudo } = require("../lib/ia");
+
 exports.handler = async function(event) {
   const json = (statusCode, obj) => ({
     statusCode,
@@ -9,9 +11,6 @@ exports.handler = async function(event) {
   });
 
   if (event.httpMethod !== "POST") return json(405, { error: "Method Not Allowed" });
-
-  const apiKey = (process.env.GEMINI_API_KEY || "").trim();
-  if (!apiKey) return json(200, { error: "Chave de API não configurada no servidor da Netlify." });
 
   let medicationName = "";
   try {
@@ -36,22 +35,11 @@ Retorne EXATAMENTE UM objeto JSON válido (sem crases nem marcações de bloco, 
   "conduta": "Conduta sugerida e alternativas mais seguras na mesma classe terapêutica."
 }`;
 
-  try {
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.2, responseMimeType: "application/json" }
-        })
-      }
-    );
-    const data = await response.json();
-    if (!response.ok) return json(200, { error: "Erro na API do Google:", details: data });
-    return json(200, data);
-  } catch (error) {
-    return json(200, { error: "Erro interno no servidor", details: error.message });
-  }
+  // Gemini (modelo com plano gratuito) e, se falhar, Groq como reserva (ver netlify/lib/ia.js)
+  const r = await gerarConteudo({
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: { temperature: 0.2, responseMimeType: "application/json" }
+  });
+  if (!r.ok) return json(200, { error: "Nenhuma IA disponível no momento.", details: { error: { message: r.motivos.join(' | ') } } });
+  return json(200, r.dados);
 };

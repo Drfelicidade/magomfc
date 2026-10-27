@@ -588,7 +588,7 @@ Regras OBRIGATÓRIAS:
         // Proxy da Netlify Seguro
         let apiUrl = `/.netlify/functions/gemini-proxy`;
         if (window.location.hostname.includes('google') || window.location.hostname === 'localhost') {
-            apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=`;
+            apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=`;
         }
 
         const MAX_PAGINAS_LOTE = 3;
@@ -601,6 +601,7 @@ Regras OBRIGATÓRIAS:
         let falhas = {};             // índice do lote -> mensagem de erro
         let textoGerado = '';        // último texto montado pelo código (para detectar edição do usuário)
         let salvoNestaSessao = false;
+        let usouReserva = false;     // algum lote foi lido pela IA reserva (Groq)
 
         function montarLotes(arquivos) {
             const res = [];
@@ -642,6 +643,7 @@ Regras OBRIGATÓRIAS:
             const cand = result.candidates && result.candidates[0];
             const texto = cand && cand.content && cand.content.parts ? cand.content.parts.map(p => p.text || '').join('') : '';
             if (!texto) throw new Error('A IA não devolveu conteúdo para estas páginas.');
+            if (result.provedor === 'groq') usouReserva = true;
             const dados = JSON.parse(texto);
             if (!dados || !Array.isArray(dados.exames)) throw new Error('Resposta da IA fora do formato esperado.');
             return dados.exames;
@@ -688,7 +690,7 @@ Regras OBRIGATÓRIAS:
                 mostrarStatus(`⚠️ Não foi possível ler ${/[,–]/.test(paginas) ? 'as páginas' : 'a página'} ${paginas}. O resultado abaixo está <strong>incompleto</strong>. Use “Tentar novamente” para reprocessar só ${/[,–]/.test(paginas) ? 'essas páginas' : 'essa página'}.`, 'bg-amber-50 text-amber-900 border border-amber-300');
             } else {
                 const n = grupos.size;
-                mostrarStatus(`✅ ${n} data(s) lida(s) em ${fileDataArray.length} página(s). Revise e, se precisar, edite o texto antes de copiar.`, 'bg-green-50 text-green-800 border border-green-200');
+                mostrarStatus(`✅ ${n} data(s) lida(s) em ${fileDataArray.length} página(s). Revise e, se precisar, edite o texto antes de copiar.` + (usouReserva ? ' <strong>Parte da leitura foi feita pela IA reserva (Groq): revise com atenção redobrada.</strong>' : ''), 'bg-green-50 text-green-800 border border-green-200');
             }
             return idxFalhas.length === 0;
         }
@@ -753,7 +755,7 @@ Regras OBRIGATÓRIAS:
             saveFeedback.classList.add('hidden');
             resultStatus.classList.add('hidden');
             lotes = montarLotes(fileDataArray);
-            resultadosPorLote = {}; falhas = {}; salvoNestaSessao = false;
+            resultadosPorLote = {}; falhas = {}; salvoNestaSessao = false; usouReserva = false;
             await processarLotes(lotes.map((_, i) => i));
         });
 
