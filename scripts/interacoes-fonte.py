@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Gera data/interacoes.json. Uso: python3 scripts/interacoes-fonte.py
-Fármacos: nome | classes | nome em inglês (para conferência em bulas DailyMed).
+Fármacos: nome | classes | nome em inglês (para conferência em bulas DailyMed) | sinônimos para a busca (opcional, separados por ;).
 Regras: (A, B, gravidade, mecanismo/efeito, conduta). A e B são nomes de fármaco ou classe.
 Gravidade: c = contraindicada, g = grave (evitar ou ajustar/monitorar de perto), m = moderada (monitorar)."""
 import json, sys
@@ -8,7 +8,7 @@ F = """varfarina|vka|warfarin
 rivaroxabana|doac,xa|rivaroxaban
 apixabana|doac,xa|apixaban
 dabigatrana|doac|dabigatran
-AAS|aas,antiplaq|aspirin
+AAS|aas,antiplaq|aspirin|ácido acetilsalicílico
 clopidogrel|antiplaq|clopidogrel
 ibuprofeno|aine|ibuprofen
 diclofenaco|aine|diclofenac
@@ -31,8 +31,8 @@ indapamida|tiazidico|indapamide
 furosemida|alca|furosemide
 metoprolol|betabloq|metoprolol
 atenolol|betabloq|atenolol
-propranolol|betabloq|propranolol
-carvedilol|betabloq|carvedilol
+propranolol|betabloq,bbnsel|propranolol
+carvedilol|betabloq,bbnsel|carvedilol
 bisoprolol|betabloq|bisoprolol
 verapamil|bccnd|verapamil
 diltiazem|bccnd|diltiazem
@@ -47,7 +47,7 @@ metformina||metformin
 glibenclamida|sulfonilureia|glyburide
 glimepirida|sulfonilureia|glimepiride
 gliclazida|sulfonilureia|gliclazide
-insulina|hipoglic|insulin
+insulina|hipoglic|insulin|insulina NPH;insulina regular;insulina glargina
 fluoxetina|isrs,cyp2d6|fluoxetine
 paroxetina|isrs,cyp2d6|paroxetine
 sertralina|isrs|sertraline
@@ -55,11 +55,11 @@ citalopram|isrs,qt|citalopram
 escitalopram|isrs,qt|escitalopram
 venlafaxina|irsn|venlafaxine
 duloxetina|irsn|duloxetine
-amitriptilina|adt,qt|amitriptyline
-nortriptilina|adt|nortriptyline
+amitriptilina|adt,qt,anticolin|amitriptyline
+nortriptilina|adt,anticolin|nortriptyline
 trazodona||trazodone
 tramadol|opioide|tramadol
-codeína|opioide|codeine
+codeína|opioide|codeine|paracetamol + codeína
 morfina|opioide|morphine
 alprazolam|benzo|alprazolam
 diazepam|benzo|diazepam
@@ -70,12 +70,12 @@ gabapentina||gabapentin
 carbamazepina|indutor|carbamazepine
 fenitoína|indutor|phenytoin
 fenobarbital|indutor|phenobarbital
-valproato||valproate
+valproato||valproate|ácido valproico;divalproato
 lamotrigina||lamotrigine
-lítio||lithium
-haloperidol|qt|haloperidol
-risperidona||risperidone
-quetiapina|qt|quetiapine
+lítio||lithium|carbonato de lítio
+haloperidol|qt,antipsic|haloperidol|haloperidol decanoato
+risperidona|antipsic|risperidone
+quetiapina|qt,antipsic|quetiapine
 omeprazol|ibp|omeprazole
 esomeprazol|ibp|esomeprazole
 pantoprazol|ibp|pantoprazole
@@ -85,13 +85,13 @@ azitromicina|qt|azithromycin
 ciprofloxacino|quinolona,qt|ciprofloxacin
 levofloxacino|quinolona,qt|levofloxacin
 metronidazol||metronidazole
-sulfametoxazol + trimetoprima|smx|sulfamethoxazole
+sulfametoxazol + trimetoprima|smx|sulfamethoxazole|bactrim;SMX-TMP
 fluconazol|qt|fluconazole
 cetoconazol|azol|ketoconazole
 itraconazol|azol|itraconazole
 rifampicina|indutor|rifampin
 levotiroxina||levothyroxine
-carbonato de cálcio|quelante|calcium carbonate
+carbonato de cálcio|quelante|calcium carbonate|carbonato de cálcio + colecalciferol;antiácido
 sulfato ferroso|quelante|ferrous sulfate
 alopurinol||allopurinol
 colchicina||colchicine
@@ -99,15 +99,77 @@ azatioprina||azathioprine
 metotrexato||methotrexate
 prednisona|corticoide|prednisone
 sildenafila||sildenafil
-isossorbida|nitrato|isosorbide
+isossorbida|nitrato|isosorbide|dinitrato de isossorbida;mononitrato de isossorbida
 sumatriptana||sumatriptan
 ondansetrona|qt|ondansetron
 metoclopramida||metoclopramide
 tamoxifeno||tamoxifen
-anticoncepcional oral||ethinyl estradiol
+anticoncepcional oral||ethinyl estradiol|levonorgestrel + etinilestradiol;etinilestradiol;pílula combinada
 budesonida (inalatória)|corticoide_inal|budesonide
 fluticasona (inalatória)|corticoide_inal|fluticasone
 metadona|opioide,qt|methadone
+aciclovir||acyclovir
+ácido fólico||folic acid
+ácido folínico||leucovorin|leucovorina
+adrenalina||epinephrine|epinefrina;lidocaína com epinefrina
+albendazol||albendazole
+alendronato||alendronate|alendronato de sódio
+aminofilina||aminophylline|teofilina
+beclometasona (inalatória)||beclomethasone
+dexametasona|corticoide|dexamethasone
+hidrocortisona|corticoide|hydrocortisone
+prednisolona|corticoide|prednisolone
+dexclorfeniramina|antih1,anticolin|dexchlorpheniramine
+prometazina|antih1,anticolin|promethazine
+dimenidrinato|antih1,anticolin|dimenhydrinate|dimenidrinato + piridoxina
+loratadina||loratadine
+dipirona||metamizole|metamizol
+paracetamol||acetaminophen|acetaminofeno
+doxazosina||doxazosin
+nifedipino||nifedipine
+metildopa||methyldopa
+timolol (colírio)|betabloq,bbnsel|timolol
+salbutamol||albuterol
+estrogênios conjugados||conjugated estrogens
+levonorgestrel (pílula de emergência)||levonorgestrel|pílula do dia seguinte
+noretisterona (minipílula)||norethindrone|noretisterona 0,35 mg
+anticoncepcional injetável mensal||norethisterone enantate|noretisterona + estradiol
+medroxiprogesterona (oral)||medroxyprogesterone
+medroxiprogesterona injetável trimestral||medroxyprogesterone acetate|DMPA;medroxiprogesterona 150 mg
+levodopa (com benserazida ou carbidopa)|levodopa|levodopa|levodopa + benserazida;levodopa + carbidopa
+miconazol (creme/vaginal)||miconazole
+n-butilescopolamina|anticolin|butylscopolamine|escopolamina;buscopan
+biperideno|anticolin|biperiden
+oseltamivir||oseltamivir
+pirimetamina||pyrimethamine
+propiltiouracila||propylthiouracil
+tiamina||thiamine|vitamina B1;complexo B
+vitaminas A e D||vitamin A;vitamin D
+amoxicilina|penicilina|amoxicillin|amoxicilina + clavulanato
+penicilina G benzatina|penicilina|penicillin G benzathine|benzetacil
+penicilina G procaína|penicilina|penicillin G procaine
+cefalexina||cephalexin
+ceftriaxona||ceftriaxone
+doxiciclina||doxycycline
+espiramicina||spiramycin
+gentamicina||gentamicin
+nitrofurantoína||nitrofurantoin
+norfloxacino|quinolona|norfloxacin
+sulfadiazina||sulfadiazine
+clomipramina|adt,anticolin,qt|clomipramine
+imipramina|adt,anticolin,qt|imipramine
+clorpromazina|antipsic,qt,anticolin|chlorpromazine
+levomepromazina|antipsic,anticolin|levomepromazine
+flufenazina|antipsic|fluphenazine
+bromazepam|benzo|bromazepam
+metilfenidato||methylphenidate
+guaco (xarope)||Mikania glomerata
+lidocaína (anestésico local)||lidocaine|lidocaína gel;lidocaína 2%
+nistatina (suspensão oral)||nystatin
+óleo mineral||mineral oil
+permetrina (loção)||permethrin
+tobramicina (colírio)||tobramycin
+polimixina B + lidocaína (otológica)||polymyxin B|polimixina
 dolutegravir|arv,inint|dolutegravir
 raltegravir|arv,inint|raltegravir
 bictegravir|arv,inint|bictegravir
@@ -221,8 +283,6 @@ R = [
 ("fenitoína","fluconazol","g","Fluconazol inibe o metabolismo da fenitoína: toxicidade.","Monitorar nível de fenitoína e reduzir dose."),
 ("lamotrigina","anticoncepcional oral","m","Estrogênio reduz o nível de lamotrigina (~50%) e há oscilação na pausa do ciclo.","Ajustar lamotrigina; preferir método sem estrogênio."),
 ("indutor","anticoncepcional oral","g","Indução enzimática reduz o etinilestradiol/progestágeno: falha contraceptiva.","Usar método não hormonal, DIU ou injetável de depósito (DMPA); preferir DIU de cobre."),
-("haloperidol","metoclopramida","m","Somam-se efeitos extrapiramidais.","Evitar associação."),
-("risperidona","metoclopramida","m","Somam-se efeitos extrapiramidais.","Evitar associação."),
 ("cyp2d6","risperidona","m","Fluoxetina/paroxetina elevam risperidona.","Monitorar efeitos extrapiramidais; considerar dose menor."),
 # endócrino
 ("sulfonilureia","fluconazol","g","Inibição de CYP2C9 eleva sulfonilureia: hipoglicemia prolongada.","Evitar ou reduzir dose e monitorar glicemia."),
@@ -340,12 +400,91 @@ R = [
 ("ipr","valproato","m","Ritonavir reduz o valproato.","Pode ser necessário aumentar a dose; monitorar nível."),
 ("ipr","isrs","m","Sertralina e paroxetina podem ter níveis alterados.","Titular o ISRS pela resposta clínica."),
 ("ipr","corticoide","m","Aumenta prednisona/prednisolona.","Monitorar efeitos de corticoide no uso prolongado."),
+# REMUME Blumenau (2026): fármacos acrescentados e suas interações principais
+("antipsic","metoclopramida","m","Somam-se efeitos extrapiramidais e risco de síndrome neuroléptica maligna.","Evitar associação."),
+("antipsic","levodopa","g","Antipsicóticos bloqueiam dopamina e anulam o efeito da levodopa (piora do parkinsonismo).","Evitar; se necessário antipsicótico na doença de Parkinson, discutir com especialista (preferir agentes atípicos com menor bloqueio D2)."),
+("metoclopramida","levodopa","g","Metoclopramida bloqueia dopamina e piora o parkinsonismo.","Evitar; para náusea, preferir domperidona conforme avaliação."),
+("antipsic","lítio","m","Relatos de neurotoxicidade (confusão, sintomas extrapiramidais), sobretudo com haloperidol.","Monitorar sinais neurológicos e litemia."),
+("anticolin","anticolin","m","Efeitos anticolinérgicos somados: confusão, constipação, retenção urinária, boca seca, sobretudo em idosos.","Evitar combinar vários anticolinérgicos; revisar necessidade em idosos."),
+("antih1","opioide","m","Sedação e depressão respiratória somadas.","Evitar ou reduzir doses; orientar sobre sonolência."),
+("antih1","benzo","m","Sedação aditiva, quedas e confusão.","Evitar associação, sobretudo em idosos."),
+("prometazina","qt","m","Prometazina pode somar prolongamento do QT.","Evitar combinar vários; ECG em risco."),
+("adrenalina","betabloq","g","Betabloqueador (sobretudo não seletivo) causa resposta pressórica exagerada à adrenalina e anafilaxia de difícil reversão.","Na anafilaxia, não atrasar a adrenalina; se resposta insuficiente, expansão volêmica e transporte (glucagon conforme serviço). Em anestesia local, preferir lidocaína sem epinefrina ou dose mínima."),
+("adrenalina","adt","m","Tricíclicos potencializam o efeito pressórico da adrenalina.","Usar a menor dose de vasoconstritor (ex.: anestesia odontológica) e monitorar PA."),
+("aminofilina","ciprofloxacino","g","Ciprofloxacino inibe CYP1A2: teofilina ↑ com náusea, arritmias e convulsões.","Evitar; se necessário, reduzir a aminofilina e monitorar nível sérico."),
+("aminofilina","macrolideo","g","Claritromicina e eritromicina elevam a teofilina.","Evitar ou monitorar nível sérico; azitromicina interfere pouco."),
+("aminofilina","indutor","m","Indutores aceleram o metabolismo da teofilina: perda de efeito.","Monitorar resposta e nível sérico."),
+("aminofilina","bbnsel","g","Betabloqueador não seletivo causa broncoespasmo e antagoniza a broncodilatação.","Evitar betabloqueador não seletivo em asma/DPOC; preferir cardiosseletivo se indispensável."),
+("aminofilina","alopurinol","m","Alopurinol em dose alta pode elevar a teofilina.","Monitorar sinais de toxicidade."),
+("aminofilina","lítio","m","Teofilina aumenta a excreção renal de lítio: litemia ↓.","Monitorar litemia."),
+("salbutamol","bbnsel","g","Betabloqueador não seletivo (propranolol, carvedilol, timolol colírio) antagoniza o salbutamol e pode causar broncoespasmo.","Evitar em asma/DPOC; preferir betabloqueador cardiosseletivo."),
+("salbutamol","alca","m","Hipopotassemia aditiva.","Monitorar potássio em uso frequente de salbutamol."),
+("salbutamol","tiazidico","m","Hipopotassemia aditiva.","Monitorar potássio."),
+("timolol (colírio)","bccnd","m","O timolol colírio tem absorção sistêmica: bradicardia e bloqueio AV com verapamil/diltiazem.","Monitorar frequência cardíaca; ocluir o ponto lacrimal após a gota."),
+("paracetamol","varfarina","m","Uso regular de paracetamol (≥ 2 g/dia por vários dias) aumenta o INR.","Monitorar INR se uso contínuo; doses ocasionais são seguras."),
+("dipirona","AAS","m","Dipirona tomada antes do AAS pode reduzir o efeito antiagregante do AAS.","Tomar o AAS pelo menos 30 min antes da dipirona."),
+("dipirona","metotrexato","g","Soma de toxicidade hematológica (agranulocitose), sobretudo em idosos.","Evitar a associação."),
+("dipirona","clorpromazina","m","Pode causar hipotermia grave.","Evitar associação ou monitorar temperatura."),
+("miconazol (creme/vaginal)","varfarina","g","Miconazol, mesmo em creme vaginal ou gel oral, inibe CYP2C9: INR ↑ e sangramento.","Preferir outro antifúngico tópico (ex.: nistatina) ou monitorar INR durante e após o uso."),
+("miconazol (creme/vaginal)","sulfonilureia","m","Miconazol pode aumentar o efeito das sulfonilureias.","Monitorar glicemia."),
+("alendronato","quelante","m","Cálcio, ferro e antiácidos reduzem muito a absorção do alendronato.","Tomar o alendronato em jejum, com água, 30 min antes de qualquer outro medicamento ou alimento."),
+("alendronato","aine","m","Somam-se irritação e lesão da mucosa gastrointestinal.","Cautela; orientar sintomas digestivos."),
+("albendazol","indutor","m","Carbamazepina, fenitoína, fenobarbital e rifampicina reduzem o albendazol.","Em neurocisticercose ou hidatidose, avaliar a eficácia; em verminoses intestinais, pouca relevância."),
+("doxiciclina","quelante","m","Cálcio, ferro e antiácidos quelam a doxiciclina: absorção ↓.","Separar por pelo menos 2 a 3 horas."),
+("doxiciclina","indutor","m","Indutores reduzem a meia-vida da doxiciclina.","Considerar aumentar a dose ou usar outro antibiótico."),
+("doxiciclina","varfarina","m","Pode aumentar o INR.","Monitorar INR."),
+("gentamicina","alca","g","Ototoxicidade e nefrotoxicidade somadas.","Evitar; se necessário, monitorar função renal e audição."),
+("gentamicina","aine","m","AINE aumenta o risco de nefrotoxicidade do aminoglicosídeo.","Evitar AINE durante o uso; monitorar creatinina."),
+("penicilina","metotrexato","m","Penicilinas reduzem o clearance do metotrexato.","Monitorar toxicidade do metotrexato (hemograma, mucosite)."),
+("amoxicilina","varfarina","m","Relatos de aumento do INR.","Monitorar INR durante o curso."),
+("amoxicilina","alopurinol","m","Maior incidência de exantema.","Orientar; não é alergia à penicilina necessariamente."),
+("sulfadiazina","varfarina","g","Sulfonamida inibe CYP2C9: INR ↑.","Monitorar INR de perto ou ajustar dose."),
+("sulfadiazina","metotrexato","g","Antifólicos somados: toxicidade medular.","Evitar a associação."),
+("sulfadiazina","sulfonilureia","m","Aumenta o efeito hipoglicemiante.","Monitorar glicemia."),
+("sulfadiazina","fenitoína","m","Sulfonamidas elevam a fenitoína.","Monitorar nível e toxicidade da fenitoína."),
+("pirimetamina","metotrexato","g","Antifólicos somados: pancitopenia.","Evitar a associação."),
+("pirimetamina","sulfadiazina","m","Associação terapêutica (toxoplasmose) com supressão medular aditiva.","Associar ácido folínico e monitorar hemograma."),
+("pirimetamina","smx","m","Antifólicos somados: supressão medular.","Associar ácido folínico se uso prolongado e monitorar hemograma."),
+("pirimetamina","zidovudina","m","Supressão medular aditiva.","Monitorar hemograma."),
+("ácido folínico","smx","m","Ácido folínico com SMX-TMP no tratamento da pneumocistose em HIV associou-se a falha terapêutica.","Evitar no tratamento da pneumocistose."),
+("ácido fólico","fenitoína","m","Ácido fólico pode reduzir o nível de fenitoína.","Monitorar nível e controle das crises."),
+("ácido fólico","fenobarbital","m","Ácido fólico pode reduzir o fenobarbital.","Monitorar controle das crises."),
+("metildopa","sulfato ferroso","m","Sulfato ferroso reduz a absorção da metildopa: PA ↑.","Separar as tomadas e monitorar PA."),
+("metildopa","lítio","m","Relatos de toxicidade do lítio.","Monitorar litemia e sinais de toxicidade."),
+("levodopa","sulfato ferroso","m","Ferro reduz a absorção da levodopa.","Separar as tomadas por pelo menos 2 horas."),
+("doxazosina","sildenafila","m","Hipotensão sintomática somada.","Iniciar sildenafila em dose baixa (25 mg) com a doxazosina estável."),
+("nifedipino","rifampicina","c","Indução forte reduz muito o nifedipino.","Contraindicada pela bula (nifedipino de liberação prolongada); usar outro anti-hipertensivo."),
+("nifedipino","carbamazepina","g","Indução reduz o nifedipino: perda do efeito anti-hipertensivo.","Monitorar PA ou trocar o anti-hipertensivo."),
+("nifedipino","fenitoína","g","Indução reduz o nifedipino.","Monitorar PA ou trocar o anti-hipertensivo."),
+("nifedipino","fenobarbital","g","Indução reduz o nifedipino.","Monitorar PA ou trocar o anti-hipertensivo."),
+("nifedipino","macrolideo","m","Claritromicina/eritromicina elevam o nifedipino: hipotensão, edema.","Monitorar PA; preferir azitromicina."),
+("nifedipino","azol","m","Itraconazol/cetoconazol elevam o nifedipino.","Monitorar PA ou evitar."),
+("nifedipino","ipr","m","Inibidores de protease potencializados elevam o nifedipino.","Monitorar PA; considerar dose menor."),
+("levonorgestrel (pílula de emergência)","indutor","g","Indutores enzimáticos reduzem o levonorgestrel: falha da contracepção de emergência.","Preferir DIU de cobre; se não for possível, dobrar a dose (3 mg em dose única)."),
+("levonorgestrel (pílula de emergência)","efavirenz","g","Efavirenz reduz o levonorgestrel.","Preferir DIU de cobre; se não for possível, dobrar a dose (3 mg em dose única)."),
+("noretisterona (minipílula)","indutor","g","Indutores reduzem o progestágeno: falha contraceptiva.","Usar DIU, injetável trimestral (DMPA) ou associar barreira."),
+("noretisterona (minipílula)","efavirenz","g","Efavirenz reduz o progestágeno: falha contraceptiva.","Usar DIU ou injetável trimestral (DMPA)."),
+("anticoncepcional injetável mensal","indutor","g","Indutores podem reduzir a eficácia do contraceptivo combinado injetável.","Usar DIU ou injetável trimestral (DMPA), ou associar barreira."),
+("estrogênios conjugados","levotiroxina","m","Estrogênio aumenta a globulina ligadora de tiroxina: pode ser preciso aumentar a levotiroxina.","Checar TSH 6 a 8 semanas após iniciar."),
+("estrogênios conjugados","indutor","m","Indutores reduzem o efeito do estrogênio.","Avaliar resposta clínica."),
+("propiltiouracila","varfarina","m","Pode alterar o efeito anticoagulante (hipoprotrombinemia).","Monitorar INR."),
+("metilfenidato","varfarina","m","Metilfenidato pode aumentar o efeito dos cumarínicos.","Monitorar INR ao iniciar ou ajustar."),
+("metilfenidato","adt","m","Metilfenidato pode elevar os tricíclicos.","Considerar dose menor do tricíclico."),
+("metilfenidato","fenitoína","m","Metilfenidato pode elevar fenitoína.","Monitorar nível do anticonvulsivante."),
+("metilfenidato","fenobarbital","m","Metilfenidato pode elevar o fenobarbital.","Monitorar nível e sedação."),
+("isrs","clomipramina","g","Síndrome serotoninérgica; fluoxetina e paroxetina ainda elevam a clomipramina.","Evitar; se necessário, doses baixas e vigilância."),
+("clomipramina","tramadol","g","Síndrome serotoninérgica e convulsões.","Evitar."),
+("guaco (xarope)","varfarina","m","O guaco contém cumarina; a bula do fitoterápico desaconselha o uso com anticoagulantes.","Evitar o guaco em quem usa anticoagulante."),
 ]
 def main():
     drugs = []
     for l in F.split("\n"):
-        n, c, en = l.split("|")
-        drugs.append({"n": n, "c": [x for x in c.split(",") if x], "en": en})
+        partes = l.split("|")
+        n, c, en = partes[:3]
+        d = {"n": n, "c": [x for x in c.split(",") if x], "en": en}
+        if len(partes) > 3 and partes[3]:
+            d["a"] = [x.strip() for x in partes[3].split(";") if x.strip()]
+        drugs.append(d)
     nomes = {d["n"] for d in drugs}; classes = {c for d in drugs for c in d["c"]}
     regras = []
     for a, b, s, m, c in R:
