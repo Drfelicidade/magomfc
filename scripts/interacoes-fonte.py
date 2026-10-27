@@ -104,7 +104,29 @@ sumatriptana||sumatriptan
 ondansetrona|qt|ondansetron
 metoclopramida||metoclopramide
 tamoxifeno||tamoxifen
-anticoncepcional oral||ethinyl estradiol"""
+anticoncepcional oral||ethinyl estradiol
+budesonida (inalatória)|corticoide_inal|budesonide
+fluticasona (inalatória)|corticoide_inal|fluticasone
+metadona|opioide,qt|methadone
+dolutegravir|arv,inint|dolutegravir
+raltegravir|arv,inint|raltegravir
+bictegravir|arv,inint|bictegravir
+tenofovir (TDF)|arv|tenofovir disoproxil fumarate
+tenofovir alafenamida (TAF)|arv|tenofovir alafenamide
+lamivudina|arv|lamivudine
+entricitabina|arv|emtricitabine
+zidovudina|arv|zidovudine
+abacavir|arv|abacavir
+efavirenz|arv,qt|efavirenz
+nevirapina|arv|nevirapine
+etravirina|arv|etravirine
+rilpivirina|arv|rilpivirine
+doravirina|arv|doravirine
+atazanavir|arv,ipr|atazanavir
+darunavir|arv,ipr|darunavir
+lopinavir|arv,ipr,qt|lopinavir
+ritonavir|arv,ipr|ritonavir
+cobicistate|arv,ipr|cobicistat"""
 R = [
 # anticoagulantes / antiagregantes
 ("varfarina","aine","g","Efeito antiplaquetário e lesão da mucosa GI somam-se ao efeito anticoagulante.","Evitar. Se inevitável: menor dose/tempo, IBP e controle de INR; preferir paracetamol."),
@@ -183,7 +205,7 @@ R = [
 ("isrs","sumatriptana","m","Risco teórico de síndrome serotoninérgica.","Baixo risco na prática; orientar sinais."),
 ("cyp2d6","adt","m","Fluoxetina/paroxetina elevam níveis de ADT (toxicidade anticolinérgica/cardíaca).","Considerar dose menor de ADT e ECG."),
 ("isrs","trazodona","m","Aumenta risco de síndrome serotoninérgica e sedação.","Doses baixas de trazodona; vigiar sintomas."),
-("qt","qt","m","Somam-se prolongamento do intervalo QT e risco de torsades de pointes (amiodarona, citalopram, escitalopram, haloperidol, quetiapina, ondansetrona, macrolídeos, quinolonas, fluconazol, amitriptilina).","Evitar combinar vários; corrigir K/Mg; ECG basal em risco (idosos, cardiopatas, uso de diuréticos)."),
+("qt","qt","m","Somam-se prolongamento do intervalo QT e risco de torsades de pointes (amiodarona, citalopram, escitalopram, haloperidol, quetiapina, ondansetrona, macrolídeos, quinolonas, fluconazol, amitriptilina, metadona, efavirenz, lopinavir).","Evitar combinar vários; corrigir K/Mg; ECG basal em risco (idosos, cardiopatas, uso de diuréticos)."),
 ("opioide","benzo","g","Depressão respiratória, sedação profunda e morte (alerta da FDA).","Evitar; se inevitável, menor dose e tempo, e orientar cuidadores."),
 ("opioide","zolpidem","m","Somam-se sedação e depressão respiratória.","Evitar ou reduzir doses."),
 ("opioide","gabapentina","m","Gabapentinoides somam depressão respiratória e sedação com opioides.","Menor dose; cautela em idosos e DPOC."),
@@ -226,6 +248,98 @@ R = [
 ("ondansetrona","tramadol","m","Ondansetrona pode reduzir a analgesia do tramadol e somar efeito serotoninérgico.","Monitorar."),
 ("prednisona","tiazidico","m","Hipopotassemia aditiva.","Monitorar K."),
 ("prednisona","alca","m","Hipopotassemia aditiva.","Monitorar K."),
+# antirretrovirais (HIV): bulas DailyMed (Tivicay, Isentress, Biktarvy, Viread, Descovy, Sustiva, Viramune, Intelence, Edurant, Pifeltro, Reyataz, Prezista, Kaletra, Norvir, Tybost)
+# IP = inibidor de protease, considerado potencializado (com ritonavir ou cobicistate), como é usado na prática
+("inint","quelante","m","Cálcio, ferro e antiácidos com alumínio/magnésio quelam o inibidor de integrase: absorção ↓ e risco de falha virológica.","Dolutegravir/bictegravir: tomar 2 h antes ou 6 h depois do suplemento ou antiácido; com cálcio ou ferro, podem ser tomados juntos se for com alimento. Raltegravir: evitar antiácidos com alumínio/magnésio."),
+("dolutegravir","metformina","m","Dolutegravir inibe OCT2/MATE1 e aumenta a exposição à metformina.","Monitorar glicemia e efeitos adversos; considerar reduzir a dose de metformina ao iniciar (avaliar função renal)."),
+("bictegravir","metformina","m","Bictegravir aumenta a exposição à metformina (OCT2/MATE1).","Monitorar glicemia e efeitos adversos; avaliar função renal."),
+("dolutegravir","rifampicina","g","Indução enzimática reduz o dolutegravir.","Usar dolutegravir 50 mg 2 vezes ao dia durante a associação (sem resistência a inibidor de integrase)."),
+("dolutegravir","carbamazepina","g","Indução enzimática reduz o dolutegravir.","Usar dolutegravir 50 mg 2 vezes ao dia (sem resistência a inibidor de integrase)."),
+("dolutegravir","fenitoína","g","Indução enzimática reduz o dolutegravir; não há dados para ajustar a dose.","Evitar a associação (bula)."),
+("dolutegravir","fenobarbital","g","Indução enzimática reduz o dolutegravir; não há dados para ajustar a dose.","Evitar a associação (bula)."),
+("dolutegravir","efavirenz","m","Efavirenz reduz o dolutegravir.","Usar dolutegravir 50 mg 2 vezes ao dia durante a associação."),
+("raltegravir","rifampicina","g","Rifampicina reduz o raltegravir.","Usar raltegravir 800 mg 2 vezes ao dia durante a associação."),
+("bictegravir","rifampicina","c","Indução forte reduz bictegravir e tenofovir alafenamida: falha virológica.","Contraindicada (bula)."),
+("bictegravir","carbamazepina","g","Indução reduz bictegravir e tenofovir alafenamida.","Não recomendada (bula)."),
+("bictegravir","fenitoína","g","Indução reduz bictegravir e tenofovir alafenamida.","Não recomendada (bula)."),
+("bictegravir","fenobarbital","g","Indução reduz bictegravir e tenofovir alafenamida.","Não recomendada (bula)."),
+("tenofovir alafenamida (TAF)","rifampicina","g","Rifampicina reduz o tenofovir alafenamida.","Não recomendada (bula)."),
+("tenofovir alafenamida (TAF)","carbamazepina","g","Indução reduz o tenofovir alafenamida.","Não recomendada (bula)."),
+("tenofovir (TDF)","aine","g","Casos de lesão renal aguda com tenofovir (TDF) e AINE em dose alta ou mais de um AINE.","Evitar AINE em dose alta ou prolongado; preferir paracetamol e monitorar creatinina e fósforo."),
+("lamivudina","smx","m","A trimetoprima aumenta o nível de lamivudina.","Sem ajuste se a função renal é normal; atenção na insuficiência renal."),
+("zidovudina","valproato","m","Valproato aumenta o nível de zidovudina.","Monitorar toxicidade da zidovudina (anemia, neutropenia)."),
+("efavirenz","anticoncepcional oral","g","Efavirenz reduz os hormônios contraceptivos (inclui o implante de etonogestrel): risco de falha contraceptiva.","Associar método de barreira ou preferir DIU (cobre ou hormonal) ou injetável de depósito."),
+("nevirapina","anticoncepcional oral","g","Nevirapina reduz os hormônios contraceptivos: risco de falha contraceptiva.","Não usar como método único; associar barreira ou preferir DIU."),
+("efavirenz","sinvastatina","m","Indução reduz a sinvastatina: menor efeito hipolipemiante.","Ajustar a dose da estatina pelo perfil lipídico."),
+("efavirenz","atorvastatina","m","Indução reduz a atorvastatina.","Ajustar a dose pelo perfil lipídico."),
+("efavirenz","carbamazepina","g","Indução recíproca: reduz o efavirenz (falha virológica) e a carbamazepina.","Evitar; se inevitável, monitorar nível de carbamazepina e carga viral."),
+("efavirenz","fenitoína","g","Indução reduz o efavirenz e pode alterar a fenitoína.","Evitar ou monitorar nível de fenitoína e carga viral."),
+("efavirenz","fenobarbital","g","Indução reduz o efavirenz.","Evitar ou monitorar carga viral."),
+("efavirenz","rifampicina","m","Rifampicina reduz o efavirenz.","A bula americana sugere efavirenz 800 mg se peso ≥ 50 kg; seguir o protocolo do serviço especializado e monitorar carga viral."),
+("efavirenz","claritromicina","m","Efavirenz reduz a claritromicina; mais exantema relatado.","Preferir azitromicina."),
+("efavirenz","azol","m","Efavirenz reduz itraconazol e cetoconazol: falha antifúngica.","Considerar outro antifúngico."),
+("efavirenz","varfarina","m","Efavirenz pode aumentar ou diminuir o INR.","Monitorar INR."),
+("efavirenz","sertralina","m","Efavirenz reduz a sertralina.","Ajustar a sertralina pela resposta clínica."),
+("efavirenz","metadona","m","Indução reduz a metadona: sintomas de abstinência.","Monitorar abstinência; pode ser necessário aumentar a metadona."),
+("nevirapina","cetoconazol","g","Nevirapina reduz muito o cetoconazol.","Não recomendada (bula)."),
+("nevirapina","fluconazol","m","Fluconazol aumenta a nevirapina.","Monitorar hepatotoxicidade e exantema."),
+("nevirapina","rifampicina","g","Rifampicina reduz a nevirapina: falha virológica.","Não recomendada (bula)."),
+("nevirapina","metadona","m","Nevirapina reduz a metadona.","Monitorar abstinência; ajustar a metadona."),
+("nevirapina","varfarina","m","INR pode variar.","Monitorar INR."),
+("nevirapina","claritromicina","m","Nevirapina reduz a claritromicina.","Preferir azitromicina."),
+("etravirina","carbamazepina","g","Indução reduz a etravirina.","Não associar (bula)."),
+("etravirina","fenitoína","g","Indução reduz a etravirina.","Não associar (bula)."),
+("etravirina","fenobarbital","g","Indução reduz a etravirina.","Não associar (bula)."),
+("etravirina","rifampicina","g","Indução reduz a etravirina.","Não associar (bula)."),
+("etravirina","clopidogrel","m","Etravirina pode reduzir a ativação do clopidogrel.","Considerar alternativa ao clopidogrel."),
+("etravirina","varfarina","m","Etravirina pode aumentar o INR.","Monitorar INR."),
+("rilpivirina","ibp","c","IBP reduz muito a absorção da rilpivirina: falha virológica e resistência.","Contraindicada (bula)."),
+("rilpivirina","rifampicina","c","Indução reduz a rilpivirina.","Contraindicada (bula)."),
+("rilpivirina","carbamazepina","c","Indução reduz a rilpivirina.","Contraindicada (bula)."),
+("rilpivirina","fenitoína","c","Indução reduz a rilpivirina.","Contraindicada (bula)."),
+("rilpivirina","fenobarbital","c","Indução reduz a rilpivirina.","Contraindicada (bula)."),
+("rilpivirina","quelante","m","Antiácidos reduzem a absorção da rilpivirina.","Tomar antiácido 2 h antes ou 4 h depois da rilpivirina."),
+("rilpivirina","claritromicina","m","Claritromicina aumenta a rilpivirina (QT).","Preferir azitromicina."),
+("rilpivirina","metadona","m","Rilpivirina reduz a metadona.","Monitorar abstinência."),
+("doravirina","rifampicina","c","Indução reduz a doravirina.","Contraindicada (bula)."),
+("doravirina","carbamazepina","c","Indução reduz a doravirina.","Contraindicada (bula)."),
+("doravirina","fenitoína","c","Indução reduz a doravirina.","Contraindicada (bula)."),
+("doravirina","fenobarbital","c","Indução reduz a doravirina.","Contraindicada (bula)."),
+("atazanavir","ibp","g","A absorção do atazanavir depende da acidez gástrica: IBP reduz muito o nível.","Evitar. Em paciente virgem de tratamento, se indispensável: até omeprazol 20 mg (ou equivalente) 12 h antes do atazanavir com ritonavir."),
+("atazanavir","quelante","m","Antiácidos reduzem a absorção do atazanavir.","Tomar o atazanavir 2 h antes ou 1 h depois do antiácido."),
+("ipr","sinvastatina","c","Inibição forte de CYP3A4: rabdomiólise.","Contraindicada; usar pravastatina ou rosuvastatina em dose baixa."),
+("ipr","atorvastatina","g","Aumenta a atorvastatina: miopatia.","Menor dose necessária; com darunavir e ritonavir, no máximo 20 mg/dia."),
+("ipr","rosuvastatina","m","Aumenta a rosuvastatina.","Titular com cuidado; com atazanavir ou lopinavir (com ritonavir), no máximo 10 mg/dia."),
+("ipr","amiodarona","c","Aumenta a amiodarona: arritmias.","Contraindicada com ritonavir (bula)."),
+("ipr","colchicina","g","Inibição de CYP3A4/P-gp: toxicidade grave da colchicina.","Contraindicada com disfunção renal ou hepática; sem ela, reduzir muito a dose conforme a bula."),
+("ipr","rivaroxabana","g","Inibição de CYP3A4/P-gp aumenta a rivaroxabana: sangramento.","Não recomendada (bula)."),
+("ipr","apixabana","g","Inibição de CYP3A4/P-gp aumenta a apixabana.","Reduzir a dose em 50% (se 5 ou 10 mg 2 vezes ao dia); se já em 2,5 mg 2 vezes ao dia, evitar."),
+("ipr","quetiapina","g","Aumenta muito a quetiapina.","Preferir outro esquema; se necessário, reduzir a quetiapina para 1/6 da dose e monitorar."),
+("ipr","rifampicina","c","Indução reduz o inibidor de protease: falha virológica e resistência.","Contraindicada (bula)."),
+("ipr","carbamazepina","g","Carbamazepina reduz o inibidor de protease e tem o nível aumentado.","Evitar; se inevitável, monitorar nível de carbamazepina e carga viral."),
+("ipr","fenitoína","g","Fenitoína reduz o inibidor de protease; nível da fenitoína pode variar.","Evitar; se inevitável, monitorar nível de fenitoína e carga viral."),
+("ipr","fenobarbital","g","Fenobarbital reduz o inibidor de protease.","Evitar; se inevitável, monitorar carga viral e nível do anticonvulsivante."),
+("ipr","sildenafila","g","Aumenta a sildenafila: hipotensão, síncope e priapismo.","Disfunção erétil: no máximo 25 mg a cada 48 h. Hipertensão pulmonar: contraindicada."),
+("ipr","corticoide_inal","g","Aumenta budesonida e fluticasona: síndrome de Cushing e supressão adrenal.","Evitar; considerar corticoide inalatório menos dependente de CYP3A4, conforme o serviço especializado."),
+("ipr","anticoncepcional oral","g","Reduz a eficácia do contraceptivo hormonal combinado.","Usar método alternativo ou adicional (DIU, barreira)."),
+("ipr","varfarina","m","INR pode aumentar ou diminuir.","Monitorar INR com frequência ao iniciar e ao suspender."),
+("ipr","claritromicina","m","Aumentam a claritromicina e o inibidor de protease.","Reduzir a claritromicina em 50% se ClCr 30–60 mL/min e em 75% se < 30; preferir azitromicina."),
+("ipr","azol","g","Aumentam itraconazol/cetoconazol e o inibidor de protease.","Não passar de 200 mg/dia de itraconazol ou cetoconazol; monitorar."),
+("ipr","trazodona","m","Aumenta a trazodona: sedação, hipotensão e síncope.","Usar dose menor de trazodona."),
+("ipr","adt","m","Aumenta os tricíclicos.","Usar dose menor e monitorar."),
+("ipr","digoxina","m","Inibição de P-gp aumenta a digoxina.","Começar com a menor dose de digoxina e monitorar nível."),
+("ipr","bccnd","m","Aumenta diltiazem/verapamil: bradicardia e bloqueio AV.","Monitorar ECG; com atazanavir, reduzir o diltiazem em 50%."),
+("ipr","anlodipino","m","Aumenta o anlodipino: hipotensão e edema.","Monitorar; considerar dose menor."),
+("ipr","alprazolam","m","Inibição de CYP3A4 aumenta o alprazolam: sedação prolongada.","Reduzir a dose; lorazepam não depende de CYP3A4."),
+("ipr","diazepam","m","Aumenta o diazepam: sedação prolongada.","Reduzir a dose; lorazepam não depende de CYP3A4."),
+("ipr","clonazepam","m","Aumenta o clonazepam.","Reduzir a dose e monitorar sedação."),
+("ipr","zolpidem","m","Aumenta o zolpidem.","Usar dose menor."),
+("ipr","tramadol","m","Aumenta o tramadol.","Pode ser necessário reduzir a dose."),
+("ipr","metadona","m","Os níveis de metadona podem cair (lopinavir com ritonavir) ou variar.","Monitorar sinais de abstinência ou excesso e ajustar."),
+("ipr","lamotrigina","m","Ritonavir reduz a lamotrigina.","Pode ser necessário aumentar a dose; monitorar resposta."),
+("ipr","valproato","m","Ritonavir reduz o valproato.","Pode ser necessário aumentar a dose; monitorar nível."),
+("ipr","isrs","m","Sertralina e paroxetina podem ter níveis alterados.","Titular o ISRS pela resposta clínica."),
+("ipr","corticoide","m","Aumenta prednisona/prednisolona.","Monitorar efeitos de corticoide no uso prolongado."),
 ]
 def main():
     drugs = []

@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interações Medicamentosas | Mago MFC</title>
     <!-- seo:inicio -->
-    <meta name="description" content="Interações relevantes entre fármacos comuns na APS.">
+    <meta name="description" content="Interações relevantes entre fármacos comuns na APS e antirretrovirais (HIV).">
     <link rel="canonical" href="https://magomfc.com.br/interacoes-medicamentosas.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Mago MFC">
     <meta property="og:locale" content="pt_BR">
     <meta property="og:title" content="Interações Medicamentosas | Mago MFC">
-    <meta property="og:description" content="Interações relevantes entre fármacos comuns na APS.">
+    <meta property="og:description" content="Interações relevantes entre fármacos comuns na APS e antirretrovirais (HIV).">
     <meta property="og:url" content="https://magomfc.com.br/interacoes-medicamentosas.html">
     <!-- seo:fim -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,12 +29,12 @@
 <main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
     <header class="bg-rose-700 p-6 md:p-8 text-white text-center">
         <h1 class="text-2xl md:text-4xl font-bold mb-2">Interações Medicamentosas</h1>
-        <p class="text-rose-100 text-sm md:text-base">Interações clinicamente relevantes entre fármacos comuns na APS</p>
+        <p class="text-rose-100 text-sm md:text-base">Interações clinicamente relevantes entre fármacos comuns na APS e antirretrovirais (HIV)</p>
         <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-rose-800 hover:bg-rose-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
     </header>
     <div class="p-6 md:p-8 space-y-6">
         <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm text-amber-900">
-            <strong>Lista parcial.</strong> Cobre as interações mais relevantes de um conjunto limitado de fármacos. <strong>A ausência de alerta não significa ausência de interação</strong>; para prescrições complexas, consulte a bula, um banco de interações (ex.: Micromedex, UpToDate/Lexicomp) e o farmacêutico clínico.
+            <strong>Lista parcial.</strong> Cobre as interações mais relevantes de um conjunto limitado de fármacos. <strong>A ausência de alerta não significa ausência de interação</strong>; para prescrições complexas, consulte a bula, um banco de interações (ex.: Micromedex, UpToDate/Lexicomp) e o farmacêutico clínico. Para antirretrovirais, confira sempre no <a class="underline font-semibold" href="https://www.hiv-druginteractions.org/checker" target="_blank" rel="noopener">HIV Drug Interactions (Universidade de Liverpool)</a>, gratuito e referência na área.
         </div>
         <div class="relative">
             <label for="busca" class="block text-sm font-medium text-gray-700 mb-1">Adicionar medicamento em uso</label>
@@ -50,6 +50,7 @@
                 <li><strong>Contraindicada</strong>: não associar. <strong>Grave</strong>: evitar ou, se indispensável, ajustar dose e monitorar de perto. <strong>Moderada</strong>: monitorar e orientar.</li>
                 <li>Compilação de interações descritas em bulas aprovadas pela FDA (DailyMed) e em referências clássicas de farmacologia clínica, escolhidas por relevância na APS. Não substitui banco de dados de interações validado.</li>
                 <li>Interações por classe (ex.: prolongamento do QT) valem entre quaisquer fármacos da classe presentes na lista.</li>
+                <li>Antirretrovirais: interações das bulas aprovadas pela FDA (DailyMed). Atazanavir, darunavir e lopinavir são considerados potencializados (com ritonavir ou cobicistate), como usados na prática; as interações entre os próprios antirretrovirais do esquema não estão completas. Confirme no <a class="underline" href="https://www.hiv-druginteractions.org/checker" target="_blank" rel="noopener">HIV Drug Interactions (Universidade de Liverpool)</a>.</li>
                 <li>Não considera doses, função renal/hepática, idade, álcool, fitoterápicos ou alimentos.</li>
             </ul>
         </details>
@@ -60,7 +61,7 @@ const $ = id => document.getElementById(id);
 const norm = t => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 const ROT = { c: 'Contraindicada', g: 'Grave', m: 'Moderada' };
 const COR = { c: 'border-red-500 bg-red-50 text-red-900', g: 'border-orange-500 bg-orange-50 text-orange-900', m: 'border-yellow-400 bg-yellow-50 text-yellow-900' };
-const NOME_CLASSE = { aine: 'AINE', ieca: 'IECA', bra: 'BRA', poupk: 'poupador de K', tiazidico: 'tiazídico', alca: 'diurético de alça', betabloq: 'betabloqueador', bccnd: 'verapamil/diltiazem', estatina: 'estatina', isrs: 'ISRS', irsn: 'IRSN', adt: 'antidepressivo tricíclico', opioide: 'opioide', benzo: 'benzodiazepínico', indutor: 'indutor enzimático', ibp: 'IBP', macrolideo: 'macrolídeo', quinolona: 'quinolona', azol: 'antifúngico azólico', smx: 'SMX-TMP', quelante: 'cálcio/ferro', corticoide: 'corticoide', sulfonilureia: 'sulfonilureia', hipoglic: 'insulina', qt: 'prolonga QT', cyp2d6: 'inibidor CYP2D6', vka: 'antagonista de vitamina K', doac: 'anticoagulante oral direto', xa: 'inibidor do fator Xa', antiplaq: 'antiagregante', aas: 'AAS', nitrato: 'nitrato' };
+const NOME_CLASSE = { aine: 'AINE', ieca: 'IECA', bra: 'BRA', poupk: 'poupador de K', tiazidico: 'tiazídico', alca: 'diurético de alça', betabloq: 'betabloqueador', bccnd: 'verapamil/diltiazem', estatina: 'estatina', isrs: 'ISRS', irsn: 'IRSN', adt: 'antidepressivo tricíclico', opioide: 'opioide', benzo: 'benzodiazepínico', indutor: 'indutor enzimático', ibp: 'IBP', macrolideo: 'macrolídeo', quinolona: 'quinolona', azol: 'antifúngico azólico', smx: 'SMX-TMP', quelante: 'cálcio/ferro', corticoide: 'corticoide', sulfonilureia: 'sulfonilureia', hipoglic: 'insulina', qt: 'prolonga QT', cyp2d6: 'inibidor CYP2D6', vka: 'antagonista de vitamina K', doac: 'anticoagulante oral direto', xa: 'inibidor do fator Xa', antiplaq: 'antiagregante', aas: 'AAS', nitrato: 'nitrato', inint: 'inibidor de integrase', ipr: 'inibidor de protease potencializado', corticoide_inal: 'corticoide inalatório', arv: 'antirretroviral' };
 let D = null, sel = [];
 function membros(tok) { return D.farmacos.filter(f => f.n === tok || f.c.indexOf(tok) >= 0); }
 function calcular() {
@@ -76,10 +77,12 @@ function calcular() {
             achados.push({ x: x.n, y: y.n, r: r });
         }));
     });
+    const temArv = sel.some(n => (D.farmacos.find(f => f.n === n) || { c: [] }).c.indexOf('arv') >= 0);
+    const avisoArv = temArv ? '<div class="p-3 rounded-xl border border-blue-300 bg-blue-50 text-blue-900 text-sm">Há antirretroviral na lista: confira também no <a class="underline font-semibold" href="https://www.hiv-druginteractions.org/checker" target="_blank" rel="noopener">HIV Drug Interactions (Universidade de Liverpool)</a>, que inclui fitoterápicos, drogas recreativas e ajustes de dose.</div>' : '';
     const ordem = { c: 0, g: 1, m: 2 };
     achados.sort((p, q) => ordem[p.r.s] - ordem[q.r.s]);
-    if (!achados.length) { res.innerHTML = '<div class="p-4 border-2 border-green-500 bg-green-50 text-green-900 rounded-2xl text-sm">Nenhuma interação encontrada <strong>nesta lista parcial</strong>. Isso não exclui interações — confirme em bula/banco de interações.</div>'; return; }
-    res.innerHTML = achados.map(a => '<div class="p-4 rounded-2xl border-2 ' + COR[a.r.s] + '"><div class="flex flex-wrap justify-between gap-2 mb-1"><h2 class="font-bold">' + a.x + ' + ' + a.y + '</h2><span class="text-xs font-bold uppercase">' + ROT[a.r.s] + '</span></div><p class="text-sm"><strong>Efeito:</strong> ' + a.r.m + '</p><p class="text-sm mt-1"><strong>Conduta:</strong> ' + a.r.c + '</p></div>').join('');
+    if (!achados.length) { res.innerHTML = avisoArv + '<div class="p-4 border-2 border-green-500 bg-green-50 text-green-900 rounded-2xl text-sm">Nenhuma interação encontrada <strong>nesta lista parcial</strong>. Isso não exclui interações — confirme em bula/banco de interações.</div>'; return; }
+    res.innerHTML = avisoArv + achados.map(a => '<div class="p-4 rounded-2xl border-2 ' + COR[a.r.s] + '"><div class="flex flex-wrap justify-between gap-2 mb-1"><h2 class="font-bold">' + a.x + ' + ' + a.y + '</h2><span class="text-xs font-bold uppercase">' + ROT[a.r.s] + '</span></div><p class="text-sm"><strong>Efeito:</strong> ' + a.r.m + '</p><p class="text-sm mt-1"><strong>Conduta:</strong> ' + a.r.c + '</p></div>').join('');
 }
 function chips() {
     $('chips').innerHTML = sel.map(n => '<span class="inline-flex items-center gap-1 px-3 py-1 bg-rose-100 text-rose-900 rounded-full text-sm font-medium">' + n + '<button type="button" data-n="' + n + '" class="ml-1 font-bold" aria-label="Remover ' + n + '">×</button></span>').join('');
