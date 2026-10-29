@@ -602,6 +602,7 @@ Regras OBRIGATÓRIAS:
         let textoGerado = '';        // último texto montado pelo código (para detectar edição do usuário)
         let salvoNestaSessao = false;
         let usouReserva = false;     // algum lote foi lido pela IA reserva (Groq)
+        let motivoReserva = '';      // por que o Gemini não respondeu (para exibir quando a reserva foi usada)
 
         function montarLotes(arquivos) {
             const res = [];
@@ -647,7 +648,7 @@ Regras OBRIGATÓRIAS:
             const cand = result.candidates && result.candidates[0];
             const texto = cand && cand.content && cand.content.parts ? cand.content.parts.map(p => p.text || '').join('') : '';
             if (!texto) throw new Error('A IA não devolveu conteúdo para estas páginas.');
-            if (result.provedor === 'groq') usouReserva = true;
+            if (result.provedor === 'groq') { usouReserva = true; motivoReserva = result.avisoGemini || motivoReserva; }
             const dados = JSON.parse(texto);
             if (!dados || !Array.isArray(dados.exames)) throw new Error('Resposta da IA fora do formato esperado.');
             return dados.exames;
@@ -694,7 +695,7 @@ Regras OBRIGATÓRIAS:
                 mostrarStatus(`⚠️ Não foi possível ler ${/[,–]/.test(paginas) ? 'as páginas' : 'a página'} ${paginas}. O resultado abaixo está <strong>incompleto</strong>. Use “Tentar novamente” para reprocessar só ${/[,–]/.test(paginas) ? 'essas páginas' : 'essa página'}.<br><span class="text-xs">Motivo: ${String(falhas[idxFalhas[0]] || '').replace(/</g, '&lt;').slice(0, 300)}</span>`, 'bg-amber-50 text-amber-900 border border-amber-300');
             } else {
                 const n = grupos.size;
-                mostrarStatus(`✅ ${n} data(s) lida(s) em ${fileDataArray.length} página(s). Revise e, se precisar, edite o texto antes de copiar.` + (usouReserva ? ' <strong>Parte da leitura foi feita pela IA reserva (Groq): revise com atenção redobrada.</strong>' : ''), 'bg-green-50 text-green-800 border border-green-200');
+                mostrarStatus(`✅ ${n} data(s) lida(s) em ${fileDataArray.length} página(s). Revise e, se precisar, edite o texto antes de copiar.` + (usouReserva ? ' <strong>Parte da leitura foi feita pela IA reserva (Groq): revise com atenção redobrada.</strong><br><span class="text-xs">O Gemini não respondeu: ' + String(motivoReserva || 'motivo não informado').replace(/</g, '&lt;').slice(0, 400) + '</span>' : ''), 'bg-green-50 text-green-800 border border-green-200');
             }
             return idxFalhas.length === 0;
         }
@@ -759,7 +760,7 @@ Regras OBRIGATÓRIAS:
             saveFeedback.classList.add('hidden');
             resultStatus.classList.add('hidden');
             lotes = montarLotes(fileDataArray);
-            resultadosPorLote = {}; falhas = {}; salvoNestaSessao = false; usouReserva = false;
+            resultadosPorLote = {}; falhas = {}; salvoNestaSessao = false; usouReserva = false; motivoReserva = '';
             await processarLotes(lotes.map((_, i) => i));
         });
 

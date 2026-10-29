@@ -21,6 +21,12 @@ async function lerJson(resp) {
 // 404 = modelo retirado; 429 = cota (é por modelo); 5xx = modelo sobrecarregado ("high demand"): outro modelo pode responder.
 const TENTAR_OUTRO_MODELO = [404, 429, 500, 502, 503, 504];
 
+// Pausa por modelo (na memória da função, enquanto ela está "quente"): um modelo que acabou de responder 429 (cota)
+// ou 5xx (sobrecarga) é pulado por um tempo, para os pedidos seguintes não gastarem segundos nele e irem logo ao próximo.
+const pausas = {};
+const PAUSA_MS = { 429: 60000, 404: 600000, def: 20000 };
+const tempoTentativa = () => Number(process.env.GEMINI_TENTATIVA_MS) || 8000; // teto de uma tentativa, para uma lenta não consumir todas
+
 async function tentarGemini(modelo, payload, chave, ms) {
   const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent`, {
     method: 'POST',
@@ -44,15 +50,18 @@ async function chamarGemini(payload) {
     for (const modelo of modelosGemini()) {
       const restante = limite - Date.now();
       if (restante <= 0) { motivos.push('Gemini: demorou mais de ' + tempoGemini() / 1000 + ' s'); break; }
-      let r = await tentarGemini(modelo, semRaciocinio(payload, modelo), chave, restante);
+      if ((pausas[modelo] || 0) > Date.now()) { motivos.push(`Gemini ${modelo}: em pausa por ${Math.ceil((pausas[modelo] - Date.now()) / 1000)} s (falhou há pouco)`); continue; }
+      let r = await tentarGemini(modelo, semRaciocinio(payload, modelo), chave, Math.min(restante, tempoTentativa()));
       // se o modelo recusou o ajuste de raciocínio (400), repete sem ele
       if (!r.ok && r.status === 400 && semRaciocinio(payload, modelo) !== payload) r = await tentarGemini(modelo, payload, chave, limite - Date.now());
       if (r.ok) return { ok: true, dados: r.dados, modelo };
       motivos.push(r.motivo);
+      pausas[modelo] = Date.now() + (PAUSA_MS[r.status] || PAUSA_MS.def);
       if (TENTAR_OUTRO_MODELO.indexOf(r.status) < 0) break; // erro de pedido, chave ou cobrança (400, 401, 403) não melhora em outro modelo: vai para a reserva
     }
     return { ok: false, motivo: motivos.join(' | ') };
   } catch (e) {
+    // tentativa lenta demais: pausa curta no modelo e segue para a reserva
     return { ok: false, motivo: motivos.concat('Gemini: ' + (e.name === 'TimeoutError' ? 'demorou mais de ' + tempoGemini() / 1000 + ' s' : e.message)).join(' | ') };
   }
 }
