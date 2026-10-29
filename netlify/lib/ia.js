@@ -3,8 +3,8 @@
 // GEMINI_MODEL e GROQ_MODEL (opcionais, para trocar de modelo sem mexer no código).
 // Recebe e devolve o formato da API do Gemini, então as páginas não precisam saber qual IA respondeu.
 
-// Modelos do Gemini com plano gratuito, em ordem de preferência. GEMINI_MODEL força um só. O Google retira modelos
-// antigos para contas novas (404): nesse caso a chamada passa ao próximo da lista.
+// Modelos do Gemini com plano gratuito, em ordem de preferência. GEMINI_MODEL força um só. Se um modelo estiver
+// indisponível, sem cota ou sobrecarregado, a chamada passa ao próximo da lista antes de recorrer ao Groq.
 const MODELOS_GEMINI = ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite'];
 const modelosGemini = () => process.env.GEMINI_MODEL ? [process.env.GEMINI_MODEL.trim()] : MODELOS_GEMINI;
 const modeloGemini = () => modelosGemini()[0];
@@ -17,6 +17,9 @@ async function lerJson(resp) {
   const bruto = await resp.text();
   try { return JSON.parse(bruto); } catch (e) { return { erroBruto: bruto.slice(0, 300) }; }
 }
+
+// 404 = modelo retirado; 429 = cota (é por modelo); 5xx = modelo sobrecarregado ("high demand"): outro modelo pode responder.
+const TENTAR_OUTRO_MODELO = [404, 429, 500, 502, 503, 504];
 
 async function tentarGemini(modelo, payload, chave, ms) {
   const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent`, {
@@ -46,7 +49,7 @@ async function chamarGemini(payload) {
       if (!r.ok && r.status === 400 && semRaciocinio(payload, modelo) !== payload) r = await tentarGemini(modelo, payload, chave, limite - Date.now());
       if (r.ok) return { ok: true, dados: r.dados, modelo };
       motivos.push(r.motivo);
-      if (r.status !== 404) break; // só o modelo indisponível (404) justifica tentar o próximo; cota, cobrança e erros vão direto para a reserva
+      if (TENTAR_OUTRO_MODELO.indexOf(r.status) < 0) break; // erro de pedido, chave ou cobrança (400, 401, 403) não melhora em outro modelo: vai para a reserva
     }
     return { ok: false, motivo: motivos.join(' | ') };
   } catch (e) {

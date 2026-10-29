@@ -591,9 +591,9 @@ Regras OBRIGATÓRIAS:
             apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=`;
         }
 
-        const MAX_PAGINAS_LOTE = 2; // lotes menores respondem mais rápido e cabem no tempo limite da função
+        const MAX_PAGINAS_LOTE = 3; // o Groq (reserva) aceita até 3 imagens por pedido
         const MAX_BYTES_LOTE = 4.5e6; // o corpo de uma função Netlify aceita cerca de 6 MB
-        const TENTATIVAS = 3;
+        const TENTATIVAS = 4;
         const dormir = ms => new Promise(r => setTimeout(r, ms));
 
         let lotes = [];              // [{ inicio, fim, arquivos }]
@@ -657,7 +657,7 @@ Regras OBRIGATÓRIAS:
             let ultimo;
             for (let t = 1; t <= TENTATIVAS; t++) {
                 try { return await chamarLote(lote); }
-                catch (e) { ultimo = e; if (e.naoRepetir || t === TENTATIVAS) break; await dormir(1500 * t); }
+                catch (e) { ultimo = e; if (e.naoRepetir || t === TENTATIVAS) break; await dormir(2000 * Math.pow(2, t - 1)); }  /* espera 2 s, 4 s, 8 s: picos de demanda e limites de taxa costumam passar em segundos */
             }
             throw ultimo;
         }
