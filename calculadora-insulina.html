@@ -63,6 +63,9 @@ ul.d li{margin-bottom:5px}
 .small{font-size:.8rem;color:var(--muted)}
 details summary{cursor:pointer;font-weight:600}
 .hidden{display:none}
+.voltar{display:inline-block;margin:0 0 12px;padding:7px 16px;border:1px solid var(--border);border-radius:999px;background:var(--card);color:var(--primary-dark);font-size:.9rem;font-weight:600;text-decoration:none}
+.voltar:hover{background:var(--accent-bg)}
+@media print{.voltar{display:none}}
 </style>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
@@ -71,6 +74,7 @@ details summary{cursor:pointer;font-weight:600}
 </head>
 <body>
 <div class="wrap">
+  <a class="voltar" href="index.html">&larr; Voltar ao Menu Principal</a>
   <h1>Migração NPH → Glargina</h1>
   <p class="sub">Conversão de insulina NPH para glargina conforme a Nota Técnica Conjunta nº 169/2026 (DAF/SCTIE/DEPROS/SAPS/DAET/SAES/MS).</p>
 

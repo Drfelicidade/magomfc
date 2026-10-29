@@ -69,6 +69,9 @@ details summary{cursor:pointer;font-weight:600}
 h3{font-size:1rem;margin:0 0 10px}
 table{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}
 th,td{text-align:left;padding:6px;border-bottom:1px solid var(--border)}
+.voltar{display:inline-block;margin:0 0 12px;padding:7px 16px;border:1px solid var(--border);border-radius:999px;background:var(--card);color:var(--primary-dark);font-size:.9rem;font-weight:600;text-decoration:none}
+.voltar:hover{background:var(--accent-bg)}
+@media print{.voltar{display:none}}
 </style>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
@@ -77,6 +80,7 @@ th,td{text-align:left;padding:6px;border-bottom:1px solid var(--border)}
 </head>
 <body>
 <div class="wrap">
+  <a class="voltar" href="index.html">&larr; Voltar ao Menu Principal</a>
   <h1>Início da Insulinização na APS</h1>
   <p class="sub">Dose inicial e titulação de insulina basal (DM2) e esquema basal-bolus (DM1), conforme PCDT do Ministério da Saúde, Diretriz SBD 2026 e Notas Técnicas Conjuntas 32 e 169/2026.</p>
 
