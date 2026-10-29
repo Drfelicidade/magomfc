@@ -5,6 +5,9 @@
 
 const modeloGemini = () => (process.env.GEMINI_MODEL || 'gemini-2.5-flash').trim();
 const modeloGroq = () => (process.env.GROQ_MODEL || 'qwen/qwen3.8-27b').trim();
+// Tempo máximo de cada IA (ms): deixa folga para a reserva responder dentro do limite da função da Netlify.
+const tempoGemini = () => Number(process.env.GEMINI_TIMEOUT_MS) || 14000;
+const tempoGroq = () => Number(process.env.GROQ_TIMEOUT_MS) || 10000;
 
 async function lerJson(resp) {
   const bruto = await resp.text();
@@ -18,7 +21,8 @@ async function chamarGemini(payload) {
     const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modeloGemini())}:generateContent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': chave },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(semRaciocinio(payload)),
+      signal: AbortSignal.timeout(tempoGemini())
     });
     const dados = await lerJson(resp);
     const texto = textoGemini(dados);
@@ -28,8 +32,17 @@ async function chamarGemini(payload) {
     }
     return { ok: true, dados };
   } catch (e) {
-    return { ok: false, motivo: 'Gemini: ' + e.message };
+    return { ok: false, motivo: 'Gemini: ' + (e.name === 'TimeoutError' ? 'demorou mais de ' + tempoGemini() / 1000 + ' s' : e.message) };
   }
+}
+
+// Extração de texto não precisa de "raciocínio": no Gemini 2.5 Flash ele fica ligado por padrão e deixa a resposta
+// muito mais lenta. thinkingBudget 0 o desliga (só se o pedido não definiu nada e o modelo é da família 2.5 Flash).
+function semRaciocinio(payload) {
+  if (!/gemini-2\.5-flash/.test(modeloGemini())) return payload;
+  const cfg = payload.generationConfig || {};
+  if (cfg.thinkingConfig) return payload;
+  return Object.assign({}, payload, { generationConfig: Object.assign({}, cfg, { thinkingConfig: { thinkingBudget: 0 } }) });
 }
 
 function textoGemini(dados) {
@@ -74,7 +87,8 @@ async function chamarGroq(payload, instrucaoJson) {
     const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${chave}` },
-      body: JSON.stringify(corpo)
+      body: JSON.stringify(corpo),
+      signal: AbortSignal.timeout(tempoGroq())
     });
     const dados = await lerJson(resp);
     const bruto = dados.choices && dados.choices[0] && dados.choices[0].message && dados.choices[0].message.content;
@@ -86,7 +100,7 @@ async function chamarGroq(payload, instrucaoJson) {
     // devolve no formato do Gemini, para as páginas lerem igual
     return { ok: true, dados: { candidates: [{ content: { parts: [{ text: texto }] } }] } };
   } catch (e) {
-    return { ok: false, motivo: 'Groq: ' + e.message };
+    return { ok: false, motivo: 'Groq: ' + (e.name === 'TimeoutError' ? 'demorou mais de ' + tempoGroq() / 1000 + ' s' : e.message) };
   }
 }
 
@@ -99,4 +113,4 @@ async function gerarConteudo(payload, opcoes) {
   return { ok: false, motivos: [g.motivo, q.motivo] };
 }
 
-module.exports = { gerarConteudo, paraGroq, limparTexto, modeloGemini, modeloGroq };
+module.exports = { gerarConteudo, paraGroq, limparTexto, semRaciocinio, modeloGemini, modeloGroq };

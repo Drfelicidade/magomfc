@@ -591,7 +591,7 @@ Regras OBRIGATÓRIAS:
             apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=`;
         }
 
-        const MAX_PAGINAS_LOTE = 3;
+        const MAX_PAGINAS_LOTE = 2; // lotes menores respondem mais rápido e cabem no tempo limite da função
         const MAX_BYTES_LOTE = 4.5e6; // o corpo de uma função Netlify aceita cerca de 6 MB
         const TENTATIVAS = 3;
         const dormir = ms => new Promise(r => setTimeout(r, ms));
@@ -635,6 +635,10 @@ Regras OBRIGATÓRIAS:
             if (response.status === 401 || response.status === 403) {
                 const err = new Error('Sessão expirada ou sem permissão. Saia e entre novamente.');
                 err.naoRepetir = true; throw err;
+            }
+            if (!result && !response.ok) {
+                const lento = [500, 502, 503, 504].indexOf(response.status) >= 0;
+                throw new Error(lento ? 'O servidor demorou demais para responder (HTTP ' + response.status + ').' : 'Erro na comunicação com o servidor (HTTP ' + response.status + ').');
             }
             if (!response.ok || !result || result.error) {
                 const detalhe = result && result.details && result.details.error && result.details.error.message;
@@ -687,7 +691,7 @@ Regras OBRIGATÓRIAS:
             retryBtn.classList.toggle('hidden', idxFalhas.length === 0);
             if (idxFalhas.length) {
                 const paginas = idxFalhas.map(i => (lotes[i].inicio + 1) + (lotes[i].fim > lotes[i].inicio ? '–' + (lotes[i].fim + 1) : '')).join(', ');
-                mostrarStatus(`⚠️ Não foi possível ler ${/[,–]/.test(paginas) ? 'as páginas' : 'a página'} ${paginas}. O resultado abaixo está <strong>incompleto</strong>. Use “Tentar novamente” para reprocessar só ${/[,–]/.test(paginas) ? 'essas páginas' : 'essa página'}.`, 'bg-amber-50 text-amber-900 border border-amber-300');
+                mostrarStatus(`⚠️ Não foi possível ler ${/[,–]/.test(paginas) ? 'as páginas' : 'a página'} ${paginas}. O resultado abaixo está <strong>incompleto</strong>. Use “Tentar novamente” para reprocessar só ${/[,–]/.test(paginas) ? 'essas páginas' : 'essa página'}.<br><span class="text-xs">Motivo: ${String(falhas[idxFalhas[0]] || '').replace(/</g, '&lt;').slice(0, 300)}</span>`, 'bg-amber-50 text-amber-900 border border-amber-300');
             } else {
                 const n = grupos.size;
                 mostrarStatus(`✅ ${n} data(s) lida(s) em ${fileDataArray.length} página(s). Revise e, se precisar, edite o texto antes de copiar.` + (usouReserva ? ' <strong>Parte da leitura foi feita pela IA reserva (Groq): revise com atenção redobrada.</strong>' : ''), 'bg-green-50 text-green-800 border border-green-200');
