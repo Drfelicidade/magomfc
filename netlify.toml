@@ -1,6 +1,11 @@
 [build]
   functions = "netlify/functions"
 
+# A leitura de laudos pela IA pode passar do limite padrão das funções. Se o plano da Netlify não permitir 26 s,
+# o valor é ignorado e vale o limite do plano; lotes menores e IA sem "raciocínio" mantêm a resposta rápida.
+[functions."gemini-proxy"]
+  timeout = 26
+
 # O service worker precisa ser revalidado sempre, para as atualizações do site chegarem aos aparelhos
 [[headers]]
   for = "/sw.js"

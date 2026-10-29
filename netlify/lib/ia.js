@@ -3,33 +3,70 @@
 // GEMINI_MODEL e GROQ_MODEL (opcionais, para trocar de modelo sem mexer no código).
 // Recebe e devolve o formato da API do Gemini, então as páginas não precisam saber qual IA respondeu.
 
-const modeloGemini = () => (process.env.GEMINI_MODEL || 'gemini-2.5-flash').trim();
+// Modelos do Gemini com plano gratuito, em ordem de preferência. GEMINI_MODEL força um só. Se um modelo estiver
+// indisponível, sem cota ou sobrecarregado, a chamada passa ao próximo da lista antes de recorrer ao Groq.
+const MODELOS_GEMINI = ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite'];
+const modelosGemini = () => process.env.GEMINI_MODEL ? [process.env.GEMINI_MODEL.trim()] : MODELOS_GEMINI;
+const modeloGemini = () => modelosGemini()[0];
 const modeloGroq = () => (process.env.GROQ_MODEL || 'qwen/qwen3.8-27b').trim();
+// Tempo máximo (ms) de todas as tentativas no Gemini e do Groq: deixa folga para a reserva responder dentro do limite da função.
+const tempoGemini = () => Number(process.env.GEMINI_TIMEOUT_MS) || 14000;
+const tempoGroq = () => Number(process.env.GROQ_TIMEOUT_MS) || 10000;
 
 async function lerJson(resp) {
   const bruto = await resp.text();
   try { return JSON.parse(bruto); } catch (e) { return { erroBruto: bruto.slice(0, 300) }; }
 }
 
+// 404 = modelo retirado; 429 = cota (é por modelo); 5xx = modelo sobrecarregado ("high demand"): outro modelo pode responder.
+const TENTAR_OUTRO_MODELO = [404, 429, 500, 502, 503, 504];
+
+async function tentarGemini(modelo, payload, chave, ms) {
+  const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': chave },
+    body: JSON.stringify(payload),
+    signal: AbortSignal.timeout(Math.max(ms, 1))
+  });
+  const dados = await lerJson(resp);
+  const texto = textoGemini(dados);
+  if (resp.ok && texto) return { ok: true, dados };
+  const msg = (dados.error && dados.error.message) || dados.erroBruto || 'resposta vazia';
+  return { ok: false, status: resp.status, motivo: `Gemini ${modelo} (${resp.status}): ${String(msg).slice(0, 200)}` };
+}
+
 async function chamarGemini(payload) {
   const chave = (process.env.GEMINI_API_KEY || '').trim();
   if (!chave) return { ok: false, motivo: 'GEMINI_API_KEY não configurada.' };
+  const limite = Date.now() + tempoGemini();
+  const motivos = [];
   try {
-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modeloGemini())}:generateContent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': chave },
-      body: JSON.stringify(payload)
-    });
-    const dados = await lerJson(resp);
-    const texto = textoGemini(dados);
-    if (!resp.ok || !texto) {
-      const msg = (dados.error && dados.error.message) || dados.erroBruto || 'resposta vazia';
-      return { ok: false, status: resp.status, motivo: `Gemini (${resp.status}): ${msg}` };
+    for (const modelo of modelosGemini()) {
+      const restante = limite - Date.now();
+      if (restante <= 0) { motivos.push('Gemini: demorou mais de ' + tempoGemini() / 1000 + ' s'); break; }
+      let r = await tentarGemini(modelo, semRaciocinio(payload, modelo), chave, restante);
+      // se o modelo recusou o ajuste de raciocínio (400), repete sem ele
+      if (!r.ok && r.status === 400 && semRaciocinio(payload, modelo) !== payload) r = await tentarGemini(modelo, payload, chave, limite - Date.now());
+      if (r.ok) return { ok: true, dados: r.dados, modelo };
+      motivos.push(r.motivo);
+      if (TENTAR_OUTRO_MODELO.indexOf(r.status) < 0) break; // erro de pedido, chave ou cobrança (400, 401, 403) não melhora em outro modelo: vai para a reserva
     }
-    return { ok: true, dados };
+    return { ok: false, motivo: motivos.join(' | ') };
   } catch (e) {
-    return { ok: false, motivo: 'Gemini: ' + e.message };
+    return { ok: false, motivo: motivos.concat('Gemini: ' + (e.name === 'TimeoutError' ? 'demorou mais de ' + tempoGemini() / 1000 + ' s' : e.message)).join(' | ') };
   }
+}
+
+// Extração de texto não precisa de "raciocínio", que deixa a resposta muito mais lenta:
+// 2.5 Flash aceita thinkingBudget 0; os modelos 3.x aceitam thinkingLevel (o menor comum é "low"; os "lite" já vêm no mínimo).
+function semRaciocinio(payload, modelo) {
+  const cfg = payload.generationConfig || {};
+  if (cfg.thinkingConfig) return payload;
+  let pensar = null;
+  if (/gemini-2\.5-flash/.test(modelo)) pensar = { thinkingBudget: 0 };
+  else if (/gemini-3/.test(modelo) && !/lite/.test(modelo)) pensar = { thinkingLevel: 'low' };
+  if (!pensar) return payload;
+  return Object.assign({}, payload, { generationConfig: Object.assign({}, cfg, { thinkingConfig: pensar }) });
 }
 
 function textoGemini(dados) {
@@ -74,7 +111,8 @@ async function chamarGroq(payload, instrucaoJson) {
     const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${chave}` },
-      body: JSON.stringify(corpo)
+      body: JSON.stringify(corpo),
+      signal: AbortSignal.timeout(tempoGroq())
     });
     const dados = await lerJson(resp);
     const bruto = dados.choices && dados.choices[0] && dados.choices[0].message && dados.choices[0].message.content;
@@ -86,17 +124,17 @@ async function chamarGroq(payload, instrucaoJson) {
     // devolve no formato do Gemini, para as páginas lerem igual
     return { ok: true, dados: { candidates: [{ content: { parts: [{ text: texto }] } }] } };
   } catch (e) {
-    return { ok: false, motivo: 'Groq: ' + e.message };
+    return { ok: false, motivo: 'Groq: ' + (e.name === 'TimeoutError' ? 'demorou mais de ' + tempoGroq() / 1000 + ' s' : e.message) };
   }
 }
 
 // Tenta Gemini e, se falhar por qualquer motivo (cota, cobrança, erro do servidor, resposta vazia), o Groq.
 async function gerarConteudo(payload, opcoes) {
   const g = await chamarGemini(payload);
-  if (g.ok) return { ok: true, dados: Object.assign({}, g.dados, { provedor: 'gemini' }) };
+  if (g.ok) return { ok: true, dados: Object.assign({}, g.dados, { provedor: 'gemini', modelo: g.modelo }) };
   const q = await chamarGroq(payload, opcoes && opcoes.instrucaoJson);
   if (q.ok) return { ok: true, dados: Object.assign({}, q.dados, { provedor: 'groq', avisoGemini: g.motivo }) };
   return { ok: false, motivos: [g.motivo, q.motivo] };
 }
 
-module.exports = { gerarConteudo, paraGroq, limparTexto, modeloGemini, modeloGroq };
+module.exports = { gerarConteudo, paraGroq, limparTexto, semRaciocinio, modeloGemini, modeloGroq };
