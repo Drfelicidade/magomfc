@@ -38,7 +38,21 @@ async function tentarGemini(modelo, payload, chave, ms) {
   const texto = textoGemini(dados);
   if (resp.ok && texto) return { ok: true, dados };
   const msg = (dados.error && dados.error.message) || dados.erroBruto || 'resposta vazia';
-  return { ok: false, status: resp.status, motivo: `Gemini ${modelo} (${resp.status}): ${String(msg).slice(0, 200)}` };
+  return { ok: false, status: resp.status, motivo: `Gemini ${modelo} (${resp.status}): ${String(msg).split(' For more information')[0].slice(0, 220)}${detalhesErro(dados)}` };
+}
+
+// Em erros de cota o Google informa qual limite estourou (ex.: ..._free_tier_requests mostra que a chave ainda vale como gratuita)
+// e quanto esperar. Isso entra na mensagem para facilitar o diagnóstico.
+function detalhesErro(dados) {
+  try {
+    const itens = (dados.error && dados.error.details) || [];
+    const partes = [];
+    itens.forEach(d => {
+      (d.violations || []).forEach(v => { if (v.quotaMetric) partes.push('limite: ' + String(v.quotaMetric).replace('generativelanguage.googleapis.com/', '') + (v.quotaId ? ' / ' + v.quotaId : '')); });
+      if (d.retryDelay) partes.push('esperar ' + d.retryDelay);
+    });
+    return partes.length ? ' [' + partes.slice(0, 3).join('; ') + ']' : '';
+  } catch (e) { return ''; }
 }
 
 async function chamarGemini(payload) {
@@ -51,9 +65,17 @@ async function chamarGemini(payload) {
       const restante = limite - Date.now();
       if (restante <= 0) { motivos.push('Gemini: demorou mais de ' + tempoGemini() / 1000 + ' s'); break; }
       if ((pausas[modelo] || 0) > Date.now()) { motivos.push(`Gemini ${modelo}: em pausa por ${Math.ceil((pausas[modelo] - Date.now()) / 1000)} s (falhou há pouco)`); continue; }
-      let r = await tentarGemini(modelo, semRaciocinio(payload, modelo), chave, Math.min(restante, tempoTentativa()));
-      // se o modelo recusou o ajuste de raciocínio (400), repete sem ele
-      if (!r.ok && r.status === 400 && semRaciocinio(payload, modelo) !== payload) r = await tentarGemini(modelo, payload, chave, limite - Date.now());
+      let r;
+      try {
+        r = await tentarGemini(modelo, semRaciocinio(payload, modelo), chave, Math.min(restante, tempoTentativa()));
+        // se o modelo recusou o ajuste de raciocínio (400), repete sem ele
+        if (!r.ok && r.status === 400 && semRaciocinio(payload, modelo) !== payload) r = await tentarGemini(modelo, payload, chave, Math.max(limite - Date.now(), 1000));
+      } catch (e) {
+        // uma tentativa lenta não encerra a busca: marca o modelo e segue para o próximo
+        motivos.push(`Gemini ${modelo}: ` + (e.name === 'TimeoutError' ? 'sem resposta no tempo limite' : e.message));
+        pausas[modelo] = Date.now() + PAUSA_MS.def;
+        continue;
+      }
       if (r.ok) return { ok: true, dados: r.dados, modelo };
       motivos.push(r.motivo);
       pausas[modelo] = Date.now() + (PAUSA_MS[r.status] || PAUSA_MS.def);
