@@ -588,7 +588,7 @@ Regras OBRIGATÓRIAS:
         // Proxy da Netlify Seguro
         let apiUrl = `/.netlify/functions/gemini-proxy`;
         if (window.location.hostname.includes('google') || window.location.hostname === 'localhost') {
-            apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=`;
+            apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=`;
         }
 
         const MAX_PAGINAS_LOTE = 2; // lotes menores respondem mais rápido e cabem no tempo limite da função
