@@ -1,5 +1,5 @@
 // Gera as páginas das escalas e regras clínicas simples (CURB-65, Centor/McIsaac, CHA2DS2-VASc,
-// PHQ-9, GAD-7, AUDIT-C, MDQ e Ottawa do tornozelo) a partir dos conteúdos definidos abaixo.
+// PHQ-9, GAD-7, AUDIT-C, MDQ, Ottawa do tornozelo, IPSS e outras) a partir dos conteúdos definidos abaixo.
 // Uso: node scripts/gerar-escalas.js
 const fs = require('fs');
 const raiz = __dirname + '/..';
@@ -763,5 +763,64 @@ function atualizar() {
     'Bula brasileira do Ferinject (carboximaltose férrica): dose única máxima de 1.000 mg por semana, advertências de hipersensibilidade e hipofosfatemia; bulas neozelandesa/australiana (Ferinject, Ferrive) para o limite de 20 mg/kg, a tabela simplificada por Hb e peso e o plano de diluição (volume máximo de soro e tempo mínimo por dose).',
     'Ganz T, Nemeth E. Science 2012;338:65-72; Camaschella C. N Engl J Med 2015;372:1832-43; Auerbach M, Macdougall IC. Hematology Am Soc Hematol Educ Program 2014:338-47 (referências da calculadora de referência sobre ferro e reposição).',
     'Esta ferramenta é apoio ao cálculo e não substitui a prescrição médica nem a bula vigente.'
+  ]
+});
+
+// ======================= IPSS =======================
+const IPSS_FREQ = [['Nenhuma vez', 0], ['Menos de 1 vez em cada 5', 1], ['Menos da metade das vezes', 2],
+  ['Cerca da metade das vezes', 3], ['Mais da metade das vezes', 4], ['Quase sempre', 5]];
+const IPSS = [
+  'Esvaziamento incompleto: com que frequência teve a sensação de não esvaziar completamente a bexiga após terminar de urinar?',
+  'Frequência: com que frequência teve de urinar novamente menos de 2 horas após ter urinado?',
+  'Intermitência: com que frequência o jato parou e recomeçou várias vezes enquanto urinava?',
+  'Urgência: com que frequência achou difícil segurar a urina (adiar a micção)?',
+  'Jato fraco: com que frequência notou o jato urinário fraco?',
+  'Esforço: com que frequência teve de fazer força para começar a urinar?'
+];
+pagina({
+  arquivo: 'calculadora-ipss.html',
+  titulo: 'Escore IPSS',
+  sub: 'Escore Internacional de Sintomas Prostáticos: gravidade dos sintomas do trato urinário inferior em homens',
+  hue: 'purple',
+  corpo: [
+    '        <p class="text-gray-700">Considerando o <strong>último mês</strong>, responda com o paciente:</p>',
+    ...IPSS.map((t, i) => radio('q' + (i + 1), (i + 1) + '. ' + t, IPSS_FREQ)),
+    radio('q7', '7. Noctúria: quantas vezes, em média, teve de se levantar à noite para urinar, desde a hora de deitar até a hora de levantar pela manhã?',
+      [['Nenhuma', 0], ['1 vez', 1], ['2 vezes', 2], ['3 vezes', 3], ['4 vezes', 4], ['5 vezes ou mais', 5]]),
+    radio('qv', 'Qualidade de vida: se tivesse de passar o resto da vida com os sintomas urinários que tem hoje, como se sentiria? (não entra no escore)',
+      [['Encantado', 0], ['Satisfeito', 1], ['Mais satisfeito que insatisfeito', 2], ['Nem satisfeito nem insatisfeito', 3],
+       ['Mais insatisfeito que satisfeito', 4], ['Infeliz', 5], ['Péssimo', 6]]),
+    nota('O IPSS mede a intensidade dos sintomas e ajuda no seguimento, mas não faz diagnóstico de hiperplasia prostática benigna nem exclui outras causas (infecção urinária, câncer de próstata ou de bexiga, estenose de uretra, bexiga neurogênica, diabetes, medicamentos). Não substitui a avaliação clínica: história, exame físico com toque retal, exame de urina e, quando indicado, PSA e função renal.')
+  ].join('\n'),
+  script: `
+function atualizar() {
+    let total = 0, respondidas = 0;
+    for (let i = 1; i <= 7; i++) { const v = valorRadio('q' + i); if (v !== null) { total += v; respondidas++; } }
+    const qv = valorRadio('qv');
+    if (respondidas === 0 && qv === null) { ocultar(); return; }
+    if (respondidas < 7) { aviso(respondidas + ' de 7 perguntas de sintomas respondidas. Responda todas para ver o resultado.'); return; }
+    const esvaz = [1, 3, 5, 6].reduce((s, i) => s + valorRadio('q' + i), 0);
+    const armaz = [2, 4, 7].reduce((s, i) => s + valorRadio('q' + i), 0);
+    let cor, faixa, conduta;
+    if (total <= 7) { cor = 'verde'; faixa = 'Sintomas leves'; conduta = 'Em geral, conduta expectante com orientações: reduzir líquidos à noite, cafeína e álcool, micção programada, revisar medicamentos (diuréticos, anticolinérgicos, descongestionantes). Reavaliar periodicamente.'; }
+    else if (total <= 19) { cor = 'amarelo'; faixa = 'Sintomas moderados'; conduta = 'Orientações comportamentais e, se houver incômodo, considerar tratamento medicamentoso (por exemplo, alfabloqueador; inibidor da 5-alfa-redutase se próstata aumentada), com reavaliação do escore após o início.'; }
+    else { cor = 'laranja'; faixa = 'Sintomas graves'; conduta = 'Tratamento medicamentoso e seguimento próximo; considerar encaminhamento à urologia, sobretudo se houver falha do tratamento clínico ou complicações.'; }
+    const linhas = [conduta,
+        'Subescores: esvaziamento (perguntas 1, 3, 5 e 6) ' + esvaz + ' de 20; armazenamento (perguntas 2, 4 e 7) ' + armaz + ' de 15.' + (armaz / 15 > esvaz / 20 && armaz >= 5 ? ' Predomínio de sintomas de armazenamento: considerar também bexiga hiperativa e poliúria noturna (diário miccional).' : ''),
+        'No seguimento, uma variação de cerca de 3 pontos costuma ser percebida pelo paciente.'];
+    if (qv !== null) {
+        const QV = ['Encantado', 'Satisfeito', 'Mais satisfeito que insatisfeito', 'Nem satisfeito nem insatisfeito', 'Mais insatisfeito que satisfeito', 'Infeliz', 'Péssimo'];
+        linhas.push('Qualidade de vida: ' + qv + ' de 6 (' + QV[qv] + ').' + (qv >= 4 ? ' Incômodo importante, que pesa a favor de tratar mesmo com escore mais baixo.' : ''));
+    }
+    const extras = ['Sinais de alerta, em qualquer pontuação: hematúria, retenção urinária, infecções urinárias de repetição, litíase vesical, alteração da função renal, toque retal suspeito ou PSA alterado e sintomas neurológicos. Nesses casos, investigar e encaminhar.'];
+    mostrar(cor, 'IPSS: ' + total + ' de 35. ' + faixa, linhas, extras);
+}`,
+  refs: [
+    'Barry MJ et al. The American Urological Association symptom index for benign prostatic hyperplasia. J Urol 1992;148:1549-57.',
+    'Validação para o português: Berger M et al. Validação estatística do Escore Internacional de Sintomas Prostáticos (I-PSS) na língua portuguesa. J Bras Urol 1999;25:225-34.',
+    'Faixas: 0-7 leve, 8-19 moderado e 20-35 grave. A pergunta de qualidade de vida (0 a 6) é registrada à parte.',
+    'Barry MJ et al. J Urol 1995;154:1770-4 (variação clinicamente perceptível de cerca de 3 pontos).',
+    'Lerner LB et al. Management of lower urinary tract symptoms attributed to benign prostatic hyperplasia: AUA guideline part I. J Urol 2021;206:806-17.',
+    'Gravas S et al. EAU Guidelines on the management of non-neurogenic male LUTS (atualização anual).'
   ]
 });
