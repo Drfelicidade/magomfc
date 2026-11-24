@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escore IPSS | Mago MFC</title>
+    <!-- seo:inicio -->
+    <meta name="description" content="Escore Internacional de Sintomas Prostáticos: gravidade dos sintomas urinários em homens.">
+    <link rel="canonical" href="https://magomfc.com.br/calculadora-ipss.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Mago MFC">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:title" content="Escore IPSS | Mago MFC">
+    <meta property="og:description" content="Escore Internacional de Sintomas Prostáticos: gravidade dos sintomas urinários em homens.">
+    <meta property="og:url" content="https://magomfc.com.br/calculadora-ipss.html">
+    <!-- seo:fim -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f0f4f8; }
+        input:focus-visible, select:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    </style>
+    <link rel="stylesheet" href="assets/tema-escuro.css" media="screen and (prefers-color-scheme: dark)">
+    <script src="assets/tema.js"></script>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+<main class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+    <header class="bg-purple-700 p-6 md:p-8 text-white text-center">
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Escore IPSS</h1>
+        <p class="text-purple-100 text-sm md:text-base">Escore Internacional de Sintomas Prostáticos: gravidade dos sintomas do trato urinário inferior em homens</p>
+        <a href="index.html" class="inline-flex items-center mt-5 px-5 py-2 bg-purple-800 hover:bg-purple-900 text-white text-sm font-medium rounded-full transition">&larr; Voltar ao Menu Principal</a>
+    </header>
+    <form id="form" class="p-6 md:p-8 space-y-6" onsubmit="return false">
+        <p class="text-gray-700">Considerando o <strong>último mês</strong>, responda com o paciente:</p>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">1. Esvaziamento incompleto: com que frequência teve a sensação de não esvaziar completamente a bexiga após terminar de urinar?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="0" class="w-5 h-5 shrink-0"> <span>Nenhuma vez</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="1" class="w-5 h-5 shrink-0"> <span>Menos de 1 vez em cada 5</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="2" class="w-5 h-5 shrink-0"> <span>Menos da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="3" class="w-5 h-5 shrink-0"> <span>Cerca da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="4" class="w-5 h-5 shrink-0"> <span>Mais da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q1" value="5" class="w-5 h-5 shrink-0"> <span>Quase sempre</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">2. Frequência: com que frequência teve de urinar novamente menos de 2 horas após ter urinado?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="0" class="w-5 h-5 shrink-0"> <span>Nenhuma vez</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="1" class="w-5 h-5 shrink-0"> <span>Menos de 1 vez em cada 5</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="2" class="w-5 h-5 shrink-0"> <span>Menos da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="3" class="w-5 h-5 shrink-0"> <span>Cerca da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="4" class="w-5 h-5 shrink-0"> <span>Mais da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q2" value="5" class="w-5 h-5 shrink-0"> <span>Quase sempre</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">3. Intermitência: com que frequência o jato parou e recomeçou várias vezes enquanto urinava?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="0" class="w-5 h-5 shrink-0"> <span>Nenhuma vez</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="1" class="w-5 h-5 shrink-0"> <span>Menos de 1 vez em cada 5</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="2" class="w-5 h-5 shrink-0"> <span>Menos da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="3" class="w-5 h-5 shrink-0"> <span>Cerca da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="4" class="w-5 h-5 shrink-0"> <span>Mais da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q3" value="5" class="w-5 h-5 shrink-0"> <span>Quase sempre</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">4. Urgência: com que frequência achou difícil segurar a urina (adiar a micção)?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q4" value="0" class="w-5 h-5 shrink-0"> <span>Nenhuma vez</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q4" value="1" class="w-5 h-5 shrink-0"> <span>Menos de 1 vez em cada 5</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q4" value="2" class="w-5 h-5 shrink-0"> <span>Menos da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q4" value="3" class="w-5 h-5 shrink-0"> <span>Cerca da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q4" value="4" class="w-5 h-5 shrink-0"> <span>Mais da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q4" value="5" class="w-5 h-5 shrink-0"> <span>Quase sempre</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">5. Jato fraco: com que frequência notou o jato urinário fraco?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q5" value="0" class="w-5 h-5 shrink-0"> <span>Nenhuma vez</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q5" value="1" class="w-5 h-5 shrink-0"> <span>Menos de 1 vez em cada 5</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q5" value="2" class="w-5 h-5 shrink-0"> <span>Menos da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q5" value="3" class="w-5 h-5 shrink-0"> <span>Cerca da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q5" value="4" class="w-5 h-5 shrink-0"> <span>Mais da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q5" value="5" class="w-5 h-5 shrink-0"> <span>Quase sempre</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">6. Esforço: com que frequência teve de fazer força para começar a urinar?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q6" value="0" class="w-5 h-5 shrink-0"> <span>Nenhuma vez</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q6" value="1" class="w-5 h-5 shrink-0"> <span>Menos de 1 vez em cada 5</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q6" value="2" class="w-5 h-5 shrink-0"> <span>Menos da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q6" value="3" class="w-5 h-5 shrink-0"> <span>Cerca da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q6" value="4" class="w-5 h-5 shrink-0"> <span>Mais da metade das vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q6" value="5" class="w-5 h-5 shrink-0"> <span>Quase sempre</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">7. Noctúria: quantas vezes, em média, teve de se levantar à noite para urinar, desde a hora de deitar até a hora de levantar pela manhã?</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q7" value="0" class="w-5 h-5 shrink-0"> <span>Nenhuma</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q7" value="1" class="w-5 h-5 shrink-0"> <span>1 vez</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q7" value="2" class="w-5 h-5 shrink-0"> <span>2 vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q7" value="3" class="w-5 h-5 shrink-0"> <span>3 vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q7" value="4" class="w-5 h-5 shrink-0"> <span>4 vezes</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="q7" value="5" class="w-5 h-5 shrink-0"> <span>5 vezes ou mais</span></label>
+        </fieldset>
+        <fieldset class="space-y-1">
+            <legend class="font-semibold text-gray-800">Qualidade de vida: se tivesse de passar o resto da vida com os sintomas urinários que tem hoje, como se sentiria? (não entra no escore)</legend>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="qv" value="0" class="w-5 h-5 shrink-0"> <span>Encantado</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="qv" value="1" class="w-5 h-5 shrink-0"> <span>Satisfeito</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="qv" value="2" class="w-5 h-5 shrink-0"> <span>Mais satisfeito que insatisfeito</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="qv" value="3" class="w-5 h-5 shrink-0"> <span>Nem satisfeito nem insatisfeito</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="qv" value="4" class="w-5 h-5 shrink-0"> <span>Mais insatisfeito que satisfeito</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="qv" value="5" class="w-5 h-5 shrink-0"> <span>Infeliz</span></label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="qv" value="6" class="w-5 h-5 shrink-0"> <span>Péssimo</span></label>
+        </fieldset>
+        <p class="text-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">O IPSS mede a intensidade dos sintomas e ajuda no seguimento, mas não faz diagnóstico de hiperplasia prostática benigna nem exclui outras causas (infecção urinária, câncer de próstata ou de bexiga, estenose de uretra, bexiga neurogênica, diabetes, medicamentos). Não substitui a avaliação clínica: história, exame físico com toque retal, exame de urina e, quando indicado, PSA e função renal.</p>
+        <div class="flex flex-wrap gap-3">
+            <button type="button" id="btn-limpar" class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg transition">Limpar</button>
+        </div>
+        <div id="resultado" class="hidden p-5 rounded-2xl border-2 space-y-2" role="status" aria-live="polite"></div>
+        <details class="text-sm text-gray-600">
+            <summary class="cursor-pointer font-semibold">Referências e observações</summary>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Barry MJ et al. The American Urological Association symptom index for benign prostatic hyperplasia. J Urol 1992;148:1549-57.</li>
+                <li>Validação para o português: Berger M et al. Validação estatística do Escore Internacional de Sintomas Prostáticos (I-PSS) na língua portuguesa. J Bras Urol 1999;25:225-34.</li>
+                <li>Faixas: 0-7 leve, 8-19 moderado e 20-35 grave. A pergunta de qualidade de vida (0 a 6) é registrada à parte.</li>
+                <li>Barry MJ et al. J Urol 1995;154:1770-4 (variação clinicamente perceptível de cerca de 3 pontos).</li>
+                <li>Lerner LB et al. Management of lower urinary tract symptoms attributed to benign prostatic hyperplasia: AUA guideline part I. J Urol 2021;206:806-17.</li>
+                <li>Gravas S et al. EAU Guidelines on the management of non-neurogenic male LUTS (atualização anual).</li>
+            </ul>
+        </details>
+    </form>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const CORES = {
+    verde: 'bg-green-50 border-green-500 text-green-800',
+    amarelo: 'bg-yellow-50 border-yellow-400 text-yellow-800',
+    laranja: 'bg-orange-50 border-orange-500 text-orange-800',
+    vermelho: 'bg-red-50 border-red-500 text-red-800',
+    azul: 'bg-blue-50 border-blue-500 text-blue-800',
+    cinza: 'bg-gray-50 border-gray-300 text-gray-800'
+};
+function valorRadio(nome) {
+    const el = document.querySelector('input[name="' + nome + '"]:checked');
+    return el ? Number(el.value) : null;
+}
+function numero(id) {
+    const v = $(id).value;
+    return v === '' ? null : Number(v);
+}
+// Mostra o resultado; "linhas" são parágrafos (texto simples, sem HTML de terceiros)
+function mostrar(cor, titulo, linhas, extras) {
+    const r = $('resultado');
+    r.className = 'p-5 rounded-2xl border-2 space-y-2 ' + CORES[cor];
+    r.textContent = '';
+    const h = document.createElement('p');
+    h.className = 'text-2xl font-black';
+    h.textContent = titulo;
+    r.appendChild(h);
+    (linhas || []).forEach(t => { const p = document.createElement('p'); p.className = 'text-sm font-medium'; p.textContent = t; r.appendChild(p); });
+    (extras || []).forEach(x => {
+        const p = document.createElement('p');
+        p.className = 'text-sm font-bold mt-2 p-3 rounded-lg bg-red-100 text-red-900 border border-red-300';
+        p.textContent = x; r.appendChild(p);
+    });
+}
+function ocultar() { $('resultado').className = 'hidden'; }
+function aviso(texto) {
+    const r = $('resultado');
+    r.className = 'p-4 rounded-2xl border-2 ' + CORES.cinza;
+    r.textContent = texto;
+}
+$('form').addEventListener('input', () => atualizar());
+$('form').addEventListener('change', () => atualizar());
+$('btn-limpar').addEventListener('click', () => { $('form').reset(); ocultar(); });
+
+function atualizar() {
+    let total = 0, respondidas = 0;
+    for (let i = 1; i <= 7; i++) { const v = valorRadio('q' + i); if (v !== null) { total += v; respondidas++; } }
+    const qv = valorRadio('qv');
+    if (respondidas === 0 && qv === null) { ocultar(); return; }
+    if (respondidas < 7) { aviso(respondidas + ' de 7 perguntas de sintomas respondidas. Responda todas para ver o resultado.'); return; }
+    const esvaz = [1, 3, 5, 6].reduce((s, i) => s + valorRadio('q' + i), 0);
+    const armaz = [2, 4, 7].reduce((s, i) => s + valorRadio('q' + i), 0);
+    let cor, faixa, conduta;
+    if (total <= 7) { cor = 'verde'; faixa = 'Sintomas leves'; conduta = 'Em geral, conduta expectante com orientações: reduzir líquidos à noite, cafeína e álcool, micção programada, revisar medicamentos (diuréticos, anticolinérgicos, descongestionantes). Reavaliar periodicamente.'; }
+    else if (total <= 19) { cor = 'amarelo'; faixa = 'Sintomas moderados'; conduta = 'Orientações comportamentais e, se houver incômodo, considerar tratamento medicamentoso (por exemplo, alfabloqueador; inibidor da 5-alfa-redutase se próstata aumentada), com reavaliação do escore após o início.'; }
+    else { cor = 'laranja'; faixa = 'Sintomas graves'; conduta = 'Tratamento medicamentoso e seguimento próximo; considerar encaminhamento à urologia, sobretudo se houver falha do tratamento clínico ou complicações.'; }
+    const linhas = [conduta,
+        'Subescores: esvaziamento (perguntas 1, 3, 5 e 6) ' + esvaz + ' de 20; armazenamento (perguntas 2, 4 e 7) ' + armaz + ' de 15.' + (armaz / 15 > esvaz / 20 && armaz >= 5 ? ' Predomínio de sintomas de armazenamento: considerar também bexiga hiperativa e poliúria noturna (diário miccional).' : ''),
+        'No seguimento, uma variação de cerca de 3 pontos costuma ser percebida pelo paciente.'];
+    if (qv !== null) {
+        const QV = ['Encantado', 'Satisfeito', 'Mais satisfeito que insatisfeito', 'Nem satisfeito nem insatisfeito', 'Mais insatisfeito que satisfeito', 'Infeliz', 'Péssimo'];
+        linhas.push('Qualidade de vida: ' + qv + ' de 6 (' + QV[qv] + ').' + (qv >= 4 ? ' Incômodo importante, que pesa a favor de tratar mesmo com escore mais baixo.' : ''));
+    }
+    const extras = ['Sinais de alerta, em qualquer pontuação: hematúria, retenção urinária, infecções urinárias de repetição, litíase vesical, alteração da função renal, toque retal suspeito ou PSA alterado e sintomas neurológicos. Nesses casos, investigar e encaminhar.'];
+    mostrar(cor, 'IPSS: ' + total + ' de 35. ' + faixa, linhas, extras);
+}
+</script>
+<script src="assets/aviso.js" defer></script>
+<script src="assets/apoio.js" defer></script>
+<script src="assets/contato.js" defer></script>
+</body>
+</html>
